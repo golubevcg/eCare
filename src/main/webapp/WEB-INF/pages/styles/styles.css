@@ -1,0 +1,214 @@
+#ownCabinet {
+    float:right;
+    font-family: MS Shell Dig 2;
+}
+
+.half-rule {
+    margin-left: 0;
+    text-align: left;
+    width: 30%;
+    color:black;
+}
+
+#dropdownMenuButton{
+    background-color:transparent;
+    color:black;
+    border:transparent;
+    font-family: MS Shell Dig 2;
+}
+
+
+h1 {
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+}
+
+h3 {
+    margin-left:10px;
+}
+
+.card {
+    float:left;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+    float: left;
+    width: calc(30%);
+    border-radius: 10px;
+    margin: 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+}
+
+.card-header {
+    background-color: #ff9a00;
+    font-family: MS Shell Dig 2;
+    color:white;
+}
+
+#imageContainer{
+    background-image:url(phone.png);
+    background-repeat: no-repeat;
+    background-size: 35%;
+    background-position: right bottom;
+    max-width: 700px;
+    min-width: 625px;
+
+}
+
+#btn1 {
+    background-color: #ff9a00;
+    color:white;
+    font-size: small;
+}
+
+#cardButton {
+    background-color: #ff9a00;
+    color:white;
+    font-size: small;
+}
+
+.card-body{
+    float:left;
+}
+
+.row{
+    margin-top:5px;
+}
+
+#tarifs{
+    margin-left:10px;
+}
+
+#tryTarifsNowJumbotronFluid{
+    background-color: #ff9a00;
+    margin-top:10px;
+    padding-top: 20px;
+}
+
+#tryNewTarifsNow{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:50px;
+    margin-top:20px;
+}
+
+#detailsButton{
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    border-radius: 25px;
+    font-size:18px;
+    font-family: MS Shell Dig 2;
+    padding-left: 20px;
+    padding-right: 20px;
+    float:left;
+}
+
+#switchWithOldNumberJumbotron{
+    height:280px;
+    background-color: #ff9a00;
+    padding-top:10px;
+    padding-bottom:0px;
+    margin-top:10px;
+    padding-left: 0;
+    max-width: 800px;
+    min-width: 600px;
+}
+
+#keepNumberLabel{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:40px;
+    float: left;
+    margin-top:30px;
+}
+
+#inputPhone{
+    clear:both;
+    width:200px;
+    float: left;
+}
+
+#keepNumberButton{
+    clear:both;
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 5px;
+    text-align: center;
+    border-radius: 25px;
+    float:left;
+    font-size:18px;
+    font-family: MS Shell Dig 2;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top:20px;
+}
+
+#unlimitedCallsJumbotron{
+    padding-top:10px;
+    height: 140px;
+    background-color:white;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+    background-image:url(globuseHalfTranpsarent.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 90%;
+    background-position-y: -10px;
+    height: 400px
+}
+
+#jumbotron1 {
+    padding-top:10px;
+    height: 100px;
+    width: calc(60%);
+    float:left;
+    background-color:white;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+
+#jumbotron2{
+    padding-top:10px;
+    height: 100px;
+    float:right;
+    width: calc(38%);
+    background-color:white;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+
+#jumbotron3{
+    padding-top:10px;
+    max-height: 150px;
+    background-color:white;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+
+#jumbotron5{
+    padding-top:10px;
+    max-height: 150px;
+    background-color:white;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.1);
+}
+
+#footer {
+    background-color: #363636;
+    color:white;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    min-height: 50px;
+    vertical-align: bottom;
+}
+
+
