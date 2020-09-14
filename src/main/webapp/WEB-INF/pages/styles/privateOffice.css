@@ -1,0 +1,82 @@
+#dropdownMenuButton{
+    background-color:transparent;
+    color:black;
+    border:transparent;
+    font-family: MS Shell Dig 2;
+}
+
+#privateOfficeJumbotron{
+    background-color: #ff9a00;
+    margin-top:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#privateOfficeLabel{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:30px;
+}
+
+#ownCabinet {
+    float:right;
+    font-family: MS Shell Dig 2;
+}
+
+
+#footer {
+    background-color: #363636;
+    color:white;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    min-height: 50px;
+    vertical-align: bottom;
+}
+
+#numberLabel{
+    font-family: MS Shell Dig 2;
+    font-size:40px;
+    color:black;
+    text-align:left;
+}
+
+
+#firstSecondNameLabel{
+    font-family: MS Shell Dig 2;
+    font-size:20px;
+    color:black;
+    text-align:left;
+}
+
+#choosenTarifJumbotron {
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+
+#blockNumber{
+    font-family: MS Shell Dig 2;
+    font-size:25px;
+    font-weight:bolder;
+    color:black;
+    text-align:left;
+    margin-left:20px;
+}
+
+#columnDiscriptionLabels{
+    font-family: MS Shell Dig 2;
+    font-size: 15px;
+    float:left;
+    color: #808080;
+}
+
+#columnContentLabels{
+font-family: MS Shell Dig 2;
+    font-size: 20px;
+    float:left;
+    color: black;
+    font-weight:bolder;
+}
