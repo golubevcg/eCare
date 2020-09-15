@@ -1,9 +1,6 @@
 package eCare.database;
 
-import eCare.database.entities.Contract;
-import eCare.database.entities.Option;
-import eCare.database.entities.Tarif;
-import eCare.database.entities.User;
+import eCare.database.entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -24,6 +21,7 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Tarif.class);
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Option.class);
+                configuration.addAnnotatedClass(Role.class);
 
 
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()

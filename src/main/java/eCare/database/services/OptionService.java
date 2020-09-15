@@ -1,20 +1,21 @@
 package eCare.database.services;
 
+import eCare.database.dao.OptionDao;
 import eCare.database.entities.Option;
 
 public class OptionService {
 
-    OptionService optionService = new OptionService();
+    OptionDao optionDao = new OptionDao();
 
     public void save(Option option){
-        optionService.save(option);
+        optionDao.save(option);
     }
 
     public void update(Option option){
-        optionService.update(option);
+        optionDao.update(option);
     }
 
     public void delete(Option option){
-        optionService.delete(option);
+        optionDao.delete(option);
     }
 }
