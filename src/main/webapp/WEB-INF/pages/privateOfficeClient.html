@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles/privateOffice.css">
+    <link rel="stylesheet" href="styles/privateOfficeClient.css">
 </head>
 <body>
 
-<div class="row" style="margin-top:10px">
+<div class="row" style="margin-top:10px;">
     <div class="col"></div>
     <div class="col-5">
 
@@ -85,7 +85,7 @@
             </div>
 
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder; font-size: 20px; float:left;">200 минут <br> 20 Гигабайт<br> Безлимит на Telegram, <br>
+                <p class="lead" style="font-family: MS Shell Dig 2; font-size: 20px; float:left;">200 минут <br> 20 Гигабайт<br> Безлимит на Telegram, <br>
                 Viber, WhatsApp</p>
             </div>
 
@@ -97,7 +97,7 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="choosenTarifJumbotron" >
@@ -112,7 +112,7 @@
                     <p class="lead" id="columnDiscriptionLabels">Опция</p>
                 </div>
 
-                <div class="col-2">
+                <div class="col-3">
                     <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
                 </div>
 
@@ -125,14 +125,14 @@
 
             </div>
 
-            <hr>
+            <hr style="margin-top:-10px;">
 
-            <div class="row">
+            <div class="row" >
                 <div class="col-3">
                     <p class="lead" id="columnContentLabels">Опция1</p>
                 </div>
 
-                <div class="col-2">
+                <div class="col-3">
                     <p class="lead" id="columnContentLabels">200 руб</p>
                 </div>
 
@@ -140,8 +140,15 @@
                     <p class="lead" id="columnContentLabels">Интернет 20 Гб</p>
                 </div>
 
-                <div class="col-3">
-
+                <div class="col-1">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option2" autocomplete="off">  on
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -153,12 +160,62 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="choosenTarifJumbotron" >
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">Тарифные планы</p>
+                <p class="lead"
+                   style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
+                    Тарифные планы</p>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Тариф</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Описание</p>
+                </div>
+
+                <div class="col-3">
+                </div>
+
+            </div>
+
+            <hr style="margin-top:-10px;">
+
+            <div class="row" >
+                <div class="col-3">
+                    <p class="lead" id="columnContentLabels">Тариф</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnContentLabels">100 руб</p>
+                </div>
+
+                <div class="col-4">
+                    <p class="lead" id="columnContentLabels">Описание тарифа</p>
+                </div>
+
+                <div class="col-1">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option2" autocomplete="off">  on
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
             </div>
 
         </div>
@@ -166,12 +223,62 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="choosenTarifJumbotron" >
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">Доступные опции</p>
+                <p class="lead"
+                   style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
+                    Доступные опции</p>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Опция</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnDiscriptionLabels">Описание</p>
+                </div>
+
+                <div class="col-3">
+                </div>
+
+            </div>
+
+            <hr style="margin-top:-10px;">
+
+            <div class="row" >
+                <div class="col-3">
+                    <p class="lead" id="columnContentLabels">Опция2</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnContentLabels">250 руб</p>
+                </div>
+
+                <div class="col-4">
+                    <p class="lead" id="columnContentLabels">Интернет 10 Гб</p>
+                </div>
+
+                <div class="col-1">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option2" autocomplete="off">  on
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
             </div>
 
         </div>
@@ -179,11 +286,20 @@
     <div class="col"></div>
 </div>
 
-<div class="row">
+<div class="row" style="margin-bottom:30px">
     <div class="col"></div>
 
-    <div class="col-5">
+    <div class="col-4">
         <h1 class="display-4" id="blockNumber">Заблокировать номер</h1>
+    </div>
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right; margin-right: 10px;">
+        <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option2" autocomplete="off">  on
+        </label>
     </div>
 
     <div class="col"></div>

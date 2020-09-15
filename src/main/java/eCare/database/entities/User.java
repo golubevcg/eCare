@@ -1,6 +1,7 @@
 package eCare.database.entities;
 
 import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 public class User {

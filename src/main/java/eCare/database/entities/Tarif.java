@@ -1,5 +1,7 @@
 package eCare.database.entities;
 
+import javax.persistence.*;
+
 @Entity
 public class Tarif {
 

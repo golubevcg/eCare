@@ -1,6 +1,10 @@
 package eCare.database.dao;
 
+import eCare.database.HibernateSessionFactoryUtil;
 import eCare.database.entities.Contract;
+import eCare.database.entities.Option;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class OptionDao {    
     public void save(Option option) {
@@ -14,7 +18,7 @@ public class OptionDao {
     public void update(Option option) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        session.update(contract);
+        session.update(option);
         transaction2.commit();
         session.close();
     }

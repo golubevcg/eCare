@@ -1,0 +1,60 @@
+#dropdownMenuButton{
+    background-color:transparent;
+    color:black;
+    border:transparent;
+    font-family: MS Shell Dig 2;
+}
+
+#privateOfficeJumbotron{
+    background-color: #4b99ee;
+    margin-top:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#privateOfficeLabel{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:30px;
+}
+
+#ownCabinet {
+    float:right;
+    font-family: MS Shell Dig 2;
+}
+
+#headlineLabel{
+    margin-left:5px;
+}
+
+#inputForm{
+    width:40%;
+    background-color: white;
+    float:left;
+    border-color: black;
+}
+
+#saveButton{
+    background-color: white;
+    color:black;
+    border: 2px solid #1f2229;
+}
+
+
+#footer{
+    background-color: #363636;
+    color:white;
+    width: 100%;
+    text-align: center;
+    min-height: 50px;
+    vertical-align: bottom;
+    position: absolute;
+    left: 0 ; right: 0; bottom: 0;
+}
+
+
+
+
+

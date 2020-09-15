@@ -1,5 +1,10 @@
 package eCare.database.dao;
 
+import eCare.database.HibernateSessionFactoryUtil;
+import eCare.database.entities.User;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 public class UserDao {
     public void save(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();

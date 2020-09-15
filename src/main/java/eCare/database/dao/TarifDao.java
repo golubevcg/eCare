@@ -1,7 +1,10 @@
 package eCare.database.dao;
 
+import eCare.database.HibernateSessionFactoryUtil;
 import eCare.database.entities.Contract;
 import eCare.database.entities.Tarif;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class TarifDao {
 

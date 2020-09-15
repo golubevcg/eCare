@@ -1,5 +1,6 @@
 package eCare.database.dao;
 
+import eCare.database.HibernateSessionFactoryUtil;
 import eCare.database.entities.Contract;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
