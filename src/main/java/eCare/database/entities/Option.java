@@ -1,6 +1,12 @@
 package eCare.database.entities;
 
+import eCare.database.entities.connectionEntities.IncompatibleOptions;
+import eCare.database.entities.connectionEntities.ObligatoryOptions;
+import eCare.database.entities.connectionEntities.TarifsOptions;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="options")
@@ -20,6 +26,17 @@ public class Option {
 
     @Column
     private String discription;
+
+    @OneToMany(mappedBy="options")
+    private List<TarifsOptions> tarifsOptionsList = new ArrayList<>();
+
+    @OneToMany(mappedBy="obligatoryoptions")
+    private List<ObligatoryOptions> obligatoryOptionsList = new ArrayList<>();
+
+    @OneToMany(mappedBy="incompatibleoptions")
+    private List<IncompatibleOptions> incompatibleOptionsList = new ArrayList<>();
+
+
 
     public String getName() {
         return name;

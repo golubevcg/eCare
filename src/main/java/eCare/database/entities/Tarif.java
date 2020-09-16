@@ -1,6 +1,10 @@
 package eCare.database.entities;
 
+import eCare.database.entities.connectionEntities.TarifsOptions;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="tarifs")
@@ -18,6 +22,9 @@ public class Tarif {
 
     @Column
     private String discription;
+
+    @OneToMany(mappedBy="tarifs")
+    private List<TarifsOptions> tarifsOptionsList = new ArrayList<>();
 
     public Tarif() {}
 

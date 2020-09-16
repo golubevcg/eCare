@@ -1,7 +1,10 @@
 package eCare.database.entities;
 
+import eCare.database.entities.connectionEntities.UsersContracts;
+
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +14,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
+    private String login;
 
     @Column
     private String firstname;
@@ -37,11 +43,28 @@ public class User {
     @JoinColumn(name="role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "userscontracts")
+    private List<UsersContracts> userContracts = new ArrayList<>();
+
     public User() {
     }
 
-    public void setContracts(Contract contract){
+    public User(String login, String password, Role role){
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstname() {

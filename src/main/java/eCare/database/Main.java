@@ -21,9 +21,9 @@ public class Main {
         user.setPassword("123");
         user.setDateOfBirth(LocalDate.of(1995,05,11));
 
-        RoleService roleService = new RoleService();
-        roleService.save(role);
-        roleService.save(role1);
+//        RoleService roleService = new RoleService();
+//        roleService.save(role);
+//        roleService.save(role1);
 
         UserService userService = new UserService();
         userService.save(user);
@@ -36,14 +36,15 @@ public class Main {
         tarif.setPrice(100);
         contract.setTarif(tarif);
 
-
         Option option = new Option();
         option.setConnectionCost(50);
         option.setPrice(100);
         option.setDiscription("Опция 100 минут на месяц");
 
         ContractService contractService = new ContractService();
-        contractService.save(contract);
+//        contractService.save(contract);
+
+
 
     }
 }

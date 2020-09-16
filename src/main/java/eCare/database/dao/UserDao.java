@@ -1,6 +1,7 @@
 package eCare.database.dao;
 
 import eCare.database.HibernateSessionFactoryUtil;
+import eCare.database.entities.Contract;
 import eCare.database.entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,4 +30,5 @@ public class UserDao {
         transaction2.commit();
         session.close();
     }
+
 }

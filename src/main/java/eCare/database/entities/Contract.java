@@ -20,6 +20,10 @@ public class Contract {
     @Column(name="isblocked")
     private boolean isBlocked;
 
+    public int getId() {
+        return id;
+    }
+
     public String getContractNumber() {
         return contractNumber;
     }
