@@ -1,19 +1,22 @@
 package eCare.database.entities;
 
-import eCare.database.entities.connectionEntities.IncompatibleOptions;
-import eCare.database.entities.connectionEntities.ObligatoryOptions;
-import eCare.database.entities.connectionEntities.TarifsOptions;
-
+import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"name"})
 @Entity
 @Table(name="options")
 public class Option {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long option_id;
 
     @Column
     private String name;
@@ -24,49 +27,43 @@ public class Option {
     @Column(name="connectioncost")
     private int connectionCost;
 
-    @Column
-    private String discription;
+    @Column(name= "shortdiscription")
+    private String shortDiscription;
 
-    @OneToMany(mappedBy="options")
-    private List<TarifsOptions> tarifsOptionsList = new ArrayList<>();
+    @Column(name="isactive")
+    private boolean isActive = true;
 
-    @OneToMany(mappedBy="obligatoryoptions")
-    private List<ObligatoryOptions> obligatoryOptionsList = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinTable(name= "tariffs_options",
+            joinColumns = { @JoinColumn(name= "option_id") },
+            inverseJoinColumns = { @JoinColumn(name="tariff_id") })
+    private List<Tariff> tariffsOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy="incompatibleoptions")
-    private List<IncompatibleOptions> incompatibleOptionsList = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinTable(name= "incompatible_options",
+            joinColumns = { @JoinColumn(name= "option_id") },
+            inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })
+    private List<Option> incompatibleOptionsList = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinTable(name= "obligatory_options",
+            joinColumns = { @JoinColumn(name= "option_id") },
+            inverseJoinColumns = { @JoinColumn(name="obligatoryoption_id") })
+    private List<Option> obligatoryOptionsList = new ArrayList<>();
 
-
-    public String getName() {
-        return name;
+    public void addTariff(Tariff tariff){
+        tariffsOptions.add(tariff);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void addIncompatibleOption(Option option){
+        incompatibleOptionsList.add(option);
     }
 
-    public int getPrice() {
-        return price;
+    public void addObligatoryOption(Option option){
+        obligatoryOptionsList.add(option);
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getConnectionCost() {
-        return connectionCost;
-    }
-
-    public void setConnectionCost(int connectionCost) {
-        this.connectionCost = connectionCost;
-    }
-
-    public String getDiscription() {
-        return discription;
-    }
-
-    public void setDiscription(String discription) {
-        this.discription = discription;
-    }
 }

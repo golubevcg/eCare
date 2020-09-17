@@ -1,7 +1,10 @@
 package eCare.database.services;
 
 import eCare.database.dao.UserDao;
+import eCare.database.entities.Contract;
 import eCare.database.entities.User;
+
+import java.util.List;
 
 public class UserService {
 
@@ -15,8 +18,10 @@ public class UserService {
         userDao.update(user);
     }
 
-    public void delete(User user){
-        userDao.delete(user);
+    public void delte(User user) { userDao.delete(user); }
+
+    public List<User> getUserByLogin(String login){
+            return userDao.getUserByLogin(login);
     }
 
 }

@@ -18,11 +18,10 @@ public class HibernateSessionFactoryUtil {
                 Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 
                 configuration.addAnnotatedClass(Contract.class);
-                configuration.addAnnotatedClass(Tarif.class);
                 configuration.addAnnotatedClass(User.class);
-                configuration.addAnnotatedClass(Option.class);
                 configuration.addAnnotatedClass(Role.class);
-
+                configuration.addAnnotatedClass(Tariff.class);
+                configuration.addAnnotatedClass(Option.class);
 
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties());

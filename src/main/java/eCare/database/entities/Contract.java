@@ -1,50 +1,50 @@
 package eCare.database.entities;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"contractNumber"})
 @Entity
 @Table(name="contracts")
 public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long contract_id;
 
     @Column(name="contractnumber")
     private String contractNumber;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "tarif_id")
-    private Tarif tarif;
-
     @Column(name="isblocked")
     private boolean isBlocked;
 
-    public int getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @ManyToOne(cascade = CascadeType.ALL,
+               fetch = FetchType.EAGER)
+    @JoinColumn(name="tarif_id")
+    private Tariff tariff;
+
+    @Column(name="isactive")
+    private boolean isActive = true;
+
+    public Tariff getTariff() {
+        return tariff;
     }
 
-    public String getContractNumber() {
-        return contractNumber;
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
     }
 
-    public void setContractNumber(String contractNumber) {
+    public Contract(User user, String contractNumber) {
         this.contractNumber = contractNumber;
-    }
-
-    public Tarif getTarif() {
-        return tarif;
-    }
-
-    public void setTarif(Tarif tarif) {
-        this.tarif = tarif;
-    }
-
-    public boolean isBlocked() {
-        return isBlocked;
-    }
-
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
+        this.user = user;
     }
 }

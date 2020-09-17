@@ -1,19 +1,30 @@
 package eCare.database.entities;
 
-import eCare.database.entities.connectionEntities.UsersContracts;
+import eCare.database.HibernateSessionFactoryUtil;
+import eCare.database.services.RoleService;
+import lombok.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"login"})
 @Entity
 @Table(name="users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long user_id;
 
     @Column
     private String login;
@@ -39,95 +50,64 @@ public class User {
     @Column
     private String password;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="role_id")
-    private Role role;
+    @Column(name="isactive")
+    private boolean isActive = true;
 
-    @OneToMany(mappedBy = "userscontracts")
-    private List<UsersContracts> userContracts = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    public User() {
-    }
+    @OneToMany(targetEntity = Contract.class,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private List<Contract> listOfContracts = new ArrayList<>();
 
-    public User(String login, String password, Role role){
+     public User(String login, String password, Role role){
         this.login = login;
         this.password = password;
-        this.role = role;
+        this.setRole(role);
     }
 
-    public int getId() {
-        return id;
+    public void removeRole(Role role){
+        roles.remove(role);
+        role.getUsers().remove(this);
     }
 
-    public String getLogin() {
-        return login;
+    public void addContract(Contract contract){
+        this.listOfContracts.add(contract);
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setRole(Role role){
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            Set<Role> roles = new HashSet<>(session.createQuery("select r from Role r", Role.class)
+                    .getResultList());
+
+            List<String> roleNames = new ArrayList<String>(session.createQuery("select r.rolename from Role r",
+                    String.class).getResultList());
+
+            for (String roleName : roleNames) {
+                List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
+                        .setParameter("roleName", roleName).getResultList();
+                if (found.isEmpty()) {
+                    Role newRole = new Role();
+                    newRole.setRolename(roleName);
+                    session.persist(newRole);
+                    roles.add(role);
+                } else {
+                    roles.addAll(found);
+                }
+            }
+            this.setRoles(roles);
+            session.persist(this);
+            session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getSecondname() {
-        return secondname;
-    }
-
-    public void setSecondname(String secondname) {
-        this.secondname = secondname;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getPassportInfo() {
-        return passportInfo;
-    }
-
-    public void setPassportInfo(int passportInfo) {
-        this.passportInfo = passportInfo;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }
