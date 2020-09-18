@@ -3,44 +3,67 @@ package eCare.database;
 
 import eCare.database.entities.*;
 import eCare.database.services.OptionService;
+import eCare.database.services.RoleService;
 import eCare.database.services.TarifService;
+import eCare.database.services.UserService;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        Option option1 = new Option();
-        option1.setName("opt1");
-        option1.setShortDiscription("erfe");
+        Role role = new Role();
+        role.setRolename("user");
 
-        Option option2 = new Option();
-        option2.setName("opt2");
-        option2.setShortDiscription("sdfsfd");
+        Role role1 = new Role();
+        role1.setRolename("employee");
 
+        Role role2 = new Role();
+        role2.setRolename("admin");
 
-        Option option3 = new Option();
-        option3.setName("opt3");
-        option3.setShortDiscription("hngd");
+        RoleService roleService = new RoleService();
+        roleService.save(role1);
+        roleService.save(role2);
+        roleService.save(role);
 
-        Option option4 = new Option();
-        option4.setName("opt4");
-        option4.setShortDiscription("xcva");
+        User user2 = new User();
+        user2.setLogin("log");
+        user2.setPassword("sdfsf");
 
+        user2.setRole(role);
+
+        Contract contract = new Contract();
+        contract.setContractNumber("+4444");
+
+        user2.addContract(contract);
+
+        Tariff tariff = new Tariff();
+        tariff.setName("tariff");
+
+        contract.setTariff(tariff);
+
+        Option option11 = new Option();
+        option11.setName("option11");
+
+        tariff.addOption(option11);
+
+        Option option12 = new Option();
+        option12.setName("option12");
+
+        Option option13 = new Option();
+        option13.setName("option13");
         OptionService optionService = new OptionService();
-        optionService.save(option1);
 
-        Option resultOption = optionService.getOptionByName("opt1").get(0);
+        System.out.println(option11.getObligatoryOptionsList().size());
+        option11.addObligatoryOption(option12);
+        System.out.println(option11.getObligatoryOptionsList().size());
+        option11.addIncompatibleOption(option12);
 
-        System.out.println(resultOption.getIncompatibleOptionsList().toString());
+        UserService userService = new UserService();
+        userService.save(user2);
 
-        option1.addObligatoryOption(option4);
-        option1.addObligatoryOption(option3);
 
-        optionService.update(option1);
-        System.out.println(null==option1.getObligatoryOptionsList().get(0));
-        System.out.println(option1.getObligatoryOptionsList().get(0).getName());
-        System.out.println(option1.getObligatoryOptionsList().get(1).getName());
+
 
     }
 }

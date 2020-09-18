@@ -89,22 +89,23 @@ public class User {
 
             List<String> roleNames = new ArrayList<String>(session.createQuery("select r.rolename from Role r",
                     String.class).getResultList());
-
-            for (String roleName : roleNames) {
-                List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
-                        .setParameter("roleName", roleName).getResultList();
-                if (found.isEmpty()) {
-                    Role newRole = new Role();
-                    newRole.setRolename(roleName);
-                    session.persist(newRole);
-                    roles.add(role);
-                } else {
-                    roles.addAll(found);
+            if (roles.isEmpty()) {
+                session.save(role);
+                roles.add(role);
+            }else {
+                for (String roleName : roleNames) {
+                    List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
+                            .setParameter("roleName", role.getRolename()).getResultList();
+                    if (found.isEmpty()) {
+                        session.save(role);
+                        roles.add(role);
+                    } else {
+                        roles.addAll(found);
+                    }
                 }
             }
             this.setRoles(roles);
-            session.persist(this);
-            session.getTransaction().commit();
+            transaction.commit();
         } finally {
             session.close();
         }

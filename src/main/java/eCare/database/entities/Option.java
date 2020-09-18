@@ -1,5 +1,6 @@
 package eCare.database.entities;
 
+import eCare.database.services.OptionService;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -59,10 +60,26 @@ public class Option {
     }
 
     public void addIncompatibleOption(Option option){
+
+        for (int i = 0; i < obligatoryOptionsList.size(); i++) {
+            if(( obligatoryOptionsList.get(i).getName() ).equals(option.getName())){
+                obligatoryOptionsList.remove(option);
+            }
+        }
+
         incompatibleOptionsList.add(option);
+
     }
 
     public void addObligatoryOption(Option option){
+
+
+        for (int i = 0; i < incompatibleOptionsList.size(); i++) {
+            if(( incompatibleOptionsList.get(i).getName() ).equals(option.getName())){
+                incompatibleOptionsList.remove(option);
+            }
+        }
+
         obligatoryOptionsList.add(option);
     }
 
