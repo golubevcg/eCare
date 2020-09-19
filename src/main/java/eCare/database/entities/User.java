@@ -1,7 +1,6 @@
 package eCare.database.entities;
 
 import eCare.database.HibernateSessionFactoryUtil;
-import eCare.database.services.RoleService;
 import lombok.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -53,11 +52,11 @@ public class User {
     @Column(name="isactive")
     private boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name="users_roles",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Role role;
 
     @OneToMany(targetEntity = Contract.class,
             mappedBy = "user",
@@ -68,43 +67,36 @@ public class User {
      public User(String login, String password, Role role){
         this.login = login;
         this.password = password;
-        this.setRole(role);
-    }
-
-    public void removeRole(Role role){
-        roles.remove(role);
-        role.getUsers().remove(this);
+        this.checkRoleInDBAndReturnIfFounded(role);
     }
 
     public void addContract(Contract contract){
         this.listOfContracts.add(contract);
     }
 
-    public void setRole(Role role){
+    public void checkRoleInDBAndReturnIfFounded(Role role){
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         try {
-            Transaction transaction = session.beginTransaction();
-            Set<Role> roles = new HashSet<>(session.createQuery("select r from Role r", Role.class)
+
+            Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
                     .getResultList());
 
-            List<String> roleNames = new ArrayList<String>(session.createQuery("select r.rolename from Role r",
-                    String.class).getResultList());
-            if (roles.isEmpty()) {
+            if (allRolesSet.isEmpty()) {
+                this.role = role;
                 session.save(role);
-                roles.add(role);
             }else {
-                for (String roleName : roleNames) {
-                    List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
-                            .setParameter("roleName", role.getRolename()).getResultList();
-                    if (found.isEmpty()) {
-                        session.save(role);
-                        roles.add(role);
-                    } else {
-                        roles.addAll(found);
-                    }
+
+                List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
+                        .setParameter("roleName", role.getRolename()).getResultList();
+                if (found.isEmpty()) {
+                    this.role = role;
+                    session.save(role);
+                }else{
+                    this.role = found.get(0);
                 }
+
             }
-            this.setRoles(roles);
             transaction.commit();
         } finally {
             session.close();

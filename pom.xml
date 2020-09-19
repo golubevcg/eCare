@@ -63,6 +63,17 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.tomcat</groupId>
@@ -91,6 +102,8 @@
       <version>1.18.12</version>
       <scope>provided</scope>
     </dependency>
+
+
 
 
   </dependencies>

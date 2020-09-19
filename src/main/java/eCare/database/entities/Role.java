@@ -23,8 +23,12 @@ public class Role {
     @Column
     private String rolename;
 
-    @ManyToMany(mappedBy = "roles",
-                cascade = CascadeType.ALL)
-    private Set<User> users = new HashSet<>();
+    @OneToMany(targetEntity = User.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JoinTable(name="users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<User> user;
 
 }

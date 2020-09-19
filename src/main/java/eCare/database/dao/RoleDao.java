@@ -16,33 +16,27 @@ public class RoleDao {
     public void save(Role role) {
 
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
 
         try {
-            Transaction transaction = session.beginTransaction();
-            Set<Role> roles = new HashSet<>(session.createQuery("select r from Role r", Role.class)
+
+            Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
                     .getResultList());
 
-            List<String> roleNames = new ArrayList<String>(session.createQuery("select r.rolename from Role r",
-                    String.class).getResultList());
-            if (roles.isEmpty()) {
+            if (allRolesSet.isEmpty()) {
                 session.save(role);
-                roles.add(role);
             }else {
-                for (String roleName : roleNames) {
-                    List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
-                            .setParameter("roleName", role.getRolename()).getResultList();
-                    if (found.isEmpty()) {
-                        session.persist(role);
-                        roles.add(role);
-                    } else {
-                        roles.addAll(found);
-                    }
+                List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
+                        .setParameter("roleName", role.getRolename()).getResultList();
+                if (found.isEmpty()) {
+                    session.save(role);
                 }
             }
-            session.getTransaction().commit();
+            transaction.commit();
         } finally {
             session.close();
         }
+
     }
 
     public void update(Role role) {
