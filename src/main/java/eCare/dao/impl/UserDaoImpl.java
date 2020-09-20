@@ -59,7 +59,6 @@ public class UserDaoImpl implements UserDao {
 
         transaction.commit();
         session.close();
-
         return listOfUsers;
     }
 
