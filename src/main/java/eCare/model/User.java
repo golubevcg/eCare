@@ -1,12 +1,14 @@
 package eCare.model;
 
 import lombok.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -36,7 +38,7 @@ public class User {
     private LocalDate dateOfBirth;
 
     @Column(name="passportinfo")
-    private int passportInfo;
+    private Integer passportInfo;
 
     @Column
     private String address;
@@ -53,7 +55,7 @@ public class User {
     @Column(name="isactive")
     private boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="users_roles",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -77,6 +79,10 @@ public class User {
 
     public void addRole(Role role){
         roles.add(role);
+    }
+
+    public Set<SimpleGrantedAuthority> getAuthorities(){
+        return getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toSet());
     }
 
 }

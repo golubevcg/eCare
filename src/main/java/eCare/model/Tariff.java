@@ -22,7 +22,7 @@ public class Tariff {
     private String name;
 
     @Column
-    private int price;
+    private Integer price;
 
     @Column(name="shortdiscription")
     private String shortDiscription;

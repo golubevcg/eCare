@@ -22,10 +22,10 @@ public class Option {
     private String name;
 
     @Column
-    private int price;
+    private Integer price;
 
     @Column(name="connectioncost")
-    private int connectionCost;
+    private Integer connectionCost;
 
     @Column(name= "shortdiscription")
     private String shortDiscription;

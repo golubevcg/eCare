@@ -6,6 +6,8 @@ import eCare.model.Role;
 import eCare.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -15,11 +17,17 @@ import java.util.Set;
 @Component
 public class UserDaoImpl implements UserDao {
 
+    @Autowired
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     public void save(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
         this.checkUserRoles(user, session);
+        user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
         session.save(user);
         transaction2.commit();
         session.close();

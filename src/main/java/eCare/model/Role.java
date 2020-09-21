@@ -1,6 +1,7 @@
 package eCare.model;
 
 import lombok.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -32,4 +33,6 @@ public class Role {
     public Role(String rolename) {
         this.rolename = rolename;
     }
+
+
 }

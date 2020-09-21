@@ -1,5 +1,8 @@
 package eCare.controllers;
 
+import eCare.model.Role;
+import eCare.model.User;
+import eCare.services.impl.UserServiceImpl;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,9 @@ public class MainPageController {
 
     @GetMapping("/")
     public String getMain(Model model, CsrfToken token){
+
+
+
         return "main";
     }
 
