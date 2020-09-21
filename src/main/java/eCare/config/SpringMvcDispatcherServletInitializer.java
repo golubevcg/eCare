@@ -3,9 +3,10 @@ package eCare.config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class[]{SpringSecurityConfig.class};
     }
 
     @Override
@@ -17,4 +18,7 @@ public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationCon
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
+
+
 }

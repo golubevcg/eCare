@@ -17,7 +17,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/userRegistration").hasAnyRole("ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
     }
 
     @Bean
@@ -25,10 +33,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(
                 User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build()
+                    .username("admin")
+                    .password(passwordEncoder().encode("admin"))
+                    .roles("ADMIN")
+                    .build(),
+                User.builder()
+                    .username("user")
+                    .password(passwordEncoder().encode("user"))
+                    .roles("USER")
+                    .build()
         );
     }
 
