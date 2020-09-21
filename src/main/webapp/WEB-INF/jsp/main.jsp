@@ -22,11 +22,11 @@
 
             <div class="modal-body">
                 <form>
-                        <label for="exampleInputEmail1">Login</label>
-                        <input type="login" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1">Login</label>
+                    <input type="login" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
-                        <label for="inputPassword">Password</label>
-                        <input type="password" class="form-control" id="inputPassword">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control" id="inputPassword">
                     <button type="submit" class="btn" style="background-color:#4b99ee;color:white">Enter</button>
 
                 </form>
@@ -119,7 +119,7 @@
             <div class="card-body">
                 <p class="card-text">300 минут<br />
                     20 гигабайт <br /> 200 смс <br /> Telegram, Whatsup, <br /> Viber доступны <br /> даже при нуле</p>
-                   <a href="#" class="btn" id="cardButton">Выбрать тариф</a>
+                <a href="#" class="btn" id="cardButton">Выбрать тариф</a>
             </div>
         </div>
 
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-       </div>
+    </div>
 
     <div class="col"></div>
 </div>
@@ -142,24 +142,24 @@
     <div class="col"></div>
     <div class="col-5">
 
-                <div class="jumbotron" id="switchWithOldNumberJumbotron">
-                    <div class="col" style="float:right; width: 55%">
-                        <h1 class="display-4"id="keepNumberLabel" >Перейти со <br> старым номером</h1>
-                        <form>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="inputPhone" aria-describedby="emailHelp"
-                                       placeholder="+7">
-                            </div>
-                        </form>
-                        <button type="button" id="keepNumberButton" class="btn btn-primary btn-sm">оставить заявку</button>
+        <div class="jumbotron" id="switchWithOldNumberJumbotron">
+            <div class="col" style="float:right; width: 55%">
+                <h1 class="display-4"id="keepNumberLabel" >Перейти со <br> старым номером</h1>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="inputPhone" aria-describedby="emailHelp"
+                               placeholder="+7">
                     </div>
+                </form>
+                <button type="button" id="keepNumberButton" class="btn btn-primary btn-sm">оставить заявку</button>
+            </div>
 
-                    <div class="col" style="float:left; width: 45%">
-                        <img src="/resources/static/oldPhone.png" class="rounded float-left" alt="..."
-                             style="width:275px; float:left; margin-left: -15px; margin-top:10px">
-                    </div>
+            <div class="col" style="float:left; width: 45%">
+                <img src="/resources/static/oldPhone.png" class="rounded float-left" alt="..."
+                     style="width:275px; float:left; margin-left: -15px; margin-top:10px">
+            </div>
 
-                </div>
+        </div>
 
     </div>
     <div class="col"></div>
@@ -168,10 +168,10 @@
 <div class="row" style="margin-top:-10px;">
     <div class="col"></div>
     <div class="col-5">
-            <div class="jumbotron" id="unlimitedCallsJumbotron" >
-                <p class="lead" style="font-weight: bolder; font-size: 25px; margin-left:-15px;">Безлимитные звонки по всему миру</p>
-                <p class="lead" style="font-size: 17px; margin-left:-10px; margin-top:-15px; ">Путушествуя, не забывайте звонить<br>своим близким с опцией<br>"На связи везде"</p>
-            </div>
+        <div class="jumbotron" id="unlimitedCallsJumbotron" >
+            <p class="lead" style="font-weight: bolder; font-size: 25px; margin-left:-15px;">Безлимитные звонки по всему миру</p>
+            <p class="lead" style="font-size: 17px; margin-left:-10px; margin-top:-15px; ">Путушествуя, не забывайте звонить<br>своим близким с опцией<br>"На связи везде"</p>
+        </div>
     </div>
     <div class="col"></div>
 </div>
@@ -180,15 +180,15 @@
     <div class="col"></div>
     <div class="col-5">
 
-            <div class="jumbotron" id="jumbotron1">
-                <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Не хватило общения?</p>
-                <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Приобритайте дополнительные пакеты минут в виде опций 100, 200 и 300 минут</p>
-            </div>
+        <div class="jumbotron" id="jumbotron1">
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Не хватило общения?</p>
+            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Приобритайте дополнительные пакеты минут в виде опций 100, 200 и 300 минут</p>
+        </div>
 
-            <div class="jumbotron" id="jumbotron2">
-                <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">10 Гб \ 100 руб.</p>
-                <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Самая низкая цена на пакет интернета</p>
-            </div>
+        <div class="jumbotron" id="jumbotron2">
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">10 Гб \ 100 руб.</p>
+            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Самая низкая цена на пакет интернета</p>
+        </div>
     </div>
     <div class="col"></div>
 </div>
@@ -196,7 +196,7 @@
 <div class="row" style="margin-top:-20px;">
     <div class="col"></div>
     <div class="col-5">
-            <div class="jumbotron" id="jumbotron3">
+        <div class="jumbotron" id="jumbotron3">
             <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Доверительный платеж</p>
             <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Если баланс близок к нулю, вы можете подключить Доверительный платёж. Мы пополним счёт за вас на 3 дня — и вы сразу же продолжите общение.
                 Размер Доверительного платежа и платы за услугу зависят от вашего тарифа и средних расходов на связь за последние три месяца.
