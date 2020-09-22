@@ -15,21 +15,39 @@
 </head>
 <body>
 
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" >
+
+        <div class="modal-dialog modal-sm" >
         <div class="modal-content">
 
             <div class="modal-body">
-                <form>
-                    <label for="exampleInputEmail1">Login</label>
-                    <input type="login" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
-                    <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id="inputPassword">
-                    <button type="submit" class="btn" style="background-color:#4b99ee;color:white">Enter</button>
+                <form action="${loginUrl}" method="post">
+                    <c:if test="${param.error != null}">
+                        <p>
+                            Invalid username and password.
+                        </p>
+                    </c:if>
 
+                    <c:if test="${param.logout != null}">
+                        <p>
+                            You have been logged out.
+                        </p>
+                    </c:if>
+                    <p>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username"/>
+                    </p>
+                    <p>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password"/>
+                    </p>
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    <button type="submit" class="btn">Log in</button>
                 </form>
+
             </div>
 
         </div>

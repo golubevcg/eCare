@@ -38,13 +38,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/userRegistration").hasAuthority("ADMIN")
                 .antMatchers("/clientOffice").hasAuthority("USER")
                 .antMatchers("/resources/**").permitAll()
-
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/")
+                .defaultSuccessUrl("/clientOffice")
+//                .failureUrl("/login?error")
                 .and()
-
                 .httpBasic();
     }
 
