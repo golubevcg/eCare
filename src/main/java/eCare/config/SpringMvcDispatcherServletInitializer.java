@@ -19,6 +19,4 @@ public class SpringMvcDispatcherServletInitializer extends AbstractAnnotationCon
         return new String[]{"/"};
     }
 
-
-
 }

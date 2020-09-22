@@ -1,4 +1,4 @@
-package eCare.services.interf;
+package eCare.services.api;
 
 public interface SecurityService {
     String findLoggedInUsername();

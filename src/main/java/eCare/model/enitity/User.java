@@ -1,16 +1,15 @@
-package eCare.model;
+package eCare.model.enitity;
 
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -48,9 +47,6 @@ public class User {
 
     @Column
     private String password;
-
-    @Transient
-    private String confirmPassword;
 
     @Column(name="isactive")
     private boolean isActive = true;

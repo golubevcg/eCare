@@ -1,9 +1,9 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.interf.UserDao;
-import eCare.model.Role;
-import eCare.model.User;
+import eCare.dao.api.UserDao;
+import eCare.model.enitity.Role;
+import eCare.model.enitity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;

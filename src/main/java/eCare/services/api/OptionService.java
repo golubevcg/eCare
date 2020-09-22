@@ -1,6 +1,6 @@
-package eCare.services.interf;
+package eCare.services.api;
 
-import eCare.model.Option;
+import eCare.model.enitity.Option;
 import java.util.List;
 
 public interface OptionService {

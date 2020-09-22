@@ -1,8 +1,8 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.interf.OptionDao;
-import eCare.model.Option;
+import eCare.dao.api.OptionDao;
+import eCare.model.enitity.Option;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;

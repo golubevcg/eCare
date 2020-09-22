@@ -2,13 +2,8 @@ package eCare;
 
 
 import eCare.dao.impl.UserDaoImpl;
-import eCare.model.Role;
-import eCare.model.User;
-import eCare.services.impl.UserServiceImpl;
-import eCare.services.interf.UserService;
-
-import java.util.Collection;
-import java.util.HashSet;
+import eCare.model.enitity.Role;
+import eCare.model.enitity.User;
 
 public class Main {
     public static void main(String[] args) {

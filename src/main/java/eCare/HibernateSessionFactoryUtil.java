@@ -1,6 +1,6 @@
 package eCare;
 
-import eCare.model.*;
+import eCare.model.enitity.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;

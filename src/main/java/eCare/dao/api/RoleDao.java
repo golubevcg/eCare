@@ -1,6 +1,7 @@
-package eCare.dao.interf;
+package eCare.dao.api;
 
-import eCare.model.Role;
+import eCare.model.enitity.Role;
+
 import java.util.List;
 
 public interface RoleDao {

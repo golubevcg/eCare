@@ -1,4 +1,4 @@
-package eCare.model;
+package eCare.model.enitity;
 
 import lombok.*;
 

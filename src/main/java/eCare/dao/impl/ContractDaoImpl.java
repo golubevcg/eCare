@@ -1,8 +1,8 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.interf.ContractDao;
-import eCare.model.Contract;
+import eCare.dao.api.ContractDao;
+import eCare.model.enitity.Contract;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,7 @@ public class ContractDaoImpl implements ContractDao {
 
         List<Contract> contractsList = session.createQuery(
                 "select c " +
-                        "from Contract c " +
+                        "from ContractDTO c " +
                         "where c.contractNumber = :num", Contract.class)
                 .setParameter("num", number).list();
 

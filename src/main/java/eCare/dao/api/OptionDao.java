@@ -1,6 +1,6 @@
-package eCare.dao.interf;
+package eCare.dao.api;
 
-import eCare.model.Option;
+import eCare.model.enitity.Option;
 
 import java.util.List;
 

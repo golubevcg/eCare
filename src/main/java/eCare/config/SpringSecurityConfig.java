@@ -1,5 +1,6 @@
 package eCare.config;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ComponentScan("eCare")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    static final Logger log = Logger.getLogger(SpringSecurityConfig.class);
+
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -34,11 +37,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/userRegistration").hasAuthority("ADMIN")
                 .antMatchers("/clientOffice").hasAuthority("USER")
+                .antMatchers("/resources/**").permitAll()
+
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .and()
+
                 .httpBasic();
     }
 

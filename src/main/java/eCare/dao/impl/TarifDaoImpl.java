@@ -1,8 +1,8 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.interf.TarifDao;
-import eCare.model.Tariff;
+import eCare.dao.api.TarifDao;
+import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;

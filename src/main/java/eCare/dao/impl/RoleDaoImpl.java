@@ -1,8 +1,8 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.interf.RoleDao;
-import eCare.model.Role;
+import eCare.dao.api.RoleDao;
+import eCare.model.enitity.Role;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;

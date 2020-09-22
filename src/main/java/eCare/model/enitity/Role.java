@@ -1,7 +1,6 @@
-package eCare.model;
+package eCare.model.enitity;
 
 import lombok.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;

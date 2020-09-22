@@ -1,6 +1,6 @@
-package eCare.services.interf;
+package eCare.services.api;
 
-import eCare.model.Role;
+import eCare.model.enitity.Role;
 
 import java.util.List;
 

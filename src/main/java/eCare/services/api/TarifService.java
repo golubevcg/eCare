@@ -1,10 +1,9 @@
-package eCare.dao.interf;
+package eCare.services.api;
 
-import eCare.model.Tariff;
-
+import eCare.model.enitity.Tariff;
 import java.util.List;
 
-public interface TarifDao {
+public interface TarifService {
     void save(Tariff tarif);
     void update(Tariff tarif);
     void delete(Tariff tarif);
