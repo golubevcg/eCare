@@ -22,7 +22,7 @@ public class UserDTO {
     private String firstname;
     private String secondname;
     private LocalDate dateOfBirth;
-    private Integer passportInfo;
+    private Long passportInfo;
     private String address;
     private String email;
     private String password;

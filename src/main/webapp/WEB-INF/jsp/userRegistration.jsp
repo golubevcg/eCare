@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
 <!--suppress ALL -->
@@ -85,26 +86,94 @@
 <div class="row">
     <div class="col"></div>
     <div class="col-5">
-        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-top:-20px;" placeholder="Имя">
 
-        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Фамилия">
+        <form:form method="POST" modelAttribute="userForm" class="form-signin">
 
-        <input class="form-control" type="text" id="defaultForm" style="width:25%;" placeholder="Дата рождения">
+            <spring:bind path="firstname">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="firstname" class="form-control" type="text" id="defaultForm"
+                                style="width:40%; margin-top:-20px;" placeholder="Имя"></form:input>
+                    <form:errors path="firstname"></form:errors>
+                </div>
+            </spring:bind>
 
-        <input class="form-control" type="text" id="defaultForm" style="width:30%;" placeholder="Паспортные данные">
+            <spring:bind path="secondname">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="secondname" class="form-control" type="text" id="defaultForm"
+                                style="width:40%;" placeholder="Фамилия"></form:input>
+                    <form:errors path="secondname"></form:errors>
+                </div>
+            </spring:bind>
 
-        <input class="form-control" type="text" id="defaultForm" style="width:57%;" placeholder="Адрес">
+            </form:form>
 
-        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Электронная почта">
 
-        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Пароль">
+                <form class="form-group ${status.error ? 'has-error' : ''}">
+                    <input path="dateOfBirth" class="form-control" type="date" id="defaultForm" name="dateOfBirth"
+                           style="width:25%;" placeholder="Дата рождения"></input>
+                </form>
 
-        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Подтвердите пароль">
 
-        <label class="container" style="clear:both; margin-left:0px; font-size: 20px; text-align: left; padding-top: 9px;">Сотрудник компании
+        <form:form method="POST" modelAttribute="userForm" class="form-signin">
+
+            <spring:bind path="passportInfo">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="passportInfo" class="form-control" type="number" id="defaultForm"
+                                style="width:30%;" placeholder="Паспортные данные"></form:input>
+                    <form:errors path="passportInfo"></form:errors>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="address">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="address" class="form-control" type="text" id="defaultForm"
+                                style="width:57%;" placeholder="Адрес"></form:input>
+                    <form:errors path="address"></form:errors>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="email">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="email" class="form-control" type="text" id="defaultForm"
+                                style="width:40%;" placeholder="Электронная почта"></form:input>
+                    <form:errors path="email"></form:errors>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="login">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="login" class="form-control" type="text" id="defaultForm"
+                                style="width:40%;" placeholder="Логин"></form:input>
+                    <form:errors path="login"></form:errors>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="password">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="password" class="form-control" type="text" id="defaultForm"
+                                style="width:40%;" placeholder="Пароль"></form:input>
+                    <form:errors path="password"></form:errors>
+                </div>
+            </spring:bind>
+
+            <spring:bind path="confirmPassword">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="confirmPassword" class="form-control" type="text" id="defaultForm"
+                                style="width:40%;" placeholder="Подтвердите пароль"></form:input>
+                    <form:errors path="confirmPassword"></form:errors>
+                </div>
+            </spring:bind>
+
+        <label class="container" id="labelCheckboxContainer">Сотрудник компании
             <input type="checkbox" checked="checked">
             <span class="checkmark" style="margin-top:12px;"></span>
         </label>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+
+        </form:form>
+
+
 
 
         <h3 class="display-4" id="ContractLabel">Контракт</h3>

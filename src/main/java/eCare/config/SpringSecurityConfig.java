@@ -21,8 +21,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @ComponentScan("eCare")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    static final Logger log = Logger.getLogger(SpringSecurityConfig.class);
-
     private final UserDetailsService userDetailsService;
 
     @Autowired

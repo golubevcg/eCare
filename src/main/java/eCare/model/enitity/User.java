@@ -1,6 +1,7 @@
 package eCare.model.enitity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
@@ -34,10 +35,11 @@ public class User {
     private String secondname;
 
     @Column(name="dateofbirth")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
     @Column(name="passportinfo")
-    private Integer passportInfo;
+    private Long passportInfo;
 
     @Column
     private String address;
@@ -47,6 +49,9 @@ public class User {
 
     @Column
     private String password;
+
+    @Transient
+    private String confirmPassword;
 
     @Column(name="isactive")
     private boolean isActive = true;

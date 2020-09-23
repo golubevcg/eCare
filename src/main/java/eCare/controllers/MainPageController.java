@@ -27,7 +27,6 @@ public class MainPageController {
 
     @PostMapping("/")
     public String postMain(Model model, String error, String logout) {
-
         return "main";
     }
 
@@ -41,10 +40,7 @@ public class MainPageController {
         return "workerOffice";
     }
 
-    @GetMapping("/userRegistration")
-    public String getUserRegistration(Model model, CsrfToken token){
-        return "userRegistration";
-    }
+
 
     @GetMapping("/newTarif")
     public String getNewTarif(Model model, CsrfToken token){
