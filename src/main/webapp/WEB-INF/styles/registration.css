@@ -93,13 +93,30 @@
     transform: rotate(45deg);
 }
 
+#defaultForm {
+    margin-top:10px;
+    clear:both;
+    width:40%;
+    float:left;
+    border-color:black;
+}
+
+#ContractLabel{
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    font-size:30px;
+    margin-top:20px;
+
+}
+
 #footer{
-    background-color: #363636;
+    background-color: #1f2229;
     color:white;
+    bottom: 0;
     width: 100%;
     text-align: center;
     min-height: 50px;
     vertical-align: bottom;
-    position: absolute;
-    left: 0 ; right: 0; bottom: 0;
+    margin-top:15px;
 }
+

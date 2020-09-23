@@ -29,6 +29,8 @@
     background-color: white;
     color:black;
     border: 2px solid #1f2229;
+    font-size: 12px;
+    padding: 5px;
 }
 
 #searchButton{
@@ -66,13 +68,13 @@
     font-weight: bolder;
 }
 
-#footer{
-    background-color: #363636;
+#footer {
+    background-color: #1f2229;
     color:white;
+    bottom: 0;
     width: 100%;
     text-align: center;
     min-height: 50px;
     vertical-align: bottom;
-    position: absolute;
-    left: 0 ; right: 0; bottom: 0;
+    margin-top:25px;
 }

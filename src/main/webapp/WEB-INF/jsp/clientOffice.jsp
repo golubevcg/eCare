@@ -49,8 +49,19 @@
 
         </div>
 
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
+        <div class="dropdown" style="float:right; ">
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Личный кабинет
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Личный кабинет</a>
+                <a class="dropdown-item" href="#">Выйти</a>
+            </div>
+
+        </div>
     </div>
     <div class="col"></div>
 </div>

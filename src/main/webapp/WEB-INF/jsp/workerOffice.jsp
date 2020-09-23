@@ -50,8 +50,20 @@
 
         </div>
 
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
+        <div class="dropdown" style="float:right; ">
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Личный кабинет
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Личный кабинет</a>
+                <a class="dropdown-item" href="/userRegistration">Регистрация</a>
+                <a class="dropdown-item" href="<c:url value="/logout" />">Выйти</a>
+            </div>
+
+        </div>
     </div>
     <div class="col"></div>
 </div>
@@ -70,21 +82,12 @@
 
 </div>
 
-
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <button type="button" class="btn btn-primary btn-lg btn-lg" id="addContractButton"> + Добавить новый контракт</button>
-    </div>
-
-    <div class="col"></div>
-</div>
-
 <div class="row" style="margin-top:20px;">
     <div class="col"></div>
     <div class="col-5">
-        <p style="font-weight: bolder;">Поиск клиента по номеру телефона</p>
-        <div style=" margin-top: -10px">
+        <p style="font-weight: bolder; float:left;">Поиск клиента по номеру телефона</p>
+
+        <div style="margin-top: 20px">
                 <input class="form-control" type="text" style="width:65%; background-color: white; float:left; border-color: black;" placeholder="введите номер телефона">
                 <button type="button" class="btn btn-primary btn-lg btn-lg" id="searchButton">Показать всё</button>
                 <button type="button" class="btn btn-primary btn-lg btn-lg" id="searchButton">Поиск</button>
@@ -147,7 +150,7 @@
 
 
 
-<div class="row" style="margin-top:30px;">
+<div class="row" style="margin-top:25px;">
     <div class="col"></div>
     <div class="col-5">
         <p style="font-weight: bolder;">Поиск тарифа по названию</p>
@@ -207,7 +210,7 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:20px;">
+<div class="row" style="margin-top:25px;">
     <div class="col"></div>
     <div class="col-5">
         <p style="font-weight: bolder;">Поиск опции по названию</p>
@@ -249,7 +252,7 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:10px;">
+<div class="row" style="margin-top:-10px;">
     <div class="col"></div>
     <div class="col-5">
         <div class="row">
@@ -273,10 +276,6 @@
 
     <div class="col"></div>
 </div>
-
-
-
-
 
 <!--for dropdown menus scripts-->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

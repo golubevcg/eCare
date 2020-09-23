@@ -50,8 +50,20 @@
 
         </div>
 
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
+        <div class="dropdown" style="float:right; ">
+
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Личный кабинет
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Личный кабинет</a>
+                <a class="dropdown-item" href="<c:url value="/logout" />">Выйти</a>
+            </div>
+
+        </div>
+
     </div>
     <div class="col"></div>
 </div>
@@ -73,87 +85,45 @@
 <div class="row">
     <div class="col"></div>
     <div class="col-5">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black;" placeholder="Имя">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-top:-20px;" placeholder="Имя">
 
-<div class="row" style="margin-top:10px">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black;" placeholder="Фамилия">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Фамилия">
 
-<div class="row" style="margin-top:10px">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:25%; background-color: #ffffff; float:left; border-color: black;" placeholder="Дата рождения">
-        <input class="form-control" type="text" style="width:30%; background-color: white; float:left; border-color: black; margin-left:2%" placeholder="Паспортные данные">
+        <input class="form-control" type="text" id="defaultForm" style="width:25%;" placeholder="Дата рождения">
 
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:30%;" placeholder="Паспортные данные">
 
-<div class="row" style="margin-top:10px">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:57%; background-color: white; float:left; border-color: black;" placeholder="Адрес">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:57%;" placeholder="Адрес">
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black;" placeholder="Электронная почта">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Электронная почта">
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black;" placeholder="Пароль">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Пароль">
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black;" placeholder="Подтвердите пароль">
-    </div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%;" placeholder="Подтвердите пароль">
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <label class="container" style="margin-left:0px; font-size: 20px; text-align: left">Сотрудник компании
-        <input type="checkbox" checked="checked">
-        <span class="checkmark"></span>
+        <label class="container" style="clear:both; margin-left:0px; font-size: 20px; text-align: left; padding-top: 9px;">Сотрудник компании
+            <input type="checkbox" checked="checked">
+            <span class="checkmark" style="margin-top:12px;"></span>
         </label>
 
 
+        <h3 class="display-4" id="ContractLabel">Контракт</h3>
 
-</div>
-    <div class="col"></div>
-</div>
+        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <select class="form-control form-control-lg" style="width: 60%;">
+        <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;">
             <option>Тариф</option>
         </select>
 
         <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px">
             <option>Опции</option>
-        </select>    </div>
+        </select>
+
+    </div>
     <div class="col"></div>
 </div>
+
+
 
 
 <!--for dropdown menus scripts-->
