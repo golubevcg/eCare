@@ -37,24 +37,13 @@ public class RegistrationPageController {
 
     @PostMapping("/userRegistration")
     public String postRegistration(@ModelAttribute("userForm") User userForm,
-                                   BindingResult bindingResult, Model modelб,
-                                    @RequestParam("dateOfBirth") String dateOfBirth){
+                                   BindingResult bindingResult, Model modelб){
 
         userValidator.validate(userForm, bindingResult);
 
-        System.out.println("++++++++" + dateOfBirth);
-
-//        userForm.setDateOfBirth(LocalDate.of(
-//                Integer.parseInt(userForm.getDateOfBirth().toString().substring(6,9)),
-//                Integer.parseInt(userForm.getDateOfBirth().toString().substring(3,4)),
-//                Integer.parseInt(userForm.getDateOfBirth().toString().substring(0,1))));
-
         if(bindingResult.hasErrors()){
-            log.info("\nBinding result founded errors in RegistrationPageController:");
-            for (ObjectError objectErroror:bindingResult.getAllErrors()) {
-                log.info(objectErroror.toString());
-            }
-            return "redirect:/main";
+
+            return "userRegistration";
         }
 
         userServiceImpl.save(userForm);

@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -21,7 +18,7 @@ public class UserDTO {
     private String login;
     private String firstname;
     private String secondname;
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     private Long passportInfo;
     private String address;
     private String email;

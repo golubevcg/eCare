@@ -101,6 +101,12 @@
     border-color:black;
 }
 
+#errorsLabel{
+    clear:both;
+    float:left;
+    color:red;
+}
+
 #ContractLabel{
     text-align: left;
     font-family: MS Shell Dig 2;

@@ -93,7 +93,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="firstname" class="form-control" type="text" id="defaultForm"
                                 style="width:40%; margin-top:-20px;" placeholder="Имя"></form:input>
-                    <form:errors path="firstname"></form:errors>
+                    <form:errors path="firstname" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -101,26 +101,24 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="secondname" class="form-control" type="text" id="defaultForm"
                                 style="width:40%;" placeholder="Фамилия"></form:input>
-                    <form:errors path="secondname"></form:errors>
+                    <form:errors path="secondname" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
-            </form:form>
-
-
-                <form class="form-group ${status.error ? 'has-error' : ''}">
-                    <input path="dateOfBirth" class="form-control" type="date" id="defaultForm" name="dateOfBirth"
+            <spring:bind path="dateOfBirth">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <input path="dateOfBirth" class="form-control" type="date" dataformatas="yyyy-MM-dd" id="defaultForm" name="dateOfBirth"
                            style="width:25%;" placeholder="Дата рождения"></input>
-                </form>
+                    <form:errors path="dateOfBirth" id="errorsLabel" class="label"></form:errors>
+                </div>
+            </spring:bind>
 
-
-        <form:form method="POST" modelAttribute="userForm" class="form-signin">
 
             <spring:bind path="passportInfo">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="passportInfo" class="form-control" type="number" id="defaultForm"
                                 style="width:30%;" placeholder="Паспортные данные"></form:input>
-                    <form:errors path="passportInfo"></form:errors>
+                    <form:errors path="passportInfo" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -128,7 +126,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="address" class="form-control" type="text" id="defaultForm"
                                 style="width:57%;" placeholder="Адрес"></form:input>
-                    <form:errors path="address"></form:errors>
+                    <form:errors path="address" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -136,7 +134,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="email" class="form-control" type="text" id="defaultForm"
                                 style="width:40%;" placeholder="Электронная почта"></form:input>
-                    <form:errors path="email"></form:errors>
+                    <form:errors path="email" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -144,7 +142,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="login" class="form-control" type="text" id="defaultForm"
                                 style="width:40%;" placeholder="Логин"></form:input>
-                    <form:errors path="login"></form:errors>
+                    <form:errors path="login" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -152,7 +150,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="password" class="form-control" type="text" id="defaultForm"
                                 style="width:40%;" placeholder="Пароль"></form:input>
-                    <form:errors path="password"></form:errors>
+                    <form:errors path="password" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
 
@@ -160,7 +158,7 @@
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="confirmPassword" class="form-control" type="text" id="defaultForm"
                                 style="width:40%;" placeholder="Подтвердите пароль"></form:input>
-                    <form:errors path="confirmPassword"></form:errors>
+                    <form:errors path="confirmPassword" id="errorsLabel"></form:errors>
                 </div>
             </spring:bind>
 

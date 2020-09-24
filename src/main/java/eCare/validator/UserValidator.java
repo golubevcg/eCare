@@ -8,6 +8,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import javax.validation.Valid;
+
 @Component
 public class UserValidator implements Validator {
 
@@ -24,7 +26,7 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Requried");
-        if(user.getLogin().length()<6){
+        if(6>user.getLogin().length()){
             errors.rejectValue("login", "Size.userForm.login");
         }
 
@@ -33,23 +35,29 @@ public class UserValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
-        if(user.getPassword().length()<6){
+        if(6>user.getPassword().length()){
             errors.rejectValue("password", "Size.userForm.password");
         }
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "Required");
         if(!user.getConfirmPassword().equals(user.getPassword())){
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Requried");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Requried");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passportInfo", "Requried");
-        if(user.getPassportInfo().toString().length()<10){
+        if(10>String.valueOf(user.getPassportInfo()).length()){
+            errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Requried");
+        if(5>user.getEmail().length()){
             errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Requried");
-        if(user.getAddress().length()<8){
+        if(8>user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
         }
 
