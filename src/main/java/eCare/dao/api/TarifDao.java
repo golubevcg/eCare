@@ -8,5 +8,6 @@ public interface TarifDao {
     void save(Tariff tarif);
     void update(Tariff tarif);
     void delete(Tariff tarif);
-    List<Tariff> getTarifByTarifName(String tarifName);
+    List<Tariff> getTariffByTariffName(String tarifName);
+    List<Tariff> getAllTariffs();
 }

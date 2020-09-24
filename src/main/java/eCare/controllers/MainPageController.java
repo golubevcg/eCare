@@ -40,8 +40,6 @@ public class MainPageController {
         return "workerOffice";
     }
 
-
-
     @GetMapping("/newTarif")
     public String getNewTarif(Model model, CsrfToken token){
         return "newTarif";

@@ -1,11 +1,20 @@
 package eCare.model.converters;
 
+import eCare.model.dto.ContractDTO;
+import eCare.model.dto.RoleDTO;
 import eCare.model.dto.UserDTO;
+import eCare.model.enitity.Contract;
+import eCare.model.enitity.Role;
 import eCare.model.enitity.User;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.security.RolesAllowed;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 @Component
 @Scope(value = "prototype")
@@ -25,8 +34,15 @@ public class UserEntityToUserDTOConverter {
         userDTO.setAddress(user.getAddress());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
-        userDTO.setRoles(user.getRoles());
-        userDTO.setListOfContracts(user.getListOfContracts());
+
+        userDTO.setRoles( user.getRoles().stream()
+                        .map(role -> new RoleDTO(role.getRolename()))
+                        .collect(Collectors.toSet()) );
+
+        userDTO.setListOfContracts( user.getListOfContracts()
+                .stream()
+                .map(contract -> new ContractDTO(contract.getContractNumber(), userDTO))
+                .collect(Collectors.toList()));
 
         return userDTO;
     }
@@ -42,9 +58,15 @@ public class UserEntityToUserDTOConverter {
         user.setAddress(userDTO.getAddress());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        user.setRoles(userDTO.getRoles());
-        user.setListOfContracts(userDTO.getListOfContracts());
 
+        user.setRoles(userDTO.getRoles().stream()
+                .map(role -> new Role(role.getRolename()))
+                .collect(Collectors.toSet()));
+
+        user.setListOfContracts( userDTO.getListOfContracts()
+                .stream()
+                .map(contractDTO -> new Contract(contractDTO.getContractNumber(), user))
+                .collect(Collectors.toList()));
         return user;
     }
 

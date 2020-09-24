@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -42,12 +43,14 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public ResourceBundleMessageSource messageSource() {
+    public ReloadableResourceBundleMessageSource messageSource() {
 
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasename("resources/validationMessages");
+        ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
+        source.setBasename("/WEB-INF/validation");
         source.setDefaultEncoding("UTF-8");
+        source.setFallbackToSystemLocale(false);
 
         return source;
     }
+
 }

@@ -41,7 +41,7 @@ public class TarifDaoImpl implements TarifDao {
     }
 
     @Override
-    public List<Tariff> getTarifByTarifName(String tarifName) {
+    public List<Tariff> getTariffByTariffName(String tarifName) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -54,6 +54,17 @@ public class TarifDaoImpl implements TarifDao {
         transaction.commit();
         session.close();
 
+        return listOfTarifs;
+    }
+
+    @Override
+    public List<Tariff> getAllTariffs() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Tariff> listOfTarifs = session.createQuery(
+                "select t from Tariff t", Tariff.class).list();
+        transaction.commit();
+        session.close();
         return listOfTarifs;
     }
 

@@ -41,13 +41,20 @@ public class UserServiceImpl implements UserService {
             return userDaoImpl.getUserByLogin(login);
     }
 
+    @Override
     public UserDTO getUserDTOByLogin(String login){
         User user = this.getUserByLogin(login).get(0);
         return  userEntityToUserDTOConverter.convertToDto(user);
     }
 
+    @Override
     public User convertDTOtoEntity(UserDTO userDTO){
         return userEntityToUserDTOConverter.convertDTOtoEntity(userDTO);
     }
 
+    @Override
+    public void convertDtoAndSave(UserDTO userDTO){
+
+        userDaoImpl.save(userEntityToUserDTOConverter.convertDTOtoEntity(userDTO));
+    }
 }

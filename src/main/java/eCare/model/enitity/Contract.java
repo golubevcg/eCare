@@ -43,8 +43,9 @@ public class Contract {
         this.tariff = tariff;
     }
 
-    public Contract(User user, String contractNumber) {
+    public Contract(String contractNumber, User user) {
         this.contractNumber = contractNumber;
         this.user = user;
     }
+
 }

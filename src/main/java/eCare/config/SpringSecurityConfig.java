@@ -1,6 +1,5 @@
 package eCare.config;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +31,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler authenticationSuccessHandler(){
         return new UrlAuthenticationSuccessHandler();
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -70,7 +68,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
-
 
 }
 

@@ -16,4 +16,8 @@ import java.util.Set;
 public class RoleDTO {
     private String rolename;
     private Set<User> user;
+
+    public RoleDTO(String rolename) {
+        this.rolename = rolename;
+    }
 }

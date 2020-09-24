@@ -1,13 +1,10 @@
 package eCare.model.dto;
 
-import eCare.model.enitity.Contract;
-import eCare.model.enitity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Getter
@@ -23,8 +20,13 @@ public class UserDTO {
     private String address;
     private String email;
     private String password;
+    private String confirmPassword;
     private boolean isActive = true;
-    private Set<Role> roles = new HashSet<>();
-    private List<Contract> listOfContracts = new ArrayList<>();
+    private Set<RoleDTO> roles = new HashSet<>();
+    private List<ContractDTO> listOfContracts = new ArrayList<>();
+
+    public void addContractDTO(ContractDTO contractDTO){
+        listOfContracts.add(contractDTO);
+    }
 
 }

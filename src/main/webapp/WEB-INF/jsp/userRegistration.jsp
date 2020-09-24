@@ -4,8 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -89,7 +87,7 @@
 
         <form:form method="POST" modelAttribute="userForm" class="form-signin">
 
-            <spring:bind path="firstname">
+            <spring:bind path="firstname" >
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="firstname" class="form-control" type="text" id="defaultForm"
                                 style="width:40%; margin-top:-20px;" placeholder="Имя"></form:input>
@@ -117,7 +115,7 @@
             <spring:bind path="passportInfo">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="passportInfo" class="form-control" type="number" id="defaultForm"
-                                style="width:30%;" placeholder="Паспортные данные"></form:input>
+                                style="width:40%;" placeholder="Паспортные данные"></form:input>
                     <form:errors path="passportInfo" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -148,7 +146,7 @@
 
             <spring:bind path="password">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="password" class="form-control" type="text" id="defaultForm"
+                    <form:input path="password" class="form-control" type="password" id="defaultForm"
                                 style="width:40%;" placeholder="Пароль"></form:input>
                     <form:errors path="password" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -156,18 +154,18 @@
 
             <spring:bind path="confirmPassword">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="confirmPassword" class="form-control" type="text" id="defaultForm"
+                    <form:input path="confirmPassword" class="form-control" type="password" id="defaultForm"
                                 style="width:40%;" placeholder="Подтвердите пароль"></form:input>
-                    <form:errors path="confirmPassword" id="errorsLabel"></form:errors>
+                    <form:errors path="confirmPassword" id="errorsLabel" ></form:errors>
                 </div>
             </spring:bind>
 
         <label class="container" id="labelCheckboxContainer">Сотрудник компании
-            <input type="checkbox" checked="checked">
+            <input type="checkbox" name="roleCheckbox" value="true">
             <span class="checkmark" style="margin-top:12px;"></span>
         </label>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%">Зарегистрировать</button>
 
         </form:form>
 
@@ -176,14 +174,27 @@
 
         <h3 class="display-4" id="ContractLabel">Контракт</h3>
 
-        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">
+        <form:form method="POST" modelAttribute="contractDTO" class="form-signin">
+
+<%--            <spring:bind path="contractNumber">--%>
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="contractNumber" class="form-control" type="text" id="defaultForm"
+                                style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7ХХХХХХХХХХ"></form:input>
+                    <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
+                </div>
+<%--            </spring:bind>--%>
+
+        </form:form>
+
+
+<%--        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">--%>
 
         <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;">
             <option>Тариф</option>
         </select>
 
         <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px">
-            <option>Опции</option>
+            <option>Дополнительные Опции</option>
         </select>
 
     </div>
