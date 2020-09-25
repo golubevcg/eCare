@@ -3,7 +3,7 @@ package eCare.services.impl;
 import eCare.dao.impl.RoleDaoImpl;
 import eCare.model.dto.RoleDTO;
 import eCare.model.enitity.Role;
-import eCare.model.converters.RoleEntityToRoleDTOConverter;
+import eCare.model.converters.RoleMapper;
 import eCare.services.api.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class RoleServiceImpl implements RoleService {
     RoleDaoImpl roleDaoImpl;
 
     @Autowired
-    RoleEntityToRoleDTOConverter roleEntityToRoleDTOConverter;
+    RoleMapper roleMapper;
 
     @Override
     public void save(Role role) { roleDaoImpl.save(role); }
@@ -39,11 +39,11 @@ public class RoleServiceImpl implements RoleService {
 
     public RoleDTO getRoleDTOByRolename(String rolename){
         Role role = this.getRoleByRoleName(rolename).get(0);
-        return roleEntityToRoleDTOConverter.convertToDto(role);
+        return roleMapper.toDTO(role);
     }
 
     public Role convertDTOtoEntity(RoleDTO roleDTO){
-        return roleEntityToRoleDTOConverter.convertDTOtoEntity(roleDTO);
+        return roleMapper.toEntity(roleDTO);
     }
 
 }

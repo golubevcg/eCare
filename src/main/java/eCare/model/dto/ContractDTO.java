@@ -13,18 +13,10 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContractDTO {
+    private Long contract_id;
     private String contractNumber;
     private boolean isBlocked;
     private UserDTO user;
-    private Tariff tariff;
+    private TariffDTO tariff;
     private boolean isActive = true;
-
-    public ContractDTO(String contractNumber, UserDTO userDTO) {
-        this.contractNumber = contractNumber;
-        this.user = userDTO;
-    }
-
-    public String getContractNumber() {
-        return contractNumber;
-    }
 }

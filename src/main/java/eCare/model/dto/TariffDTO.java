@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TariffDTO {
+    private Long tariff_id;
     private String name;
     private Integer price;
     private String shortDiscription;
-    private List<Contract> listOfContracts = new ArrayList<>();
+    private List<ContractDTO> listOfContracts = new ArrayList<>();
     private boolean isActive = true;
-    private List<Option> listOfOptions = new ArrayList<>();
+    private List<OptionDTO> listOfOptions = new ArrayList<>();
 }

@@ -3,7 +3,7 @@ package eCare.services.impl;
 import eCare.dao.impl.OptionDaoImpl;
 import eCare.model.dto.OptionDTO;
 import eCare.model.enitity.Option;
-import eCare.model.converters.OptionEntityToOptionDTOConverter;
+import eCare.model.converters.OptionMapper;
 import eCare.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,7 @@ public class OptionServiceImpl implements OptionService {
     private OptionDaoImpl optionDaoImpl;
 
     @Autowired
-    private OptionEntityToOptionDTOConverter optionEntityToOptionDTOConverter;
+    private OptionMapper optionMapper;
 
     @Override
     public void save(Option option){
@@ -38,11 +38,11 @@ public class OptionServiceImpl implements OptionService {
 
     public OptionDTO getOptionDTOByName(String optionName) {
         Option option = this.getOptionByName(optionName).get(0);
-        return optionEntityToOptionDTOConverter.convertToDto(option);
+        return optionMapper.toDTO(option);
     }
 
     public Option convertDTOtoEntity(OptionDTO optionDTO){
-        return optionEntityToOptionDTOConverter.convertDTOtoEntity(optionDTO);
+        return optionMapper.toEntity(optionDTO);
     }
 
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
 
@@ -12,9 +13,11 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
+    private Long user_id;
     private String login;
     private String firstname;
     private String secondname;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateOfBirth;
     private Long passportInfo;
     private String address;

@@ -15,12 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OptionDTO {
+    private Long option_id;
     private String name;
     private Integer price;
     private Integer connectionCost;
     private String shortDiscription;
     private boolean isActive = true;
-    private List<Tariff> tariffsOptions = new ArrayList<>();
-    private List<Option> incompatibleOptionsList = new ArrayList<>();
-    private List<Option> obligatoryOptionsList = new ArrayList<>();
+    private List<TariffDTO> tariffsOptions = new ArrayList<>();
+    private List<OptionDTO> incompatibleOptionsList = new ArrayList<>();
+    private List<OptionDTO> obligatoryOptionsList = new ArrayList<>();
 }

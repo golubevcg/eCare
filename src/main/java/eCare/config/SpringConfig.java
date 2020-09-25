@@ -1,5 +1,7 @@
 package eCare.config;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 
 @Configuration
 @ComponentScan("eCare")
@@ -44,13 +48,23 @@ public class SpringConfig implements WebMvcConfigurer {
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
-
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
         source.setBasename("/WEB-INF/validation");
         source.setDefaultEncoding("UTF-8");
         source.setFallbackToSystemLocale(false);
 
         return source;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setFieldMatchingEnabled(true)
+                .setSkipNullEnabled(true)
+                .setFieldAccessLevel(PRIVATE);
+        return mapper;
     }
 
 }

@@ -46,20 +46,25 @@ public class RegistrationPageController {
     @GetMapping("/userRegistration")
     public String getUserRegistration(Model model){
         model.addAttribute("userForm", new UserDTO());
-        model.addAttribute("tariffsList", tarifService.getAllTariffs());
-        model.addAttribute("contractDTO", new ContractDTO());
+//        model.addAttribute("tariffsList", tarifService.getAllTariffs());
+//        model.addAttribute("contractDTO", new ContractDTO());
         return "userRegistration";
     }
 
     @PostMapping("/userRegistration")
-    public String postRegistration(Model model, BindingResult bindingResult,
+    public String postRegistration(Model model,
                                    @ModelAttribute("userForm") UserDTO userForm,
+                                   BindingResult userFormBindingResult,
                                    @RequestParam("roleCheckbox") String roleCheckbox,
                                    @ModelAttribute("contractDTO") ContractDTO contractDTO,
-                                   @ModelAttribute("tariffsList") List<TariffDTO> tariffsDtoList){
+                                   BindingResult contractDTObindingResult
+//                                   @ModelAttribute("tariffsList") List<TariffDTO> tariffsDtoList
+    ){
+        System.out.println("++++++++++++++++++++++++++");
+        System.out.println(contractDTO.getContractNumber());
 
-        userValidator.validate(userForm, bindingResult);
-        contractValidator.validate(contractDTO, bindingResult);
+        userValidator.validate(userForm, userFormBindingResult);
+//        contractValidator.validate(contractDTO, contractDTObindingResult);
         contractDTO.setUser(userForm);
         userForm.addContractDTO(contractDTO);
 
@@ -71,7 +76,7 @@ public class RegistrationPageController {
             userForm.setRoles(rolesDTOHashSet);
         }
 
-        if(bindingResult.hasErrors()){
+        if(userFormBindingResult.hasErrors()){
             return "userRegistration";
         }
         userServiceImpl.convertDtoAndSave(userForm);

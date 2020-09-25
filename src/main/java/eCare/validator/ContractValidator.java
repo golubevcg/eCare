@@ -25,11 +25,11 @@ public class ContractValidator implements Validator{
         ContractDTO contractDTO = (ContractDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "contractNumber", "Required");
-        if(!contractDTO.getContractNumber().matches("[+]*([0-9]{11})")){
+        if(contractDTO.getContractNumber()!=null & !contractDTO.getContractNumber().matches("[+]*([0-9]{11})")){
             errors.rejectValue("contractNumber", "Pattern.contractDTO.contractNumber");
         }
 
-        if(contractService.getContractByNumber(contractDTO.getContractNumber() ).size()>0){
+        if(!contractDTO.getContractNumber().isEmpty() & contractService.getContractByNumber(contractDTO.getContractNumber() ).size()>0){
             errors.rejectValue("contractNumber", "Duplicate.contractDTO.contractNumber");
         }
 

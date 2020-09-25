@@ -3,7 +3,7 @@ package eCare.services.impl;
 import eCare.dao.impl.ContractDaoImpl;
 import eCare.model.dto.ContractDTO;
 import eCare.model.enitity.Contract;
-import eCare.model.converters.ContractEntityToContractDTOConverter;
+import eCare.model.converters.ContractMapper;
 import eCare.services.api.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class ContractServiceImpl implements ContractService {
     ContractDaoImpl contractDaoImpl;
 
     @Autowired
-    ContractEntityToContractDTOConverter contractEntityToContractDTOConverter;
+    ContractMapper contractMapper;
 
     @Override
     public void save(Contract contract) {
@@ -41,11 +41,11 @@ public class ContractServiceImpl implements ContractService {
 
     public ContractDTO getContractDTOByNumber(String number) {
         Contract contract = this.getContractByNumber(number).get(0);
-        return contractEntityToContractDTOConverter.convertToDto(contract);
+        return contractMapper.toDTO(contract);
     }
 
     public Contract convertDTOtoEntity(ContractDTO contractDTO){
-        return contractEntityToContractDTOConverter.convertDTOtoEntity(contractDTO);
+        return contractMapper.toEntity(contractDTO);
     }
 
 }

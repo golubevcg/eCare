@@ -174,17 +174,17 @@
 
         <h3 class="display-4" id="ContractLabel">Контракт</h3>
 
-        <form:form method="POST" modelAttribute="contractDTO" class="form-signin">
+<%--        <form:form method="POST" modelAttribute="contractDTO" class="form-signin">--%>
 
 <%--            <spring:bind path="contractNumber">--%>
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="contractNumber" class="form-control" type="text" id="defaultForm"
-                                style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7ХХХХХХХХХХ"></form:input>
-                    <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
+                    <input path="contractNumber" class="form-control" type="text" id="defaultForm" name="contractNumberForm"
+                                style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7ХХХХХХХХХХ"></input>
+                    <form:errors path="contractNumber" id="errorsLabel"></form:errors>
                 </div>
 <%--            </spring:bind>--%>
 
-        </form:form>
+<%--        </form:form>--%>
 
 
 <%--        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">--%>

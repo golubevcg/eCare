@@ -3,7 +3,7 @@ package eCare.services.impl;
 import eCare.dao.api.TarifDao;
 import eCare.model.dto.TariffDTO;
 import eCare.model.enitity.Tariff;
-import eCare.model.converters.TariffEntityToTariffDtoConverter;
+import eCare.model.converters.TariffMapper;
 import eCare.services.api.TarifService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class TariffServiceImpl implements TarifService {
     private TarifDao tarifDaoImpl;
 
     @Autowired
-    TariffEntityToTariffDtoConverter tariffEntityToTariffDtoConverter;
+    TariffMapper tariffMapper;
 
     @Override
     public void save(Tariff tarif) { tarifDaoImpl.save(tarif); }
@@ -42,19 +42,19 @@ public class TariffServiceImpl implements TarifService {
     public List<TariffDTO> getAllTariffs() {
         return tarifDaoImpl.getAllTariffs()
                 .stream()
-                .map(tariff->tariffEntityToTariffDtoConverter.convertToDto(tariff))
+                .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
     }
 
     @Override
     public TariffDTO getTariffDTOByTarifname(String name){
         Tariff tariff = this.getTariffByTariffName(name).get(0);
-        return tariffEntityToTariffDtoConverter.convertToDto(tariff);
+        return tariffMapper.toDTO(tariff);
     }
 
     @Override
     public Tariff convertDtoToEntity(TariffDTO tariffDto){
-        return tariffEntityToTariffDtoConverter.convertDTOtoEntity(tariffDto);
+        return tariffMapper.toEntity(tariffDto);
     }
 
 }

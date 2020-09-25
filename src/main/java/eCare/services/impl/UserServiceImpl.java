@@ -4,7 +4,7 @@ import eCare.dao.impl.RoleDaoImpl;
 import eCare.dao.impl.UserDaoImpl;
 import eCare.model.dto.UserDTO;
 import eCare.model.enitity.User;
-import eCare.model.converters.UserEntityToUserDTOConverter;
+import eCare.model.converters.UserMapper;
 import eCare.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     RoleDaoImpl roleDaoImpl;
 
     @Autowired
-    UserEntityToUserDTOConverter userEntityToUserDTOConverter;
+    UserMapper userMapper;
 
     @Override
     public void save(User user){
@@ -44,17 +44,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserDTOByLogin(String login){
         User user = this.getUserByLogin(login).get(0);
-        return  userEntityToUserDTOConverter.convertToDto(user);
+        return  userMapper.toDTO(user);
     }
 
     @Override
     public User convertDTOtoEntity(UserDTO userDTO){
-        return userEntityToUserDTOConverter.convertDTOtoEntity(userDTO);
+        return userMapper.toEntity(userDTO);
     }
 
     @Override
     public void convertDtoAndSave(UserDTO userDTO){
 
-        userDaoImpl.save(userEntityToUserDTOConverter.convertDTOtoEntity(userDTO));
+        userDaoImpl.save(userMapper.toEntity(userDTO));
     }
 }
