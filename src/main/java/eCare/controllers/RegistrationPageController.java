@@ -1,10 +1,9 @@
 package eCare.controllers;
 
 import eCare.model.dto.*;
-import eCare.services.api.TarifService;
-import eCare.services.api.UserService;
-import eCare.services.impl.ContractServiceImpl;
-import eCare.validator.UserContractValidator;
+import eCare.services.impl.TariffServiceImpl;
+import eCare.services.impl.UserServiceImpl;
+import eCare.validator.UserContractDTOValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,20 +22,21 @@ public class RegistrationPageController {
     static final Logger log = Logger.getLogger(RegistrationPageController.class);
 
     @Autowired
-    private UserService userServiceImpl;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    private TarifService tarifService;
+    private TariffServiceImpl tariffService;
 
     @Autowired
-    private ContractServiceImpl contractServiceImpl;
+    private UserContractDTOValidator userValidator;
 
-    @Autowired
-    private UserContractValidator userValidator;
-
-    @GetMapping("/userRegistration")
+    @GetMapping(value = "/userRegistration", produces = "text/plain;charset=UTF-8")
     public String getUserRegistration(Model model){
         model.addAttribute("userForm", new UserContractDTO());
+        model.addAttribute("listOfTariffs", tariffService.getActiveTariffs());
+
+        System.out.println(tariffService.getActiveTariffs().get(0).getName());
+
         return "userRegistration";
     }
 
@@ -44,7 +44,10 @@ public class RegistrationPageController {
     public String postRegistration(Model model,
                                    @ModelAttribute("userForm") UserContractDTO userForm,
                                    BindingResult userFormBindingResult,
-                                   @RequestParam(required=false , name = "roleCheckbox") String roleCheckbox){
+                                   @RequestParam(required=false , name = "roleCheckbox") String roleCheckbox,
+                                   @RequestParam(required=false , name = "selectedTariff") String selectedTariff){
+
+        System.out.println("SELECTED TARIFF: " + selectedTariff);
 
         userValidator.validate(userForm, userFormBindingResult);
 
@@ -70,6 +73,7 @@ public class RegistrationPageController {
         }
 
         userServiceImpl.convertDtoAndSave(userDTO);
+
 
         return "workerOffice";
     }

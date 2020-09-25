@@ -14,7 +14,7 @@ import org.springframework.validation.Validator;
 import java.util.Objects;
 
 @Component
-public class UserContractValidator implements Validator {
+public class UserContractDTOValidator implements Validator {
 
     @Autowired
     UserServiceImpl userServiceImpl;
@@ -32,7 +32,7 @@ public class UserContractValidator implements Validator {
         UserContractDTO user = (UserContractDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Required");
-        if( user.getLogin()!=null & 6 > user.getLogin().length()){
+        if( !Objects.isNull(user.getLogin()) & 6 > user.getLogin().length()){
             errors.rejectValue("login", "Size.userForm.login");
         }
 
@@ -58,7 +58,7 @@ public class UserContractValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");
-        if( user.getAddress()!=null & 8 > user.getAddress().length()){
+        if( !Objects.isNull(user.getAddress()) & 8 > user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
         }
 

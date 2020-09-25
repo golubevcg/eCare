@@ -10,4 +10,5 @@ public interface TarifDao {
     void delete(Tariff tarif);
     List<Tariff> getTariffByTariffName(String tarifName);
     List<Tariff> getAllTariffs();
+    List<Tariff> getActiveTariffs();
 }

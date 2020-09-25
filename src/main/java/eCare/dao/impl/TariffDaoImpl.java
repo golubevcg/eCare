@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class TarifDaoImpl implements TarifDao {
+public class TariffDaoImpl implements TarifDao {
 
     @Override
     public void save(Tariff tarif) {
@@ -63,6 +63,17 @@ public class TarifDaoImpl implements TarifDao {
         Transaction transaction = session.beginTransaction();
         List<Tariff> listOfTarifs = session.createQuery(
                 "select t from Tariff t", Tariff.class).list();
+        transaction.commit();
+        session.close();
+        return listOfTarifs;
+    }
+
+    @Override
+    public List<Tariff> getActiveTariffs() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Tariff> listOfTarifs = session.createQuery(
+                "select t from Tariff t where isactive='true'", Tariff.class).list();
         transaction.commit();
         session.close();
         return listOfTarifs;

@@ -4,7 +4,7 @@ import eCare.model.dto.TariffDTO;
 import eCare.model.enitity.Tariff;
 import java.util.List;
 
-public interface TarifService {
+public interface TariffService {
     void save(Tariff tarif);
     void update(Tariff tarif);
     void delete(Tariff tarif);
@@ -12,4 +12,5 @@ public interface TarifService {
     Object getAllTariffs();
     TariffDTO getTariffDTOByTarifname(String name);
     Tariff convertDtoToEntity(TariffDTO tariffDto);
+    List<Tariff> getActiveTariffs();
 }

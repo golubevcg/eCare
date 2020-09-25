@@ -4,7 +4,7 @@ import eCare.dao.api.TarifDao;
 import eCare.model.dto.TariffDTO;
 import eCare.model.enitity.Tariff;
 import eCare.model.converters.TariffMapper;
-import eCare.services.api.TarifService;
+import eCare.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class TariffServiceImpl implements TarifService {
+public class TariffServiceImpl implements TariffService {
 
     @Autowired
     private TarifDao tarifDaoImpl;
@@ -55,6 +55,11 @@ public class TariffServiceImpl implements TarifService {
     @Override
     public Tariff convertDtoToEntity(TariffDTO tariffDto){
         return tariffMapper.toEntity(tariffDto);
+    }
+
+    @Override
+    public List<Tariff> getActiveTariffs() {
+        return tarifDaoImpl.getActiveTariffs();
     }
 
 }

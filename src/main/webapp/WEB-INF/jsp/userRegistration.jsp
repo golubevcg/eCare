@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--<c:url var="findProductForCat" value="/products_ajax.do" />--%>
+
 
 <html lang="en">
 <head>
@@ -173,31 +175,26 @@
             <span class="checkmark" style="margin-top:12px;"></span>
         </label>
 
-        <h3 class="display-4" id="ContractLabel">Контракт</h3>
+
+        <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
+                name="selectedTariff">
+            <c:forEach items="${listOfTariffs}" var="tariff">
+                <option>${tariff.name}</option>
+            </c:forEach>
+        </select>
 
 
+        <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px">
+            <option>Дополнительные Опции</option>
+        </select>
 
-        <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both;">Зарегистрировать</input>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both;"></input>
 
 
         </form:form>
 
 
 
-
-
-
-
-
-    <%--        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">--%>
-
-        <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;">
-            <option>Тариф</option>
-        </select>
-
-        <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px">
-            <option>Дополнительные Опции</option>
-        </select>
 
     </div>
     <div class="col"></div>
