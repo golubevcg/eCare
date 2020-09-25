@@ -1,20 +1,12 @@
 package eCare.controllers;
 
-import eCare.model.dto.ContractDTO;
-import eCare.model.dto.RoleDTO;
-import eCare.model.dto.TariffDTO;
-import eCare.model.dto.UserDTO;
-import eCare.model.enitity.Contract;
-import eCare.model.enitity.User;
+import eCare.model.dto.*;
 import eCare.services.api.TarifService;
 import eCare.services.api.UserService;
-import eCare.services.impl.UserServiceImpl;
-import eCare.validator.ContractValidator;
-import eCare.validator.UserValidator;
+import eCare.services.impl.ContractServiceImpl;
+import eCare.validator.UserContractValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
-import java.util.List;
 
 @Controller
 public class RegistrationPageController {
@@ -38,48 +29,47 @@ public class RegistrationPageController {
     private TarifService tarifService;
 
     @Autowired
-    private UserValidator userValidator;
+    private ContractServiceImpl contractServiceImpl;
 
     @Autowired
-    private ContractValidator contractValidator;
+    private UserContractValidator userValidator;
 
     @GetMapping("/userRegistration")
     public String getUserRegistration(Model model){
-        model.addAttribute("userForm", new UserDTO());
-//        model.addAttribute("tariffsList", tarifService.getAllTariffs());
-//        model.addAttribute("contractDTO", new ContractDTO());
+        model.addAttribute("userForm", new UserContractDTO());
         return "userRegistration";
     }
 
     @PostMapping("/userRegistration")
     public String postRegistration(Model model,
-                                   @ModelAttribute("userForm") UserDTO userForm,
+                                   @ModelAttribute("userForm") UserContractDTO userForm,
                                    BindingResult userFormBindingResult,
-                                   @RequestParam("roleCheckbox") String roleCheckbox,
-                                   @ModelAttribute("contractDTO") ContractDTO contractDTO,
-                                   BindingResult contractDTObindingResult
-//                                   @ModelAttribute("tariffsList") List<TariffDTO> tariffsDtoList
-    ){
-        System.out.println("++++++++++++++++++++++++++");
-        System.out.println(contractDTO.getContractNumber());
+                                   @RequestParam(required=false , name = "roleCheckbox") String roleCheckbox){
 
         userValidator.validate(userForm, userFormBindingResult);
-//        contractValidator.validate(contractDTO, contractDTObindingResult);
-        contractDTO.setUser(userForm);
+
+        ContractDTO contractDTO = userForm.getContractDTO();
+        UserDTO userDTO = userForm.getUserDTO();
+
+        contractDTO.setUser(userDTO);
         userForm.addContractDTO(contractDTO);
 
-        if(roleCheckbox.equals(true)){
-            RoleDTO roleDTO = new RoleDTO();
+        RoleDTO roleDTO = new RoleDTO();
+        HashSet<RoleDTO> rolesDTOHashSet = new HashSet<>();
+
+        if( roleCheckbox!=null){
             roleDTO.setRolename("ADMIN");
-            HashSet<RoleDTO> rolesDTOHashSet = new HashSet<>();
             rolesDTOHashSet.add(roleDTO);
-            userForm.setRoles(rolesDTOHashSet);
+        }else{
+            roleDTO.setRolename("USER");
+            rolesDTOHashSet.add(roleDTO);
         }
 
         if(userFormBindingResult.hasErrors()){
             return "userRegistration";
         }
-        userServiceImpl.convertDtoAndSave(userForm);
+
+        userServiceImpl.convertDtoAndSave(userDTO);
 
         return "workerOffice";
     }

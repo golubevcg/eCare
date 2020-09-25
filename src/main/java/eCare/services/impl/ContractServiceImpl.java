@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ContractServiceImpl implements ContractService {
@@ -39,13 +40,21 @@ public class ContractServiceImpl implements ContractService {
         return contractDaoImpl.getContractByNumber(number);
     }
 
-    public ContractDTO getContractDTOByNumber(String number) {
-        Contract contract = this.getContractByNumber(number).get(0);
-        return contractMapper.toDTO(contract);
+    public List<ContractDTO> getContractDTOByNumber(String number) {
+        return this.getContractByNumber(number)
+                .stream()
+                .map(c->contractMapper.toDTO(c))
+                .collect(Collectors.toList());
     }
+
+
 
     public Contract convertDTOtoEntity(ContractDTO contractDTO){
         return contractMapper.toEntity(contractDTO);
+    }
+
+    public void convertToEntityAndSave(ContractDTO contractDTO){
+        this.save(contractMapper.toEntity(contractDTO));
     }
 
 }

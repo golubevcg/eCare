@@ -85,7 +85,7 @@
     <div class="col"></div>
     <div class="col-5">
 
-        <form:form method="POST" modelAttribute="userForm" class="form-signin">
+        <form:form method="POST" modelAttribute="userForm" class="form-signin" id="userDTOInputForm">
 
             <spring:bind path="firstname" >
                 <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -160,34 +160,36 @@
                 </div>
             </spring:bind>
 
+            <spring:bind path="contractNumber">
+                <div class="form-group ${status.error ? 'has-error' : ''}">
+                    <form:input path="contractNumber" class="form-control" type="number" id="defaultForm"
+                                style="width:40%;" placeholder="+7XXXXXXXXXX"></form:input>
+                    <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
+                </div>
+            </spring:bind>
+
         <label class="container" id="labelCheckboxContainer">Сотрудник компании
             <input type="checkbox" name="roleCheckbox" value="true">
             <span class="checkmark" style="margin-top:12px;"></span>
         </label>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%">Зарегистрировать</button>
+        <h3 class="display-4" id="ContractLabel">Контракт</h3>
+
+
+
+        <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both;">Зарегистрировать</input>
+
 
         </form:form>
 
 
 
 
-        <h3 class="display-4" id="ContractLabel">Контракт</h3>
-
-<%--        <form:form method="POST" modelAttribute="contractDTO" class="form-signin">--%>
-
-<%--            <spring:bind path="contractNumber">--%>
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <input path="contractNumber" class="form-control" type="text" id="defaultForm" name="contractNumberForm"
-                                style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7ХХХХХХХХХХ"></input>
-                    <form:errors path="contractNumber" id="errorsLabel"></form:errors>
-                </div>
-<%--            </spring:bind>--%>
-
-<%--        </form:form>--%>
 
 
-<%--        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">--%>
+
+
+    <%--        <input class="form-control" type="text" id="defaultForm" style="width:40%; margin-bottom:15px;margin-top:0px;" placeholder="+7-ХХХ-ХХХ-ХХ-ХХ">--%>
 
         <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;">
             <option>Тариф</option>

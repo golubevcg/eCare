@@ -1,7 +1,9 @@
 package eCare.validator;
 
+import eCare.model.dto.UserContractDTO;
 import eCare.model.dto.UserDTO;
 import eCare.model.enitity.User;
+import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,11 +11,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.Objects;
+
 @Component
-public class UserValidator implements Validator {
+public class UserContractValidator implements Validator {
 
     @Autowired
     UserServiceImpl userServiceImpl;
+
+    @Autowired
+    ContractServiceImpl contractServiceImpl;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -22,10 +29,10 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        UserDTO user = (UserDTO) o;
+        UserContractDTO user = (UserContractDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Required");
-        if( 6 > user.getLogin().length() && !user.getLogin().isEmpty() ){
+        if( user.getLogin()!=null & 6 > user.getLogin().length()){
             errors.rejectValue("login", "Size.userForm.login");
         }
 
@@ -34,25 +41,33 @@ public class UserValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
-        if( 6 > user.getPassword().length() && !user.getPassword().isEmpty() ){
+        if(  !Objects.isNull(user.getPassword()) &  6 > user.getPassword().length() ){
             errors.rejectValue("password", "Size.userForm.password");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "Required");
-        if( !user.getConfirmPassword().equals(user.getPassword()) && user.getConfirmPassword()!=null ){
+        if( !Objects.isNull(user.getPassword()) & !user.getConfirmPassword().equals(user.getPassword())){
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Required");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
-        if( 6 > user.getConfirmPassword().length() && !user.getConfirmPassword().isEmpty()){
+        if( !Objects.isNull(user.getConfirmPassword()) &  6 > user.getConfirmPassword().length()){
             errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");
-        if( 8 > user.getAddress().length() && !user.getAddress().isEmpty()){
+        if( user.getAddress()!=null & 8 > user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
+        }
+
+        if( !Objects.isNull(user.getContractNumber()) & !user.getContractNumber().matches("[+]*([0-9]{11})")){
+            errors.rejectValue("contractNumber", "Pattern.contractDTO.contractNumber");
+        }
+
+        if(contractServiceImpl.getContractDTOByNumber(user.getContractNumber()).size()>0){
+            errors.rejectValue("login", "Duplicate.contractDTO.contractNumber");
         }
 
     }

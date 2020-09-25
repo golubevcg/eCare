@@ -32,4 +32,15 @@ public class UserDTO {
         listOfContracts.add(contractDTO);
     }
 
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "login='" + login + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", secondname='" + secondname + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", roles=" + roles +
+                '}';
+    }
 }

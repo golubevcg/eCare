@@ -19,4 +19,12 @@ public class ContractDTO {
     private UserDTO user;
     private TariffDTO tariff;
     private boolean isActive = true;
+
+    public String getContractNumber() {
+        return contractNumber;
+    }
+
+    public void setContractNumber(String contractNumber) {
+        this.contractNumber = contractNumber;
+    }
 }

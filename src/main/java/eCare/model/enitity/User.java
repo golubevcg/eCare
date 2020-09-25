@@ -83,4 +83,15 @@ public class User {
         return getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getRolename())).collect(Collectors.toSet());
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", secondname='" + secondname + '\'' +
+                ", password='" + password + '\'' +
+                ", isActive=" + isActive +
+                ", roles=" + roles +
+                '}';
+    }
 }

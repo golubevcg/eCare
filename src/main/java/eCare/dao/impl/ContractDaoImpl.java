@@ -47,7 +47,7 @@ public class ContractDaoImpl implements ContractDao {
 
         List<Contract> contractsList = session.createQuery(
                 "select c " +
-                        "from ContractDTO c " +
+                        "from Contract c " +
                         "where c.contractNumber = :num", Contract.class)
                 .setParameter("num", number).list();
 
