@@ -9,15 +9,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/styles/registration.css">
 </head>
 
-<script src="/resources/js/jquery-1.7.1.min.js"></script>
+<!--for dropdown menus scripts-->
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"
+        integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
+<%--<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>--%>
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('tariffsList').on('change', function(){
+        $('#tariffsList').on('change', function()
+        {
             var selectedTariff = $(this).val();
             $.ajax({
                 type: 'GET',
@@ -113,7 +123,7 @@
 
             <spring:bind path="firstname" >
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="firstname" class="form-control" type="text" id="defaultForm"
+                    <form:input path="firstname" class="form-control defaultForm" type="text"
                                 style="width:40%; margin-top:-20px;" placeholder="Имя"></form:input>
                     <form:errors path="firstname" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -121,7 +131,7 @@
 
             <spring:bind path="secondname">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="secondname" class="form-control" type="text" id="defaultForm"
+                    <form:input path="secondname" class="form-control defaultForm" type="text"
                                 style="width:40%;" placeholder="Фамилия"></form:input>
                     <form:errors path="secondname" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -129,7 +139,7 @@
 
             <spring:bind path="dateOfBirth">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <input path="dateOfBirth" class="form-control" type="date" dataformatas="yyyy-MM-dd" id="defaultForm" name="dateOfBirth"
+                    <input path="dateOfBirth" class="form-control defaultForm" type="date" dataformatas="yyyy-MM-dd" name="dateOfBirth"
                            style="width:25%;" placeholder="Дата рождения"></input>
                     <form:errors path="dateOfBirth" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -138,7 +148,7 @@
 
             <spring:bind path="passportInfo">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="passportInfo" class="form-control" type="number" id="defaultForm"
+                    <form:input path="passportInfo" class="form-control defaultForm" type="number"
                                 style="width:40%;" placeholder="Паспортные данные"></form:input>
                     <form:errors path="passportInfo" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -146,7 +156,7 @@
 
             <spring:bind path="address">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="address" class="form-control" type="text" id="defaultForm"
+                    <form:input path="address" class="form-control defaultForm" type="text"
                                 style="width:57%;" placeholder="Адрес"></form:input>
                     <form:errors path="address" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -154,7 +164,7 @@
 
             <spring:bind path="email">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="email" class="form-control" type="text" id="defaultForm"
+                    <form:input path="email" class="form-control defaultForm" type="text"
                                 style="width:40%;" placeholder="Электронная почта"></form:input>
                     <form:errors path="email" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -162,7 +172,7 @@
 
             <spring:bind path="login">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="login" class="form-control" type="text" id="defaultForm"
+                    <form:input path="login" class="form-control defaultForm" type="text"
                                 style="width:40%;" placeholder="Логин"></form:input>
                     <form:errors path="login" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -170,7 +180,7 @@
 
             <spring:bind path="password">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="password" class="form-control" type="password" id="defaultForm"
+                    <form:input path="password" class="form-control defaultForm" type="password"
                                 style="width:40%;" placeholder="Пароль"></form:input>
                     <form:errors path="password" id="errorsLabel" class="label"></form:errors>
                 </div>
@@ -178,7 +188,7 @@
 
             <spring:bind path="confirmPassword">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="confirmPassword" class="form-control" type="password" id="defaultForm"
+                    <form:input path="confirmPassword" class="form-control defaultForm" type="password"
                                 style="width:40%;" placeholder="Подтвердите пароль"></form:input>
                     <form:errors path="confirmPassword" id="errorsLabel" ></form:errors>
                 </div>
@@ -186,7 +196,7 @@
 
             <spring:bind path="contractNumber">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input path="contractNumber" class="form-control" type="number" id="defaultForm"
+                    <form:input path="contractNumber" class="form-control defaultForm" type="number"
                                 style="width:40%;" placeholder="+7XXXXXXXXXX"></form:input>
                     <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
                 </div>
@@ -198,18 +208,29 @@
         </label>
 
 
+        <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; padding-left:0;">Выберите тариф:</label>
+
         <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
-                name="selectedTariff" id="tariffsList" onchange="chf()">
+                name="selectedTariff" id="tariffsList">
             <c:forEach items="${listOfTariffs}" var="tariff">
-                <option>${tariff.name}</option>
+
+                <c:choose>
+                    <c:when test="${tariff.name eq selectedTariff}">
+                        <option selected>${tariff.name}</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option>${tariff.name}</option>
+                    </c:otherwise>
+                </c:choose>
+
             </c:forEach>
         </select>
 
+        <label class="container" id="labelCheckboxContainer" style="float:left; padding-left:0;">Выберите дополнительные опции:</label>
 
         <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px" id="optionsList">
 <%--            <option>Дополнительные Опции</option>--%>
         </select>
-
 
 
 
@@ -229,10 +250,6 @@
 
 
 
-<!--for dropdown menus scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 
 <footer>

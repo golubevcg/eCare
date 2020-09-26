@@ -2,6 +2,7 @@ package eCare.controllers;
 
 import com.google.gson.Gson;
 import eCare.model.dto.*;
+import eCare.model.enitity.Option;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
 import eCare.services.impl.UserServiceImpl;
@@ -13,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Controller
 public class RegistrationPageController {
@@ -49,6 +52,7 @@ public class RegistrationPageController {
         System.out.println("SELECTED TARIFF: " + selectedTariff);
 
         model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
+        model.addAttribute("selectedTariff", selectedTariff);
 
         userValidator.validate(userForm, userFormBindingResult);
 
@@ -80,13 +84,19 @@ public class RegistrationPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
+    @RequestMapping(value = "/userRegistration/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
     public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
         Gson gson = new Gson();
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("selectedTariff" + selectedTariff);
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println(tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions().get(0).getName());
+        List<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions();
+
+
+        System.out.println("optionList.size("+optionList.size()+")");
+        System.out.println("\n\nJSON:\n\n");
+        System.out.println(gson.toJson(optionList));
+
         return gson.toJson(
                 tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions()
         );
