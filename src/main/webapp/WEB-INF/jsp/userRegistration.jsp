@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--<c:url var="findProductForCat" value="/products_ajax.do" />--%>
 
 
 <html lang="en">
@@ -13,6 +12,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/styles/registration.css">
 </head>
+
+<script src="/resources/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('tariffsList').on('change', function(){
+            var selectedTariff = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '${pageContext.request.contextPath }/userRegistration/loadOptionByTariff/' + selectedTariff,
+                success: function(result){
+                    var result = JSON.parse(result);
+                    var s = '';
+                    for(var i = 0; i < result.length; i++){
+                        s+='<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                    }
+                    $('#optionsList').html(s);
+                }
+            });
+        });
+    });
+
+</script>
 
 <body>
 <div class="row" style="margin-top:10px;">
@@ -177,16 +199,20 @@
 
 
         <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
-                name="selectedTariff">
+                name="selectedTariff" id="tariffsList" onchange="chf()">
             <c:forEach items="${listOfTariffs}" var="tariff">
                 <option>${tariff.name}</option>
             </c:forEach>
         </select>
 
 
-        <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px">
-            <option>Дополнительные Опции</option>
+        <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px" id="optionsList">
+<%--            <option>Дополнительные Опции</option>--%>
         </select>
+
+
+
+
 
         <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both;"></input>
 

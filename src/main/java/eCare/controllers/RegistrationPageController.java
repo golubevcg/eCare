@@ -1,6 +1,8 @@
 package eCare.controllers;
 
+import com.google.gson.Gson;
 import eCare.model.dto.*;
+import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import eCare.validator.UserContractDTOValidator;
@@ -9,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 
@@ -25,18 +24,18 @@ public class RegistrationPageController {
     private UserServiceImpl userServiceImpl;
 
     @Autowired
-    private TariffServiceImpl tariffService;
+    private TariffServiceImpl tariffServiceImpl;
 
     @Autowired
     private UserContractDTOValidator userValidator;
 
+    @Autowired
+    private OptionServiceImpl optionServiceImpl;
+
     @GetMapping(value = "/userRegistration", produces = "text/plain;charset=UTF-8")
     public String getUserRegistration(Model model){
         model.addAttribute("userForm", new UserContractDTO());
-        model.addAttribute("listOfTariffs", tariffService.getActiveTariffs());
-
-        System.out.println(tariffService.getActiveTariffs().get(0).getName());
-
+        model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
         return "userRegistration";
     }
 
@@ -76,6 +75,19 @@ public class RegistrationPageController {
 
 
         return "workerOffice";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
+    public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
+        Gson gson = new Gson();
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("selectedTariff" + selectedTariff);
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println(tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions().get(0).getName());
+        return gson.toJson(
+                tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions()
+        );
     }
 
 }

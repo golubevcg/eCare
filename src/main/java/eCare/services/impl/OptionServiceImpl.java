@@ -6,9 +6,11 @@ import eCare.model.enitity.Option;
 import eCare.model.converters.OptionMapper;
 import eCare.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class OptionServiceImpl implements OptionService {
 
     @Autowired
