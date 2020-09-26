@@ -48,6 +48,8 @@ public class RegistrationPageController {
 
         System.out.println("SELECTED TARIFF: " + selectedTariff);
 
+        model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
+
         userValidator.validate(userForm, userFormBindingResult);
 
         ContractDTO contractDTO = userForm.getContractDTO();
