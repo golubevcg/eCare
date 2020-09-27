@@ -32,7 +32,7 @@ public class Tariff {
 
     @OneToMany(targetEntity = Contract.class,
             mappedBy = "tariff",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     private List<Contract> listOfContracts  = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Tariff {
     @Column(name="isactive")
     private boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "tariffs_options",

@@ -27,7 +27,7 @@ public class Contract {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL,
+    @ManyToOne(cascade = CascadeType.MERGE,
                fetch = FetchType.EAGER)
     @JoinColumn(name="tarif_id")
     private Tariff tariff;

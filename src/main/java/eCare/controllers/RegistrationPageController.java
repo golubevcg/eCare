@@ -84,11 +84,6 @@ public class RegistrationPageController {
 
         contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
 
-        System.out.println("++++++++ selected options array:");
-        for (int i = 0; i < selectedOptionsArray.length; i++) {
-            System.out.println(selectedOptionsArray[i]);
-        }
-
         userServiceImpl.convertDtoAndSave(userDTO);
         log.info("New user successfully registered.");
 

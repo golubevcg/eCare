@@ -53,7 +53,7 @@ public class User {
     @Column(name="isactive")
     private boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name="users_roles",
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -61,7 +61,7 @@ public class User {
 
     @OneToMany(targetEntity = Contract.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     private List<Contract> listOfContracts = new ArrayList<>();
 

@@ -36,14 +36,14 @@ public class Option {
     @Column(name="isactive")
     private boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @JoinTable(name= "tariffs_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="tariff_id") })
     private List<Tariff> tariffsOptions = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "incompatible_options",
@@ -51,7 +51,7 @@ public class Option {
             inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })
     private List<Option> incompatibleOptionsList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL,
+    @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "obligatory_options",
