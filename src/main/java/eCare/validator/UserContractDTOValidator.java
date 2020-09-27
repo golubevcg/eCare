@@ -36,7 +36,7 @@ public class UserContractDTOValidator implements Validator {
 
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Required");
-        if( !Objects.isNull(user.getLogin()) & 6 > user.getLogin().length()){
+        if( 6 > user.getLogin().length()){
             errors.rejectValue("login", "Size.userForm.login");
         }
 
@@ -45,28 +45,32 @@ public class UserContractDTOValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
-        if(  !Objects.isNull(user.getPassword()) &  6 > user.getPassword().length() ){
+        if( 6 > user.getPassword().length() ){
             errors.rejectValue("password", "Size.userForm.password");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "Required");
-        if( !Objects.isNull(user.getPassword()) & !user.getConfirmPassword().equals(user.getPassword())){
+        if( !user.getConfirmPassword().equals(user.getPassword())){
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Required");
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
-        if( !Objects.isNull(user.getConfirmPassword()) &  6 > user.getConfirmPassword().length()){
+        if( 6 > user.getConfirmPassword().length()){
             errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
 
+        if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>1){
+            errors.rejectValue("passportInfo", "Dublicate.userForm.passportInfo");
+        }
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");
-        if( user.getAddress()!=null & 8 > user.getAddress().length()){
+        if( 8 > user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
         }
 
-        if( !Objects.isNull(user.getContractNumber()) & !user.getContractNumber().matches("[+]*([0-9]{11})")){
+        if(!user.getContractNumber().matches("[+]*([0-9]{11})")){
             errors.rejectValue("contractNumber", "Pattern.contractDTO.contractNumber");
         }
 

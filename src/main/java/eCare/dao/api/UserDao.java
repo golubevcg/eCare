@@ -9,4 +9,5 @@ public interface UserDao {
     void update(User user);
     void delete(User user);
     List<User> getUserByLogin(String login);
+    List<User> getUserDTOByPassportInfo(Long passwordInfo);
 }

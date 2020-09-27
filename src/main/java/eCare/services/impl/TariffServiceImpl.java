@@ -58,8 +58,10 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public List<Tariff> getActiveTariffs() {
-        return tarifDaoImpl.getActiveTariffs();
+    public List<TariffDTO> getActiveTariffs() {
+        return tarifDaoImpl.getActiveTariffs().stream()
+                .map(tariff-> tariffMapper.toDTO(tariff))
+                .collect(Collectors.toList());
     }
 
 }

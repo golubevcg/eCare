@@ -41,6 +41,7 @@
                     $('#optionsList').html(s);
                 }
             });
+            $('.mul-select').val([]);
         });
     });
 
@@ -58,11 +59,12 @@
                     $('#optionsList').html(s);
                 }
             });
+
+
     });
 
     $(document).ready(function(){
         $(".mul-select").select2({
-            // placeholder: ""
             tags: true,
             tokenSeparators: ['/',',',';'," "]
         });
@@ -76,6 +78,7 @@
             x.style.display = "none";
         }
     }
+
 
 </script>
 
@@ -127,7 +130,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Личный кабинет</a>
                 <a class="dropdown-item" href="/userRegistration">Регистрация</a>
-                <a class="dropdown-item" href="<c:url value="/logout" />">Выйти</a>
+                <a class="dropdown-item" href="<c:url value="/logout"/>">Выйти</a>
             </div>
 
         </div>

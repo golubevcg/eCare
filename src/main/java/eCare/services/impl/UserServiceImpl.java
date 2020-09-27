@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -45,6 +46,14 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserDTOByLogin(String login){
         User user = this.getUserByLogin(login).get(0);
         return  userMapper.toDTO(user);
+    }
+
+    @Override
+    public List<UserDTO> getUserDTOByPassportInfo(Long passportInfo) {
+        return userDaoImpl.getUserDTOByPassportInfo(passportInfo)
+                .stream()
+                .map(user->userMapper.toDTO(user))
+                .collect(Collectors.toList());
     }
 
     @Override

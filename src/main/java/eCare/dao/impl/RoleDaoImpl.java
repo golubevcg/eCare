@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Transactional
 public class RoleDaoImpl implements RoleDao {
 
     @Override

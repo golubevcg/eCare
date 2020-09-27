@@ -12,4 +12,5 @@ public interface UserService {
     User convertDTOtoEntity(UserDTO userDTO);
     void convertDtoAndSave(UserDTO userDTO);
     UserDTO getUserDTOByLogin(String login);
+    List<UserDTO> getUserDTOByPassportInfo(Long passportInfo);
 }

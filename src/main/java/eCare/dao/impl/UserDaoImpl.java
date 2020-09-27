@@ -2,6 +2,7 @@ package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
 import eCare.dao.api.UserDao;
+import eCare.model.dto.UserDTO;
 import eCare.model.enitity.Role;
 import eCare.model.enitity.User;
 import org.hibernate.Session;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@Transactional
 public class UserDaoImpl implements UserDao {
 
     @Autowired
@@ -73,13 +73,30 @@ public class UserDaoImpl implements UserDao {
         return listOfUsers;
     }
 
+    @Override
+    public List<User> getUserDTOByPassportInfo(Long passportInfo) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<User> listOfUsers = session.createQuery(
+                "select u " +
+                        "from User u " +
+                        "where u.passportInfo = :passportInfo", User.class)
+                .setParameter( "passportInfo", passportInfo )
+                .list();
+
+        transaction.commit();
+        session.close();
+        return listOfUsers;
+    }
+
     public void checkUserRoles(User user, Session session){
         try {
             Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
                     .getResultList());
             Set<Role> userRolesCheckedSet = new HashSet<>();
 
-            if (allRolesSet.isEmpty()){
+            if(allRolesSet.isEmpty()){
             }else{
                 for (Role role: user.getRoles()) {
                     Role foundedRole = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)

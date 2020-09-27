@@ -1,107 +1,55 @@
 package eCare;
 
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import eCare.dao.impl.OptionDaoImpl;
-import eCare.dao.impl.TariffDaoImpl;
-import eCare.model.enitity.Option;
-import eCare.model.enitity.Tariff;
+import eCare.dao.impl.RoleDaoImpl;
+import eCare.dao.impl.UserDaoImpl;
+import eCare.model.enitity.*;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class Main {
     public static void main(String[] args) {
-//        TariffDaoImpl tariffDao = new TariffDaoImpl();
+
+//        User user = new User();
+//        user.setFirstname("Андрей");
+//        user.setSecondname("Голубев");
 //
-//        Tariff tariff1 = new Tariff();
-//        tariff1.setName("Стандартный");
-//        tariff1.setPrice(100);
-//        tariff1.setShortDiscription("Описание тарифа стандартного");
-//        tariff1.setActive(true);
+//        user.setLogin("agol");
+//        user.setPassword("111111");
 //
-//        Tariff tariff2 = new Tariff();
-//        tariff2.setName("Базовый");
-//        tariff2.setPrice(50);
-//        tariff2.setShortDiscription("Описание тарифа базового");
-//        tariff2.setActive(true);
+//        Contract contract = new Contract();
+//        contract.setContractNumber("+79117684563");
+//        contract.setUser(user);
+//        user.addContract(contract);
 //
-//        Tariff tariff3 = new Tariff();
-//        tariff3.setName("Расширенный");
-//        tariff3.setPrice(200);
-//        tariff3.setShortDiscription("Описание тарифа расширенного");
-//        tariff3.setActive(true);
+//        Tariff tariff = new Tariff();
+//        tariff.setName("Тариф на каждый день");
+//        tariff.setShortDiscription("100 мин/мес, 20Гб интернета");
+//        tariff.setPrice(100);
 //
-//        Tariff tariff4 = new Tariff();
-//        tariff4.setName("СуперРасширенный");
-//        tariff4.setPrice(100);
-//        tariff4.setShortDiscription("Описание тарифа стандартного");
-//        tariff4.setActive(false);
+//        contract.setTariff(tariff);
 //
-        Option option = new Option();
-        option.setConnectionCost(100);
-        option.setPrice(50);
-        option.setName("option1");
-
-        Option option1 = new Option();
-        option1.setConnectionCost(22);
-        option1.setPrice(33);
-        option1.setName("option1");
-
-        Option option2 = new Option();
-        option2.setConnectionCost(44);
-        option2.setPrice(11);
-        option2.setName("option2");
-
-        Option option3 = new Option();
-        option3.setConnectionCost(88);
-        option3.setPrice(55);
-        option3.setName("option3");
-
-        Option option4 = new Option();
-        option4.setConnectionCost(5);
-        option4.setPrice(11);
-        option4.setName("option4");
+//        Option option = new Option();
+//        option.setName("Безлимитные Мессенджеры");
+//        option.setPrice(100);
+//        option.setShortDiscription("Безлимит Telegram, Whatsapp");
 //
-//        tariff1.addOption(option1);
-//        tariff1.addOption(option2);
-//        tariff2.addOption(option3);
-//        tariff3.addOption(option4);
-//        tariff3.addOption(option2);
+//        Option option1 = new Option();
+//        option1.setName("Фильмы и сериалы");
+//        option1.setPrice(200);
+//        option1.setShortDiscription("Подписка на библиотеку Фильмов и сериалов");
 //
-//        tariffDao.save(tariff1);
-//        tariffDao.save(tariff2);
-//        tariffDao.save(tariff3);
-//        tariffDao.save(tariff4);
+//        tariff.addOption(option);
+//        tariff.addOption(option1);
+//
+//        UserDaoImpl userDaoImpl = new UserDaoImpl();
+//        userDaoImpl.save(user);
+//        User user = userDaoImpl.getUserByLogin("agol").get(0);
+//        RoleDaoImpl roleDao = new RoleDaoImpl();
+//        Role role = roleDao.getRoleByRoleName("USER").get(0);
+//
+//        user.addRole(role);
+//        userDaoImpl.update(user);
 
-        OptionDaoImpl optionDao = new OptionDaoImpl();
-        TariffDaoImpl tariffDao = new TariffDaoImpl();
-
-        List<Option> optionList = tariffDao.getTariffByTariffName("Standart").get(0).getListOfOptions();
-        tariffDao.getActiveTariffs();
-
-        List<String> optionListNames = new ArrayList<>();
-
-        for (Option entity: optionList
-             ) {
-            optionListNames.add(entity.getName());
-        }
-        //        optionList.add(option1);
-//        optionList.add(option2);
-//        optionList.add(option3);
-//        optionList.add(option4);
-        System.out.println(optionList.size());
-
-//        Type optionType = new TypeToken<Option>(){}.getType();
-//        Gson gson1 = new Gson();
-//        String jsonOptions = gson1.toJson(optionList, optionType);
-
-//        System.out.println("-------------------------------");
-//        System.out.println("-------------------------------");
-//        System.out.println("-------------------------------");
-//        System.out.println(jsonOptions);
-        System.out.println(new Gson().toJson(optionListNames));
     }
 }

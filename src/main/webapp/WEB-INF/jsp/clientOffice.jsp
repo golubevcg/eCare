@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!--suppress ALL -->
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -58,7 +58,7 @@
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Личный кабинет</a>
-                <a class="dropdown-item" href="#">Выйти</a>
+                <a class="dropdown-item" href="<c:url value="/logout"/>">Выйти</a>
             </div>
 
         </div>
@@ -84,8 +84,8 @@
     <div class="col"></div>
 
     <div class="col-5">
-        <h1 class="display-4" id="numberLabel">+7-911-756-45-46</h1>
-        <h1 class="display-4" id="firstSecondNameLabel">Иванов Иван Иванович</h1>
+        <h1 class="display-4" id="numberLabel">${contractNumber}</h1>
+        <h1 class="display-4" id="firstSecondNameLabel">${firstAndSecondNames}</h1>
     </div>
 
     <div class="col"></div>
@@ -94,18 +94,18 @@
 <div class="row" style="margin-top:15px;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron" id="choosenTarifJumbotron" >
+        <div class="jumbotron" id="choosenTarifJumbotron" style="margin-top:15px;">
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">Выбранный тариф</p>
+                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">${selectedTariff}</p>
             </div>
 
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-size: 20px; float:left;">200 минут <br> 20 Гигабайт<br> Безлимит на Telegram, <br>
+                <p class="lead" style="font-family: MS Shell Dig 2; font-size: 20px; float:left;">${tariffDecription}<br>
                 Viber, WhatsApp</p>
             </div>
 
             <div class="row">
-                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder; font-size: 25px; float:left;">300 руб / месяц</p>
+                <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder; font-size: 25px; float:left;">${tariffPrice}</p>
             </div>
         </div>
     </div>
@@ -165,6 +165,7 @@
                         </label>
                     </div>
                 </div>
+
             </div>
 
             <div class="row">
@@ -185,50 +186,73 @@
                     Тарифные планы</p>
             </div>
 
-            <div class="row">
+            <div class="row" >
                 <div class="col-3">
                     <p class="lead" id="columnDiscriptionLabels">Тариф</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-2">
                     <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-5">
                     <p class="lead" id="columnDiscriptionLabels">Описание</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-1">
                 </div>
 
             </div>
 
-            <hr style="margin-top:-10px;">
+            <hr style="width: 105%; clear:both; margin-left:-17px;">
 
             <div class="row" >
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">Тариф</p>
-                </div>
-
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">100 руб</p>
-                </div>
-
-                <div class="col-4">
-                    <p class="lead" id="columnContentLabels">Описание тарифа</p>
-                </div>
-
-                <div class="col-1">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2" autocomplete="off">  on
-                        </label>
+                <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
+                    <div class="col-3">
+                        <p class="lead" id="columnContentLabels">${tariff.name}</p>
                     </div>
-                </div>
+
+                    <div class="col-2">
+                        <p class="lead" id="columnContentLabels">${tariff.price}</p>
+                    </div>
+
+                    <div class="col-5">
+                        <p class="lead" id="columnContentLabels">${tariff.shortDiscription}</p>
+                    </div>
+
+
+                    <div class="col-1">
+                        <div class="form-check" id="group1">
+                            <c:choose>
+                                <c:when test="${tariff.name eq selectedTariff}">
+                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                                        <input type="checkbox" checked name="group1">
+                                        <span class="slider round" name="group1"></span>
+                                    </label>
+                                </c:when>
+                                <c:otherwise>
+                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                                        <input type="checkbox" name="group1">
+                                        <span class="slider round" name="group1"></span>
+                                    </label>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <c:choose>
+                        <c:when test="${status.last}">
+                        </c:when>
+                        <c:otherwise>
+                            <hr class="rounded">
+                        </c:otherwise>
+                    </c:choose>
+
+                </c:forEach>
+
+
             </div>
+
 
             <div class="row">
             </div>
@@ -308,7 +332,7 @@
         <h1 class="display-4" id="blockNumber">Заблокировать номер</h1>
     </div>
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right; margin-right: 10px;">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
         <label class="btn btn-secondary active">
             <input type="radio" name="options" id="option1" autocomplete="off" checked> off
         </label>

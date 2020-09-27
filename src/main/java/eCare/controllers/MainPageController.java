@@ -15,6 +15,7 @@ public class MainPageController {
 
     @GetMapping("/")
     public String getMain(Model model, String error, String logout) {
+
             if (error != null) {
                 model.addAttribute("error", "Username or password is incorrect.");
             }
