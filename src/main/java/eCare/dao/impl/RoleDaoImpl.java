@@ -6,12 +6,15 @@ import eCare.model.enitity.Role;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Component
+@Service
+@Transactional
 public class RoleDaoImpl implements RoleDao {
 
     @Override

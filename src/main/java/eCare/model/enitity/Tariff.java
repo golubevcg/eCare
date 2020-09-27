@@ -1,6 +1,8 @@
 package eCare.model.enitity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ public class Tariff {
     @OneToMany(targetEntity = Contract.class,
             mappedBy = "tariff",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Contract> listOfContracts  = new ArrayList<>();
 
     @Column(name="isactive")
@@ -39,6 +42,7 @@ public class Tariff {
 
     @ManyToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "tariffs_options",
             joinColumns = { @JoinColumn(name="tariff_id") },
             inverseJoinColumns = { @JoinColumn(name= "option_id") })

@@ -4,7 +4,9 @@ import eCare.model.enitity.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Service;
 
+@Service
 public class HibernateSessionFactoryUtil {
 
     private static SessionFactory sessionFactory;

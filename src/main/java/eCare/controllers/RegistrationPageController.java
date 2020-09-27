@@ -1,7 +1,10 @@
 package eCare.controllers;
 
 import com.google.gson.Gson;
-import eCare.model.dto.*;
+import eCare.model.dto.ContractDTO;
+import eCare.model.dto.RoleDTO;
+import eCare.model.dto.UserContractDTO;
+import eCare.model.dto.UserDTO;
 import eCare.model.enitity.Option;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
@@ -47,11 +50,13 @@ public class RegistrationPageController {
                                    @ModelAttribute("userForm") UserContractDTO userForm,
                                    BindingResult userFormBindingResult,
                                    @RequestParam(required=false , name = "roleCheckbox") String roleCheckbox,
-                                   @RequestParam(required=false , name = "selectedTariff") String selectedTariff){
+                                   @RequestParam(required=false , name = "selectedTariff") String selectedTariff,
+                                   @RequestParam(required = false, name= "selectedOptions") String[] selectedOptionsArray){
 
         System.out.println("SELECTED TARIFF: " + selectedTariff);
 
         model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
+
         model.addAttribute("selectedTariff", selectedTariff);
 
         userValidator.validate(userForm, userFormBindingResult);
@@ -77,7 +82,15 @@ public class RegistrationPageController {
             return "userRegistration";
         }
 
+        contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
+
+        System.out.println("++++++++ selected options array:");
+        for (int i = 0; i < selectedOptionsArray.length; i++) {
+            System.out.println(selectedOptionsArray[i]);
+        }
+
         userServiceImpl.convertDtoAndSave(userDTO);
+        log.info("New user successfully registered.");
 
 
         return "workerOffice";
@@ -86,20 +99,14 @@ public class RegistrationPageController {
     @ResponseBody
     @RequestMapping(value = "/userRegistration/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
     public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
-        Gson gson = new Gson();
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("selectedTariff" + selectedTariff);
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+
         List<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions();
+        List<String> optionNamesList = new ArrayList<>();
+        for (Option option: optionList) {
+            optionNamesList.add(option.getName());
+        }
 
-
-        System.out.println("optionList.size("+optionList.size()+")");
-        System.out.println("\n\nJSON:\n\n");
-        System.out.println(gson.toJson(optionList));
-
-        return gson.toJson(
-                tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions()
-        );
+        return new Gson().toJson(optionNamesList);
     }
 
 }

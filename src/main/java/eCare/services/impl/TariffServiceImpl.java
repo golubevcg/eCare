@@ -47,7 +47,7 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffDTO getTariffDTOByTarifname(String name){
+    public TariffDTO getTariffDTOByTariffname(String name){
         Tariff tariff = this.getTariffByTariffName(name).get(0);
         return tariffMapper.toDTO(tariff);
     }

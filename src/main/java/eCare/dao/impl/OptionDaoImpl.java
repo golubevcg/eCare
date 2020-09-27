@@ -6,10 +6,13 @@ import eCare.model.enitity.Option;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 public class OptionDaoImpl implements OptionDao {
 
     @Override

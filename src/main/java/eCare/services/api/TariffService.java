@@ -10,7 +10,7 @@ public interface TariffService {
     void delete(Tariff tarif);
     List<Tariff> getTariffByTariffName(String tarifName);
     Object getAllTariffs();
-    TariffDTO getTariffDTOByTarifname(String name);
+    TariffDTO getTariffDTOByTariffname(String name);
     Tariff convertDtoToEntity(TariffDTO tariffDto);
     List<Tariff> getActiveTariffs();
 }

@@ -31,6 +31,10 @@ public class UserContractDTOValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserContractDTO user = (UserContractDTO) o;
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "secondname", "Required");
+
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Required");
         if( !Objects.isNull(user.getLogin()) & 6 > user.getLogin().length()){
             errors.rejectValue("login", "Size.userForm.login");
@@ -58,7 +62,7 @@ public class UserContractDTOValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");
-        if( !Objects.isNull(user.getAddress()) & 8 > user.getAddress().length()){
+        if( user.getAddress()!=null & 8 > user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
         }
 

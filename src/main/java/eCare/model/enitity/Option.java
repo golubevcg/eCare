@@ -1,6 +1,8 @@
 package eCare.model.enitity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class Option {
     private boolean isActive = true;
 
     @ManyToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.EAGER)
     @JoinTable(name= "tariffs_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="tariff_id") })
@@ -43,6 +45,7 @@ public class Option {
 
     @ManyToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "incompatible_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })
@@ -50,6 +53,7 @@ public class Option {
 
     @ManyToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "obligatory_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="obligatoryoption_id") })

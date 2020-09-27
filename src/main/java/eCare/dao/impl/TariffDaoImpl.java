@@ -6,10 +6,13 @@ import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 public class TariffDaoImpl implements TarifDao {
 
     @Override
@@ -68,15 +71,18 @@ public class TariffDaoImpl implements TarifDao {
         return listOfTarifs;
     }
 
+    @Transactional
     @Override
     public List<Tariff> getActiveTariffs() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         List<Tariff> listOfTarifs = session.createQuery(
-                "select t from Tariff t where isactive='true'", Tariff.class).list();
+                "select t from Tariff t where t.isActive=true", Tariff.class).list();
         transaction.commit();
         session.close();
         return listOfTarifs;
     }
+
+
 
 }

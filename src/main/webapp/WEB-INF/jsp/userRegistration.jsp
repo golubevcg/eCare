@@ -12,17 +12,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/styles/registration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
 </head>
 
-<!--for dropdown menus scripts-->
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"
-        integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
-
-<%--<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>--%>
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -36,7 +36,7 @@
                     var result = JSON.parse(result);
                     var s = '';
                     for(var i = 0; i < result.length; i++){
-                        s+='<option value="' + result[i].id + '">' + result[i].name + '</option>';
+                        s+='<option value="' + result[i].id + '">' + result[i] + '</option>';
                     }
                     $('#optionsList').html(s);
                 }
@@ -44,9 +44,43 @@
         });
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+            var selectedTariff = $('#tariffsList').val();
+            $.ajax({
+                type: 'GET',
+                url: '${pageContext.request.contextPath }/userRegistration/loadOptionByTariff/' + selectedTariff,
+                success: function(result){
+                    var result = JSON.parse(result);
+                    var s = '';
+                    for(var i = 0; i < result.length; i++){
+                        s+='<option value="' + result[i].id + '">' + result[i] + '</option>';
+                    }
+                    $('#optionsList').html(s);
+                }
+            });
+    });
+
+    $(document).ready(function(){
+        $(".mul-select").select2({
+            // placeholder: ""
+            tags: true,
+            tokenSeparators: ['/',',',';'," "]
+        });
+    })
+
+    function revealTarifOptionsSelector() {
+        var x = document.getElementById("tarifOptionsForUserRegistration");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
 </script>
 
 <body>
+
 <div class="row" style="margin-top:10px;">
     <div class="col"></div>
     <div class="col-5">
@@ -92,11 +126,11 @@
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Личный кабинет</a>
+                <a class="dropdown-item" href="/userRegistration">Регистрация</a>
                 <a class="dropdown-item" href="<c:url value="/logout" />">Выйти</a>
             </div>
 
         </div>
-
     </div>
     <div class="col"></div>
 </div>
@@ -202,40 +236,45 @@
                 </div>
             </spring:bind>
 
-        <label class="container" id="labelCheckboxContainer">Сотрудник компании
-            <input type="checkbox" name="roleCheckbox" value="true">
-            <span class="checkmark" style="margin-top:12px;"></span>
+
+        <label class="container" id="labelCheckboxContainer" style=" margin-left:20px;">Сотрудник компании
+            <input type="checkbox" name="roleCheckbox" value="true" onclick="revealTarifOptionsSelector()">
+            <span class="checkmark" style="margin-top:12px; margin-left:-15px;"></span>
         </label>
 
 
-        <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; padding-left:0;">Выберите тариф:</label>
 
-        <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
-                name="selectedTariff" id="tariffsList">
-            <c:forEach items="${listOfTariffs}" var="tariff">
+        <div id="tarifOptionsForUserRegistration">
+            <label class="container" style="clear:both; float:left; padding-left:0;">Выберите тариф:</label>
 
-                <c:choose>
-                    <c:when test="${tariff.name eq selectedTariff}">
-                        <option selected>${tariff.name}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option>${tariff.name}</option>
-                    </c:otherwise>
-                </c:choose>
+            <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
+                    name="selectedTariff" id="tariffsList">
+                <c:forEach items="${listOfTariffs}" var="tariff">
 
-            </c:forEach>
-        </select>
+                    <c:choose>
+                        <c:when test="${tariff.name eq selectedTariff}">
+                            <option selected>${tariff.name}</option>
+                        </c:when>
+                        <c:otherwise>
+                            <option>${tariff.name}</option>
+                        </c:otherwise>
+                    </c:choose>
 
-        <label class="container" id="labelCheckboxContainer" style="float:left; padding-left:0;">Выберите дополнительные опции:</label>
+                </c:forEach>
+            </select>
 
-        <select class="form-control form-control-lg" style="width: 60%; margin-top:10px; margin-bottom: 10px" id="optionsList">
-<%--            <option>Дополнительные Опции</option>--%>
-        </select>
+            <label class="container" id="labelCheckboxContainer" style="float:left; padding-left:0;">Выберите дополнительные опции:</label>
+
+            <select class="mul-select" multiple="true" id="optionsList" style="width:60%; font-size: 20px" name="selectedOptions">
+            </select>
+
+        </div>
 
 
 
 
-        <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both;"></input>
+
+        <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both; margin-top:20px;"></input>
 
 
         </form:form>

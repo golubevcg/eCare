@@ -30,11 +30,6 @@ public class MainPageController {
         return "main";
     }
 
-    @GetMapping("/clientOffice")
-    public String getClientOffice(Model model, CsrfToken token){
-        return "clientOffice";
-    }
-
     @GetMapping("/workerOffice")
     public String getWorkerOffice(Model model, CsrfToken token){
         return "workerOffice";
