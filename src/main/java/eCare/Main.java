@@ -4,8 +4,11 @@ package eCare;
 import eCare.dao.impl.RoleDaoImpl;
 import eCare.dao.impl.UserDaoImpl;
 import eCare.model.enitity.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -50,6 +53,14 @@ public class Main {
 //
 //        user.addRole(role);
 //        userDaoImpl.update(user);
+
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Tariff> listOfTariffs = session.createQuery(
+                "select t from Tariff t where t.isActive=true", Tariff.class).list();
+        transaction.commit();
+        session.close();
+        System.out.println(listOfTariffs.size());
 
     }
 }

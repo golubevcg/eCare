@@ -1,6 +1,7 @@
 package eCare.controllers;
 
 import eCare.model.dto.ContractDTO;
+import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
 import eCare.services.impl.TariffServiceImpl;
@@ -39,9 +40,9 @@ public class ClientOfficeController {
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
         model.addAttribute("tariffPrice", tariffDTO.getPrice() + " руб./мес.");
 
-//        List<OptionDTO> optionDTOList = tariffDTO.getListOfOptions();
-//
-//        model.addAttribute("listOfOptions", optionDTOList);
+        List<OptionDTO> optionDTOList = tariffDTO.getListOfOptions();
+
+        model.addAttribute("listOfOptions", optionDTOList);
 
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
         System.out.println("SizeOFActiveTariffs = " + activeTariffsList.size());

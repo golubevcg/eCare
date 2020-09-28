@@ -1,8 +1,12 @@
 package eCare.model.enitity;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +39,14 @@ public class Contract {
     @Column(name="isactive")
     private boolean isActive = true;
 
+    @ManyToMany(cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name= "contracts_options",
+            joinColumns = { @JoinColumn(name= "contract_id") },
+            inverseJoinColumns = { @JoinColumn(name="option_id") })
+    private List<Option> listOfOptions = new ArrayList<>();
+
     public Tariff getTariff() {
         return tariff;
     }
@@ -46,6 +58,10 @@ public class Contract {
     public Contract(String contractNumber, User user) {
         this.contractNumber = contractNumber;
         this.user = user;
+    }
+
+    public void addOption(Option option){
+        listOfOptions.add(option);
     }
 
 }

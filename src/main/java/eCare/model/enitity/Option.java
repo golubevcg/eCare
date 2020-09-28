@@ -46,6 +46,14 @@ public class Option {
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name= "contracts_options",
+            joinColumns = { @JoinColumn(name= "option_id") },
+            inverseJoinColumns = { @JoinColumn(name="contract_id") })
+    private List<Contract> contractsOptions = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name= "incompatible_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })

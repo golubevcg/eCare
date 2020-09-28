@@ -61,11 +61,8 @@ public class RegistrationPageController {
 
         userValidator.validate(userForm, userFormBindingResult);
 
-        ContractDTO contractDTO = userForm.getContractDTO();
         UserDTO userDTO = userForm.getUserDTO();
 
-        contractDTO.setUser(userDTO);
-        userForm.addContractDTO(contractDTO);
 
         RoleDTO roleDTO = new RoleDTO();
         HashSet<RoleDTO> rolesDTOHashSet = new HashSet<>();
@@ -76,13 +73,24 @@ public class RegistrationPageController {
         }else{
             roleDTO.setRolename("USER");
             rolesDTOHashSet.add(roleDTO);
+            ContractDTO contractDTO = userForm.getContractDTO();
+            contractDTO.setUser(userDTO);
+            userForm.addContractDTO(contractDTO);
+
+            System.out.println("SELECTEOPTIONSARRAYLENGTH = " + selectedOptionsArray.length);
+
+            for (int i = 0; i < (selectedOptionsArray.length-1); i++) {
+                contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
+                System.out.println(selectedOptionsArray[i]);
+            }
+            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
         }
 
         if(userFormBindingResult.hasErrors()){
             return "userRegistration";
         }
 
-        contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
+
 
         userServiceImpl.convertDtoAndSave(userDTO);
         log.info("New user successfully registered.");

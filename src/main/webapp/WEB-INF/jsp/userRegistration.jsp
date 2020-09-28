@@ -59,8 +59,6 @@
                     $('#optionsList').html(s);
                 }
             });
-
-
     });
 
     $(document).ready(function(){

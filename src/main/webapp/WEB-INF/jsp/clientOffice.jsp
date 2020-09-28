@@ -119,70 +119,6 @@
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
-                    Подключённые опции</p>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels">Опция</p>
-                </div>
-
-                <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
-                </div>
-
-                <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels">Описание</p>
-                </div>
-
-                <div class="col-3">
-                </div>
-
-            </div>
-
-            <hr style="margin-top:-10px;">
-
-            <div class="row" >
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">Опция1</p>
-                </div>
-
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">200 руб</p>
-                </div>
-
-                <div class="col-4">
-                    <p class="lead" id="columnContentLabels">Интернет 20 Гб</p>
-                </div>
-
-                <div class="col-1">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2" autocomplete="off">  on
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-            </div>
-
-        </div>
-    </div>
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:-5px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <div class="jumbotron" id="choosenTarifJumbotron" >
-            <div class="row">
-                <p class="lead"
-                   style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
                     Тарифные планы</p>
             </div>
 
@@ -262,7 +198,7 @@
     <div class="col"></div>
 </div>
 
-<div class="row" style="margin-top:-5px;">
+<div class="row" style="margin-top:-5px; clear:both;">
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="choosenTarifJumbotron" >
@@ -277,15 +213,15 @@
                     <p class="lead" id="columnDiscriptionLabels">Опция</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-2">
                     <p class="lead" id="columnDiscriptionLabels">Стоимость</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-5">
                     <p class="lead" id="columnDiscriptionLabels">Описание</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-1">
                 </div>
 
             </div>
@@ -293,35 +229,56 @@
             <hr style="margin-top:-10px;">
 
             <div class="row" >
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">Опция2</p>
-                </div>
-
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">250 руб</p>
-                </div>
-
-                <div class="col-4">
-                    <p class="lead" id="columnContentLabels">Интернет 10 Гб</p>
-                </div>
-
-                <div class="col-1">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
-                        </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2" autocomplete="off">  on
-                        </label>
+                <c:forEach items="${listOfOptions}" var="option"  varStatus="status">
+                    <div class="col-3">
+                        <p class="lead" id="columnContentLabels">${option.name}</p>
                     </div>
-                </div>
-            </div>
+
+                    <div class="col-2">
+                        <p class="lead" id="columnContentLabels">${option.price}</p>
+                    </div>
+
+                    <div class="col-5">
+                        <p class="lead" id="columnContentLabels">${option.shortDiscription}</p>
+                    </div>
+
+
+                    <div class="col-1">
+                        <div class="form-check" id="group1">
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${tariff.name eq selectedTariff}">--%>
+                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                                        <input type="checkbox" checked name="group1">
+                                        <span class="slider round" name="group1"></span>
+                                    </label>
+<%--                                </c:when>--%>
+<%--                                <c:otherwise>--%>
+<%--                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">--%>
+<%--                                        <input type="checkbox" name="group1">--%>
+<%--                                        <span class="slider round" name="group1"></span>--%>
+<%--                                    </label>--%>
+<%--                                </c:otherwise>--%>
+<%--                            </c:choose>--%>
+                        </div>
+                    </div>
+
+                    <c:choose>
+                        <c:when test="${status.last}">
+                        </c:when>
+                        <c:otherwise>
+                            <hr class="rounded">
+                        </c:otherwise>
+                    </c:choose>
+
+                </c:forEach>
 
             <div class="row">
             </div>
 
         </div>
     </div>
+    <div class="col"></div>
+</div>
     <div class="col"></div>
 </div>
 
@@ -332,17 +289,31 @@
         <h1 class="display-4" id="blockNumber">Заблокировать номер</h1>
     </div>
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float:right;">
-        <label class="btn btn-secondary active">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked> off
+    <div>
+        <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+            <input type="checkbox" checked name="group1">
+            <span class="slider round" name="group1"></span>
         </label>
-        <label class="btn btn-secondary">
-            <input type="radio" name="options" id="option2" autocomplete="off">  on
-        </label>
+
+
     </div>
+
+
 
     <div class="col"></div>
 </div>
+
+
+<div class="row" style="margin-bottom:30px">
+    <div class="col"></div>
+        <input class="btn btn-lg btn-primary btn-block"
+               type="submit" style="width:20%;"
+               value="Сохранить изменения"></input>
+    <div class="col"></div>
+</div>
+
+
+
 
 
 

@@ -75,11 +75,11 @@ public class TariffDaoImpl implements TarifDao {
     public List<Tariff> getActiveTariffs() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        List<Tariff> listOfTarifs = session.createQuery(
+        List<Tariff> listOfTariffs = session.createQuery(
                 "select t from Tariff t where t.isActive=true", Tariff.class).list();
         transaction.commit();
         session.close();
-        return listOfTarifs;
+        return listOfTariffs;
     }
 
 
