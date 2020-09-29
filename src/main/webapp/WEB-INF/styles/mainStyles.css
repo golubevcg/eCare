@@ -95,9 +95,9 @@ h3 {
     padding-top:5px;
     /*padding-bottom:0px;*/
     /*margin-bottom:15px;*/
-    margin-top:50px;
     height:240px;
     vertical-align: bottom;
+    margin-top:-25px;
 }
 
 #headerJumbotron{
@@ -127,7 +127,7 @@ h3 {
     /*margin-top:-50px;*/
     vertical-align: text-bottom;
     margin-top:55px;
-    margin-left:-50px;
+    /*margin-left:-50px;*/
 }
 
 #detailsButton{
@@ -144,7 +144,7 @@ h3 {
     padding-left: 20px;
     padding-right: 20px;
     float:left;
-    margin-left:-50px;
+    /*margin-left:-50px;*/
 }
 
 #imageContainer{

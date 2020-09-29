@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -82,59 +81,8 @@
 
 <body>
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-
-        <img src="/resources/static/logo.png" class="rounded float-left" alt="..." style="width:65px; float:left;">
-
-        <div class="dropdown" style="float:left; ">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Тарифы
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Тариф1</a>
-                <a class="dropdown-item" href="#">Тариф2</a>
-                <a class="dropdown-item" href="#">Тариф3</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown" style="float:left;">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опции
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Опция1</a>
-                <a class="dropdown-item" href="#">Опция2</a>
-                <a class="dropdown-item" href="#">Опция3</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown" style="float:right; ">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Личный кабинет
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Личный кабинет</a>
-                <a class="dropdown-item" href="/userRegistration">Регистрация</a>
-                <a class="dropdown-item" href="<c:url value="/logout"/>">Выйти</a>
-            </div>
-
-        </div>
-    </div>
-    <div class="col"></div>
-</div>
+<jsp:directive.include file = "headerTemplateAdmin.jsp" />
+<div></div>
 
 <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
@@ -142,7 +90,7 @@
         <div class="col"></div>
 
         <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Регистрация Нового пользователя</h1>
+            <h1 class="display-4" id="privateOfficeLabel">New user registration</h1>
         </div>
 
         <div class="col"></div>
@@ -159,7 +107,7 @@
             <spring:bind path="firstname" >
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="firstname" class="form-control defaultForm" type="text"
-                                style="width:40%; margin-top:-20px;" placeholder="Имя"></form:input>
+                                style="width:40%; margin-top:-20px;" placeholder="First name"></form:input>
                     <form:errors path="firstname" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -167,7 +115,7 @@
             <spring:bind path="secondname">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="secondname" class="form-control defaultForm" type="text"
-                                style="width:40%;" placeholder="Фамилия"></form:input>
+                                style="width:40%;" placeholder="Last name"></form:input>
                     <form:errors path="secondname" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -175,7 +123,7 @@
             <spring:bind path="dateOfBirth">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <input path="dateOfBirth" class="form-control defaultForm" type="date" dataformatas="yyyy-MM-dd" name="dateOfBirth"
-                           style="width:25%;" placeholder="Дата рождения"></input>
+                           style="width:25%;" placeholder="Date of birth"></input>
                     <form:errors path="dateOfBirth" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -184,7 +132,7 @@
             <spring:bind path="passportInfo">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="passportInfo" class="form-control defaultForm" type="number"
-                                style="width:40%;" placeholder="Паспортные данные"></form:input>
+                                style="width:40%;" placeholder="Passport information"></form:input>
                     <form:errors path="passportInfo" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -192,7 +140,7 @@
             <spring:bind path="address">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="address" class="form-control defaultForm" type="text"
-                                style="width:57%;" placeholder="Адрес"></form:input>
+                                style="width:57%;" placeholder="Adress"></form:input>
                     <form:errors path="address" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -200,7 +148,7 @@
             <spring:bind path="email">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="email" class="form-control defaultForm" type="text"
-                                style="width:40%;" placeholder="Электронная почта"></form:input>
+                                style="width:40%;" placeholder="E-mail"></form:input>
                     <form:errors path="email" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -208,7 +156,7 @@
             <spring:bind path="login">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="login" class="form-control defaultForm" type="text"
-                                style="width:40%;" placeholder="Логин"></form:input>
+                                style="width:40%;" placeholder="Login"></form:input>
                     <form:errors path="login" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -216,7 +164,7 @@
             <spring:bind path="password">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="password" class="form-control defaultForm" type="password"
-                                style="width:40%;" placeholder="Пароль"></form:input>
+                                style="width:40%;" placeholder="Password"></form:input>
                     <form:errors path="password" id="errorsLabel" class="label"></form:errors>
                 </div>
             </spring:bind>
@@ -224,7 +172,7 @@
             <spring:bind path="confirmPassword">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
                     <form:input path="confirmPassword" class="form-control defaultForm" type="password"
-                                style="width:40%;" placeholder="Подтвердите пароль"></form:input>
+                                style="width:40%;" placeholder="Confirm password"></form:input>
                     <form:errors path="confirmPassword" id="errorsLabel" ></form:errors>
                 </div>
             </spring:bind>
@@ -238,7 +186,7 @@
             </spring:bind>
 
 
-        <label class="container" id="labelCheckboxContainer" style=" margin-left:20px;">Сотрудник компании
+        <label class="container" id="labelCheckboxContainer" style=" margin-left:20px;">Company member
             <input type="checkbox" name="roleCheckbox" value="true" onclick="revealTarifOptionsSelector()">
             <span class="checkmark" style="margin-top:12px; margin-left:-15px;"></span>
         </label>
@@ -246,7 +194,7 @@
 
 
         <div id="tarifOptionsForUserRegistration">
-            <label class="container" style="clear:both; float:left; padding-left:0;">Выберите тариф:</label>
+            <label class="container" style="clear:both; float:left; padding-left:0;">Select tariff:</label>
 
             <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
                     name="selectedTariff" id="tariffsList">
@@ -264,7 +212,7 @@
                 </c:forEach>
             </select>
 
-            <label class="container" id="labelCheckboxContainer" style="float:left; padding-left:0;">Выберите дополнительные опции:</label>
+            <label class="container" id="labelCheckboxContainer" style="float:left; padding-left:0;">Select additional options:</label>
 
             <select class="mul-select" multiple="true" id="optionsList" style="width:60%; font-size: 20px" name="selectedOptions">
             </select>
@@ -292,11 +240,14 @@
 
 </body>
 
-<footer>
-    <div class="footer" id="footer">
-        <p class="lead" style="font-size: 15px; ">golubevcg@gmail.com
-            2020</p>
-    </div>
-</footer>
+<%--<footer>--%>
+<%--    <div class="footer" id="footer">--%>
+<%--        <p class="lead" style="font-size: 15px; ">golubevcg@gmail.com--%>
+<%--            2020</p>--%>
+<%--    </div>--%>
+<%--</footer>--%>
+
+<jsp:directive.include file = "footerTemplate.jsp" />
+
 
 </html>

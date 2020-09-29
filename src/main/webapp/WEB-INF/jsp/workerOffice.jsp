@@ -14,59 +14,7 @@
 </head>
 <body>
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-
-        <img src="/resources/static/logo.png" class="rounded float-left" alt="..." style="width:65px; float:left;">
-
-        <div class="dropdown" style="float:left; ">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Тарифы
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Тариф1</a>
-                <a class="dropdown-item" href="#">Тариф2</a>
-                <a class="dropdown-item" href="#">Тариф3</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown" style="float:left;">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опции
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Опция1</a>
-                <a class="dropdown-item" href="#">Опция2</a>
-                <a class="dropdown-item" href="#">Опция3</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown" style="float:right; ">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Личный кабинет
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Личный кабинет</a>
-                <a class="dropdown-item" href="/userRegistration">Регистрация</a>
-                <a class="dropdown-item" href="<c:url value="/logout" />">Выйти</a>
-            </div>
-
-        </div>
-    </div>
-    <div class="col"></div>
-</div>
+<jsp:directive.include file = "headerTemplateAdmin.jsp" />
 
 <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
@@ -74,7 +22,7 @@
         <div class="col"></div>
 
         <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Личный кабинет</h1>
+            <h1 class="display-4" id="privateOfficeLabel">My account</h1>
         </div>
 
         <div class="col"></div>
