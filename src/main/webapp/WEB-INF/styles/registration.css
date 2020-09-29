@@ -150,13 +150,6 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.select2-selection__choice{
-    font-size: 18px;
-}
-.option{
-    font-size: 18px;
-}
-
 select {
     font-size: 18px;
 }
@@ -166,4 +159,19 @@ select#fixed {
 
 #tariffsList{
     -webkit-appearance: none;
+}
+
+.select2-results__options{
+    font-size:18px !important;
+    background-color: white; !important;
+}
+
+.select2-selection__rendered {
+    font-size:18px !important;
+    background-color: white; !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    font-size:18px !important;
+    background-color: white; !important;
+    color:black; !important;
 }

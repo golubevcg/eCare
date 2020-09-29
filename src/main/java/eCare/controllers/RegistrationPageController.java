@@ -1,6 +1,7 @@
 package eCare.controllers;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.RoleDTO;
 import eCare.model.dto.UserContractDTO;
@@ -77,13 +78,13 @@ public class RegistrationPageController {
             contractDTO.setUser(userDTO);
             userForm.addContractDTO(contractDTO);
 
-//            System.out.println("SELECTEOPTIONSARRAYLENGTH = " + selectedOptionsArray.length);
+            System.out.println("SELECTEOPTIONSARRAYLENGTH = " + selectedOptionsArray.length);
 //
-//            for (int i = 0; i < (selectedOptionsArray.length-1); i++) {
-//                contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
-//                System.out.println(selectedOptionsArray[i]);
-//            }
-//            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
+            for (int i = 0; i < (selectedOptionsArray.length-1); i++) {
+                contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
+                System.out.println(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]).getName());
+            }
+            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
         }
 
         if(userFormBindingResult.hasErrors()){
