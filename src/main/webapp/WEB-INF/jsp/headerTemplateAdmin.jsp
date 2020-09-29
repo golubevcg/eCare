@@ -7,7 +7,7 @@
             <div class="col"></div>
             <div class="col-5">
 
-                <a href="/main">
+                <a href="/">
                     <img src="/resources/static/logo1.png" class="rounded float-left" alt="..."
                          style="width:80px; float:left;margin-top:-6px; margin-right:15px;">
                 </a>
