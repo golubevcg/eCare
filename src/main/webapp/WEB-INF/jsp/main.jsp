@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -62,47 +61,52 @@
     </div>
 
 </div>
+<div class="fixed-header">
+    <div class="jumbotron jumbotron-fluid" id="headerJumbotron">
 
-<div class="row" style="margin-top:10px">
-    <div class="col"></div>
-    <div class="col-5">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-5">
 
-        <img src="/resources/static/logo.png" class="rounded float-left" alt="..." style="width:65px; float:left;">
+                    <img src="/resources/static/logo1.png" class="rounded float-left" alt="..."
+                         style="width:80px; float:left;margin-top:-6px; margin-right:15px;">
 
-        <div class="dropdown" style="float:left; ">
+                    <div class="dropdown" style="float:left; margin-bottom:5px;">
 
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Тарифы
-            </button>
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Тарифы
+                        </button>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Тариф1</a>
-                <a class="dropdown-item" href="#">Тариф2</a>
-                <a class="dropdown-item" href="#">Тариф3</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Tariff1</a>
+                            <a class="dropdown-item" href="#">Tariff2</a>
+                            <a class="dropdown-item" href="#">Tariff3</a>
+                        </div>
+
+                    </div>
+
+                    <div class="dropdown" style="float:left; margin-bottom:5px;">
+
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Опции
+                        </button>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Option1</a>
+                            <a class="dropdown-item" href="#">Option2</a>
+                            <a class="dropdown-item" href="#">Option3</a>
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
+                            data-toggle="modal" data-target="#exampleModal">My account</button>
             </div>
-
+            <div class="col"></div>
         </div>
 
-        <div class="dropdown" style="float:left;">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опции
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Опция1</a>
-                <a class="dropdown-item" href="#">Опция2</a>
-                <a class="dropdown-item" href="#">Опция3</a>
-            </div>
-
-        </div>
-
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
-    </div>
-    <div class="col">
     </div>
 </div>
 
@@ -110,20 +114,25 @@
     <div class="row">
         <div class="col"></div>
 
-        <div class="col-5" id="imageContainer">
-            <h1 class="display-4" id="tryNewTarifsNow">Попробуйте новые тарифы сейчас</h1>
-            <button type="button" id="detailsButton" class="btn btn-primary btn-sm">Подробнее</button>
+        <div class="col">
+
+            <h1 class="display-4" id="tryNewTarifsNow">Try new tariffs now</h1>
+            <button type="button" id="detailsButton"
+                    class="btn btn-primary btn-sm">More details</button>
+
+            <div class="col-5" id="imageContainer"></div>
+
         </div>
 
-        <div class="col">
-        </div>
+        <div class="col"></div>
+
     </div>
 </div>
 
 <div class="row" style="margin-top:-20px">
     <div class="col"></div>
     <div class="col-5">
-        <h4 class id="tarifs">Тарифы</h4>
+        <h4 class id="tarifs">Tariffs</h4>
     </div>
     <div class="col"></div>
 </div>
@@ -134,29 +143,29 @@
 
     <div class="col-5">
         <div class="card">
-            <h5 class="card-header">Базовый</h5>
+            <h5 class="card-header">Base</h5>
             <div class="card-body">
-                <p class="card-text">200 минут<br />
-                    10 гигабайт <br /> 100 смс <br /> Telegram, Whatsup, <br /> Viber доступны <br /> даже при нуле</p>
-                <a href="#" class="btn" id="cardButton">Выбрать тариф</a>
+                <p class="card-text">200 minutes<br />
+                    10 гигабайт <br /> 100 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
+                <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
 
         <div class="card">
-            <h5 class="card-header">Стандартный</h5>
+            <h5 class="card-header">Standart</h5>
             <div class="card-body">
-                <p class="card-text">300 минут<br />
-                    20 гигабайт <br /> 200 смс <br /> Telegram, Whatsup, <br /> Viber доступны <br /> даже при нуле</p>
-                <a href="#" class="btn" id="cardButton">Выбрать тариф</a>
+                <p class="card-text">300 minutes<br />
+                    20 гигабайт <br /> 200 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
+                <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
 
         <div class="card">
             <h5 class="card-header">Расширеный</h5>
             <div class="card-body">
-                <p class="card-text">400 минут<br />
-                    30 гигабайт <br /> 300 смс <br /> Безлимитные </br>видео серивсы,</br> мессенджеры</p>
-                <a href="#" class="btn" id="cardButton">Выбрать тариф</a>
+                <p class="card-text">400 minutes<br />
+                    30 гигабайт <br /> 300 messages <br /> Unlimited </br>video services,</br> messengers</p>
+                <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
 
@@ -172,14 +181,14 @@
 
         <div class="jumbotron" id="switchWithOldNumberJumbotron">
             <div class="col" style="float:right; width: 55%">
-                <h1 class="display-4"id="keepNumberLabel" >Перейти со <br> старым номером</h1>
+                <h1 class="display-4"id="keepNumberLabel" >Go to us with <br> old number</h1>
                 <form>
                     <div class="form-group">
                         <input type="email" class="form-control" id="inputPhone" aria-describedby="emailHelp"
                                placeholder="+7">
                     </div>
                 </form>
-                <button type="button" id="keepNumberButton" class="btn btn-primary btn-sm">оставить заявку</button>
+                <button type="button" id="keepNumberButton" class="btn btn-primary btn-sm">Submit</button>
             </div>
 
             <div class="col" style="float:left; width: 45%">
@@ -197,8 +206,8 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="unlimitedCallsJumbotron" >
-            <p class="lead" style="font-weight: bolder; font-size: 25px; margin-left:-15px;">Безлимитные звонки по всему миру</p>
-            <p class="lead" style="font-size: 17px; margin-left:-10px; margin-top:-15px; ">Путушествуя, не забывайте звонить<br>своим близким с опцией<br>"На связи везде"</p>
+            <p class="lead" style="font-weight: bolder; font-size: 25px; margin-left:-15px;">Unlimited calls worldwide</p>
+            <p class="lead" style="font-size: 17px; margin-left:-10px; margin-top:-15px; ">When traveling, do not forget to call<br>loved ones with the option<br>"Connected everywhere"</p>
         </div>
     </div>
     <div class="col"></div>
@@ -209,13 +218,13 @@
     <div class="col-5">
 
         <div class="jumbotron" id="jumbotron1">
-            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Не хватило общения?</p>
-            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Приобритайте дополнительные пакеты минут в виде опций 100, 200 и 300 минут</p>
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Didn't have enough communication?</p>
+            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Purchase additional minute packages as 100, 200 and 300 minutes options</p>
         </div>
 
         <div class="jumbotron" id="jumbotron2">
-            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">10 Гб \ 100 руб.</p>
-            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Самая низкая цена на пакет интернета</p>
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">10 GB \ 2$.</p>
+            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Lowest price for internet package</p>
         </div>
     </div>
     <div class="col"></div>
@@ -225,9 +234,9 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="jumbotron" id="jumbotron3">
-            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Доверительный платеж</p>
-            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Если баланс близок к нулю, вы можете подключить Доверительный платёж. Мы пополним счёт за вас на 3 дня — и вы сразу же продолжите общение.
-                Размер Доверительного платежа и платы за услугу зависят от вашего тарифа и средних расходов на связь за последние три месяца.
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Trust payment</p>
+            <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">If the balance is close to zero, you can activate the Trust payment. We will top up your account for 3 days - and you will immediately continue your communication.
+                The amount of the Trustee payment and the service fee depend on your tariff and the average communication costs for the last three months.
             </p>
         </div>
     </div>

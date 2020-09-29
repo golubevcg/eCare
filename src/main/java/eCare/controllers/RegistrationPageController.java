@@ -77,13 +77,13 @@ public class RegistrationPageController {
             contractDTO.setUser(userDTO);
             userForm.addContractDTO(contractDTO);
 
-            System.out.println("SELECTEOPTIONSARRAYLENGTH = " + selectedOptionsArray.length);
-
-            for (int i = 0; i < (selectedOptionsArray.length-1); i++) {
-                contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
-                System.out.println(selectedOptionsArray[i]);
-            }
-            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
+//            System.out.println("SELECTEOPTIONSARRAYLENGTH = " + selectedOptionsArray.length);
+//
+//            for (int i = 0; i < (selectedOptionsArray.length-1); i++) {
+//                contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
+//                System.out.println(selectedOptionsArray[i]);
+//            }
+//            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
         }
 
         if(userFormBindingResult.hasErrors()){
