@@ -10,8 +10,22 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/styles/privateOfficeClient.css">
+<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </head>
 <body>
+
+<script>
+    $(document).ready(function(){
+        $('input[type="checkbox"]').on('change', function() {
+            $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+        });
+    });
+</script>
 
 <jsp:directive.include file = "headerTemplateUser.jsp" />
 <div></div>
@@ -85,65 +99,43 @@
                     <p class="lead" id="columnDiscriptionLabels">Description</p>
                 </div>
 
-                <div class="col-1">
-                </div>
-
+                <div class="col-1"> </div>
             </div>
 
             <hr style="width: 105%; clear:both; margin-left:-17px;">
 
-            <div class="row" >
-                <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
-                    <div class="col-3">
-                        <p class="lead" id="columnContentLabels">${tariff.name}</p>
-                    </div>
-
-                    <div class="col-2">
-                        <p class="lead" id="columnContentLabels">${tariff.price}</p>
-                    </div>
-
-                    <div class="col-5">
-                        <p class="lead" id="columnContentLabels">${tariff.shortDiscription}</p>
-                    </div>
-
-                </c:forEach>
-
-
-                <div class="col-1">
-                        <div class="form-check" id="group2">
-                            <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
-
-                                <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                            <c:choose>
-                                                <c:when test="${tariff.name eq selectedTariff}">
-                                                <input type="checkbox" checked name="group1">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <input type="checkbox" name="group1">
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <span class="slider round" name="group1"></span>
-                                </label>
-                            </c:forEach>
-
+            <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
+                <div class="row">
+                        <div class="col-3">
+                            <p class="lead" id="columnContentLabels">${tariff.name}</p>
                         </div>
+
+                        <div class="col-2">
+                            <p class="lead" id="columnContentLabels">${tariff.price}</p>
+                        </div>
+
+                        <div class="col-5">
+                            <p class="lead" id="columnContentLabels">${tariff.shortDiscription}</p>
+                        </div>
+
+                        <div class="col-1">
+                                <div class="form-check" id="group2" style="clear:both; float:left;">
+                                <label class="switch" style="clear:both; margin-top:5px; float:left;">
+                                    <c:choose>
+                                        <c:when test="${tariff.name eq selectedTariff}">
+                                            <input type="checkbox" name="group1[]">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" name="group1[]">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
                 </div>
-
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${status.last}">--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-<%--                            <hr class="rounded">--%>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
-
-
-
-            </div>
-
-
-            <div class="row">
-            </div>
+            </c:forEach>
 
         </div>
     </div>
@@ -196,22 +188,24 @@
 
 
                     <div class="col-1">
+
                         <div class="form-check" id="group1">
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${tariff.name eq selectedTariff}">--%>
+                            <c:choose>
+                                <c:when test="${tariff.name eq selectedTariff}">
                                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                        <input type="checkbox" checked name="group1">
+                                        <input type="checkbox" name="group1">
                                         <span class="slider round" name="group1"></span>
                                     </label>
-<%--                                </c:when>--%>
-<%--                                <c:otherwise>--%>
-<%--                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">--%>
-<%--                                        <input type="checkbox" name="group1">--%>
-<%--                                        <span class="slider round" name="group1"></span>--%>
-<%--                                    </label>--%>
-<%--                                </c:otherwise>--%>
-<%--                            </c:choose>--%>
+                                </c:when>
+                                <c:otherwise>
+                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                                        <input type="checkbox" name="group1">
+                                        <span class="slider round" name="group1"></span>
+                                    </label>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
+
                     </div>
 
                     <c:choose>
@@ -269,10 +263,6 @@
 
 
 
-<!--for dropdown menus scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 
 <div class="footer" id="footer">
