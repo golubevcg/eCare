@@ -35,21 +35,15 @@ public class ClientOfficeController {
         model.addAttribute("firstAndSecondNames", userDTO.getFirstname() + " " + userDTO.getSecondname());
 
         TariffDTO tariffDTO = contractDTO.getTariff();
-
         model.addAttribute("selectedTariff", tariffDTO.getName());
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
         model.addAttribute("tariffPrice", tariffDTO.getPrice() + " руб./мес.");
 
         List<OptionDTO> optionDTOList = tariffDTO.getListOfOptions();
-
         model.addAttribute("listOfOptions", optionDTOList);
 
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
-        System.out.println("SizeOFActiveTariffs = " + activeTariffsList.size());
-
         model.addAttribute("activeTariffsList", activeTariffsList);
-
-
 
         return "clientOffice";
     }

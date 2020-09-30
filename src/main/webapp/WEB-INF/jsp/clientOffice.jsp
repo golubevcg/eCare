@@ -106,35 +106,37 @@
                         <p class="lead" id="columnContentLabels">${tariff.shortDiscription}</p>
                     </div>
 
-
-                    <div class="col-1">
-                        <div class="form-check" id="group1">
-                            <c:choose>
-                                <c:when test="${tariff.name eq selectedTariff}">
-                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                        <input type="checkbox" checked name="group1">
-                                        <span class="slider round" name="group1"></span>
-                                    </label>
-                                </c:when>
-                                <c:otherwise>
-                                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                        <input type="checkbox" name="group1">
-                                        <span class="slider round" name="group1"></span>
-                                    </label>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </div>
-
-                    <c:choose>
-                        <c:when test="${status.last}">
-                        </c:when>
-                        <c:otherwise>
-                            <hr class="rounded">
-                        </c:otherwise>
-                    </c:choose>
-
                 </c:forEach>
+
+
+                <div class="col-1">
+                        <div class="form-check" id="group2">
+                            <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
+
+                                <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                                            <c:choose>
+                                                <c:when test="${tariff.name eq selectedTariff}">
+                                                <input type="checkbox" checked name="group1">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <input type="checkbox" name="group1">
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <span class="slider round" name="group1"></span>
+                                </label>
+                            </c:forEach>
+
+                        </div>
+                </div>
+
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${status.last}">--%>
+<%--                        </c:when>--%>
+<%--                        <c:otherwise>--%>
+<%--                            <hr class="rounded">--%>
+<%--                        </c:otherwise>--%>
+<%--                    </c:choose>--%>
+
 
 
             </div>
