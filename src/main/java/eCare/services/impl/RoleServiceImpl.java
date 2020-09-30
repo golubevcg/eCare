@@ -37,6 +37,11 @@ public class RoleServiceImpl implements RoleService {
         return roleDaoImpl.getRoleByRoleName(rolename);
     }
 
+    @Override
+    public void saveAndConvertToEntity(RoleDTO roleDTO) {
+        roleDaoImpl.save(roleMapper.toEntity(roleDTO));
+    }
+
     public RoleDTO getRoleDTOByRolename(String rolename){
         Role role = this.getRoleByRoleName(rolename).get(0);
         return roleMapper.toDTO(role);

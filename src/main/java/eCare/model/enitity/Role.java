@@ -33,5 +33,7 @@ public class Role {
         this.rolename = rolename;
     }
 
+    public void addUser(User user){ this.user.add(user);}
+
 
 }

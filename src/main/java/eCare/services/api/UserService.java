@@ -10,7 +10,7 @@ public interface UserService {
     void delete(User user);
     List<User> getUserByLogin(String login);
     User convertDTOtoEntity(UserDTO userDTO);
-    void convertDtoAndSave(UserDTO userDTO);
+    void convertToEntityAndSave(UserDTO userDTO);
     UserDTO getUserDTOByLogin(String login);
     List<UserDTO> getUserDTOByPassportInfo(Long passportInfo);
 }

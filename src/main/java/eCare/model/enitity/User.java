@@ -61,7 +61,7 @@ public class User {
 
     @OneToMany(targetEntity = Contract.class,
             mappedBy = "user",
-            cascade = CascadeType.MERGE,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER)
     private List<Contract> listOfContracts = new ArrayList<>();
 

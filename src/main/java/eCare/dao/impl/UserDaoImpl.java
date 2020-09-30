@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
         Transaction transaction2 = session.beginTransaction();
         this.checkUserRoles(user, session);
         user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
-        session.save(user);
+        session.merge(user);
         transaction2.commit();
         session.close();
     }

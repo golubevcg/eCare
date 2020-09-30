@@ -1,5 +1,6 @@
 package eCare.model.dto;
 
+import eCare.model.enitity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,7 @@ public class RoleDTO {
     private Long role_id;
     private String rolename;
     private Set<UserDTO> user;
+
+    public void addUser(UserDTO userDTO){ this.user.add(userDTO);}
+
 }

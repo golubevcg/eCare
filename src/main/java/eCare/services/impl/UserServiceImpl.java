@@ -62,8 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void convertDtoAndSave(UserDTO userDTO){
-
+    public void convertToEntityAndSave(UserDTO userDTO){
         userDaoImpl.save(userMapper.toEntity(userDTO));
     }
 }
