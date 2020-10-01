@@ -50,7 +50,7 @@
                         </button>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/login>">Login</a>
+                            <a class="dropdown-item" href="/login">Login</a>
 
                         </div>
 

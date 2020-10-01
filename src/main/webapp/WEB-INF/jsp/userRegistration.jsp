@@ -43,7 +43,6 @@
     });
 
     $(document).ready(function(){
-
         $('#tariffsList').on('change', function()
         {
             $('.mul-select').val(null).trigger('change');;
@@ -66,6 +65,7 @@
             x.style.display = "none";
         }
     }
+
 
 </script>
 

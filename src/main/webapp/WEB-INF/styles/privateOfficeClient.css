@@ -70,7 +70,16 @@
     margin-bottom:-10px;
 }
 
-#columnContentLabels{
+
+.availableOptions{
+    font-family: MS Shell Dig 2;
+    font-size: 15px;
+    float:left;
+    color: #808080;
+    margin-bottom:-10px;
+}
+
+.columnContentLabels{
 font-family: MS Shell Dig 2;
     font-size: 18px;
     float:left;
@@ -159,3 +168,6 @@ hr.rounded {
     margin-bottom:-5px;
 }
 
+.dropdown-toggle::after {
+    content: none;
+}

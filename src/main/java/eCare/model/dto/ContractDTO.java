@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContractDTO {
+public class ContractDTO implements Comparable{
     private Long contract_id;
     private String contractNumber;
     private boolean isBlocked;
@@ -24,6 +25,7 @@ public class ContractDTO {
     private TariffDTO tariff;
     private boolean isActive = true;
     private List<OptionDTO> listOfOptions = new ArrayList<>();
+
     public String getContractNumber() {
         return contractNumber;
     }
@@ -34,5 +36,16 @@ public class ContractDTO {
 
     public void addOption(OptionDTO optionDTO){
         listOfOptions.add(optionDTO);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (this == o) return 1;
+        ContractDTO that = (ContractDTO) o;
+        if(contract_id>that.contract_id){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

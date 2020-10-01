@@ -261,4 +261,8 @@ h3 {
     vertical-align: bottom;
 }
 
+.dropdown-toggle::after {
+    content: none;
+}
+
 

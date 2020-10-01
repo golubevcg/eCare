@@ -117,6 +117,7 @@
 <%--            </div>--%>
 
             <c:forEach items="${numbersTariffsMap}" var="entry">
+
                         <div class="col-5">
                             <p class="lead" id="columnContentLabels">${entry.key.contractNumber}</p>
                         </div>
@@ -145,6 +146,10 @@
 
 </body>
 
-<jsp:directive.include file = "footerTemplate.jsp" />
 
-</html>
+<div>
+</div>
+
+<footer style="position:0; margin-top:300px;">
+    <jsp:directive.include file = "footerTemplate.jsp" />
+</footer>

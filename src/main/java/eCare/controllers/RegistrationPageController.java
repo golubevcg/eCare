@@ -70,7 +70,7 @@ public class RegistrationPageController {
             roleDTO = roleServiceImpl.getRoleDTOByRolename("USER");
             contractDTO = userForm.getContractDTO();
 
-            if(selectedOptionsArray.length!=0) {
+            if(selectedOptionsArray!=null) {
                 for (int i = 0; i < (selectedOptionsArray.length); i++) {
                     contractDTO.addOption(optionServiceImpl.getOptionDTOByName(selectedOptionsArray[i]));
                 }

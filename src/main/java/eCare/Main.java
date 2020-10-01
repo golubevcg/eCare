@@ -1,13 +1,7 @@
 package eCare;
 
 
-import eCare.dao.impl.ContractDaoImpl;
-import eCare.dao.impl.TariffDaoImpl;
 import eCare.dao.impl.UserDaoImpl;
-import eCare.model.enitity.Contract;
-import eCare.model.enitity.Tariff;
-import eCare.model.enitity.User;
-import eCare.services.impl.ContractServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,12 +35,23 @@ public class Main {
 //        contract1.setTariff(tariff1);
 //        contract2.setTariff(tariff4);
 //        contract3.setTariff(tariff5);
-//
+
 //        ContractDaoImpl contractDaoImpl = new ContractDaoImpl();
 //        contractDaoImpl.save(contract1);
 //        contractDaoImpl.save(contract2);
 //        contractDaoImpl.save(contract3);
+//        OptionDaoImpl optionDaoImpl = new OptionDaoImpl();
+//
+//        Option option = optionDaoImpl.getOptionByName("Unlimited messengers").get(0);
+//
+//        Contract contract = contractDaoImpl.getContractByNumber("+79117684563").get(0);
+//
+//        contract.addOption(option);
+//
+//        contractDaoImpl.update(contract);
 
+        UserDaoImpl userDao = new UserDaoImpl();
+        System.out.println(userDao.getUserByLogin("agol").get(0).getListOfContracts().size());
 
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OptionDTO {
+public class OptionDTO implements Comparable{
     private Long option_id;
     private String name;
     private Integer price;
@@ -24,4 +24,17 @@ public class OptionDTO {
     private List<TariffDTO> tariffsOptions = new ArrayList<>();
     private List<OptionDTO> incompatibleOptionsList = new ArrayList<>();
     private List<OptionDTO> obligatoryOptionsList = new ArrayList<>();
+
+    @Override
+    public int compareTo(Object o) {
+        if (this == o) return 1;
+        OptionDTO that = (OptionDTO) o;
+        if(option_id>that.option_id){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+
 }

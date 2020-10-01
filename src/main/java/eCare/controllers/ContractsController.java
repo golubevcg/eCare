@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Controller
 public class ContractsController {
@@ -23,12 +21,11 @@ public class ContractsController {
     UserServiceImpl userServiceImpl;
 
     @GetMapping("/contracts")
-    public String getClientOffice(Model model, CsrfToken token, Principal principal,
-                                  Map<ContractDTO, String> numbersTariffsMap) {
+    public String getClientOffice(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
         List<ContractDTO> contractsList = userDTO.getListOfContracts();
 
-        numbersTariffsMap = new TreeMap<>();
+        LinkedHashMap<ContractDTO, String> numbersTariffsMap = new LinkedHashMap<>();
 
         for (ContractDTO contractDTO: contractsList) {
             String tariff = "no tariff selected";
@@ -38,7 +35,6 @@ public class ContractsController {
 
             }
             numbersTariffsMap.put(contractDTO, tariff);
-            System.out.println(contractDTO.getContractNumber() + ":" + tariff);
         }
 
         model.addAttribute("numbersTariffsMap", numbersTariffsMap);
@@ -52,27 +48,5 @@ public class ContractsController {
 
         return "contracts";
     }
-
-//    @ResponseBody
-//    @RequestMapping(value = "/contracts/findContract", method = RequestMethod.GET)
-//    public String loadContracts(Principal principal) {
-//
-//        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
-//        List<ContractDTO> contractsList = userDTO.getListOfContracts();
-//
-//        Map<String, String> numbersTariffsMap = new HashMap<>();
-//        for (ContractDTO contractDTO: contractsList) {
-//            String tariff = "no tariff selected";
-//            if(contractDTO.getTariff()!=null){
-//                tariff = contractDTO.getTariff().getName();
-//            }else{
-//
-//            }
-//            numbersTariffsMap.put(contractDTO.getContractNumber(), tariff);
-//        }
-//
-//        return new Gson().toJson(numbersTariffsMap);
-//    }
-
 
 }
