@@ -29,18 +29,21 @@
 
 #numberLabel{
     font-family: MS Shell Dig 2;
-    font-size:40px;
+    font-size:45px;
     color:black;
     text-align:left;
+    font:bold;
+
 }
 
 
 #firstSecondNameLabel{
     font-family: MS Shell Dig 2;
-    font-size:20px;
+    font-size:25px;
     color:black;
     text-align:left;
     margin-left:30px;
+    font:bold;
 }
 
 #choosenTarifJumbotron {

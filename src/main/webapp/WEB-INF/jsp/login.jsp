@@ -22,7 +22,7 @@
 
 <div id="page-container">
     <div id="content-wrap">
-        <jsp:directive.include file = "headerTemplateUser.jsp" />
+        <jsp:directive.include file = "headerTemplateDefault.jsp" />
 
         <div class="row">
 

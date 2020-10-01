@@ -21,7 +21,7 @@
 
 <script>
     $(document).ready(function(){
-        $('input[type="checkbox"]').on('change', function() {
+        $('input[name="tariffCheckbox"]').on('change', function() {
             $('input[name="' + this.name + '"]').not(this).prop('checked', false);
         });
     });
@@ -58,7 +58,10 @@
 <div class="row" style="margin-top:15px;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron" id="choosenTarifJumbotron" style="margin-top:15px;">
+        <p class="lead"
+           style="font-family: MS Shell Dig 2; font-size: 20px; float:left; margin-bottom:10px; margin-left:10px;">
+            Сurrent tariff:</p>
+        <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; margin-top:15px;">
             <div class="row">
                 <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">${selectedTariff}</p>
             </div>
@@ -76,6 +79,50 @@
     <div class="col"></div>
 </div>
 
+<div class="row" style="margin-top: -20px;">
+    <div class="col"></div>
+    <div class="col-5">
+        <p class="lead"
+           style="font-family: MS Shell Dig 2; font-size: 20px; float:left; margin-bottom:10px; margin-left:10px;">
+            Сonnected options:</p>
+        <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; padding-top:20px;">
+            <c:forEach items="${listOfOptions}" var="option"  varStatus="status" >
+
+                <div class="row">
+                    <div class="col">
+                        <p class="lead"
+                           style="font-family: MS Shell Dig 2; font-size: 15px; float:left;"
+                        >${option.name} </p>
+                    </div>
+                    <div class="col">
+                        <p class="lead"
+                           style="font-family: MS Shell Dig 2; font-size: 15px; float:left;"
+                        >${option.price} $ / month</p>
+                    </div>
+                    <div class="col">
+                        <p class="lead"
+                           style="font-family: MS Shell Dig 2; font-size: 15px; float:left;"
+                        >${option.shortDiscription} </p>
+                    </div>
+
+                    <c:choose>
+                        <c:when test="${status.last}">
+                        </c:when>
+                        <c:otherwise>
+                            <hr class="rounded" style="width: 100%; clear:both;">
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
+
+            </c:forEach>
+
+
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
 <div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
@@ -83,7 +130,7 @@
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
-                    Тарифные планы</p>
+                    Available tariffs</p>
             </div>
 
             <div class="row" >
@@ -102,6 +149,7 @@
                 <div class="col-1"> </div>
             </div>
 
+
             <hr style="width: 105%; clear:both; margin-left:-17px;">
 
             <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
@@ -119,14 +167,14 @@
                         </div>
 
                         <div class="col-1">
-                                <div class="form-check" id="group2" style="clear:both; float:left;">
+                            <div class="form-check" style="clear:both; float:left;">
                                 <label class="switch" style="clear:both; margin-top:5px; float:left;">
                                     <c:choose>
                                         <c:when test="${tariff.name eq selectedTariff}">
-                                            <input type="checkbox" name="group1[]">
+                                            <input type="checkbox" checked name="tariffCheckbox" value="true">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="checkbox" name="group1[]">
+                                            <input type="checkbox" name="tariffCheckbox" value="true">
                                         </c:otherwise>
                                     </c:choose>
                                     <span class="slider round"></span>
@@ -189,18 +237,18 @@
 
                     <div class="col-1">
 
-                        <div class="form-check" id="group1">
+                        <div class="form-check">
                             <c:choose>
                                 <c:when test="${tariff.name eq selectedTariff}">
                                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                        <input type="checkbox" name="group1">
-                                        <span class="slider round" name="group1"></span>
+                                        <input type="checkbox" name="optionCheckbox">
+                                        <span class="slider round" ></span>
                                     </label>
                                 </c:when>
                                 <c:otherwise>
                                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                        <input type="checkbox" name="group1">
-                                        <span class="slider round" name="group1"></span>
+                                        <input type="checkbox" name="optionCheckbox">
+                                        <span class="slider round" ></span>
                                     </label>
                                 </c:otherwise>
                             </c:choose>
@@ -208,13 +256,13 @@
 
                     </div>
 
-                    <c:choose>
-                        <c:when test="${status.last}">
-                        </c:when>
-                        <c:otherwise>
-                            <hr class="rounded">
-                        </c:otherwise>
-                    </c:choose>
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${status.last}">--%>
+<%--                        </c:when>--%>
+<%--                        <c:otherwise>--%>
+<%--                            <hr class="rounded">--%>
+<%--                        </c:otherwise>--%>
+<%--                    </c:choose>--%>
 
                 </c:forEach>
 
@@ -236,11 +284,10 @@
     </div>
 
     <div>
-        <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-            <input type="checkbox" checked name="group1">
-            <span class="slider round" name="group1"></span>
+        <label class="switch" style="clear:both; margin-top:5px;">
+            <input type="checkbox" name="blockNumberCheckBox">
+            <span class="slider round"></span>
         </label>
-
 
     </div>
 

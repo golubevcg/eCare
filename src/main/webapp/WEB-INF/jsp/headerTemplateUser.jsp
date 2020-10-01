@@ -49,9 +49,10 @@
                         My account
                     </button>
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/login" >Login</a>
 
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="<c:url value="/contracts"/>" >My contracts</a>
+                        <a class="dropdown-item" href="<c:url value="/logout"/>" >Logout</a>
                     </div>
 
                 </div>
@@ -61,4 +62,5 @@
 
     </div>
 </div>
+
 <div style="margin-top:60px;"></div>

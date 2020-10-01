@@ -9,4 +9,6 @@ public interface ContractDao {
     void update(Contract contract);
     void delete(Contract contract);
     List<Contract> getContractByNumber(String number);
+    List<Contract> getContractById(Long id);
+
 }

@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<jsp:directive.include file = "headerTemplateUser.jsp" />
+<jsp:directive.include file = "headerTemplateDefault.jsp" />
 <div></div>
 <div class="jumbotron jumbotron-fluid" id="tryTarifsNowJumbotronFluid">
     <div class="row">
