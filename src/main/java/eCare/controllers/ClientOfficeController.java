@@ -68,7 +68,7 @@ public class ClientOfficeController {
         model.addAttribute("activeTariffsList", activeTariffsList);
         model.addAttribute("connectedOptions", connectedOptions);
 
-        return "/clientOffice";
+        return "clientOffice";
     }
 
     @PostMapping("/clientOffice")
@@ -79,9 +79,9 @@ public class ClientOfficeController {
 
     @PostMapping("/clientOffice/submitvalues")
     public @ResponseBody String updateValuesOnInformationFromView(
-            @RequestBody( required = false) String[][] wrappedDataToExp) {
+            @RequestParam(name="optionsSelectedCheckboxes", required = false) String[] optionsSelectedCheckboxes) {
         System.out.println("++++++++++++");
-        System.out.println(wrappedDataToExp==null);
+        System.out.println(optionsSelectedCheckboxes==null);
         System.out.println("++++++++++++");
 
 //        System.out.println(wrappedDataToExp.length);

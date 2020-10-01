@@ -42,15 +42,15 @@
             console.log(tariffSelectedCheckboxes)
             console.log(blockNumberCheckBox)
 
-            var wrappedDataToExp = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
-                                    tariffSelectedCheckboxes:tariffSelectedCheckboxes,
-                                    blockNumberCheckBox:blockNumberCheckBox}
+            // var wrappedDataToExp = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
+            //                         tariffSelectedCheckboxes:tariffSelectedCheckboxes,
+            //                         blockNumberCheckBox:blockNumberCheckBox}
 
             $.ajax({
                     contentType: "application/json",
                     url: '/clientOffice/submitvalues',
                     type: 'POST',
-                    data: JSON.stringify(wrappedDataToExp),
+                    data: optionsSelectedCheckboxes,
                     success: function (result) {
                         console.log("data successfully sended to controller");
                     }
