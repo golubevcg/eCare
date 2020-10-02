@@ -1,5 +1,9 @@
 package eCare.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
@@ -77,17 +81,32 @@ public class ClientOfficeController {
         return "clientOffice";
     }
 
-    @PostMapping("/clientOffice/submitvalues")
-    public @ResponseBody String updateValuesOnInformationFromView(
-            @RequestParam(name="optionsSelectedCheckboxes", required = false) String[] optionsSelectedCheckboxes) {
-        System.out.println("++++++++++++");
-        System.out.println(optionsSelectedCheckboxes==null);
-        System.out.println("++++++++++++");
+//    @PostMapping("/clientOffice/submitvalues")
+//    public @ResponseBody String updateValuesOnInformationFromView(
+//            @RequestParam(name="exportObject") String exportObject) {
+//        System.out.println("++++++++++++");
+//        System.out.println(exportObject==null);
+//        System.out.println("++++++++++++");
+//
+////        System.out.println(wrappedDataToExp.length);
+//        return "";
+//    }
 
-//        System.out.println(wrappedDataToExp.length);
+    @PostMapping(value="/clientOffice/submitvalues", produces = "application/json")
+    public @ResponseBody void updateValuesOnInformationFromView(@RequestBody String exportObject) {
 
+        JsonObject obj = JsonParser.parseString(exportObject).getAsJsonObject();
+        String blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsString();
+        System.out.println(blockNumberCheckBox);
 
-        return "";
+        String tariffSelectedCheckboxes = obj.get("tariffSelectedCheckboxes").getAsString();
+        System.out.println(tariffSelectedCheckboxes);
+
+        JsonArray jsonArray = obj.get("optionsSelectedCheckboxes").getAsJsonArray();
+        jsonArray.get(0).getAsString();
+        System.out.println( jsonArray.get(0).getAsString());
+        System.out.println( jsonArray.get(1).getAsString());
+
     }
 
 }

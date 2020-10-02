@@ -38,19 +38,15 @@
             blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");
             blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());
 
-            console.log(optionsSelectedCheckboxes)
-            console.log(tariffSelectedCheckboxes)
-            console.log(blockNumberCheckBox)
-
-            // var wrappedDataToExp = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
-            //                         tariffSelectedCheckboxes:tariffSelectedCheckboxes,
-            //                         blockNumberCheckBox:blockNumberCheckBox}
+            var exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
+                                    tariffSelectedCheckboxes:tariffSelectedCheckboxes,
+                                    blockNumberCheckBox:blockNumberCheckBox}
 
             $.ajax({
                     contentType: "application/json",
                     url: '/clientOffice/submitvalues',
                     type: 'POST',
-                    data: optionsSelectedCheckboxes,
+                    data: JSON.stringify(exportObject),
                     success: function (result) {
                         console.log("data successfully sended to controller");
                     }

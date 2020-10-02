@@ -66,7 +66,7 @@
 <div class="row" style="margin-top:20px;">
     <div class="col"></div>
     <div class="col-5">
-        <p style="font-weight: bolder; float:left;">Search for a contract by phone number</p>
+        <p style="font-weight: bolder; float:left; font-size: 18px;">Search for a contract by phone number</p>
 
         <div style="margin-top: 20px">
             <input class="form-control" type="text" id="searchForm" style="width:65%; background-color: white; float:left; border-color: black;" placeholder="Enter phone number">
