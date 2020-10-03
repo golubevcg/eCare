@@ -130,7 +130,8 @@
                                     }else{
                                         $("#" + result[0][j].option_id).attr("disabled", false);
                                         $("[name="+result[0][j].option_id + "label]").css('color', 'black');
-                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#a3a3a3');
+                                        $("#"+result[0][j].option_id + "Slider").removeAttr("style");
+
                                     }
                                 }
                             }
@@ -146,6 +147,7 @@
                                     if(isChecked){
                                         $("#" + result[1][j].option_id).attr('checked', true);
                                     }else{
+                                        $("#" + result[1][j].option_id).removeAttr("checked");
                                     }
                                 }
                             }
