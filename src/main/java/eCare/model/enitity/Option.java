@@ -6,7 +6,9 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,7 +43,7 @@ public class Option {
     @JoinTable(name= "tariffs_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="tariff_id") })
-    private List<Tariff> tariffsOptions = new ArrayList<>();
+    private Set<Tariff> tariffsOptions = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
@@ -49,7 +51,7 @@ public class Option {
     @JoinTable(name= "contracts_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="contract_id") })
-    private List<Contract> contractsOptions = new ArrayList<>();
+    private Set<Contract> contractsOptions = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
@@ -57,7 +59,7 @@ public class Option {
     @JoinTable(name= "incompatible_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })
-    private List<Option> incompatibleOptionsList = new ArrayList<>();
+    private Set<Option> incompatibleOptionsList = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
@@ -65,33 +67,17 @@ public class Option {
     @JoinTable(name= "obligatory_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="obligatoryoption_id") })
-    private List<Option> obligatoryOptionsList = new ArrayList<>();
+    private Set<Option> obligatoryOptionsList = new HashSet<>();
 
     public void addTariff(Tariff tariff){
         tariffsOptions.add(tariff);
     }
 
     public void addIncompatibleOption(Option option){
-
-        for (int i = 0; i < obligatoryOptionsList.size(); i++) {
-            if(( obligatoryOptionsList.get(i).getName() ).equals(option.getName())){
-                obligatoryOptionsList.remove(option);
-            }
-        }
-
         incompatibleOptionsList.add(option);
-
     }
 
     public void addObligatoryOption(Option option){
-
-
-        for (int i = 0; i < incompatibleOptionsList.size(); i++) {
-            if(( incompatibleOptionsList.get(i).getName() ).equals(option.getName())){
-                incompatibleOptionsList.remove(option);
-            }
-        }
-
         obligatoryOptionsList.add(option);
     }
 

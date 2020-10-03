@@ -23,7 +23,7 @@ public class ContractsController {
     @GetMapping("/contracts")
     public String getClientOffice(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
-        List<ContractDTO> contractsList = userDTO.getListOfContracts();
+        Set<ContractDTO> contractsList = userDTO.getListOfContracts();
 
         LinkedHashMap<ContractDTO, String> numbersTariffsMap = new LinkedHashMap<>();
 

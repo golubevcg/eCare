@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,7 +22,7 @@ public class ContractDTO implements Comparable{
     private UserDTO user;
     private TariffDTO tariff;
     private boolean isActive = true;
-    private List<OptionDTO> listOfOptions = new ArrayList<>();
+    private Set<OptionDTO> listOfOptions = new HashSet<>();
 
     public String getContractNumber() {
         return contractNumber;

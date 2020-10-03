@@ -23,6 +23,58 @@
     $(document).ready(function(){
         $('input[name="tariffCheckbox"]').on('change', function() {
             $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+
+            $.ajax({
+                contentType: "application/json",
+                url: '/clientOffice/getTariffOptions',
+                type: 'POST',
+                data: JSON.stringify(this.id),
+                success: function(result) {
+
+                    var finexp = "";
+
+                    for (var i = 0; i < result.length; i++) {
+
+                        var finexp = finexp
+                            + "<hr style=\"margin-top:10px; width:100%;\">"
+                            + "<div class=\"col-3\">"
+                                         + "<p class=\"lead columnContentLabels\">" + result[i].name + "</p>"
+                                         + "</div>"
+
+                                         + "<div class=\"col-2\">"
+                                         + "<p class=\"lead columnContentLabels\">" + result[i].price + "</p>"
+                                         + "</div>"
+
+                                         + "<div class=\"col-5\">"
+                                         + "<p class=\"lead columnContentLabels\">" + result[i].shortDiscription + "</p>"
+                                         + "</div>"
+
+                                         +  "<div class=\"col-1\">"
+                                         + "<div class=\"form-check\">"
+
+                                         + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"
+                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + + result[i].name + "\">"
+                                         + "<span class=\"slider round\" ></span>"
+                                         + "</label>"
+
+                                         + "</div>"
+                                         + "</div>"
+
+                                         + "</div>";
+
+                    }
+
+                    document.getElementById("enabledOptionsContainer")
+                        .innerHTML = finexp;
+
+
+
+                },
+                error: function() {
+                    console.log('Error occured during fetching data from controller.');
+                }
+            });
+
         });
     });
 
@@ -48,7 +100,7 @@
                     type: 'POST',
                     data: JSON.stringify(exportObject),
                     success: function (result) {
-                        console.log("data successfully sended to controller");
+                        location.reload();
                     }
             });
 
@@ -114,6 +166,7 @@
            style="font-family: MS Shell Dig 2; font-size: 20px; float:left; margin-bottom:10px; margin-left:10px;">
             Сonnected options:</p>
         <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; padding-top:20px;">
+
             <c:forEach items="${connectedOptions}" var="option"  varStatus="status" >
 
                 <div class="row">
@@ -178,9 +231,10 @@
             </div>
 
 
-            <hr style="width: 105%; clear:both; margin-left:-17px;">
+<%--            <hr style="width: 105%; clear:both; margin-left:-17px;">--%>
 
             <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
+                <hr style="margin-top:10px; width:100%;">
                 <div class="row">
                         <div class="col-3">
                             <p class="lead columnContentLabels">${tariff.name}</p>
@@ -213,6 +267,7 @@
                         </div>
 
                 </div>
+
             </c:forEach>
 
         </div>
@@ -250,52 +305,49 @@
 
             </div>
 
-            <hr>
+<%--            <hr>--%>
+            <div class="row" id="enabledOptionsContainer">
 
-            <div class="row" >
+                        <c:forEach items="${enabledOptionsDTOMap}" var="entry">
+                            <hr style="margin-top:10px; width:100%;">
 
-                    <c:forEach items="${enabledOptionsDTOMap}" var="entry">
+                        <div class="col-3">
+                            <p class="lead columnContentLabels">${entry.key.name}</p>
+                        </div>
 
-                    <div class="col-3">
-                        <p class="lead columnContentLabels">${entry.key.name}</p>
-                    </div>
+                        <div class="col-2">
+                            <p class="lead columnContentLabels">${entry.key.price}</p>
+                        </div>
 
-                    <div class="col-2">
-                        <p class="lead columnContentLabels">${entry.key.price}</p>
-                    </div>
-
-                    <div class="col-5">
-                        <p class="lead columnContentLabels">${entry.key.shortDiscription}</p>
-                    </div>
+                        <div class="col-5">
+                            <p class="lead columnContentLabels">${entry.key.shortDiscription}</p>
+                        </div>
 
 
                         <div class="col-1">
 
-                            <div class="form-check">
-                                <c:choose>
-                                    <c:when test="${entry.value eq false}">
-                                        <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                            <input type="checkbox" name="optionCheckbox" id="${entry.key.name}">
-                                            <span class="slider round" ></span>
-                                        </label>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                                            <input type="checkbox" checked name="optionCheckbox" id="${entry.key.name}">
-                                            <span class="slider round" ></span>
-                                        </label>
-                                    </c:otherwise>
-                                </c:choose>
+                                <div class="form-check">
+                                    <c:choose>
+                                        <c:when test="${entry.value eq false}">
+                                            <label class="switch" style="clear:both; " name="group1">
+                                                <input type="checkbox" name="optionCheckbox" id="${entry.key.name}">
+                                                <span class="slider round" ></span>
+                                            </label>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label class="switch" style="clear:both; " name="group1">
+                                                <input type="checkbox" checked name="optionCheckbox" id="${entry.key.name}">
+                                                <span class="slider round" ></span>
+                                            </label>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </div>
 
                             </div>
 
-                        </div>
 
-
-                    </c:forEach>
-
-                <div class="row">
-                </div>
+                        </c:forEach>
 
             </div>
         </div>

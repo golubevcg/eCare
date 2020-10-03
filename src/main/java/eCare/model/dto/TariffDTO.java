@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +21,7 @@ public class TariffDTO {
     private String name;
     private Integer price;
     private String shortDiscription;
-    private List<ContractDTO> listOfContracts = new ArrayList<>();
+    private Set<ContractDTO> setOfContracts = new HashSet<>();
     private boolean isActive = true;
-    private List<OptionDTO> listOfOptions = new ArrayList<>();
+    private Set<OptionDTO> setOfOptions = new HashSet<>();
 }

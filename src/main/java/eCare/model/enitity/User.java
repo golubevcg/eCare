@@ -63,7 +63,7 @@ public class User {
             mappedBy = "user",
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER)
-    private List<Contract> listOfContracts = new ArrayList<>();
+    private Set<Contract> listOfContracts = new HashSet<>();
 
      public User(String login, String password, Role role){
         this.login = login;

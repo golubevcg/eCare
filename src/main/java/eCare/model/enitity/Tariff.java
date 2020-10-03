@@ -5,8 +5,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,7 +35,7 @@ public class Tariff {
             cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
-    private List<Contract> listOfContracts  = new ArrayList<>();
+    private Set<Contract> setOfContracts = new HashSet<>();
 
     @Column(name="isactive")
     private boolean isActive = true;
@@ -46,7 +46,7 @@ public class Tariff {
     @JoinTable(name= "tariffs_options",
             joinColumns = { @JoinColumn(name="tariff_id") },
             inverseJoinColumns = { @JoinColumn(name= "option_id") })
-    private List<Option> listOfOptions = new ArrayList<>();
+    private Set<Option> setOfOptions = new HashSet<>();
 
     public Tariff(String name, int price, String discription) {
         this.name = name;
@@ -55,11 +55,11 @@ public class Tariff {
     }
 
     public void addContract(Contract contract){
-        listOfContracts.add(contract);
+        setOfContracts.add(contract);
     }
 
     public void addOption(Option option){
-        listOfOptions.add(option);
+        setOfOptions.add(option);
     }
 
 }

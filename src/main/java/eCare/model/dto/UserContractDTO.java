@@ -27,7 +27,7 @@ public class UserContractDTO {
     private String confirmPassword;
     private boolean isActive = true;
     private Set<RoleDTO> roles = new HashSet<>();
-    private List<ContractDTO> listOfContracts = new ArrayList<>();
+    private Set<ContractDTO> listOfContracts = new HashSet<>();
 
     public void addContractDTO(ContractDTO contractDTO){
         listOfContracts.add(contractDTO);

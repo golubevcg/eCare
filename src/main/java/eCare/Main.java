@@ -1,7 +1,24 @@
 package eCare;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import eCare.dao.impl.ContractDaoImpl;
+import eCare.dao.impl.OptionDaoImpl;
 import eCare.dao.impl.UserDaoImpl;
+import eCare.model.converters.OptionMapper;
+import eCare.model.dto.OptionDTO;
+import eCare.model.enitity.Contract;
+import eCare.model.enitity.Option;
+import eCare.services.impl.ContractServiceImpl;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.modelmapper.ModelMapper;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -49,9 +66,24 @@ public class Main {
 //        contract.addOption(option);
 //
 //        contractDaoImpl.update(contract);
-
-        UserDaoImpl userDao = new UserDaoImpl();
-        System.out.println(userDao.getUserByLogin("agol").get(0).getListOfContracts().size());
-
+//        ContractDaoImpl contractDaoImpl = new ContractDaoImpl();
+//
+//        OptionMapper optionMapper = new OptionMapper();
+//
+//        Set<Option> optionDTOHashSet = contractDaoImpl.getContractByNumber("+79117684563")
+//                        .get(0)
+//                        .getSetOfOptions();
+//
+//        Option option = new Option();
+//        option.setName("erwer");
+//        option.setPrice(100);
+//
+//        OptionDTO optionDTO = optionMapper.toDTO(option);
+//        System.out.println(optionDTO.getName());
+//
+//
+//        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+//
+//        System.out.println(gson.toJson(optionDTOHashSet));
     }
 }

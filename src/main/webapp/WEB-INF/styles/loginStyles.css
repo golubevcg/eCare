@@ -38,6 +38,6 @@
     padding-bottom: 2.5rem;
 }
 
-.dropdown-toggle::after {
-    content: none;
-}
+/*.dropdown-toggle::after {*/
+/*    content: none;*/
+/*}*/

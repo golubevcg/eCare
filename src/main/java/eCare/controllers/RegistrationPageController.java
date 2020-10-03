@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class RegistrationPageController {
@@ -103,13 +104,13 @@ public class RegistrationPageController {
     @RequestMapping(value = "/userRegistration/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
     public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
 
-        List<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getListOfOptions();
-        List<String> optionNamesList = new ArrayList<>();
+        Set<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getSetOfOptions();
+        Set<String> optionNamesSet = new HashSet<>();
         for (Option option: optionList) {
-            optionNamesList.add(option.getName());
+            optionNamesSet.add(option.getName());
         }
 
-        return new Gson().toJson(optionNamesList);
+        return new Gson().toJson(optionNamesSet);
     }
 
 }

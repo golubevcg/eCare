@@ -18,7 +18,7 @@ public class ContractDaoImpl implements ContractDao {
     public void save(Contract contract) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        session.save(contract);
+        session.saveOrUpdate(contract);
         transaction2.commit();
         session.close();
     }

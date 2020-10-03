@@ -5,8 +5,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,7 +45,7 @@ public class Contract {
     @JoinTable(name= "contracts_options",
             joinColumns = { @JoinColumn(name= "contract_id") },
             inverseJoinColumns = { @JoinColumn(name="option_id") })
-    private List<Option> listOfOptions = new ArrayList<>();
+    private Set<Option> setOfOptions = new HashSet<>();
 
     public Tariff getTariff() {
         return tariff;
@@ -61,7 +61,7 @@ public class Contract {
     }
 
     public void addOption(Option option){
-        listOfOptions.add(option);
+        setOfOptions.add(option);
     }
 
 }

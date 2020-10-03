@@ -1,14 +1,12 @@
 package eCare.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
 import eCare.services.impl.ContractServiceImpl;
+import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Controller
 public class ClientOfficeController {
@@ -35,38 +30,41 @@ public class ClientOfficeController {
     @Autowired
     ContractServiceImpl contractServiceImpl;
 
+    @Autowired
+    OptionServiceImpl optionServiceImpl;
+
+    UserDTO currentUser;
+
+    ContractDTO currentContract;
+
     @GetMapping("/clientOffice/{contractID}")
     public String getClientOffice(Model model, CsrfToken token, Principal principal,
                              @PathVariable(value="contractID") String contractID) {
-        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
+        currentUser = userServiceImpl.getUserDTOByLogin(principal.getName());
+        currentContract = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
 
-        model.addAttribute("contractNumber", contractDTO.getContractNumber());
-        model.addAttribute("firstAndSecondNames", userDTO.getFirstname() + " " + userDTO.getSecondname());
+        model.addAttribute("contractNumber", currentContract.getContractNumber());
+        model.addAttribute("firstAndSecondNames", currentUser.getFirstname() + " " + currentUser.getSecondname());
 
-        TariffDTO tariffDTO = contractDTO.getTariff();
+        TariffDTO tariffDTO = currentContract.getTariff();
         model.addAttribute("selectedTariff", tariffDTO.getName());
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
         model.addAttribute("tariffPrice", tariffDTO.getPrice() + " руб./мес.");
 
-        List<OptionDTO> availableOptions = tariffDTO.getListOfOptions();
-        List<OptionDTO> connectedOptions = contractDTO.getListOfOptions();
+        Set<OptionDTO> availableOptions = tariffDTO.getSetOfOptions();
+        Set<OptionDTO> connectedOptions = currentContract.getListOfOptions();
         Map<OptionDTO, Boolean> enabledOptionsDTOMap = new LinkedHashMap<>();
-        for (int i = 0; i < availableOptions.size(); i++) {
 
+        for (OptionDTO availableOption: availableOptions) {
             boolean isOptionInContract = false;
-            for (int j = 0; j < connectedOptions.size(); j++) {
-                if(availableOptions.get(i).equals(connectedOptions.get(j))){
-                    isOptionInContract = true;
-                }
+            for (OptionDTO connectedOption: connectedOptions) {
+                if(availableOption.equals(connectedOption))
+                isOptionInContract = true;
             }
-
-            enabledOptionsDTOMap.put(availableOptions.get(i), isOptionInContract);
-
+            enabledOptionsDTOMap.put(availableOption, isOptionInContract);
         }
 
         model.addAttribute("enabledOptionsDTOMap", enabledOptionsDTOMap);
-
 
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("activeTariffsList", activeTariffsList);
@@ -75,37 +73,63 @@ public class ClientOfficeController {
         return "clientOffice";
     }
 
-    @PostMapping("/clientOffice")
-    public String postClientOffice(Model model, Principal principal,
-                            @RequestParam(value = "tariffCheckbox", required = false) String[] tariffCheckbox) {
-        return "clientOffice";
-    }
+        @PostMapping(value="/clientOffice/getTariffOptions", produces = "application/json")
+    public @ResponseBody String postClientOffice(@RequestBody String selectedTariffName){
 
-//    @PostMapping("/clientOffice/submitvalues")
-//    public @ResponseBody String updateValuesOnInformationFromView(
-//            @RequestParam(name="exportObject") String exportObject) {
-//        System.out.println("++++++++++++");
-//        System.out.println(exportObject==null);
-//        System.out.println("++++++++++++");
-//
-////        System.out.println(wrappedDataToExp.length);
-//        return "";
-//    }
+        Set<OptionDTO> setOfOptions =
+                tariffServiceImpl.getTariffDTOByTariffname(selectedTariffName.replace("\"", "" ))
+                        .getSetOfOptions();
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+
+        System.out.println(gson.toJson(setOfOptions));
+        return gson.toJson(setOfOptions);
+    }
 
     @PostMapping(value="/clientOffice/submitvalues", produces = "application/json")
     public @ResponseBody void updateValuesOnInformationFromView(@RequestBody String exportObject) {
 
         JsonObject obj = JsonParser.parseString(exportObject).getAsJsonObject();
-        String blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsString();
-        System.out.println(blockNumberCheckBox);
+        Boolean blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsBoolean();
 
         String tariffSelectedCheckboxes = obj.get("tariffSelectedCheckboxes").getAsString();
-        System.out.println(tariffSelectedCheckboxes);
 
         JsonArray jsonArray = obj.get("optionsSelectedCheckboxes").getAsJsonArray();
         jsonArray.get(0).getAsString();
-        System.out.println( jsonArray.get(0).getAsString());
-        System.out.println( jsonArray.get(1).getAsString());
+
+        List<String> optionNamesArray = new ArrayList<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            optionNamesArray.add(jsonArray.get(i).getAsString());
+        }
+
+        if(currentContract.isBlocked()!=blockNumberCheckBox){
+            currentContract.setBlocked(blockNumberCheckBox);
+        }
+
+        if(!currentContract.getTariff().getName().equals(tariffSelectedCheckboxes)){
+            currentContract.setTariff( tariffServiceImpl.getTariffDTOByTariffname(tariffSelectedCheckboxes) );
+        }
+
+        Set<OptionDTO> currentOptions = currentContract.getListOfOptions();
+
+        for (OptionDTO currentOption: currentOptions) {
+
+            for (int j = 0; j < optionNamesArray.size(); j++) {
+                if(currentOption.getName() == optionNamesArray.get(j)){
+                    optionNamesArray.remove(optionNamesArray.get(j));
+                }
+            }
+
+        }
+
+        if(!optionNamesArray.isEmpty()){
+            for (int i = 0; i < optionNamesArray.size(); i++) {
+                currentContract.addOption(optionServiceImpl.getOptionDTOByName(optionNamesArray.get(i)));
+            }
+        }
+
+        contractServiceImpl.updateConvertDTO(currentContract);
 
     }
 

@@ -30,6 +30,10 @@ public class ContractServiceImpl implements ContractService {
         contractDaoImpl.update(contract);
     }
 
+    public void updateConvertDTO(ContractDTO contractDTO) {
+        contractDaoImpl.update(contractMapper.toEntity(contractDTO));
+    }
+
     @Override
     public void delete(Contract contract) {
         contractDaoImpl.delete(contract);

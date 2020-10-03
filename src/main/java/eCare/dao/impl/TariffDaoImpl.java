@@ -18,7 +18,7 @@ public class TariffDaoImpl implements TarifDao {
     public void save(Tariff tarif) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        session.save(tarif);
+        session.merge(tarif);
         transaction2.commit();
         session.close();
     }
