@@ -14,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OptionDTO implements Comparable{
+    @Expose
     private Long option_id;
     @Expose
     private String name;

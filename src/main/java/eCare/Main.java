@@ -101,7 +101,7 @@ public class Main {
 //
 //        optionDao.save(option6);
 //
-//        TariffDaoImpl tariffDao= new TariffDaoImpl();
+        TariffDaoImpl tariffDao= new TariffDaoImpl();
 //        Tariff tariffBase = tariffDao.getTariffByTariffName("Base").get(0);
 //        tariffBase.addOption(option);
 //        tariffBase.addOption(option5);
@@ -140,6 +140,12 @@ public class Main {
 //        tariffDao.update(tariffDaily);
 //        tariffDao.update(tariffExtended);
 //        tariffDao.update(tariffBussiness);
+
+//         Option option6 = new Option();
+//         option6.setName("Obligatory Option1");
+//         option6.setPrice(50);
+//         option6.setShortDiscription("Obligatory Option1");
+
 
 
     }

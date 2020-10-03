@@ -42,7 +42,7 @@
                                          + "</div>"
 
                                          + "<div class=\"col-2\">"
-                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].name + "label\">" + result[i].price + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].price + "</p>"
                                          + "</div>"
 
                                          + "<div class=\"col-5\">"
@@ -116,38 +116,44 @@
                 type: 'GET',
                 url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOption,
                 success: function(result){
-
-                    console.log(result);
-
-                    if(result.length>0){
+                    if(result[0].length>0){
                         for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
-                            for(var j = 0; j < result.length; j++){
+                            for(var j = 0; j < result[0].length; j++){
 
-                                if(result[j]===restOptionCheckboxes[i].id){
+                                if(result[0][j]===restOptionCheckboxes[i].id){
                                     if(isChecked){
                                         $("#" + restOptionCheckboxes[i].id).attr("checked", false);
                                         $("#" + restOptionCheckboxes[i].id).attr("disabled", true);
                                         $("[name="+restOptionCheckboxes[i].id + "label]").css('color', '#d3d3d3');
-
                                         $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#e9e9e9');
-
                                     }else{
                                         $("#" + restOptionCheckboxes[i].id).attr("disabled", false);
                                         $("[name="+restOptionCheckboxes[i].id + "label]").css('color', 'black');
                                         $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#a3a3a3');
-
                                     }
-
                                 }
-
                             }
-
-
                         }
-
-
                     }
+
+                    if(result[1].length>0){
+                        console.log('entered second length comparing');
+                        for (let i = 0; i < restOptionCheckboxes.length; i++) {
+
+                            for(var j = 0; j < result[1].length; j++){
+
+                                if(result[1][j]===restOptionCheckboxes[i].id){
+                                    if(isChecked){
+                                        $("#" + restOptionCheckboxes[i].id).attr('checked', true);
+                                    }else{
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
 
                 }
 

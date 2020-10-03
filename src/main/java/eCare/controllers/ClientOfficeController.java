@@ -127,15 +127,26 @@ public class ClientOfficeController {
                                @PathVariable(value = "selectedOption") String selectedOption) {
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOByName(selectedOption);
         Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
+        Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
 
-        String exportString = "";
+        ArrayList<String> incompatibleOptionNamesList = new ArrayList<>();
         if(!incompatibleOptionsSet.isEmpty()) {
-            ArrayList<String> incompatibleOptionNamesList = new ArrayList<>();
             for (OptionDTO optionEntity : incompatibleOptionsSet) {
                 incompatibleOptionNamesList.add(optionEntity.getName());
             }
-            exportString = new Gson().toJson(incompatibleOptionNamesList);
         }
-        return exportString;
+
+        ArrayList<String> obligatoryOptionNamesList = new ArrayList<>();
+        if(!obligatoryOptionsSet.isEmpty()) {
+            for (OptionDTO optionEntity : obligatoryOptionsSet) {
+                obligatoryOptionNamesList.add(optionEntity.getName());
+            }
+        }
+
+        ArrayList<String>[] array = new ArrayList[2];
+        array[0]=incompatibleOptionNamesList;
+        array[1]=obligatoryOptionNamesList;
+
+        return new Gson().toJson(array);
     }
 }
