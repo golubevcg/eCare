@@ -121,10 +121,25 @@ font-family: MS Shell Dig 2;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #a3a3a3;
+    background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
 }
+
+.slider:disabled {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+
+
 
 .slider:before {
     position: absolute;
@@ -133,7 +148,7 @@ font-family: MS Shell Dig 2;
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: #d3d3d3;
     -webkit-transition: .4s;
     transition: .4s;
 }

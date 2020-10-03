@@ -27,7 +27,7 @@ public class Tariff {
     @Column
     private Integer price;
 
-    @Column(name="shortdiscription")
+    @Column(name= "shortdescription")
     private String shortDiscription;
 
     @OneToMany(targetEntity = Contract.class,

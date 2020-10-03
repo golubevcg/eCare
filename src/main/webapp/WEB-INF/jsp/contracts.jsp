@@ -18,33 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 </head>
-
-<%--<script type="text/javascript">--%>
-<%--        $(document).ready(function(){--%>
-
-<%--            $('#searchForm').on('change', function()--%>
-<%--            {--%>
-<%--                $.ajax({--%>
-<%--                    type: 'GET',--%>
-<%--                    url: '${pageContext.request.contextPath }/contracts/findContract/',--%>
-<%--                    success: function(result){--%>
-<%--                        var result = JSON.parse(result);--%>
-<%--                        // var s = '';--%>
-<%--                        // console.log(result.length);--%>
-
-<%--                        // for(var i = 0; i < result.length; i++){--%>
-<%--                        //     // s+='<option value="' + result[i] + '">' + result[i] + '</option>';--%>
-<%--                        //     console.log(result[i]);--%>
-<%--                        // }--%>
-<%--                        // $('#contractsList').html(s);--%>
-<%--                        for (let [key, value] of result) {--%>
-<%--                            console.log(key + " = " + value);--%>
-<%--                        }--%>
-<%--                    }--%>
-<%--                });--%>
-<%--            });--%>
-<%--        });--%>
-<%--</script>--%>
 <body>
 
 <jsp:directive.include file = "headerTemplateUser.jsp" />
@@ -82,11 +55,11 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="row">
-            <div class="col-5">
+            <div class="col-4">
                 <p class="lead" id="columnDiscriptionLabels">Phone number</p>
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
                 <p class="lead" id="columnDiscriptionLabels"> Tariff </p>
             </div>
 
@@ -104,36 +77,62 @@
     <div class="col-5">
         <div class="row">
 
-<%--            <div class="col-5">--%>
-<%--                <p class="lead" id="columnContentLabels">+7-911-756-45-46</p>--%>
-<%--            </div>--%>
+<%--            <c:forEach items="${numbersTariffsMap}" var="entry">--%>
 
-<%--            <div class="col-4">--%>
-<%--                <p class="lead" id="columnContentLabels"> Тариф 1</p>--%>
-<%--            </div>--%>
+<%--                        <div class="col-4">--%>
+<%--                            <p class="lead" id="columnContentLabels">${entry.key.contractNumber}</p>--%>
+<%--                        </div>--%>
 
-<%--            <div class="col-3">--%>
-<%--                <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>--%>
-<%--            </div>--%>
+<%--                        <div class="col-3">--%>
+<%--                            <p class="lead" id="columnContentLabels">${entry.value}</p>--%>
+<%--                        </div>--%>
 
-            <c:forEach items="${numbersTariffsMap}" var="entry">
+<%--                        <div class="col-2">--%>
+<%--                            <p class="lead" id="columnContentLabels" style="color:red;">Blocked</p>--%>
+<%--                        </div>--%>
 
-                        <div class="col-5">
-                            <p class="lead" id="columnContentLabels">${entry.key.contractNumber}</p>
-                        </div>
+<%--                        <div class="col-3">--%>
+<%--                            <a href="/clientOffice/${entry.key.contract_id}">--%>
+<%--                            <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>--%>
+<%--                            </a>--%>
+<%--                        </div>--%>
 
-                        <div class="col-4">
-                            <p class="lead" id="columnContentLabels">${entry.value}</p>
-                        </div>
+<%--                        <hr class="rounded"--%>
+<%--                            style="width: 100%; clear:both; padding:2px;--%>
+<%--                            margin:0px; margin-top:0px; margin-bottom:0px;">--%>
 
-                        <div class="col-3">
-                            <a href="/clientOffice/${entry.key.contract_id}">
-                            <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>
-                            </a>
-                        </div>
+<%--            </c:forEach>--%>
 
-                        <hr class="rounded"
-                            style="width: 100%; clear:both; padding:2px;
+            <c:forEach items="${contractsSet}" var="entry">
+
+                <div class="col-4">
+                    <p class="lead" id="columnContentLabels">${entry.contractNumber}</p>
+                </div>
+
+                <div class="col-3">
+                    <p class="lead" id="columnContentLabels">${entry.tariff.name}</p>
+                </div>
+
+                <div class="col-2">
+                    <c:choose>
+                        <c:when test="${entry.blocked eq true}">
+                            <p class="lead" id="columnContentLabels" style="color:red;">Blocked</p>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="lead" id="columnContentLabels" style="color:red;"></p>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+                <div class="col-3">
+
+                    <a href="/clientOffice/${entry.contract_id}">
+                        <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>
+                    </a>
+                </div>
+
+                <hr class="rounded"
+                    style="width: 100%; clear:both; padding:2px;
                             margin:0px; margin-top:0px; margin-bottom:0px;">
 
             </c:forEach>

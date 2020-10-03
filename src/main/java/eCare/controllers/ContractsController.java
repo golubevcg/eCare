@@ -23,22 +23,8 @@ public class ContractsController {
     @GetMapping("/contracts")
     public String getClientOffice(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
-        Set<ContractDTO> contractsList = userDTO.getListOfContracts();
-
-        LinkedHashMap<ContractDTO, String> numbersTariffsMap = new LinkedHashMap<>();
-
-        for (ContractDTO contractDTO: contractsList) {
-            String tariff = "no tariff selected";
-            if(contractDTO.getTariff()!=null){
-                tariff = contractDTO.getTariff().getName();
-            }else{
-
-            }
-            numbersTariffsMap.put(contractDTO, tariff);
-        }
-
-        model.addAttribute("numbersTariffsMap", numbersTariffsMap);
-
+        Set<ContractDTO> contractsSet = userDTO.getListOfContracts();
+        model.addAttribute("contractsSet", contractsSet);
         return "contracts";
     }
 

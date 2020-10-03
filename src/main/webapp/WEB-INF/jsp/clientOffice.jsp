@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resources/styles/privateOfficeClient.css">
+    <link rel="stylesheet" id="styleSheetsId" href="/resources/styles/privateOfficeClient.css">
 <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--%>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -38,23 +38,23 @@
                         var finexp = finexp
                             + "<hr style=\"margin-top:10px; width:100%;\">"
                             + "<div class=\"col-3\">"
-                                         + "<p class=\"lead columnContentLabels\">" + result[i].name + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].name + "label\">" + result[i].name + "</p>"
                                          + "</div>"
 
                                          + "<div class=\"col-2\">"
-                                         + "<p class=\"lead columnContentLabels\">" + result[i].price + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].name + "label\">" + result[i].price + "</p>"
                                          + "</div>"
 
                                          + "<div class=\"col-5\">"
-                                         + "<p class=\"lead columnContentLabels\">" + result[i].shortDiscription + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].name + "label\">" + result[i].shortDiscription + "</p>"
                                          + "</div>"
 
                                          +  "<div class=\"col-1\">"
                                          + "<div class=\"form-check\">"
 
                                          + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"
-                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + + result[i].name + "\">"
-                                         + "<span class=\"slider round\" ></span>"
+                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].name + "\">"
+                                         + "<span class=\"slider round\" id=" + result[i].name + "Slider\"></span>"
                                          + "</label>"
 
                                          + "</div>"
@@ -66,9 +66,6 @@
 
                     document.getElementById("enabledOptionsContainer")
                         .innerHTML = finexp;
-
-
-
                 },
                 error: function() {
                     console.log('Error occured during fetching data from controller.');
@@ -94,6 +91,8 @@
                                     tariffSelectedCheckboxes:tariffSelectedCheckboxes,
                                     blockNumberCheckBox:blockNumberCheckBox}
 
+            console.log(JSON.stringify(exportObject));
+
             $.ajax({
                     contentType: "application/json",
                     url: '/clientOffice/submitvalues',
@@ -103,9 +102,63 @@
                         location.reload();
                     }
             });
-
     }
-</script>
+
+    $(document).ready(function(){
+
+        $( "input[name='optionCheckbox']" ).on('change', function()
+        {
+            var selectedOption = $(this).attr('id');
+            var isChecked = $(this).prop('checked');
+            var restOptionCheckboxes = $('input[name="' + this.name + '"]').not(this);
+
+            $.ajax({
+                type: 'GET',
+                url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOption,
+                success: function(result){
+
+                    console.log(result);
+
+                    if(result.length>0){
+                        for (let i = 0; i < restOptionCheckboxes.length; i++) {
+
+                            for(var j = 0; j < result.length; j++){
+
+                                if(result[j]===restOptionCheckboxes[i].id){
+                                    if(isChecked){
+                                        $("#" + restOptionCheckboxes[i].id).attr("checked", false);
+                                        $("#" + restOptionCheckboxes[i].id).attr("disabled", true);
+                                        $("[name="+restOptionCheckboxes[i].id + "label]").css('color', '#d3d3d3');
+
+                                        $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#e9e9e9');
+
+                                    }else{
+                                        $("#" + restOptionCheckboxes[i].id).attr("disabled", false);
+                                        $("[name="+restOptionCheckboxes[i].id + "label]").css('color', 'black');
+                                        $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#a3a3a3');
+
+                                    }
+
+                                }
+
+                            }
+
+
+                        }
+
+
+                    }
+
+                }
+
+            });
+
+
+        });
+
+    });
+
+    </script>
 
 <jsp:directive.include file = "headerTemplateUser.jsp" />
 <div></div>
@@ -116,7 +169,7 @@
         <div class="col"></div>
 
         <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">My account</h1>
+            <h1 class="display-4" id="privateOfficeLabel">Contract details</h1>
         </div>
 
         <div class="col"></div>
@@ -167,37 +220,49 @@
             Сonnected options:</p>
         <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; padding-top:20px;">
 
-            <c:forEach items="${connectedOptions}" var="option"  varStatus="status" >
-
+            <c:choose>
+                <c:when test="${empty connectedOptions}">
                 <div class="row">
                     <div class="col">
                         <p class="lead"
                            style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
-                        >${option.name} </p>
+                        >No options connected.</p>
                     </div>
-                    <div class="col">
-                        <p class="lead"
-                           style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
-                        >${option.price} $ / month</p>
-                    </div>
-                    <div class="col">
-                        <p class="lead"
-                           style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
-                        >${option.shortDiscription} </p>
-                    </div>
-
-                    <c:choose>
-                        <c:when test="${status.last}">
-                        </c:when>
-                        <c:otherwise>
-                            <hr class="rounded" style="width: 100%; clear:both;">
-                        </c:otherwise>
-                    </c:choose>
-
                 </div>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${connectedOptions}" var="option"  varStatus="status" >
 
-            </c:forEach>
+                        <div class="row">
+                            <div class="col">
+                                <p class="lead"
+                                   style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
+                                >${option.name} </p>
+                            </div>
+                            <div class="col">
+                                <p class="lead"
+                                   style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
+                                >${option.price} $ / month</p>
+                            </div>
+                            <div class="col">
+                                <p class="lead"
+                                   style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
+                                >${option.shortDiscription} </p>
+                            </div>
 
+                            <c:choose>
+                                <c:when test="${status.last}">
+                                </c:when>
+                                <c:otherwise>
+                                    <hr class="rounded" style="width: 100%; clear:both;">
+                                </c:otherwise>
+                            </c:choose>
+
+                        </div>
+
+                    </c:forEach>
+                </c:otherwise>
+             </c:choose>
 
         </div>
     </div>
@@ -289,7 +354,7 @@
 
             <div class="row">
                 <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels">Option</p>
+                    <p class="lead" id="columnDiscriptionLabels" name="optionNameLabel">Option</p>
                 </div>
 
                 <div class="col-2">
@@ -312,15 +377,15 @@
                             <hr style="margin-top:10px; width:100%;">
 
                         <div class="col-3">
-                            <p class="lead columnContentLabels">${entry.key.name}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.name}</p>
                         </div>
 
                         <div class="col-2">
-                            <p class="lead columnContentLabels">${entry.key.price}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.price}</p>
                         </div>
 
                         <div class="col-5">
-                            <p class="lead columnContentLabels">${entry.key.shortDiscription}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.shortDiscription}</p>
                         </div>
 
 
@@ -331,13 +396,13 @@
                                         <c:when test="${entry.value eq false}">
                                             <label class="switch" style="clear:both; " name="group1">
                                                 <input type="checkbox" name="optionCheckbox" id="${entry.key.name}">
-                                                <span class="slider round" ></span>
+                                                <span class="slider round" id="${entry.key.name}Slider"></span>
                                             </label>
                                         </c:when>
                                         <c:otherwise>
                                             <label class="switch" style="clear:both; " name="group1">
                                                 <input type="checkbox" checked name="optionCheckbox" id="${entry.key.name}">
-                                                <span class="slider round" ></span>
+                                                <span class="slider round" id="${entry.key.name}Slider"></span>
                                             </label>
                                         </c:otherwise>
                                     </c:choose>
@@ -364,10 +429,21 @@
         </div>
 
         <div>
-            <label class="switch" style="clear:both; margin-top:5px;">
-                <input type="checkbox" name="blockNumberCheckBox">
-                <span class="slider round"></span>
-            </label>
+
+            <c:choose>
+                <c:when test="${isBlocked eq false}">
+                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                        <input type="checkbox" name="blockNumberCheckBox">
+                        <span class="slider round" ></span>
+                    </label>
+                </c:when>
+                <c:otherwise>
+                    <label class="switch" style="clear:both; margin-top:5px;" name="group1">
+                        <input type="checkbox" checked name="blockNumberCheckBox">
+                        <span class="slider round" ></span>
+                    </label>
+                </c:otherwise>
+            </c:choose>
 
         </div>
 

@@ -1,20 +1,12 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
-import eCare.model.enitity.Contract;
-import eCare.model.enitity.Option;
-import eCare.model.enitity.Tariff;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,10 +24,10 @@ public class OptionDTO implements Comparable{
     @Expose
     private String shortDiscription;
     private boolean isActive = true;
-    private Set<Tariff> tariffsOptions = new HashSet<>();
-    private Set<Contract> contractsOptions = new HashSet<>();
-    private Set<Option> incompatibleOptionsList = new HashSet<>();
-    private Set<Option> obligatoryOptionsList = new HashSet<>();
+    private Set<TariffDTO> tariffsOptions = new HashSet<>();
+    private Set<ContractDTO> contractsOptions = new HashSet<>();
+    private Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
+    private Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
 
     @Override
     public int compareTo(Object o) {
@@ -58,8 +50,8 @@ public class OptionDTO implements Comparable{
                 ", shortDiscription='" + shortDiscription + '\'' +
                 ", isActive=" + isActive +
                 ", tariffsOptions=" + tariffsOptions +
-                ", incompatibleOptionsList=" + incompatibleOptionsList +
-                ", obligatoryOptionsList=" + obligatoryOptionsList +
+                ", incompatibleOptionsList=" + incompatibleOptionsSet +
+                ", obligatoryOptionsList=" + obligatoryOptionsSet +
                 '}';
     }
 }

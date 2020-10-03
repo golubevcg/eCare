@@ -5,9 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,7 +30,7 @@ public class Option {
     @Column(name="connectioncost")
     private Integer connectionCost;
 
-    @Column(name= "shortdiscription")
+    @Column(name= "shortdescription")
     private String shortDiscription;
 
     @Column(name="isactive")
@@ -59,7 +57,7 @@ public class Option {
     @JoinTable(name= "incompatible_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="incompatibleoption_id") })
-    private Set<Option> incompatibleOptionsList = new HashSet<>();
+    private Set<Option> incompatibleOptionsSet = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
@@ -67,18 +65,18 @@ public class Option {
     @JoinTable(name= "obligatory_options",
             joinColumns = { @JoinColumn(name= "option_id") },
             inverseJoinColumns = { @JoinColumn(name="obligatoryoption_id") })
-    private Set<Option> obligatoryOptionsList = new HashSet<>();
+    private Set<Option> obligatoryOptionsSet = new HashSet<>();
 
     public void addTariff(Tariff tariff){
         tariffsOptions.add(tariff);
     }
 
     public void addIncompatibleOption(Option option){
-        incompatibleOptionsList.add(option);
+        incompatibleOptionsSet.add(option);
     }
 
     public void addObligatoryOption(Option option){
-        obligatoryOptionsList.add(option);
+        obligatoryOptionsSet.add(option);
     }
 
 }

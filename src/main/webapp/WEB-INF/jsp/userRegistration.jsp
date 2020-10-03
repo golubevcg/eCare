@@ -29,7 +29,7 @@
             var selectedTariff = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '${pageContext.request.contextPath }/userRegistration/loadOptionByTariff/' + selectedTariff,
+                url: '${pageContext.request.contextPath}/userRegistration/loadOptionByTariff/' + selectedTariff,
                 success: function(result){
                     var result = JSON.parse(result);
                     var s = '';
@@ -55,7 +55,6 @@
             tokenSeparators: ['/',',',';'," "]
         });
     })
-
 
     function revealTarifOptionsSelector() {
         var x = document.getElementById("tarifOptionsForUserRegistration");

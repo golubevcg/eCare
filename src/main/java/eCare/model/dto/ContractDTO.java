@@ -1,13 +1,9 @@
 package eCare.model.dto;
 
-import eCare.model.enitity.Option;
-import eCare.model.enitity.Tariff;
-import eCare.model.enitity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -22,7 +18,7 @@ public class ContractDTO implements Comparable{
     private UserDTO user;
     private TariffDTO tariff;
     private boolean isActive = true;
-    private Set<OptionDTO> listOfOptions = new HashSet<>();
+    private Set<OptionDTO> setOfOptions = new HashSet<>();
 
     public String getContractNumber() {
         return contractNumber;
@@ -33,7 +29,7 @@ public class ContractDTO implements Comparable{
     }
 
     public void addOption(OptionDTO optionDTO){
-        listOfOptions.add(optionDTO);
+        setOfOptions.add(optionDTO);
     }
 
     @Override
