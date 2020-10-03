@@ -124,29 +124,17 @@ public class ClientOfficeController {
     @GetMapping(value = "/userRegistration/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
     String getDependingOptions(Model model, CsrfToken token, Principal principal,
-                               @PathVariable(value = "selectedOption") String selectedOption) {
-        OptionDTO optionDTO = optionServiceImpl.getOptionDTOByName(selectedOption);
+                               @PathVariable(value = "selectedOption") String selectedOptionid) {
+
+        OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.parseLong(selectedOptionid));
         Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
         Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
 
-        ArrayList<String> incompatibleOptionNamesList = new ArrayList<>();
-        if(!incompatibleOptionsSet.isEmpty()) {
-            for (OptionDTO optionEntity : incompatibleOptionsSet) {
-                incompatibleOptionNamesList.add(optionEntity.getName());
-            }
-        }
+        Set<OptionDTO>[] array = new HashSet[2];
+        array[0]=incompatibleOptionsSet;
+        array[1]=obligatoryOptionsSet;
 
-        ArrayList<String> obligatoryOptionNamesList = new ArrayList<>();
-        if(!obligatoryOptionsSet.isEmpty()) {
-            for (OptionDTO optionEntity : obligatoryOptionsSet) {
-                obligatoryOptionNamesList.add(optionEntity.getName());
-            }
-        }
-
-        ArrayList<String>[] array = new ArrayList[2];
-        array[0]=incompatibleOptionNamesList;
-        array[1]=obligatoryOptionNamesList;
-
-        return new Gson().toJson(array);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(array);
     }
 }

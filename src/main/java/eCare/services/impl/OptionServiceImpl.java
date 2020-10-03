@@ -43,6 +43,16 @@ public class OptionServiceImpl implements OptionService {
         return optionMapper.toDTO(option);
     }
 
+    public OptionDTO getOptionDTOById(Long optionId) {
+        Option option = this.getOptionById(optionId).get(0);
+        return optionMapper.toDTO(option);
+    }
+
+    private List<Option> getOptionById(Long optionId) {
+        return optionDaoImpl.getOptionById(optionId);
+    }
+
+
     public Option convertDTOtoEntity(OptionDTO optionDTO){
         return optionMapper.toEntity(optionDTO);
     }

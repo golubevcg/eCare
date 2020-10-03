@@ -38,7 +38,7 @@
                         var finexp = finexp
                             + "<hr style=\"margin-top:10px; width:100%;\">"
                             + "<div class=\"col-3\">"
-                                         + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].name + "label\">" + result[i].name + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].option_id + "label\">" + result[i].name + "</p>"
                                          + "</div>"
 
                                          + "<div class=\"col-2\">"
@@ -46,15 +46,15 @@
                                          + "</div>"
 
                                          + "<div class=\"col-5\">"
-                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].name + "label\">" + result[i].shortDiscription + "</p>"
+                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].shortDiscription + "</p>"
                                          + "</div>"
 
                                          +  "<div class=\"col-1\">"
                                          + "<div class=\"form-check\">"
 
                                          + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"
-                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].name + "\">"
-                                         + "<span class=\"slider round\" id=" + result[i].name + "Slider\"></span>"
+                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].option_id + "\">"
+                                         + "<span class=\"slider round\" id=" + result[i].option_id + "Slider\"></span>"
                                          + "</label>"
 
                                          + "</div>"
@@ -116,21 +116,21 @@
                 type: 'GET',
                 url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOption,
                 success: function(result){
+
                     if(result[0].length>0){
                         for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
                             for(var j = 0; j < result[0].length; j++){
-
-                                if(result[0][j]===restOptionCheckboxes[i].id){
+                                if(result[0][j].option_id==restOptionCheckboxes[i].id){
                                     if(isChecked){
-                                        $("#" + restOptionCheckboxes[i].id).attr("checked", false);
-                                        $("#" + restOptionCheckboxes[i].id).attr("disabled", true);
-                                        $("[name="+restOptionCheckboxes[i].id + "label]").css('color', '#d3d3d3');
-                                        $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#e9e9e9');
+                                        $("#" + result[0][j].option_id).attr("checked", false);
+                                        $("#" + result[0][j].option_id).attr("disabled", true);
+                                        $("[name="+result[0][j].option_id + "label]").css('color', '#d3d3d3');
+                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#e9e9e9');
                                     }else{
-                                        $("#" + restOptionCheckboxes[i].id).attr("disabled", false);
-                                        $("[name="+restOptionCheckboxes[i].id + "label]").css('color', 'black');
-                                        $("#"+restOptionCheckboxes[i].id + "Slider").css('background-color', '#a3a3a3');
+                                        $("#" + result[0][j].option_id).attr("disabled", false);
+                                        $("[name="+result[0][j].option_id + "label]").css('color', 'black');
+                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#a3a3a3');
                                     }
                                 }
                             }
@@ -138,14 +138,13 @@
                     }
 
                     if(result[1].length>0){
-                        console.log('entered second length comparing');
                         for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
                             for(var j = 0; j < result[1].length; j++){
 
-                                if(result[1][j]===restOptionCheckboxes[i].id){
+                                if(result[1][j].option_id==restOptionCheckboxes[i].id){
                                     if(isChecked){
-                                        $("#" + restOptionCheckboxes[i].id).attr('checked', true);
+                                        $("#" + result[1][j].option_id).attr('checked', true);
                                     }else{
                                     }
                                 }
@@ -383,15 +382,15 @@
                             <hr style="margin-top:10px; width:100%;">
 
                         <div class="col-3">
-                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.name}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.name}</p>
                         </div>
 
                         <div class="col-2">
-                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.price}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.price}</p>
                         </div>
 
                         <div class="col-5">
-                            <p class="lead columnContentLabels" name="${entry.key.name}label">${entry.key.shortDiscription}</p>
+                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.shortDiscription}</p>
                         </div>
 
 
@@ -401,14 +400,14 @@
                                     <c:choose>
                                         <c:when test="${entry.value eq false}">
                                             <label class="switch" style="clear:both; " name="group1">
-                                                <input type="checkbox" name="optionCheckbox" id="${entry.key.name}">
-                                                <span class="slider round" id="${entry.key.name}Slider"></span>
+                                                <input type="checkbox" name="optionCheckbox" id="${entry.key.option_id}">
+                                                <span class="slider round" id="${entry.key.option_id}Slider"></span>
                                             </label>
                                         </c:when>
                                         <c:otherwise>
                                             <label class="switch" style="clear:both; " name="group1">
-                                                <input type="checkbox" checked name="optionCheckbox" id="${entry.key.name}">
-                                                <span class="slider round" id="${entry.key.name}Slider"></span>
+                                                <input type="checkbox" checked name="optionCheckbox" id="${entry.key.option_id}">
+                                                <span class="slider round" id="${entry.key.option_id}Slider"></span>
                                             </label>
                                         </c:otherwise>
                                     </c:choose>

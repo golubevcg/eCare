@@ -9,4 +9,5 @@ public interface OptionDao {
     void update(Option option);
     void delete(Option option);
     List<Option> getOptionByName(String name);
+    List<Option> getOptionById(Long optionId);
 }

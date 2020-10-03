@@ -58,4 +58,21 @@ public class OptionDaoImpl implements OptionDao {
 
         return optionsList;
     }
+
+    @Override
+    public List<Option> getOptionById(Long id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<Option> optionsList = session.createQuery(
+                "select o " +
+                        "from Option o " +
+                        "where o.option_id = :id", Option.class)
+                .setParameter("id", id).list();
+
+        transaction.commit();
+        session.close();
+
+        return optionsList;
+    }
 }
