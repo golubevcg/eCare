@@ -19,219 +19,228 @@
 </head>
 <body>
 
-<script>
-    $(document).ready(function(){
-        $('input[name="tariffCheckbox"]').on('change', function() {
-            $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+<%--<script>--%>
+<%--    $(document).ready(function(){--%>
+<%--        $('input[name="tariffCheckbox"]').on('change', function() {--%>
+<%--            $('input[name="' + this.name + '"]').not(this).prop('checked', false);--%>
 
-            $.ajax({
-                contentType: "application/json",
-                url: '/clientOffice/getTariffOptions',
-                type: 'POST',
-                data: JSON.stringify(this.id),
-                success: function(result) {
+<%--            $.ajax({--%>
+<%--                contentType: "application/json",--%>
+<%--                url: '/clientOffice/getTariffOptions',--%>
+<%--                type: 'POST',--%>
+<%--                data: JSON.stringify(this.id),--%>
+<%--                success: function(result) {--%>
 
-                    var finexp = "";
+<%--                    var finexp = "";--%>
 
-                    for (var i = 0; i < result.length; i++) {
+<%--                    for (var i = 0; i < result.length; i++) {--%>
 
-                        var finexp = finexp
-                            + "<hr style=\"margin-top:10px; width:100%;\">"
-                            + "<div class=\"col-3\">"
-                                         + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].option_id + "label\">" + result[i].name + "</p>"
-                                         + "</div>"
+<%--                        var finexp = finexp--%>
+<%--                            + "<hr style=\"margin-top:10px; width:100%;\">"--%>
+<%--                            + "<div class=\"col-3\">"--%>
+<%--                                         + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].option_id + "label\">" + result[i].name + "</p>"--%>
+<%--                                         + "</div>"--%>
 
-                                         + "<div class=\"col-2\">"
-                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].price + "</p>"
-                                         + "</div>"
+<%--                                         + "<div class=\"col-2\">"--%>
+<%--                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].price + "</p>"--%>
+<%--                                         + "</div>"--%>
 
-                                         + "<div class=\"col-5\">"
-                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].shortDiscription + "</p>"
-                                         + "</div>"
+<%--                                         + "<div class=\"col-5\">"--%>
+<%--                                         + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].shortDiscription + "</p>"--%>
+<%--                                         + "</div>"--%>
 
-                                         +  "<div class=\"col-1\">"
-                                         + "<div class=\"form-check\">"
+<%--                                         +  "<div class=\"col-1\">"--%>
+<%--                                         + "<div class=\"form-check\">"--%>
 
-                                         + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"
-                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].option_id + "\">"
-                                         + "<span class=\"slider round\" id=" + result[i].option_id + "Slider\"></span>"
-                                         + "</label>"
+<%--                                         + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"--%>
+<%--                                         + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].option_id + "\">"--%>
+<%--                                         + "<span class=\"slider round\" id=" + result[i].option_id + "Slider\"></span>"--%>
+<%--                                         + "</label>"--%>
 
-                                         + "</div>"
-                                         + "</div>"
+<%--                                         + "</div>"--%>
+<%--                                         + "</div>"--%>
 
-                                         + "</div>";
+<%--                                         + "</div>";--%>
 
-                    }
+<%--                    }--%>
 
-                    document.getElementById("enabledOptionsContainer")
-                        .innerHTML = finexp;
-                },
-                error: function() {
-                    console.log('Error occured during fetching data from controller.');
-                }
-            });
+<%--                    document.getElementById("enabledOptionsContainer")--%>
+<%--                        .innerHTML = finexp;--%>
+<%--                },--%>
+<%--                error: function() {--%>
+<%--                    console.log('Error occured during fetching data from controller.');--%>
+<%--                }--%>
+<%--            });--%>
 
-        });
-    });
+<%--        });--%>
+<%--    });--%>
 
-    function onSubmitClick(){
-            var tariffCheckboxes = document.getElementsByName("tariffCheckbox");
-            var tariffSelectedCheckboxes = Array.prototype.slice.call(tariffCheckboxes).filter(ch => ch.checked==true)
-                .map(ch=>ch.id.toString());
+<%--    function onSubmitClick(){--%>
+<%--            var tariffCheckboxes = document.getElementsByName("tariffCheckbox");--%>
+<%--            var tariffSelectedCheckboxes = Array.prototype.slice.call(tariffCheckboxes).filter(ch => ch.checked==true)--%>
+<%--                .map(ch=>ch.id.toString());--%>
 
-            var optionsCheckboxes = document.getElementsByName("optionCheckbox");
-            var optionsSelectedCheckboxes = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.checked==true)
-            .map(ch=>ch.id.toString());
+<%--            var optionsCheckboxes = document.getElementsByName("optionCheckbox");--%>
+<%--            var optionsSelectedCheckboxes = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.checked==true)--%>
+<%--            .map(ch=>ch.id.toString());--%>
 
-            var blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");
-            var blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());
+<%--            var blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");--%>
+<%--            var blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());--%>
 
-            var lockedOptionsArray = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.disabled==true)
-                .map(ch=>ch.id.toString());
+<%--            var lockedOptionsArray = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.disabled==true)--%>
+<%--                .map(ch=>ch.id.toString());--%>
 
-            console.log(JSON.stringify(lockedOptionsArray));
+<%--            console.log(JSON.stringify(lockedOptionsArray));--%>
 
-            var exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
-                                    tariffSelectedCheckboxes:tariffSelectedCheckboxes,
-                                    blockNumberCheckBox:blockNumberCheckBox,
-                                    lockedOptionsArray:lockedOptionsArray}
+<%--            var exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,--%>
+<%--                                    tariffSelectedCheckboxes:tariffSelectedCheckboxes,--%>
+<%--                                    blockNumberCheckBox:blockNumberCheckBox,--%>
+<%--                                    lockedOptionsArray:lockedOptionsArray}--%>
 
-            console.log(JSON.stringify(exportObject));
+<%--            console.log(JSON.stringify(exportObject));--%>
 
-            $.ajax({
-                    contentType: "application/json",
-                    url: '/clientOffice/submitvalues',
-                    type: 'POST',
-                    data: JSON.stringify(exportObject),
-                    success: function (result) {
-                        location.reload();
-                    }
-            });
-    }
+<%--            $.ajax({--%>
+<%--                    contentType: "application/json",--%>
+<%--                    url: '/clientOffice/submitvalues',--%>
+<%--                    type: 'POST',--%>
+<%--                    data: JSON.stringify(exportObject),--%>
+<%--                    success: function (result) {--%>
+<%--                        location.reload();--%>
+<%--                    }--%>
+<%--            });--%>
+<%--    }--%>
 
-    $(document).ready(function(){
-        $( "input[name='optionCheckbox']").on('change', function()
-        {   checkSwitchesAndChangeIfNeeded($(this))  });
-    })
+<%--    $(document).ready(function(){--%>
+<%--        $( "input[name='optionCheckbox']").on('change', function()--%>
+<%--        {   checkSwitchesAndChangeIfNeeded($(this))  });--%>
+<%--    })--%>
 
-    $(document).ready(function(){
-        $.ajax({
-            type: 'GET',
-            url: '${pageContext.request.contextPath}/userRegistration/getLockedOptions',
-            success: function (result) {
-                var optionCheckboxes = document.getElementsByName("optionCheckbox");
-                for (let i = 0; i < optionCheckboxes.length; i++) {
-                    for (let j = 0; j < result.length; j++) {
-                        if(optionCheckboxes[i].getAttribute('id') == result[j].option_id){
-                            optionCheckboxes[i].setAttribute("disabled", true);
-                            $("[name=" + optionCheckboxes[i].getAttribute('id') + "label]").css('color', '#d3d3d3');
-                            $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#d3d3d3');
+<%--    $(document).ready(function(){--%>
+<%--        $.ajax({--%>
+<%--            type: 'GET',--%>
+<%--            url: '${pageContext.request.contextPath}/userRegistration/getLockedOptions',--%>
+<%--            success: function (result) {--%>
+<%--                var optionCheckboxes = document.getElementsByName("optionCheckbox");--%>
+<%--                for (let i = 0; i < optionCheckboxes.length; i++) {--%>
+<%--                    for (let j = 0; j < result.length; j++) {--%>
+<%--                        if(optionCheckboxes[i].getAttribute('id') == result[j].option_id){--%>
+<%--                            optionCheckboxes[i].setAttribute("disabled", true);--%>
+<%--                            $("[name=" + optionCheckboxes[i].getAttribute('id') + "label]").css('color', '#d3d3d3');--%>
+<%--                            $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#d3d3d3');--%>
 
-                            if($("#" + optionCheckboxes[i].getAttribute('id')).prop("checked") == true) {
-                                $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#9acffa');
-                            }
+<%--                            if($("#" + optionCheckboxes[i].getAttribute('id')).prop("checked") == true) {--%>
+<%--                                $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#9acffa');--%>
+<%--                            }--%>
 
-                        }
+<%--                        }--%>
 
-                    }
-                }
-            }
-        })
-    });
+<%--                    }--%>
+<%--                }--%>
+<%--            }--%>
+<%--        })--%>
+<%--    });--%>
 
-    function checkSwitchesAndChangeIfNeeded(selectedOption)
-    {
-        var isChecked = selectedOption.prop('checked');
-        var restOptionCheckboxes = $('input[name="' + selectedOption.attr('name') + '"]').not(this);
-        var selectedOptionId = selectedOption.attr('id');
+<%--    function checkSwitchesAndChangeIfNeeded(selectedOption)--%>
+<%--    {--%>
+<%--        var isChecked = selectedOption.prop('checked');--%>
+<%--        var restOptionCheckboxes = $('input[name="' + selectedOption.attr('name') + '"]').not(this);--%>
+<%--        var selectedOptionId = selectedOption.attr('id');--%>
 
-        $.ajax({
-            type: 'GET',
-            url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOptionId,
-            success: function (result){
+<%--        console.log("currenly in function:" + selectedOptionId);--%>
 
-                if(result[0].length>0){
+<%--        $.ajax({--%>
+<%--            type: 'GET',--%>
+<%--            url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOptionId,--%>
+<%--            success: function (result){--%>
+<%--                console.log(result);--%>
+<%--                if(result[0].length>0){--%>
 
-                    for (let i = 0; i < restOptionCheckboxes.length; i++) {
+<%--                    for (let i = 0; i < restOptionCheckboxes.length; i++) {--%>
 
-                        for(var j = 0; j < result[0].length; j++){
+<%--                        for(var j = 0; j < result[0].length; j++){--%>
 
-                            if(result[0][j].option_id==restOptionCheckboxes[i].id){
+<%--                            if(result[0][j].option_id==restOptionCheckboxes[i].id){--%>
+<%--                                console.log("founded option with dependency")--%>
+<%--                                    if(isChecked){--%>
 
-                                    if (isChecked) {
-
-                                        if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){
-
-                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
-                                                + result[0][j].name + "it must not be disabled.");
-                                            $("#" + selectedOption.attr('id')).prop("checked", false);
-
-                                        }else {
-                                            $("#" + result[0][j].option_id).prop("checked", false);
-                                            $("#" + result[0][j].option_id).attr("disabled", true);
-                                            $("[name=" + result[0][j].option_id + "label]").css('color', '#d3d3d3');
-                                            $("#" + result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
-                                            checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id));
-                                        }
-
-                                    } else {
-                                        $("#" + result[0][j].option_id).removeAttr('checked');
-                                        $("#" + result[0][j].option_id).attr("disabled", false);
-                                        $("[name=" + result[0][j].option_id + "label]").css('color', 'black');
-                                        $("#" + result[0][j].option_id + "Slider").removeAttr("style");
-                                    }
-
-                                }
-
-                        }
-                    }
-                }
-
-                if(result[1].length>0){
-                    for (let i = 0; i < restOptionCheckboxes.length; i++) {
-
-                        for(var j = 0; j < result[1].length; j++){
-
-                            if(result[1][j].option_id==restOptionCheckboxes[i].id){
-
-                                    if (isChecked) {
-                                        if($("#" + result[1][j].option_id).attr('disabled') == "disabled"){
-                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
-                                                + result[1][j].name + "it must not be disabled.");
-                                            $("#" + selectedOption.attr('id')).prop("checked", false);
-                                        }else {
-                                            $("#" + result[1][j].option_id).removeAttr("checked");
-                                            $("#" + result[1][j].option_id).prop('checked', true);
-                                            $("#" + result[1][j].option_id).attr("disabled", true);
-                                            $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');
-                                            $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');
-                                            checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id));
-                                        }
-
-                                    } else {
-                                        $("[name=" + result[1][j].option_id + "label]").css('color', 'black');
-                                        $("#" + result[1][j].option_id + "Slider").removeAttr("style");
-                                        $("#" + result[1][j].option_id).attr("disabled", false);
-                                    }
-                            }
-                        }
-                    }
-                }
+<%--                                        if(checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id)) ){--%>
+<%--                                            console.log("recursive function returned true, working...");--%>
+<%--                                            if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){--%>
+<%--                                                alert(selectedOption.attr('id') + "have incompatible connection with - "--%>
+<%--                                                    + result[0][j].name + "it must not be disabled.");--%>
+<%--                                                $("#" + selectedOption.attr('id')).prop("checked", false);--%>
+<%--                                                console.log(1);--%>
+<%--                                            }else {--%>
+<%--                                                $("#" + result[0][j].option_id).prop("checked", false);--%>
+<%--                                                $("#" + result[0][j].option_id).attr("disabled", true);--%>
+<%--                                                $("[name=" + result[0][j].option_id + "label]").css('color', '#d3d3d3');--%>
+<%--                                                $("#" + result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');--%>
+<%--                                                console.log(2);--%>
+<%--                                            }--%>
+<%--                                            return true;--%>
+<%--                                        }else{--%>
+<%--                                            console.log("recursive function returned false, rejecting changes");--%>
+<%--                                            return false;--%>
+<%--                                        }--%>
+<%--                                    } else {--%>
+<%--                                        console.log("Changes declined, child object blocking this changes...")--%>
+<%--                                        $("#" + result[0][j].option_id).removeAttr('checked');--%>
+<%--                                        $("#" + result[0][j].option_id).attr("disabled", false);--%>
+<%--                                        $("[name=" + result[0][j].option_id + "label]").css('color', 'black');--%>
+<%--                                        $("#" + result[0][j].option_id + "Slider").removeAttr("style");--%>
+<%--                                        return true;--%>
+<%--                                    }--%>
 
 
+<%--                            }--%>
+<%--                        }--%>
+<%--                    }--%>
+<%--                }--%>
 
-            }
+<%--                if(result[1].length>0){--%>
+<%--                    for (let i = 0; i < restOptionCheckboxes.length; i++) {--%>
 
-        });
+<%--                        for(var j = 0; j < result[1].length; j++){--%>
 
-    }
+<%--                            if(result[1][j].option_id==restOptionCheckboxes[i].id){--%>
 
+<%--                                    if(isChecked) {--%>
+<%--                                        if($("#" + result[1][j].option_id).attr('disabled') == "disabled"){--%>
+<%--                                            alert(selectedOption.attr('id') + "have incompatible connection with - "--%>
+<%--                                                + result[1][j].name + "it must not be disabled.");--%>
+<%--                                            $("#" + selectedOption.attr('id')).prop("checked", false);--%>
+<%--                                        }else {--%>
+<%--                                            $("#" + result[1][j].option_id).removeAttr("checked");--%>
+<%--                                            $("#" + result[1][j].option_id).prop('checked', true);--%>
+<%--                                            $("#" + result[1][j].option_id).attr("disabled", true);--%>
+<%--                                            $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');--%>
+<%--                                            $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');--%>
+<%--                                            // checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id));--%>
+<%--                                        }--%>
 
-    </script>
+<%--                                    } else {--%>
+<%--                                        $("[name=" + result[1][j].option_id + "label]").css('color', 'black');--%>
+<%--                                        $("#" + result[1][j].option_id + "Slider").removeAttr("style");--%>
+<%--                                        $("#" + result[1][j].option_id).attr("disabled", false);--%>
+<%--                                    }--%>
+<%--                            }--%>
+<%--                        }--%>
+<%--                    }--%>
+<%--                }--%>
+
+<%--                return true;--%>
+
+<%--            }--%>
+
+<%--        });--%>
+
+<%--    }--%>
+<%--</script>--%>
 
 <jsp:directive.include file = "headerTemplateUser.jsp" />
-<div></div>
+<div>
+    <script src="/resources/js/clientOffice.js"></script>
+</div>
 
 <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 

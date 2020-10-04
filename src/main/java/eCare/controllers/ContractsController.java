@@ -24,6 +24,7 @@ public class ContractsController {
     public String getClientOffice(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
         Set<ContractDTO> contractsSet = userDTO.getListOfContracts();
+
         model.addAttribute("contractsSet", contractsSet);
         return "contracts";
     }

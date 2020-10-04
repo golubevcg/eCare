@@ -1,5 +1,6 @@
 package eCare.model.enitity;
 
+import eCare.model.dto.ContractDTO;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -15,7 +16,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"contractNumber"})
 @Entity
 @Table(name="contracts")
-public class Contract {
+public class Contract implements Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,5 +76,14 @@ public class Contract {
         setOfBlockedOptions.add(option);
     }
 
-
+    @Override
+    public int compareTo(Object o) {
+        if (this == o) return 1;
+        Contract that = (Contract) o;
+        if(contract_id>that.contract_id){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }
