@@ -115,7 +115,7 @@
             $.ajax({
                 type: 'GET',
                 url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOption,
-                success: function(result){
+                success: function (result){
 
                     if(result[0].length>0){
                         for (let i = 0; i < restOptionCheckboxes.length; i++) {
@@ -123,15 +123,15 @@
                             for(var j = 0; j < result[0].length; j++){
                                 if(result[0][j].option_id==restOptionCheckboxes[i].id){
                                     if(isChecked){
-                                        $("#" + result[0][j].option_id).attr("checked", false);
+                                        $("#" + result[0][j].option_id).prop("checked", false);
                                         $("#" + result[0][j].option_id).attr("disabled", true);
                                         $("[name="+result[0][j].option_id + "label]").css('color', '#d3d3d3');
-                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#e9e9e9');
+                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
                                     }else{
+                                        $("#" + result[0][j].option_id).removeAttr('checked');
                                         $("#" + result[0][j].option_id).attr("disabled", false);
                                         $("[name="+result[0][j].option_id + "label]").css('color', 'black');
                                         $("#"+result[0][j].option_id + "Slider").removeAttr("style");
-
                                     }
                                 }
                             }
@@ -145,9 +145,15 @@
 
                                 if(result[1][j].option_id==restOptionCheckboxes[i].id){
                                     if(isChecked){
-                                        $("#" + result[1][j].option_id).attr('checked', true);
-                                    }else{
                                         $("#" + result[1][j].option_id).removeAttr("checked");
+                                        $("#" + result[1][j].option_id).prop('checked', true);
+                                        $("#" + result[1][j].option_id).attr("disabled", true);
+                                        $("[name="+result[1][j].option_id + "label]").css('color', '#d3d3d3');
+                                        $("#"+result[1][j].option_id + "Slider").css('background-color', '#9acffa');
+                                    }else{
+                                        $("[name="+result[1][j].option_id + "label]").css('color', 'black');
+                                        $("#"+result[1][j].option_id + "Slider").removeAttr("style");
+                                        $("#" + result[1][j].option_id).attr("disabled", false);
                                     }
                                 }
                             }
@@ -160,10 +166,9 @@
 
             });
 
+        })
+    })
 
-        });
-
-    });
 
     </script>
 
