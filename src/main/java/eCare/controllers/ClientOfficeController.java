@@ -103,7 +103,7 @@ public class ClientOfficeController {
         if (jsonArray.size() != 0) {
             for (int i = 0; i < jsonArray.size(); i++) {
                 System.out.printf(String.valueOf(i));
-                setOfOptions.add(optionServiceImpl.getOptionDTOByName(jsonArray.get(i).getAsString()));
+                setOfOptions.add(optionServiceImpl.getOptionDTOById(jsonArray.get(i).getAsLong()));
             }
         }
         currentContract.setSetOfOptions(setOfOptions);

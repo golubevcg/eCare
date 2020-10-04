@@ -1,5 +1,6 @@
 package eCare.model.dto;
 
+import eCare.model.enitity.Option;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class ContractDTO implements Comparable{
     private TariffDTO tariff;
     private boolean isActive = true;
     private Set<OptionDTO> setOfOptions = new HashSet<>();
+    private Set<OptionDTO> setOfBlockedOptions = new HashSet<>();
 
     public String getContractNumber() {
         return contractNumber;

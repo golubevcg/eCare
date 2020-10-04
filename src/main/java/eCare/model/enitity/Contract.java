@@ -47,6 +47,14 @@ public class Contract {
             inverseJoinColumns = { @JoinColumn(name="option_id") })
     private Set<Option> setOfOptions = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(name= "contracts_locked_options",
+            joinColumns = { @JoinColumn(name= "contract_id") },
+            inverseJoinColumns = { @JoinColumn(name="option_id") })
+    private Set<Option> setOfBlockedOptions = new HashSet<>();
+
     public Tariff getTariff() {
         return tariff;
     }
