@@ -1,6 +1,7 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
+import eCare.model.enitity.Contract;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class OptionDTO implements Comparable{
     private boolean isActive = true;
     private Set<TariffDTO> tariffsOptions = new HashSet<>();
     private Set<ContractDTO> contractsOptions = new HashSet<>();
+    private Set<ContractDTO> setOfContractsInWhichOptionsBlocked = new HashSet<>();
     private Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
     private Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
 

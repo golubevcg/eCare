@@ -71,5 +71,9 @@ public class Contract {
     public void addOption(Option option){
         setOfOptions.add(option);
     }
+    public void addLockedOption(Option option){
+        setOfBlockedOptions.add(option);
+    }
+
 
 }

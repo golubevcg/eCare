@@ -76,20 +76,26 @@
     });
 
     function onSubmitClick(){
-            tariffCheckboxes = document.getElementsByName("tariffCheckbox");
-            tariffSelectedCheckboxes = Array.prototype.slice.call(tariffCheckboxes).filter(ch => ch.checked==true)
+            var tariffCheckboxes = document.getElementsByName("tariffCheckbox");
+            var tariffSelectedCheckboxes = Array.prototype.slice.call(tariffCheckboxes).filter(ch => ch.checked==true)
                 .map(ch=>ch.id.toString());
 
-            optionsCheckboxes = document.getElementsByName("optionCheckbox");
-            optionsSelectedCheckboxes = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.checked==true)
+            var optionsCheckboxes = document.getElementsByName("optionCheckbox");
+            var optionsSelectedCheckboxes = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.checked==true)
             .map(ch=>ch.id.toString());
 
-            blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");
-            blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());
+            var blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");
+            var blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());
+
+            var lockedOptionsArray = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.disabled==true)
+                .map(ch=>ch.id.toString());
+
+            console.log(JSON.stringify(lockedOptionsArray));
 
             var exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
                                     tariffSelectedCheckboxes:tariffSelectedCheckboxes,
-                                    blockNumberCheckBox:blockNumberCheckBox}
+                                    blockNumberCheckBox:blockNumberCheckBox,
+                                    lockedOptionsArray:lockedOptionsArray}
 
             console.log(JSON.stringify(exportObject));
 
@@ -108,6 +114,31 @@
         $( "input[name='optionCheckbox']").on('change', function()
         {   checkSwitchesAndChangeIfNeeded($(this))  });
     })
+
+    $(document).ready(function(){
+        $.ajax({
+            type: 'GET',
+            url: '${pageContext.request.contextPath}/userRegistration/getLockedOptions',
+            success: function (result) {
+                var optionCheckboxes = document.getElementsByName("optionCheckbox");
+                for (let i = 0; i < optionCheckboxes.length; i++) {
+                    for (let j = 0; j < result.length; j++) {
+                        if(optionCheckboxes[i].getAttribute('id') == result[j].option_id){
+                            optionCheckboxes[i].setAttribute("disabled", true);
+                            $("[name=" + optionCheckboxes[i].getAttribute('id') + "label]").css('color', '#d3d3d3');
+                            $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#d3d3d3');
+
+                            if($("#" + optionCheckboxes[i].getAttribute('id')).prop("checked") == true) {
+                                $("#" + optionCheckboxes[i].getAttribute('id') + "Slider").css('background-color', '#9acffa');
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        })
+    });
 
     function checkSwitchesAndChangeIfNeeded(selectedOption)
     {
@@ -131,9 +162,11 @@
                                     if (isChecked) {
 
                                         if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){
-                                            alert(selectedOption.attr('name') + "have incompatible connection with - "
-                                                + result[0][j].option_id + "it must not be disabled.");
+
+                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
+                                                + result[0][j].name + "it must not be disabled.");
                                             $("#" + selectedOption.attr('id')).prop("checked", false);
+
                                         }else {
                                             $("#" + result[0][j].option_id).prop("checked", false);
                                             $("#" + result[0][j].option_id).attr("disabled", true);
@@ -164,8 +197,8 @@
 
                                     if (isChecked) {
                                         if($("#" + result[1][j].option_id).attr('disabled') == "disabled"){
-                                            alert(selectedOption.attr('name') + "have incompatible connection with - "
-                                                + result[1][j].option_id + "it must not be disabled.");
+                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
+                                                + result[1][j].name + "it must not be disabled.");
                                             $("#" + selectedOption.attr('id')).prop("checked", false);
                                         }else {
                                             $("#" + result[1][j].option_id).removeAttr("checked");

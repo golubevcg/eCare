@@ -34,6 +34,11 @@ public class ContractDTO implements Comparable{
         setOfOptions.add(optionDTO);
     }
 
+    public void addLockedOption(OptionDTO optionDTO){
+        setOfBlockedOptions.add(optionDTO);
+    }
+
+
     @Override
     public int compareTo(Object o) {
         if (this == o) return 1;

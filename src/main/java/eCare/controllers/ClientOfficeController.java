@@ -93,21 +93,18 @@ public class ClientOfficeController {
         JsonObject obj = JsonParser.parseString(exportObject).getAsJsonObject();
         Boolean blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsBoolean();
 
+
         String tariffSelectedCheckboxes = obj.get("tariffSelectedCheckboxes").getAsString();
-        System.out.printf("1");
         JsonArray jsonArray = obj.get("optionsSelectedCheckboxes").getAsJsonArray();
 
         Set<OptionDTO> setOfOptions = new HashSet<>();
-        System.out.printf("2");
 
         if (jsonArray.size() != 0) {
             for (int i = 0; i < jsonArray.size(); i++) {
-                System.out.printf(String.valueOf(i));
                 setOfOptions.add(optionServiceImpl.getOptionDTOById(jsonArray.get(i).getAsLong()));
             }
         }
         currentContract.setSetOfOptions(setOfOptions);
-        System.out.printf("3");
 
         if (currentContract.isBlocked() != blockNumberCheckBox) {
             currentContract.setBlocked(blockNumberCheckBox);
@@ -115,6 +112,18 @@ public class ClientOfficeController {
 
         if (!currentContract.getTariff().getName().equals(tariffSelectedCheckboxes)) {
             currentContract.setTariff(tariffServiceImpl.getTariffDTOByTariffname(tariffSelectedCheckboxes));
+        }
+
+        JsonArray jsonArrayLockedOptions = obj.get("lockedOptionsArray").getAsJsonArray();
+
+        if(jsonArrayLockedOptions.size()!=0){
+            for (int i = 0; i < jsonArrayLockedOptions.size(); i++) {
+                currentContract
+                        .addLockedOption(
+                        optionServiceImpl
+                        .getOptionDTOById(
+                        jsonArrayLockedOptions.get(i).getAsLong() ) );
+            }
         }
 
         contractServiceImpl.updateConvertDTO(currentContract);
@@ -136,5 +145,12 @@ public class ClientOfficeController {
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(array);
+    }
+
+    @GetMapping(value = "/userRegistration/getLockedOptions", produces = "application/json")
+    public @ResponseBody
+    String getLockedOptions(Model model, CsrfToken token, Principal principal) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(currentContract.getSetOfBlockedOptions());
     }
 }
