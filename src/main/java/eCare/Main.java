@@ -31,122 +31,33 @@ public class Main {
 //        OptionDaoImpl optionDao = new OptionDaoImpl();
 //
 //        Option option = new Option();
-//        option.setName("100min");
-//        option.setPrice(5);
-//        option.setShortDiscription("100 min to all phone calls");
-//
-//        Option option9 = optionDao.getOptionByName("200min").get(0);
-//
-//        Option option2 = new Option();
-//        option2.setName("300min");
-//        option2.setPrice(15);
-//        option2.setShortDiscription("300 min to all phone calls");
-//
-//        optionDao.save(option);
-//        optionDao.save(option2);
+//        option.setName("TestOption1");
+//        option.setPrice(100);
+//        option.setShortDiscription("Incompatible with UnlimitedCalls");
 //
 //        Option option1 = new Option();
-//        option1.setName("Unlimited calls");
-//        option1.setPrice(200);
-//        option1.setShortDiscription("Unlimited calls inside your country");
+//        option1.setName("TestOption2");
+//        option1.setPrice(100);
+//        option1.setShortDiscription("Obligatory with 300min");
 //
-//        Set<Option> incompatibleToOption1Set = new HashSet<>();
-//        incompatibleToOption1Set.add(option2);
-//        incompatibleToOption1Set.add(option);
-//        incompatibleToOption1Set.add(option9);
-//        option1.setIncompatibleOptionsList(incompatibleToOption1Set);
+//        Option unlimCallsOption = optionDao.getOptionByName("Unlimited calls").get(0);
+//        Option ThreeHundreedMinOption = optionDao.getOptionByName("300min").get(0);
 //
-//        optionDao.save(option1);
+//        HashSet<Option> optionHashSet = new HashSet<Option>();
+//        optionHashSet.add(unlimCallsOption);
+//        option.setIncompatibleOptionsSet(optionHashSet);
 //
-//        Option option3 = new Option();
-//        option3.setName("2Gb");
-//        option3.setPrice(2);
-//        option3.setShortDiscription("2Gb internet pack");
-//        optionDao.save(option3);
+//        HashSet<Option> optionHashSet1 = new HashSet<Option>();
+//        optionHashSet1.add(ThreeHundreedMinOption);
+//        option1.setObligatoryOptionsSet(optionHashSet1);
 //
-//        Option option8 = optionDao.getOptionByName("5Gb").get(0);
-//
-//        Option option4 = new Option();
-//        option4.setName("Unlimited Internet");
-//        option4.setPrice(150);
-//        option4.setShortDiscription("Unlimited traffic to all Network");
-//
-//        Set<Option> incompatibleToOption4Set = new HashSet<>();
-//        incompatibleToOption4Set.add(option8);
-//        incompatibleToOption4Set.add(option3);
-//        option4.setIncompatibleOptionsList(incompatibleToOption4Set);
-//        optionDao.save(option4);
-//
-//        Option option5 = new Option();
-//        option5.setName("100 Messages");
-//        option5.setPrice(2);
-//        option5.setShortDiscription("Adds 100 Messages");
-//        optionDao.save(option5);
-//
-//        Option option7 = optionDao.getOptionByName("200Messages").get(0);
-//
-//        Option option6 = new Option();
-//        option6.setName("Unlimited Messages");
-//        option6.setPrice(200);
-//        option6.setShortDiscription("Unlimited messages");
-//
-//        Set<Option> incompatibleToOption6Set = new HashSet<>();
-//        incompatibleToOption6Set.add(option5);
-//        incompatibleToOption6Set.add(option7);
-//        option6.setIncompatibleOptionsList(incompatibleToOption6Set);
-//
-//        Option option10 = optionDao.getOptionByName("Movies and TV series").get(0);
-//        Option option11 = optionDao.getOptionByName("Unlimited calls worldwide").get(0);
-//        Option option12 = optionDao.getOptionByName("Unlimited messengers").get(0);
-//
-//        optionDao.save(option6);
-//
-        TariffDaoImpl tariffDao= new TariffDaoImpl();
-//        Tariff tariffBase = tariffDao.getTariffByTariffName("Base").get(0);
-//        tariffBase.addOption(option);
-//        tariffBase.addOption(option5);
-//        tariffBase.addOption(option3);
-//
-//        Tariff tariffStandart = tariffDao.getTariffByTariffName("Standart").get(0);
-//        tariffStandart.addOption(option9);
-//        tariffStandart.addOption(option5);
-//        tariffStandart.addOption(option3);
-//
-//        Tariff tariffDaily = tariffDao.getTariffByTariffName("Daily").get(0);
-//        tariffDaily.addOption(option2);
-//        tariffDaily.addOption(option8);
-//        tariffDaily.addOption(option7);
-//        tariffDaily.addOption(option10);
-//
-//
-//        Tariff tariffExtended = tariffDao.getTariffByTariffName("Extended").get(0);
-//        tariffExtended.addOption(option4);
-//        tariffExtended.addOption(option7);
-//        tariffExtended.addOption(option10);
-//        tariffExtended.addOption(option1);
-//        tariffExtended.addOption(option12);
-//
-//
-//        Tariff tariffBussiness = tariffDao.getTariffByTariffName("Bussiness").get(0);
+//        TariffDaoImpl tariffDao = new TariffDaoImpl();
+//        Tariff tariffBussiness = tariffDao.getTariffByTariffName("Business").get(0);
+//        tariffBussiness.addOption(option);
 //        tariffBussiness.addOption(option1);
-//        tariffBussiness.addOption(option6);
-//        tariffBussiness.addOption(option10);
-//        tariffBussiness.addOption(option11);
-//        tariffBussiness.addOption(option12);
-//        tariffBussiness.addOption(option4);
 //
-//        tariffDao.update(tariffStandart);
-//        tariffDao.update(tariffBase);
-//        tariffDao.update(tariffDaily);
-//        tariffDao.update(tariffExtended);
+//        optionDao.save(option);
+//        optionDao.save(option1);
 //        tariffDao.update(tariffBussiness);
-
-//         Option option6 = new Option();
-//         option6.setName("Obligatory Option1");
-//         option6.setPrice(50);
-//         option6.setShortDiscription("Obligatory Option1");
-
-
-
     }
 }

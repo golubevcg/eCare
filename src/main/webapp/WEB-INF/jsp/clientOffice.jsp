@@ -105,69 +105,89 @@
     }
 
     $(document).ready(function(){
+        $( "input[name='optionCheckbox']").on('change', function()
+        {   checkSwitchesAndChangeIfNeeded($(this))  });
+    })
 
-        $( "input[name='optionCheckbox']" ).on('change', function()
-        {
-            var selectedOption = $(this).attr('id');
-            var isChecked = $(this).prop('checked');
-            var restOptionCheckboxes = $('input[name="' + this.name + '"]').not(this);
+    function checkSwitchesAndChangeIfNeeded(selectedOption)
+    {
+        var isChecked = selectedOption.prop('checked');
+        var restOptionCheckboxes = $('input[name="' + selectedOption.attr('name') + '"]').not(this);
+        var selectedOptionId = selectedOption.attr('id');
 
-            $.ajax({
-                type: 'GET',
-                url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOption,
-                success: function (result){
+        $.ajax({
+            type: 'GET',
+            url: '${pageContext.request.contextPath}/userRegistration/loadDependedOptions/' + selectedOptionId,
+            success: function (result){
 
-                    if(result[0].length>0){
-                        for (let i = 0; i < restOptionCheckboxes.length; i++) {
+                if(result[0].length>0){
+                    for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
-                            for(var j = 0; j < result[0].length; j++){
-                                if(result[0][j].option_id==restOptionCheckboxes[i].id){
-                                    if(isChecked){
-                                        $("#" + result[0][j].option_id).prop("checked", false);
-                                        $("#" + result[0][j].option_id).attr("disabled", true);
-                                        $("[name="+result[0][j].option_id + "label]").css('color', '#d3d3d3');
-                                        $("#"+result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
-                                    }else{
+                        for(var j = 0; j < result[0].length; j++){
+                            if(result[0][j].option_id==restOptionCheckboxes[i].id){
+
+                                    if (isChecked) {
+                                        if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){
+                                            alert(selectedOption.attr('name') + "have incompatible connection with - "
+                                                + result[0][j].option_id + "it must not be disabled.");
+                                            $("#" + selectedOption.attr('id')).prop("checked", false);
+                                        }else {
+                                            $("#" + result[0][j].option_id).prop("checked", false);
+                                            $("#" + result[0][j].option_id).attr("disabled", true);
+                                            $("[name=" + result[0][j].option_id + "label]").css('color', '#d3d3d3');
+                                            $("#" + result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
+                                            checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id));
+                                        }
+                                    } else {
                                         $("#" + result[0][j].option_id).removeAttr('checked');
                                         $("#" + result[0][j].option_id).attr("disabled", false);
-                                        $("[name="+result[0][j].option_id + "label]").css('color', 'black');
-                                        $("#"+result[0][j].option_id + "Slider").removeAttr("style");
+                                        $("[name=" + result[0][j].option_id + "label]").css('color', 'black');
+                                        $("#" + result[0][j].option_id + "Slider").removeAttr("style");
                                     }
                                 }
-                            }
+
                         }
                     }
-
-                    if(result[1].length>0){
-                        for (let i = 0; i < restOptionCheckboxes.length; i++) {
-
-                            for(var j = 0; j < result[1].length; j++){
-
-                                if(result[1][j].option_id==restOptionCheckboxes[i].id){
-                                    if(isChecked){
-                                        $("#" + result[1][j].option_id).removeAttr("checked");
-                                        $("#" + result[1][j].option_id).prop('checked', true);
-                                        $("#" + result[1][j].option_id).attr("disabled", true);
-                                        $("[name="+result[1][j].option_id + "label]").css('color', '#d3d3d3');
-                                        $("#"+result[1][j].option_id + "Slider").css('background-color', '#9acffa');
-                                    }else{
-                                        $("[name="+result[1][j].option_id + "label]").css('color', 'black');
-                                        $("#"+result[1][j].option_id + "Slider").removeAttr("style");
-                                        $("#" + result[1][j].option_id).attr("disabled", false);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-
                 }
 
-            });
+                if(result[1].length>0){
+                    for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
-        })
-    })
+                        for(var j = 0; j < result[1].length; j++){
+
+                            if(result[1][j].option_id==restOptionCheckboxes[i].id){
+
+                                    if (isChecked) {
+                                        if($("#" + result[1][j].option_id).attr('disabled') == "disabled"){
+                                            alert(selectedOption.attr('name') + "have incompatible connection with - "
+                                                + result[1][j].option_id + "it must not be disabled.");
+                                            $("#" + selectedOption.attr('id')).prop("checked", false);
+                                        }else {
+                                            $("#" + result[1][j].option_id).removeAttr("checked");
+                                            $("#" + result[1][j].option_id).prop('checked', true);
+                                            $("#" + result[1][j].option_id).attr("disabled", true);
+                                            $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');
+                                            $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');
+                                            checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id));
+                                        }
+
+                                    } else {
+                                        $("[name=" + result[1][j].option_id + "label]").css('color', 'black');
+                                        $("#" + result[1][j].option_id + "Slider").removeAttr("style");
+                                        $("#" + result[1][j].option_id).attr("disabled", false);
+                                    }
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+
+        });
+
+    }
 
 
     </script>
