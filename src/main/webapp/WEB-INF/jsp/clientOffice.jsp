@@ -121,12 +121,15 @@
             success: function (result){
 
                 if(result[0].length>0){
+
                     for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
                         for(var j = 0; j < result[0].length; j++){
+
                             if(result[0][j].option_id==restOptionCheckboxes[i].id){
 
                                     if (isChecked) {
+
                                         if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){
                                             alert(selectedOption.attr('name') + "have incompatible connection with - "
                                                 + result[0][j].option_id + "it must not be disabled.");
@@ -138,12 +141,14 @@
                                             $("#" + result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
                                             checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id));
                                         }
+
                                     } else {
                                         $("#" + result[0][j].option_id).removeAttr('checked');
                                         $("#" + result[0][j].option_id).attr("disabled", false);
                                         $("[name=" + result[0][j].option_id + "label]").css('color', 'black');
                                         $("#" + result[0][j].option_id + "Slider").removeAttr("style");
                                     }
+
                                 }
 
                         }
