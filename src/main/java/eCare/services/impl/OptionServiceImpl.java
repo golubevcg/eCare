@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OptionServiceImpl implements OptionService {
@@ -36,6 +37,12 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public List<Option> getOptionByName(String optionName){
         return optionDaoImpl.getOptionByName(optionName);
+    }
+
+    @Override
+    public List<OptionDTO> searchForOptionByName(String optionName) {
+        return optionDaoImpl.searchForOptionByName(optionName).stream()
+                .map(o->optionMapper.toDTO(o)).collect(Collectors.toList());
     }
 
     public OptionDTO getOptionDTOByName(String optionName) {

@@ -24,34 +24,20 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        String testSearch = "65";
+        List<Contract> contractsList = session.createQuery(
+                "select c " +
+                        "from Contract c " +
+                        "where c.contractNumber like:string", Contract.class)
+                .setParameter("string", "%" + testSearch + "%").list();
 
-        UserDaoImpl userDao = new UserDaoImpl();
-        User user = userDao.getUserByLogin("agol").get(0);
+        transaction.commit();
+        session.close();
 
-        Set<Contract> contractsSet = user.getListOfContracts();
-        ArrayList<Contract> contractList = new ArrayList<>();
-        contractList.addAll(contractsSet);
-
-        for (int i = 0; i < contractList.size(); i++) {
-            System.out.println(contractList.get(i).getContract_id());
-        }
-        System.out.println("\n");
+        System.out.println(contractsList.size());
 
 
-        for (Contract contract2 : contractList) {
-            System.out.println(contract2.getContract_id());
-        }
-
-        Collections.sort(contractList);
-        System.out.println("++++++++++++++++++++");
-
-        for (int i = 0; i < contractList.size(); i++) {
-            System.out.println(contractList.get(i).getContract_id());
-        }
-
-        System.out.println("\n");
-        for (Contract contractDTO1 : contractList) {
-            System.out.println(contractDTO1.getContract_id());
-        }
     }
 }

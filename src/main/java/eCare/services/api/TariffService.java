@@ -13,4 +13,5 @@ public interface TariffService {
     TariffDTO getTariffDTOByTariffname(String name);
     Tariff convertDtoToEntity(TariffDTO tariffDto);
     List<TariffDTO> getActiveTariffs();
+    List<TariffDTO> searchForTariffDTOByName(String name);
 }

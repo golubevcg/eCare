@@ -2,6 +2,7 @@ package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
 import eCare.dao.api.ContractDao;
+import eCare.model.dto.ContractDTO;
 import eCare.model.enitity.Contract;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -42,7 +43,20 @@ public class ContractDaoImpl implements ContractDao {
         session.close();
     }
 
-
+    @Override
+    public List<Contract> searchForContractByNumber(String number){
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Contract> contractsList = session.createQuery(
+                "select c " +
+                        "from Contract c " +
+                        "where c.contractNumber like:string", Contract.class)
+                .setParameter("string", "%" + number + "%")
+                .list();
+        transaction.commit();
+        session.close();
+        return contractsList;
+    }
 
     @Override
     public List<Contract> getContractByNumber(String number) {

@@ -78,12 +78,26 @@ public class Contract implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        if (this == o) return 1;
+        if (this == o) return 0;
         Contract that = (Contract) o;
-        if(contract_id>that.contract_id){
+        if(this.getContract_id()>that.getContract_id()){
             return 1;
         }else{
-            return 0;
+            return -1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "contract_id=" + contract_id +
+                ", contractNumber='" + contractNumber + '\'' +
+                ", isBlocked=" + isBlocked +
+                ", user=" + user +
+                ", tariff=" + tariff +
+                ", isActive=" + isActive +
+                ", setOfOptions=" + setOfOptions +
+                ", setOfBlockedOptions=" + setOfBlockedOptions +
+                '}';
     }
 }

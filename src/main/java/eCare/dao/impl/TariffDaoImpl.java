@@ -1,18 +1,18 @@
 package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
-import eCare.dao.api.TarifDao;
+import eCare.dao.api.TariffDao;
+import eCare.model.enitity.Contract;
 import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class TariffDaoImpl implements TarifDao {
+public class TariffDaoImpl implements TariffDao {
 
     @Override
     public void save(Tariff tarif) {
@@ -80,6 +80,22 @@ public class TariffDaoImpl implements TarifDao {
         transaction.commit();
         session.close();
         return listOfTariffs;
+    }
+
+    @Override
+    public List<Tariff> searchForTariffByName(String name){
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Tariff> contractsList = session.createQuery(
+                "select t " +
+                        "from Tariff t " +
+                        "where t.name like:string", Tariff.class)
+                .setParameter("string", "%" + name + "%")
+                .list();
+        transaction.commit();
+        session.close();
+
+        return contractsList;
     }
 
 

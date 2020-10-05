@@ -49,6 +49,12 @@ public class ContractServiceImpl implements ContractService {
         return contractDaoImpl.getContractById(contractID);
     }
 
+    @Override
+    public List<ContractDTO> searchForContractByNumber(String searchInput) {
+        return contractDaoImpl.searchForContractByNumber(searchInput)
+                .stream().map(c->contractMapper.toDTO(c)).collect(Collectors.toList());
+    }
+
     public List<ContractDTO> getContractDTOById(Long contractID) {
         return this.getContractById(contractID)
                 .stream()

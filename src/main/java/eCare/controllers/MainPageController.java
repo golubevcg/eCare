@@ -16,10 +16,6 @@ public class MainPageController {
         return "main";
     }
 
-    @GetMapping("/workerOffice")
-    public String getWorkerOffice(Model model, CsrfToken token){
-        return "workerOffice";
-    }
 
     @GetMapping("/newTariff")
     public String getNewTarif(Model model, CsrfToken token){

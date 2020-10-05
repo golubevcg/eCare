@@ -34,12 +34,12 @@ public class OptionDTO implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        if (this == o) return 1;
+        if (this == o) return 0;
         OptionDTO that = (OptionDTO) o;
-        if(option_id>that.option_id){
+        if(this.getOption_id()>that.getOption_id()){
             return 1;
         }else{
-            return 0;
+            return -1;
         }
     }
 

@@ -175,7 +175,7 @@
             </spring:bind>
 
 
-        <label class="container" id="labelCheckboxContainer" style=" margin-left:20px;">Company member
+        <label class="container" id="labelCheckboxContainer" style="margin-left:20px;">Company member
             <input type="checkbox" name="roleCheckbox" value="true" onclick="revealTarifOptionsSelector()">
             <span class="checkmark" style="margin-top:12px; margin-left:-15px;"></span>
         </label>
@@ -183,7 +183,7 @@
 
 
         <div id="tarifOptionsForUserRegistration">
-            <label class="container" style="clear:both; float:left; padding-left:0;">Select tariff:</label>
+            <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; padding-left:0;">Select tariff:</label>
 
             <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"
                     name="selectedTariff" id="tariffsList">

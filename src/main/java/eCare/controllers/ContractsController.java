@@ -25,7 +25,11 @@ public class ContractsController {
         UserDTO userDTO = userServiceImpl.getUserDTOByLogin(principal.getName());
         Set<ContractDTO> contractsSet = userDTO.getListOfContracts();
 
-        model.addAttribute("contractsSet", contractsSet);
+        ArrayList<ContractDTO> sortedListOfContracts = new ArrayList<>();
+        sortedListOfContracts.addAll(contractsSet);
+        Collections.sort(sortedListOfContracts);
+
+        model.addAttribute("contractsSet", sortedListOfContracts);
         return "contracts";
     }
 

@@ -10,5 +10,6 @@ public interface ContractDao {
     void delete(Contract contract);
     List<Contract> getContractByNumber(String number);
     List<Contract> getContractById(Long id);
+    List<Contract> searchForContractByNumber(String number);
 
 }

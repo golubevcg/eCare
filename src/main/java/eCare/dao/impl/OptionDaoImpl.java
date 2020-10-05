@@ -2,6 +2,7 @@ package eCare.dao.impl;
 
 import eCare.HibernateSessionFactoryUtil;
 import eCare.dao.api.OptionDao;
+import eCare.model.enitity.Contract;
 import eCare.model.enitity.Option;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -74,5 +75,20 @@ public class OptionDaoImpl implements OptionDao {
         session.close();
 
         return optionsList;
+    }
+
+    @Override
+    public List<Option> searchForOptionByName(String name) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Option> contractsList = session.createQuery(
+                "select o " +
+                        "from Option o " +
+                        "where o.name like:string", Option.class)
+                .setParameter("string", "%" + name + "%")
+                .list();
+        transaction.commit();
+        session.close();
+        return contractsList;
     }
 }

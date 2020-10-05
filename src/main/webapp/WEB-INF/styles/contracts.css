@@ -52,7 +52,7 @@
     font-size: 18px;
     margin-right: 15px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #columnDiscriptionLabels{
@@ -67,6 +67,7 @@
     font-size: 20px;
     float:left;
     color: black;
+    margin-top:10px;
     /*font-weight: bolder;*/
 }
 

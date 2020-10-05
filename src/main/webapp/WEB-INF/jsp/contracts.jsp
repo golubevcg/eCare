@@ -13,7 +13,6 @@
     <link type="text/css" rel="stylesheet" href="/resources/styles/contracts.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!--for dropdown menus scripts-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -65,7 +64,6 @@
 
         </div>
 
-        <hr style="margin-top:-10px;">
 
     </div>
 
@@ -77,33 +75,12 @@
     <div class="col-5">
         <div class="row">
 
-<%--            <c:forEach items="${numbersTariffsMap}" var="entry">--%>
-
-<%--                        <div class="col-4">--%>
-<%--                            <p class="lead" id="columnContentLabels">${entry.key.contractNumber}</p>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="col-3">--%>
-<%--                            <p class="lead" id="columnContentLabels">${entry.value}</p>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="col-2">--%>
-<%--                            <p class="lead" id="columnContentLabels" style="color:red;">Blocked</p>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="col-3">--%>
-<%--                            <a href="/clientOffice/${entry.key.contract_id}">--%>
-<%--                            <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>--%>
-<%--                            </a>--%>
-<%--                        </div>--%>
-
-<%--                        <hr class="rounded"--%>
-<%--                            style="width: 100%; clear:both; padding:2px;--%>
-<%--                            margin:0px; margin-top:0px; margin-bottom:0px;">--%>
-
-<%--            </c:forEach>--%>
 
             <c:forEach items="${contractsSet}" var="entry">
+
+                <hr class="rounded"
+                    style="width: 100%; clear:both; padding:2px;
+                            margin:0px; margin-top:0px; margin-bottom:0px;">
 
                 <div class="col-4">
                     <p class="lead" id="columnContentLabels">${entry.contractNumber}</p>
@@ -126,14 +103,10 @@
 
                 <div class="col-3">
 
-                    <a href="/clientOffice/${entry.contract_id}">
+                    <a href="/contractDetails/${entry.contract_id}">
                         <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>
                     </a>
                 </div>
-
-                <hr class="rounded"
-                    style="width: 100%; clear:both; padding:2px;
-                            margin:0px; margin-top:0px; margin-bottom:0px;">
 
             </c:forEach>
 

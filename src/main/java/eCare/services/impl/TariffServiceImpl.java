@@ -1,6 +1,6 @@
 package eCare.services.impl;
 
-import eCare.dao.api.TarifDao;
+import eCare.dao.api.TariffDao;
 import eCare.model.dto.TariffDTO;
 import eCare.model.enitity.Tariff;
 import eCare.model.converters.TariffMapper;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class TariffServiceImpl implements TariffService {
 
     @Autowired
-    private TarifDao tarifDaoImpl;
+    private TariffDao tarifDaoImpl;
 
     @Autowired
     TariffMapper tariffMapper;
@@ -60,6 +60,13 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public List<TariffDTO> getActiveTariffs() {
         return tarifDaoImpl.getActiveTariffs().stream()
+                .map(tariff-> tariffMapper.toDTO(tariff))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TariffDTO> searchForTariffDTOByName(String name) {
+        return tarifDaoImpl.searchForTariffByName(name).stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
     }

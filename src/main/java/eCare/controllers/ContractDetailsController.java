@@ -19,7 +19,7 @@ import java.security.Principal;
 import java.util.*;
 
 @Controller
-public class ClientOfficeController {
+public class ContractDetailsController {
 
     @Autowired
     UserServiceImpl userServiceImpl;
@@ -37,7 +37,7 @@ public class ClientOfficeController {
 
     ContractDTO currentContract;
 
-    @GetMapping("/clientOffice/{contractID}")
+    @GetMapping("/contractDetails/{contractID}")
     public String getClientOffice(Model model, CsrfToken token, Principal principal,
                                   @PathVariable(value = "contractID") String contractID) {
 
@@ -50,19 +50,31 @@ public class ClientOfficeController {
         TariffDTO tariffDTO = currentContract.getTariff();
         model.addAttribute("selectedTariff", tariffDTO.getName());
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
-        model.addAttribute("tariffPrice", tariffDTO.getPrice() + " руб./мес.");
+        model.addAttribute("tariffPrice", tariffDTO.getPrice() + " $ / month");
 
         Set<OptionDTO> availableOptions = tariffDTO.getSetOfOptions();
+        ArrayList<OptionDTO> sortedListOfAvailableOptions = new ArrayList<>();
+        sortedListOfAvailableOptions.addAll(availableOptions);
+        Collections.sort(sortedListOfAvailableOptions);
+
         Set<OptionDTO> connectedOptions = currentContract.getSetOfOptions();
+        ArrayList<OptionDTO> sortedListOfConnectedOptions = new ArrayList<>();
+        sortedListOfConnectedOptions.addAll(connectedOptions);
+        Collections.sort(sortedListOfConnectedOptions);
+        LinkedHashSet<OptionDTO> optionDTOLinkedHashSet = new LinkedHashSet<>();
+        optionDTOLinkedHashSet.addAll(sortedListOfConnectedOptions);
+
 
         Map<OptionDTO, Boolean> enabledOptionsDTOMap = new LinkedHashMap<>();
 
-        for (OptionDTO availableOption : availableOptions) {
+        for (OptionDTO availableOption : sortedListOfAvailableOptions) {
             boolean isOptionInContract = false;
-            for (OptionDTO connectedOption : connectedOptions) {
+
+            for (OptionDTO connectedOption : sortedListOfConnectedOptions) {
                 if (availableOption.getOption_id() == (connectedOption.getOption_id()))
                     isOptionInContract = true;
             }
+
             enabledOptionsDTOMap.put(availableOption, isOptionInContract);
         }
 
@@ -70,23 +82,29 @@ public class ClientOfficeController {
 
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("activeTariffsList", activeTariffsList);
-        model.addAttribute("connectedOptions", connectedOptions);
+        model.addAttribute("connectedOptions", optionDTOLinkedHashSet);
         model.addAttribute("isBlocked", currentContract.isBlocked());
 
-        return "clientOffice";
+        return "contractDetails";
     }
 
-    @PostMapping(value = "/clientOffice/getTariffOptions", produces = "application/json")
+    @PostMapping(value = "/contractDetails/getTariffOptions", produces = "application/json")
     public @ResponseBody
     String postClientOffice(@RequestBody String selectedTariffName) {
         Set<OptionDTO> setOfOptions =
                 tariffServiceImpl.getTariffDTOByTariffname(selectedTariffName.replace("\"", ""))
                         .getSetOfOptions();
+
+        ArrayList<OptionDTO> sortedListOfOptions = new ArrayList<>();
+        sortedListOfOptions.addAll(setOfOptions);
+        Collections.sort(sortedListOfOptions);
+
+
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return gson.toJson(setOfOptions);
+        return gson.toJson(sortedListOfOptions);
     }
 
-    @PostMapping(value = "/clientOffice/submitvalues", produces = "application/json")
+    @PostMapping(value = "/contractDetails/submitvalues", produces = "application/json")
     public @ResponseBody
     void updateValuesOnInformationFromView(@RequestBody String exportObject) {
 
@@ -118,10 +136,7 @@ public class ClientOfficeController {
 
         if(jsonArrayLockedOptions.size()!=0){
             for (int i = 0; i < jsonArrayLockedOptions.size(); i++) {
-                currentContract
-                        .addLockedOption(
-                        optionServiceImpl
-                        .getOptionDTOById(
+                currentContract.addLockedOption(optionServiceImpl.getOptionDTOById(
                         jsonArrayLockedOptions.get(i).getAsLong() ) );
             }
         }
@@ -130,7 +145,7 @@ public class ClientOfficeController {
 
     }
 
-    @GetMapping(value = "/userRegistration/loadDependedOptions/{selectedOption}", produces = "application/json")
+    @GetMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
     String getDependingOptions(Model model, CsrfToken token, Principal principal,
                                @PathVariable(value = "selectedOption") String selectedOptionid) {
@@ -147,7 +162,7 @@ public class ClientOfficeController {
         return gson.toJson(array);
     }
 
-    @GetMapping(value = "/userRegistration/getLockedOptions", produces = "application/json")
+    @GetMapping(value = "/contractDetails/getLockedOptions", produces = "application/json")
     public @ResponseBody
     String getLockedOptions(Model model, CsrfToken token, Principal principal) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
