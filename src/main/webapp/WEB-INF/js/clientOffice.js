@@ -88,7 +88,6 @@ function onSubmitClick(){
     });
 }
 
-
 $(document).ready(function(){
     $.ajax({
         type: 'GET',
@@ -114,7 +113,6 @@ $(document).ready(function(){
     })
 });
 
-
 $(document).ready(function(){
     $( "input[name='optionCheckbox']").on('change', function()
     {   checkSwitchesAndChangeIfNeeded($(this))  });
@@ -134,51 +132,42 @@ function checkSwitchesAndChangeIfNeeded(selectedOption)
         type: 'GET',
         url: '/userRegistration/loadDependedOptions/' + selectedOptionId,
         success: function (result){
-
+            console.log(result);
             if(result[0].length>0){
-
+                console.log(restOptionCheckboxes);
                 for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
                     for(var j = 0; j < result[0].length; j++){
-
-                        if(result[0][j].option_id==restOptionCheckboxes[i].id){
+                        let current_option_id = result[0][j].option_id
+                        if(current_option_id==restOptionCheckboxes[i].id){
                             console.log(selectedOptionId + "founded option with dependency")
-                            if(isChecked){
 
-                                console.log(selectedOptionId
-                                    + " returned value "
-                                    + checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id)));
+                            // if( checkSwitchesAndChangeIfNeeded($("#" + current_option_id)) ){
+                                console.log("recursive function returned true, working...");
+                                if(isChecked){
 
-                                if( checkSwitchesAndChangeIfNeeded($("#" + result[0][j].option_id)) ){
-
-                                        console.log("recursive function returned true, working...");
-                                    if($("#" + result[0][j].option_id).attr('disabled') == "disabled"){
+                                    let is_option_disabled = $("#" + current_option_id).attr('disabled') == "disabled";
+                                    let is_option_turned_on = $("#" + current_option_id).prop('checked');
+                                    if (is_option_disabled && is_option_turned_on){
                                         alert(selectedOption.attr('id') + "have incompatible connection with - "
                                             + result[0][j].name + "it must not be disabled.");
-                                        $("#" + selectedOption.attr('id')).prop("checked", false);
-                                        console.log('1'+booleanResult);
+                                        $("#" + current_option_id).removeAttr('checked');
                                     }else {
-                                        $("#" + result[0][j].option_id).prop("checked", false);
-                                        $("#" + result[0][j].option_id).attr("disabled", true);
-                                        $("[name=" + result[0][j].option_id + "label]").css('color', '#d3d3d3');
-                                        $("#" + result[0][j].option_id + "Slider").css('background-color', '#d3d3d3');
+                                        turnOffCheckBoxAndDisable(current_option_id);
                                         console.log('2'+booleanResult);
                                     }
                                     return booleanResult;
-                                }else{
-                                    console.log(selectedOptionId + "recursive function returned false, rejecting changes");
-                                    booleanResult = false;
+
+                                } else {
+                                    console.log('3'+booleanResult);
+                                    removeDisabledFromCheckBox(current_option_id);
                                     return booleanResult;
                                 }
-                            } else {
-                                console.log(3+booleanResult);
-                                $("#" + result[0][j].option_id).removeAttr('checked');
-                                $("#" + result[0][j].option_id).attr("disabled", false);
-                                $("[name=" + result[0][j].option_id + "label]").css('color', 'black');
-                                $("#" + result[0][j].option_id + "Slider").removeAttr("style");
-                                return booleanResult;
-                            }
-
+                            // }else{
+                            //     console.log(selectedOptionId + "recursive function returned false, rejecting changes");
+                            //     booleanResult = false;
+                            //     return booleanResult;
+                            // }
 
                         }
                     }
@@ -191,25 +180,36 @@ function checkSwitchesAndChangeIfNeeded(selectedOption)
                     for(var j = 0; j < result[1].length; j++){
 
                         if(result[1][j].option_id==restOptionCheckboxes[i].id){
+                            if( checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id)) ){
 
-                            if(isChecked) {
-                                if($("#" + result[1][j].option_id).attr('disabled') == "disabled"){
-                                    alert(selectedOption.attr('id') + "have incompatible connection with - "
-                                        + result[1][j].name + "it must not be disabled.");
-                                    $("#" + selectedOption.attr('id')).prop("checked", false);
-                                }else {
-                                    $("#" + result[1][j].option_id).removeAttr("checked");
-                                    $("#" + result[1][j].option_id).prop('checked', true);
-                                    $("#" + result[1][j].option_id).attr("disabled", true);
-                                    $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');
-                                    $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');
-                                    // checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id));
+                                if(isChecked) {
+                                        console.log("recursive function returned true, working...");
+                                        if ($("#" + result[1][j].option_id).attr('disabled') == "disabled") {
+                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
+                                                + result[1][j].name + "it must not be disabled.");
+                                            $("#" + selectedOption.attr('id')).prop("checked", false);
+                                            console.log('1'+booleanResult);
+                                        } else {
+                                            $("#" + result[1][j].option_id).removeAttr("checked");
+                                            $("#" + result[1][j].option_id).prop('checked', true);
+                                            $("#" + result[1][j].option_id).attr("disabled", true);
+                                            $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');
+                                            $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');
+                                            console.log('2'+booleanResult);
+                                        }
+                                        return booleanResult;
+
+                                } else {
+                                    $("[name=" + result[1][j].option_id + "label]").css('color', 'black');
+                                    $("#" + result[1][j].option_id + "Slider").removeAttr("style");
+                                    $("#" + result[1][j].option_id).attr("disabled", false);
+                                    console.log('3'+booleanResult);
+                                    return booleanResult;
                                 }
-
-                            } else {
-                                $("[name=" + result[1][j].option_id + "label]").css('color', 'black');
-                                $("#" + result[1][j].option_id + "Slider").removeAttr("style");
-                                $("#" + result[1][j].option_id).attr("disabled", false);
+                            }else{
+                                console.log(selectedOptionId + "recursive function returned false, rejecting changes");
+                                booleanResult = false;
+                                return booleanResult;
                             }
                         }
                     }
@@ -220,6 +220,21 @@ function checkSwitchesAndChangeIfNeeded(selectedOption)
             return booleanResult;
         }});
 
+        return booleanResult;
 
+}
+
+function turnOffCheckBoxAndDisable(current_option_id){
+    $("#" + current_option_id).prop("checked", false);
+    $("#" + current_option_id).attr("disabled", true);
+    $("[name=" + current_option_id + "label]").css('color', '#d3d3d3');
+    $("#" + current_option_id + "Slider").css('background-color', '#d3d3d3');
+}
+
+function removeDisabledFromCheckBox(current_option_id){
+    $("#" + current_option_id).removeAttr('checked');
+    $("#" + current_option_id).attr("disabled", false);
+    $("[name=" + current_option_id + "label]").css('color', 'black');
+    $("#" + current_option_id + "Slider").removeAttr("style");
 }
 
