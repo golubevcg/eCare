@@ -14,15 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
-public class RegistrationPageController {
+public class UserRegistrationController {
 
-    static final Logger log = Logger.getLogger(RegistrationPageController.class);
+    static final Logger log = Logger.getLogger(UserRegistrationController.class);
 
     @Autowired
     private UserServiceImpl userServiceImpl;

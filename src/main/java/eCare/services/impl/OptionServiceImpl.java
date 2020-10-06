@@ -45,6 +45,11 @@ public class OptionServiceImpl implements OptionService {
                 .map(o->optionMapper.toDTO(o)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<OptionDTO> getActiveOptions() {
+        return optionDaoImpl.getActiveOptions().stream().map(o->optionMapper.toDTO(o)).collect(Collectors.toList());
+    }
+
     public OptionDTO getOptionDTOByName(String optionName) {
         Option option = this.getOptionByName(optionName).get(0);
         return optionMapper.toDTO(option);
@@ -62,6 +67,10 @@ public class OptionServiceImpl implements OptionService {
 
     public Option convertDTOtoEntity(OptionDTO optionDTO){
         return optionMapper.toEntity(optionDTO);
+    }
+
+    public void convertToEntityAndSave(OptionDTO optionDTO){
+        optionDaoImpl.save( optionMapper.toEntity(optionDTO) );
     }
 
 

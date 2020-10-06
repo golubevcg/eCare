@@ -94,3 +94,11 @@
     border-color: black;
 }
 
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
+}

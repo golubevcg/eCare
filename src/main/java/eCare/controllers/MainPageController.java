@@ -22,9 +22,4 @@ public class MainPageController {
         return "newTariff";
     }
 
-    @GetMapping("/newOption")
-    public String getNewOption(Model model, CsrfToken token){
-        return "newOption";
-    }
-
    }

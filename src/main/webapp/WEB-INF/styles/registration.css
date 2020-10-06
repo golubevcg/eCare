@@ -144,7 +144,6 @@ input::-webkit-inner-spin-button {
 }
 
 
-
 /* Firefox */
 input[type=number] {
     -moz-appearance: textfield;
@@ -174,4 +173,13 @@ select#fixed {
     font-size:18px !important;
     background-color: white; !important;
     color:black; !important;
+}
+
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
 }

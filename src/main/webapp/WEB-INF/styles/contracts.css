@@ -71,17 +71,6 @@
     /*font-weight: bolder;*/
 }
 
-#footer {
-    background-color: #1A1C22;
-    color:white;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    min-height: 50px;
-    vertical-align: bottom;
-    margin-top:25px;
-}
-
 #editButton:hover {
     background-color: #4b99ee;
     color: white;
@@ -92,4 +81,13 @@
     background-color: #4b99ee;
     color: white;
     border-color: #4b99ee;
+}
+
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
 }

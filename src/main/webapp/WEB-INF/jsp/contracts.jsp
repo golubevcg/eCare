@@ -2,8 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,109 +17,110 @@
 </head>
 <body>
 
-<jsp:directive.include file = "headerTemplateUser.jsp" />
+<div id="page-container">
+    <div id="content-wrap">
 
-<div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
+        <jsp:directive.include file = "headerTemplateUser.jsp" />
 
-    <div class="row">
-        <div class="col"></div>
+        <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
-        <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Your contracts</h1>
-        </div>
+            <div class="row">
+                <div class="col"></div>
 
-        <div class="col"></div>
-    </div>
+                <div class="col-5">
+                    <h1 class="display-4" id="privateOfficeLabel">Your contracts</h1>
+                </div>
 
-</div>
-
-<div class="row" style="margin-top:20px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <p style="font-weight: bolder; float:left; font-size: 18px;">Search for a contract by phone number</p>
-
-        <div style="margin-top: 20px">
-            <input class="form-control" type="text" id="searchForm" style="width:65%; background-color: white; float:left; border-color: black;" placeholder="Enter phone number">
-            <button type="button" class="btn btn-primary btn-lg btn-lg" id="searchButton">Search</button>
-
-        </div>
-    </div>
-
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:5px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <div class="row">
-            <div class="col-4">
-                <p class="lead" id="columnDiscriptionLabels">Phone number</p>
-            </div>
-
-            <div class="col-3">
-                <p class="lead" id="columnDiscriptionLabels"> Tariff </p>
+                <div class="col"></div>
             </div>
 
         </div>
 
+        <div class="row" style="margin-top:20px;">
+            <div class="col"></div>
+            <div class="col-5">
+                <p style="font-weight: bolder; float:left; font-size: 18px;">Search for a contract by phone number</p>
 
-    </div>
-
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:-10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <div class="row">
-
-
-            <c:forEach items="${contractsSet}" var="entry">
-
-                <hr class="rounded"
-                    style="width: 100%; clear:both; padding:2px;
-                            margin:0px; margin-top:0px; margin-bottom:0px;">
-
-                <div class="col-4">
-                    <p class="lead" id="columnContentLabels">${entry.contractNumber}</p>
+                <div style="margin-top: 20px">
+                    <input class="form-control" type="text" id="searchForm" style="width:100%; background-color: white; float:left; border-color: black;" placeholder="Enter phone number">
                 </div>
+            </div>
 
-                <div class="col-3">
-                    <p class="lead" id="columnContentLabels">${entry.tariff.name}</p>
-                </div>
-
-                <div class="col-2">
-                    <c:choose>
-                        <c:when test="${entry.blocked eq true}">
-                            <p class="lead" id="columnContentLabels" style="color:red;">Blocked</p>
-                        </c:when>
-                        <c:otherwise>
-                            <p class="lead" id="columnContentLabels" style="color:red;"></p>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-
-                <div class="col-3">
-
-                    <a href="/contractDetails/${entry.contract_id}">
-                        <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>
-                    </a>
-                </div>
-
-            </c:forEach>
-
+            <div class="col"></div>
         </div>
-    </div>
 
-    <div class="col"></div>
+        <div class="row" style="margin-top:5px;">
+            <div class="col"></div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-4">
+                        <p class="lead" id="columnDiscriptionLabels">Phone number</p>
+                    </div>
+
+                    <div class="col-3">
+                        <p class="lead" id="columnDiscriptionLabels"> Tariff </p>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col"></div>
+        </div>
+
+        <div class="row" style="margin-top:-10px;">
+            <div class="col"></div>
+            <div class="col-5">
+                <div class="row">
+
+
+                    <c:forEach items="${contractsSet}" var="entry">
+
+                        <hr class="rounded"
+                            style="width: 100%; clear:both; padding:2px;
+                                    margin:0px; margin-top:0px; margin-bottom:0px;">
+
+                        <div class="col-4">
+                            <p class="lead" id="columnContentLabels">${entry.contractNumber}</p>
+                        </div>
+
+                        <div class="col-3">
+                            <p class="lead" id="columnContentLabels">${entry.tariff.name}</p>
+                        </div>
+
+                        <div class="col-2">
+                            <c:choose>
+                                <c:when test="${entry.blocked eq true}">
+                                    <p class="lead" id="columnContentLabels" style="color:red;">Blocked</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="lead" id="columnContentLabels" style="color:red;"></p>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+
+                        <div class="col-3">
+
+                            <a href="/contractDetails/${entry.contract_id}">
+                                <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Details</button>
+                            </a>
+                        </div>
+
+                    </c:forEach>
+
+                </div>
+            </div>
+
+            <div class="col"></div>
+        </div>
+
+    </div>
 </div>
+
 
 </body>
 
-
-<div>
-</div>
-
-<footer style="position:0; margin-top:300px;">
+<footer>
     <jsp:directive.include file = "footerTemplate.jsp" />
 </footer>

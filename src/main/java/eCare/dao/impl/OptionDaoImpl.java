@@ -4,6 +4,7 @@ import eCare.HibernateSessionFactoryUtil;
 import eCare.dao.api.OptionDao;
 import eCare.model.enitity.Contract;
 import eCare.model.enitity.Option;
+import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -90,5 +91,16 @@ public class OptionDaoImpl implements OptionDao {
         transaction.commit();
         session.close();
         return contractsList;
+    }
+
+    @Override
+    public List<Option> getActiveOptions() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Option> listOfTariffs = session.createQuery(
+                "select o from Option o where o.isActive=true", Option.class).list();
+        transaction.commit();
+        session.close();
+        return listOfTariffs;
     }
 }

@@ -3,56 +3,29 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resources/styles/newOption.css">
+    <title>New Option</title>
+    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/resources/styles/registration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
+<jsp:directive.include file = "headerTemplateAdmin.jsp" />
 
-        <img src="/resources/static/logo.png" class="rounded float-left" alt="..." style="width:65px; float:left;">
-
-        <div class="dropdown" style="float:left; ">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Тарифы
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Тариф1</a>
-                <a class="dropdown-item" href="#">Тариф2</a>
-                <a class="dropdown-item" href="#">Тариф3</a>
-            </div>
-
-        </div>
-
-        <div class="dropdown" style="float:left;">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опции
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Опция1</a>
-                <a class="dropdown-item" href="#">Опция2</a>
-                <a class="dropdown-item" href="#">Опция3</a>
-            </div>
-
-        </div>
-
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
-    </div>
-    <div class="col"></div>
+<div>
+    <script src="/resources/js/newOption.js"></script>
 </div>
 
 <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
@@ -61,7 +34,7 @@
         <div class="col"></div>
 
         <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Опция 1</h1>
+            <h1 class="display-4" id="privateOfficeLabel">Registering a new option</h1>
         </div>
 
         <div class="col"></div>
@@ -71,10 +44,10 @@
 
 <div class="row">
     <div class="col"></div>
-
     <div class="col-5">
-        <p id="headlineLabel">Название</p>
-        <input class="form-control" id="inputForm" type="text" placeholder="Название" style="margin-top:-10px;">
+        <p id="headlineLabel" style="margin-top:-25px;">Name</p>
+        <input class="form-control" id="inputForm" type="text" placeholder="Name"
+               style="margin-top:-10px; width: 54%;" name="optionNameForm">
     </div>
 
     <div class="col"></div>
@@ -86,14 +59,14 @@
 
     <div class="col-5">
         <div>
-            <p id="headlineLabel" style="float:left; width:41%;">Стоимость подключения</p>
-            <p id="headlineLabel" style="float:left; width:20%;">Цена</p>
+            <p id="headlineLabel" style="float:left; width:41%;">Connection cost</p>
+            <p id="headlineLabel" style="float:left; width:20%;">Price</p>
 
         </div>
 
         <div style="clear:both;">
-        <input class="form-control" type="text" style="width:40%; background-color: #ffffff; float:left; border-color: black;  margin-top:-10px" placeholder="Стоимость подключения">
-        <input class="form-control" type="text" style="width:12%; background-color: white; float:left; border-color: black; margin-left:2%; margin-top:-10px" placeholder="Цена">
+        <input class="form-control" type="number" style="width:40%; background-color: #ffffff; float:left; border-color: black;  margin-top:-10px" placeholder="Connection cost" name="connectionCostForm">
+        <input class="form-control" type="number" style="width:12%; background-color: white; float:left; border-color: black; margin-left:2%; margin-top:-10px" placeholder="Price" name="priceForm">
         </div>
     </div>
 
@@ -104,8 +77,8 @@
     <div class="col"></div>
 
     <div class="col-5">
-        <p id="headlineLabel" style="margin-top: 10px">Описание</p>
-        <input class="form-control" type="text" style="width:50%; height:100px; background-color: white; float:left; border-color: black; margin-top:-10px;" placeholder="Описание">
+        <p id="headlineLabel" style="margin-top: 10px">Short description</p>
+        <input class="form-control" type="text" style="width:54%; height:100px; background-color: white; float:left; border-color: black; margin-top:-10px;" placeholder="Short description" name="shortDiscriptionForm">
     </div>
 
     <div class="col"></div>
@@ -114,16 +87,24 @@
 <div class="row" style="margin-top:10px;">
     <div class="col"></div>
     <div class="col-5">
-        <p id="headlineLabel">Совместимые опции</p>
-        <select class="form-control form-control-lg" style="width: 80%; margin-top:-10px;">
-            <option>Совместимые опции</option>
+
+        <p id="headlineLabel">Obligatory options</p>
+        <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="ObligatoryOptionsList">
+            <c:forEach items="${listOfActiveOptions}" var="option" >
+                <option>${option.name}</option>
+            </c:forEach>
         </select>
+
         <div style="margin-top:15px;">
-            <p id="headlineLabel" >Несовместимые опции</p>
-            <select class="form-control form-control-lg" style="width: 100%; margin-top:-10px; margin-bottom: 10px">
-                <option>Несовместимые опции</option>
+            <p id="headlineLabel" >Incompatible options</p>
+            <select class="mul-select" multiple="true"
+                    style="width: 54%; margin-top:-10px; font-size: 20px;"  name="IncompatibleOptionsList">
+                <c:forEach items="${listOfActiveOptions}" var="option">
+                    <option>${option.name}</option>
+                </c:forEach>
             </select>
         </div>
+
     </div>
     <div class="col"></div>
 </div>
@@ -131,26 +112,13 @@
 <div class="row" style="margin-top:10px;">
     <div class="col"></div>
     <div class="col-5">
-        <button type="button" class="btn btn-primary btn-lg btn-lg" id="saveButton"> Сохранить</button>
+        <button type="button" class="btn btn-primary btn-lg btn-lg" id="saveButton" onclick="onSubmitClick()">Save</button>
     </div>
 
     <div class="col"></div>
 </div>
 
 
-
-
-<!--for dropdown menus scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-</body>
-
-<footer>
-    <div class="footer" id="footer">
-        <p class="lead" style="font-size: 15px; ">golubevcg@gmail.com 2020</p>
-    </div>
-</footer>
-
+<jsp:directive.include file = "footerTemplate.jsp" />
 
 </html>

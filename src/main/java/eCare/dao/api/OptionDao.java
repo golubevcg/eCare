@@ -12,5 +12,5 @@ public interface OptionDao {
     List<Option> getOptionByName(String name);
     List<Option> getOptionById(Long optionId);
     List<Option> searchForOptionByName(String name);
-
+    List<Option> getActiveOptions();
 }

@@ -51,6 +51,10 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/workerOffice">My account</a>
                         <a class="dropdown-item" href="/userRegistration">User registration</a>
+                        <a class="dropdown-item" href="/newContract">New contract</a>
+                        <a class="dropdown-item" href="/newTariff">New tariff</a>
+                        <a class="dropdown-item" href="/newOption">New option</a>
+
                         <a class="dropdown-item" href="<c:url value="/logout"/>">Logout</a>
                     </div>
 
