@@ -45,7 +45,7 @@
 
         <div style="margin-top: 20px">
                 <input class="form-control searchForm" type="text" style="width:100%; background-color: white; float:left; border-color: black;"
-                       id="searchByPhoneNumberInputForm" onkeyup="searchContractByPhoneNumber()" placeholder="Enter phone number">
+                       id="searchByPhoneNumberInputForm" onkeyup="searchContractByPhoneNumber(0,0)" placeholder="Enter phone number">
         </div>
     </div>
 

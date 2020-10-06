@@ -1,41 +1,28 @@
-
-
-// function clickContractListChangePage(){
-//     let curId = $(this).attr("id");
-//     console.log(curId);
-    // searchContractByPhoneNumber(searchInput, i+1);
-// }
-
 function searchContractByPhoneNumber(searchInput, currentPage) {
 
-    if(searchInput!=""){
-        console.log("searchInput is undefined");
+    if(searchInput=="0"){
         searchInput = $('#searchByPhoneNumberInputForm').val();
-        console.log("searchInput from input val: " + searchInput);
     }
 
-    var exportStr ="";
-    if(currentPage!=""){
-        console.log("currentPage is undefined");
-        currentPage=0;
-        console.log("currentPage setted to 0");
-    }
-
+    var exportStr = "";
     if(searchInput != ""){
+
         $.ajax({
         type: 'GET',
         url: '/workerOffice/searchInContracts/' + searchInput,
         success: function (result) {
-
-            if(currentPage){
-            }else{
-                currentPage=0;
-            }
             let maxItemsPerPage = 5;
             let resultLength = result.length;
-            let pagesAmount = Math.floor((resultLength + 1) / maxItemsPerPage);
+            let pagesAmount = Math.ceil((resultLength + 1) / maxItemsPerPage);
 
-            for (let i = currentPage * maxItemsPerPage; i < maxItemsPerPage; i++) {
+            let firstArrayValue = (currentPage) * maxItemsPerPage;
+
+            let lastArrayValue = (currentPage+1) * maxItemsPerPage;
+            if(lastArrayValue>result.length){
+                lastArrayValue=result.length;
+            }
+
+            for (let i = firstArrayValue; i < lastArrayValue; i++) {
                     exportStr = exportStr
                         + "<hr style=\"margin-top:10px; width:100%;\">"
                         + "<div class=\"row\">"
@@ -79,8 +66,8 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
                             + (i+1) + "</a></li>";
                     }else{
                     exportStr = exportStr
-                        + "<li class=\"btn page-item\">"
-                        + "<a class=\"page-link\" name='pageContrBut' id=\"" + searchInput + "and" + (i+1) + "\">"
+                        + "<li class=\"btn page-item\" name = \"pageChangerButton\" onclick=\"pageChanger(this.id)\" id=\"" + searchInput + "and" + (i+1) + "\">"
+                        + "<a class=\"page-link\">"
                         + (i+1) + "</a></li>";
                     }
                 }
@@ -93,22 +80,20 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
 
             }
 
-
             document.getElementById("foundedContractsRow")
                 .innerHTML = exportStr;
-        }
-    })
+            }
+        })
     }else{
         document.getElementById("foundedContractsRow")
             .innerHTML = "";
     }
 };
 
-$('input[name="pageContrBut"]').on('click', function() {
-    let curId = $(this).attr("id");
-    console.log("CLICKINGWORKING");
-    console.log(curId);
-});
+function pageChanger(pageButtonId){
+    let stringsArray = pageButtonId.split("and");
+    searchContractByPhoneNumber(stringsArray[0], stringsArray[1]-1);
+}
 
 function searchTariffByName() {
     let searchInput = $('#searchByTariffNameInputForm').val();
@@ -134,7 +119,8 @@ function searchTariffByName() {
                         + "<div class=\"col-2\"></div>"
 
                         + "<div class=\"col-2\">"
-                        + "<button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" id=\"editButton\">Edit</button>"
+                        + "<button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" "
+                        + "id=\"editButton\" style=\"margin-left:10px;\">Edit</button>"
                         + "</div>"
                         + "</div>";
 
