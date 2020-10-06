@@ -56,7 +56,10 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="row">
-            <div class="col-4">
+            <div class="col-1">
+            </div>
+
+            <div class="col-3">
                 <p class="lead" id="columnDiscriptionLabels">Phone number</p>
             </div>
 
@@ -87,7 +90,7 @@
     <div class="col-5">
         <p style="font-weight: bolder;">Search for tariff by name</p>
         <div style=" margin-top: -10px">
-            <input class="form-control searchForm" type="text" onkeyup="searchTariffByName()"
+            <input class="form-control searchForm" type="text" onkeyup="searchTariffByName(0,0)"
                    id="searchByTariffNameInputForm" placeholder="Enter Tariff name">
         </div>
     </div>
@@ -100,11 +103,14 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="row">
+            <div class="col-1">
+            </div>
+
             <div class="col-5">
                 <p class="lead" id="columnDiscriptionLabels">Name</p>
             </div>
 
-            <div class="col-3">
+            <div class="col-2">
                 <p class="lead" id="columnDiscriptionLabels">Price</p>
             </div>
 
@@ -131,7 +137,7 @@
         <p style="font-weight: bolder;">Search option by name</p>
         <div style=" margin-top: -10px">
             <input class="form-control searchForm" type="text"
-                   id="searchByOptionNameInputForm" onkeyup="searchOptionByName()" placeholder="Enter option name">
+                   id="searchByOptionNameInputForm" onkeyup="searchOptionByName(0,0)" placeholder="Enter option name">
         </div>
     </div>
 
@@ -143,6 +149,9 @@
     <div class="col"></div>
     <div class="col-5">
         <div class="row">
+            <div class="col-1">
+            </div>
+
             <div class="col-3">
                 <p class="lead" id="columnDiscriptionLabels">Name</p>
             </div>
@@ -151,7 +160,7 @@
                 <p class="lead" id="columnDiscriptionLabels">Connection price</p>
             </div>
 
-            <div class="col-3">
+            <div class="col-2">
                 <p class="lead" id="columnDiscriptionLabels">Price</p>
             </div>
 

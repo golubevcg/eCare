@@ -284,23 +284,29 @@
     <div class="row" style="margin-bottom:30px">
         <div class="col"></div>
 
-        <div class="col-4">
-            <h1 class="display-4" id="blockNumber">Block number</h1>
-        </div>
 
-        <div>
 
             <c:choose>
                 <c:when test="${isBlocked eq false}">
+                    <div class="col-4">
+                        <h1 class="display-4" id="blockNumber">Block number</h1>
+                    </div>
+
+                    <div>
                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
                         <input type="checkbox" name="blockNumberCheckBox">
                         <span class="slider round" ></span>
                     </label>
                 </c:when>
                 <c:otherwise>
+                    <div class="col-4">
+                        <h1 class="display-4" id="blockNumber" style="color:#d3d3d3">Block number</h1>
+                    </div>
+
+                    <div>
                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                        <input type="checkbox" checked name="blockNumberCheckBox">
-                        <span class="slider round" ></span>
+                        <input type="checkbox" checked disabled="disabled" name="blockNumberCheckBox">
+                        <span class="slider round" style="background-color: #9acffa"></span>
                     </label>
                 </c:otherwise>
             </c:choose>

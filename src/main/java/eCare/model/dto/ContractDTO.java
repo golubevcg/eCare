@@ -19,16 +19,12 @@ public class ContractDTO implements Comparable{
     private Long contract_id;
     @Expose
     private String contractNumber;
-
     @Expose
     private boolean isBlocked;
-
     @Expose
     private UserDTO user;
-
     @Expose
     private TariffDTO tariff;
-
     @Expose
     private boolean isActive = true;
     private Set<OptionDTO> setOfOptions = new HashSet<>();
