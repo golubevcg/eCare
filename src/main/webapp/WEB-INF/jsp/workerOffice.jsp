@@ -46,7 +46,6 @@
         <div style="margin-top: 20px">
                 <input class="form-control searchForm" type="text" style="width:100%; background-color: white; float:left; border-color: black;"
                        id="searchByPhoneNumberInputForm" onkeyup="searchContractByPhoneNumber()" placeholder="Enter phone number">
-
         </div>
     </div>
 
@@ -58,11 +57,11 @@
     <div class="col-5">
         <div class="row">
             <div class="col-4">
-                <p class="lead" id="columnDiscriptionLabels">First and Last Name</p>
+                <p class="lead" id="columnDiscriptionLabels">Phone number</p>
             </div>
 
             <div class="col-4">
-                <p class="lead" id="columnDiscriptionLabels">Phone number</p>
+                <p class="lead" id="columnDiscriptionLabels">First and Last Name</p>
             </div>
 
             <div class="col-2">
@@ -72,7 +71,6 @@
         </div>
 
     </div>
-
     <div class="col"></div>
 </div>
 
@@ -83,8 +81,6 @@
 
     <div class="col"></div>
 </div>
-
-
 
 <div class="row" style="margin-top:25px;">
     <div class="col"></div>
@@ -115,8 +111,6 @@
 
         </div>
 
-        <hr style="margin-top:-10px;">
-
     </div>
 
     <div class="col"></div>
@@ -136,7 +130,8 @@
     <div class="col-5">
         <p style="font-weight: bolder;">Search option by name</p>
         <div style=" margin-top: -10px">
-            <input class="form-control searchForm" type="text" placeholder="Enter option name">
+            <input class="form-control searchForm" type="text"
+                   id="searchByOptionNameInputForm" onkeyup="searchOptionByName()" placeholder="Enter option name">
         </div>
     </div>
 
@@ -160,11 +155,7 @@
                 <p class="lead" id="columnDiscriptionLabels">Price</p>
             </div>
 
-
-
         </div>
-
-        <hr style="margin-top:-10px;">
 
     </div>
 
@@ -173,26 +164,9 @@
 
 <div class="row" style="margin-top:-10px;">
     <div class="col"></div>
-    <div class="col-5">
-        <div class="row">
-            <div class="col-3">
-                <p class="lead" id="columnContentLabels">Опция 1</p>
-            </div>
+    <div class="col-5"  id="foundedOptionsRow">
 
-            <div class="col-3">
-                <p class="lead" id="columnContentLabels">50 рублей</p>
-            </div>
-
-            <div class="col-3">
-                <p class="lead" id="columnContentLabels">100 руб./мес.</p>
-            </div>
-
-            <div class="col-3">
-                <button type="button" class="btn btn-primary btn-lg btn-lg" id="editButton">Edit</button>
-            </div>
-        </div>
     </div>
-
     <div class="col"></div>
 </div>
 
