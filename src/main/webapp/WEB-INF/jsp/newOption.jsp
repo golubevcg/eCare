@@ -2,6 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 
 <html lang="en">
 <head>
@@ -41,13 +43,21 @@
     </div>
 
 </div>
+<form:form method="POST" modelAttribute="optionDTO"  id="userDTOInputForm">
 
 <div class="row">
     <div class="col"></div>
     <div class="col-5">
         <p id="headlineLabel" style="margin-top:-25px;">Name</p>
-        <input class="form-control" id="inputForm" type="text" placeholder="Name"
-               style="margin-top:-10px; width: 54%;" name="optionNameForm">
+        <spring:bind path="name" >
+            <div class="form-group ${status.error ? 'has-error' : ''}">
+                <form:input path="name" class="form-control defaultForm" id="inputForm" type="text" placeholder="Name"
+                            style="margin-top:-10px; width: 54%;" name="optionNameForm"></form:input>
+                <form:errors path="name" id="errorsLabel" class="label"></form:errors>
+            </div>
+        </spring:bind>
+
+
     </div>
 
     <div class="col"></div>
@@ -112,7 +122,9 @@
 <div class="row" style="margin-top:10px;">
     <div class="col"></div>
     <div class="col-5">
-        <button type="button" class="btn btn-primary btn-lg btn-lg" id="saveButton" onclick="onSubmitClick()">Save</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-lg" id="saveButton" >Save</button>
+        </form:form>
+
     </div>
 
     <div class="col"></div>

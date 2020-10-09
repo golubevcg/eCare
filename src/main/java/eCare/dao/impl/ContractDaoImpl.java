@@ -78,7 +78,7 @@ public class ContractDaoImpl implements ContractDao {
     @Override
     public List<Contract> getContractById(Long id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+//        Transaction transaction = session.beginTransaction();
 
         List<Contract> contractsList = session.createQuery(
                 "select c " +
@@ -86,7 +86,7 @@ public class ContractDaoImpl implements ContractDao {
                         "where c.contract_id = :id", Contract.class)
                 .setParameter("id", id).list();
 
-        transaction.commit();
+//        transaction.commit();
         session.close();
 
         return contractsList;

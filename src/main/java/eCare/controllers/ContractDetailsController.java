@@ -91,6 +91,7 @@ public class ContractDetailsController {
     @PostMapping(value = "/contractDetails/getTariffOptions", produces = "application/json")
     public @ResponseBody
     String postClientOffice(@RequestBody String selectedTariffName) {
+
         Set<OptionDTO> setOfOptions =
                 tariffServiceImpl.getTariffDTOByTariffname(selectedTariffName.replace("\"", ""))
                         .getSetOfOptions();
@@ -145,18 +146,130 @@ public class ContractDetailsController {
 
     }
 
-    @GetMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
+    @PostMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
     String getDependingOptions(Model model, CsrfToken token, Principal principal,
-                               @PathVariable(value = "selectedOption") String selectedOptionid) {
+                               @PathVariable(value = "selectedOption") String selectedOptionId,
+                               @RequestBody String restOptionIds) {
 
-        OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.parseLong(selectedOptionid));
+
+
+        //парсим Джейсон и забираем из него невыбранные опции, кладём их все в сет
+        JsonArray restOptionCheckboxesIds = JsonParser.parseString(restOptionIds).getAsJsonArray();
+
+        Set<String> notSelectedOptionIds = new HashSet<>();
+        if (restOptionCheckboxesIds.size() != 0) {
+            for (int i = 0; i < restOptionCheckboxesIds.size(); i++) {
+            notSelectedOptionIds.add(restOptionCheckboxesIds.get(i).getAsString());
+            }
+        }
+
+        Set<String> incompatibleOptionIds = new HashSet<>();
+        Set<String> obligatoryOptionIds = new HashSet<>();
+
+        this.cascadeCheckOptionDependencies(selectedOptionId,
+                                            incompatibleOptionIds,
+                                            obligatoryOptionIds,
+                                            notSelectedOptionIds);
+
+        Set<String>[] array = new HashSet[2];
+        array[0]=incompatibleOptionIds;
+        array[1]=obligatoryOptionIds;
+
+        System.out.println("+++++++++++++++INCOMP OPTIONS TO EXPORT++++++++++++++++++++++++");
+        for (String str: incompatibleOptionIds
+             ) {
+            System.out.println(str);
+        }
+
+
+        System.out.println("+++++++++++++++OBLIG OPTIONS TO EXPORT++++++++++++++++++++++++");
+        for (String str: obligatoryOptionIds
+        ) {
+            System.out.println(str);
+        }
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(array);
+    }
+
+    public void cascadeCheckOptionDependencies(String currentOptionId,
+                                               Set<String> incompatibleOptionIds,
+                                               Set<String> obligatoryOptionIds,
+                                               Set<String> notSelectedOptionIds){
+        //получаем из базы текущую опцию и из неё получаем да сета - несовместимых и обязательных опций
+        OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.parseLong(currentOptionId));
         Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
         Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
 
-        Set<OptionDTO>[] array = new HashSet[2];
-        array[0]=incompatibleOptionsSet;
-        array[1]=obligatoryOptionsSet;
+        //создаём сет и по очереди итерируемся, сначала по сету несовместимых опций,
+        //потом по обязательным, если несовместимая или обязательная находится в сете невыбранных опций, тогда
+        //кладём имя этой опции в сет
+        for (OptionDTO option: incompatibleOptionsSet) {
+            if( notSelectedOptionIds.contains( String.valueOf(option.getOption_id()) )){
+                incompatibleOptionIds.add( String.valueOf(option.getOption_id()) );
+//                this.cascadeCheckOptionDependencies( String.valueOf(option.getOption_id()),
+//                                                    incompatibleOptionIds,
+//                                                    obligatoryOptionIds,
+//                                                    notSelectedOptionIds);
+            }
+        }
+
+        for (OptionDTO option: obligatoryOptionsSet) {
+            if( notSelectedOptionIds.contains( String.valueOf(option.getOption_id()) )){
+                obligatoryOptionIds.add( String.valueOf(option.getOption_id()) );
+                this.cascadeCheckOptionDependencies(String.valueOf(option.getOption_id()),
+                        incompatibleOptionIds,
+                        obligatoryOptionIds,
+                        notSelectedOptionIds);
+            }
+        }
+
+    }
+
+    @PostMapping(value = "/contractDetails/loadDependedOptionsSingleDepth/{selectedOption}", produces = "application/json")
+    public @ResponseBody
+    String getDependingOptionsSingleDepth(Model model, CsrfToken token, Principal principal,
+                               @PathVariable(value = "selectedOption") String selectedOptionId,
+                               @RequestBody String restOptionIds) {
+
+
+
+        //парсим Джейсон и забираем из него невыбранные опции, кладём их все в сет
+        JsonArray restOptionCheckboxesIds = JsonParser.parseString(restOptionIds).getAsJsonArray();
+
+        Set<String> notSelectedOptionIds = new HashSet<>();
+        if (restOptionCheckboxesIds.size() != 0) {
+            for (int i = 0; i < restOptionCheckboxesIds.size(); i++) {
+                notSelectedOptionIds.add(restOptionCheckboxesIds.get(i).getAsString());
+            }
+        }
+
+        Set<String> incompatibleOptionIds = new HashSet<>();
+        Set<String> obligatoryOptionIds = new HashSet<>();
+
+        OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.parseLong(selectedOptionId));
+        Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
+        Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
+
+        //создаём сет и по очереди итерируемся, сначала по сету несовместимых опций,
+        //потом по обязательным, если несовместимая или обязательная находится в сете невыбранных опций, тогда
+        //кладём имя этой опции в сет
+        for (OptionDTO option: incompatibleOptionsSet) {
+            if( notSelectedOptionIds.contains( String.valueOf(option.getOption_id()) )){
+                incompatibleOptionIds.add( String.valueOf(option.getOption_id()) );
+            }
+        }
+
+        for (OptionDTO option: obligatoryOptionsSet) {
+            if( notSelectedOptionIds.contains( String.valueOf(option.getOption_id()) )){
+                obligatoryOptionIds.add( String.valueOf(option.getOption_id()) );
+            }
+        }
+
+        Set<String>[] array = new HashSet[2];
+        array[0]=incompatibleOptionIds;
+        array[1]=obligatoryOptionIds;
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(array);
@@ -168,4 +281,7 @@ public class ContractDetailsController {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(currentContract.getSetOfBlockedOptions());
     }
+
+
+
 }
