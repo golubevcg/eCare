@@ -2,15 +2,20 @@ package eCare.controllers;
 
 import eCare.model.dto.OptionDTO;
 import eCare.services.impl.OptionServiceImpl;
+import eCare.validator.OptionDTOValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class NewOptionController {
@@ -19,6 +24,9 @@ public class NewOptionController {
 
     @Autowired
     private OptionServiceImpl optionServiceImpl;
+
+    @Autowired
+    private OptionDTOValidator optionDTOValidator;
 
     @GetMapping(value = "/newOption")
     public String getUserRegistration(Model model){
@@ -30,10 +38,32 @@ public class NewOptionController {
 
     @PostMapping(value = "/newOption")
     public String getValue(Model model,
-                           @ModelAttribute("optionDTO") OptionDTO optionDTO){
+                                        @ModelAttribute("optionDTO") OptionDTO optionDTO,
+                                        BindingResult optionDTOBindingResult,
+        @RequestParam(required=false, name= "selectedObligatoryOptions") String[] selectedObligatoryOptions,
+        @RequestParam(required=false, name= "selectedIncompatibleOptions") String[] selectedIncompatibleOptions){
 
-        System.out.println(optionDTO.getName());
-        return "newOption";
+        optionDTOValidator.validate(optionDTO, optionDTOBindingResult);
+
+        if(optionDTOBindingResult.hasErrors()){
+            return "newOption";
+        }
+
+        Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
+        for (int i = 0; i < selectedIncompatibleOptions.length; i++) {
+            incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedIncompatibleOptions[i]) );
+        }
+        optionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
+
+        Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
+        for (int i = 0; i < selectedObligatoryOptions.length; i++) {
+            obligatoryOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedObligatoryOptions[i]) );
+        }
+        optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
+
+        optionServiceImpl.convertToEntityAndSave(optionDTO);
+
+        return "/workerOffice";
     }
 
 }

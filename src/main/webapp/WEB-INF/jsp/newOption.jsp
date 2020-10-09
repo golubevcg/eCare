@@ -30,105 +30,130 @@
     <script src="/resources/js/newOption.js"></script>
 </div>
 
-<div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
+<div id="page-container">
+    <div id="content-wrap">
 
-    <div class="row">
-        <div class="col"></div>
+        <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
-        <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Registering a new option</h1>
-        </div>
+            <div class="row">
+                <div class="col"></div>
 
-        <div class="col"></div>
-    </div>
+                <div class="col-5">
+                    <h1 class="display-4" id="privateOfficeLabel">Registering a new option</h1>
+                </div>
 
-</div>
-<form:form method="POST" modelAttribute="optionDTO"  id="userDTOInputForm">
-
-<div class="row">
-    <div class="col"></div>
-    <div class="col-5">
-        <p id="headlineLabel" style="margin-top:-25px;">Name</p>
-        <spring:bind path="name" >
-            <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input path="name" class="form-control defaultForm" id="inputForm" type="text" placeholder="Name"
-                            style="margin-top:-10px; width: 54%;" name="optionNameForm"></form:input>
-                <form:errors path="name" id="errorsLabel" class="label"></form:errors>
+                <div class="col"></div>
             </div>
-        </spring:bind>
-
-
-    </div>
-
-    <div class="col"></div>
-</div>
-
-
-<div class="row" style="margin-top: 10px">
-    <div class="col"></div>
-
-    <div class="col-5">
-        <div>
-            <p id="headlineLabel" style="float:left; width:41%;">Connection cost</p>
-            <p id="headlineLabel" style="float:left; width:20%;">Price</p>
 
         </div>
+        <form:form method="POST" modelAttribute="optionDTO"  id="userDTOInputForm">
 
-        <div style="clear:both;">
-        <input class="form-control" type="number" style="width:40%; background-color: #ffffff; float:left; border-color: black;  margin-top:-10px" placeholder="Connection cost" name="connectionCostForm">
-        <input class="form-control" type="number" style="width:12%; background-color: white; float:left; border-color: black; margin-left:2%; margin-top:-10px" placeholder="Price" name="priceForm">
-        </div>
-    </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-5">
+                <p id="headlineLabel" style="margin-top:-25px;">Name</p>
+                <spring:bind path="name" >
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input path="name" class="form-control defaultForm" id="inputForm" type="text" placeholder="Name"
+                                    style="margin-top:-10px; width: 54%;" name="optionNameForm"></form:input>
+                        <form:errors path="name" id="errorsLabel" class="label"></form:errors>
+                    </div>
+                </spring:bind>
 
-    <div class="col"></div>
-</div>
 
-<div class="row">
-    <div class="col"></div>
+            </div>
 
-    <div class="col-5">
-        <p id="headlineLabel" style="margin-top: 10px">Short description</p>
-        <input class="form-control" type="text" style="width:54%; height:100px; background-color: white; float:left; border-color: black; margin-top:-10px;" placeholder="Short description" name="shortDiscriptionForm">
-    </div>
-
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-
-        <p id="headlineLabel">Obligatory options</p>
-        <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="ObligatoryOptionsList">
-            <c:forEach items="${listOfActiveOptions}" var="option" >
-                <option>${option.name}</option>
-            </c:forEach>
-        </select>
-
-        <div style="margin-top:15px;">
-            <p id="headlineLabel" >Incompatible options</p>
-            <select class="mul-select" multiple="true"
-                    style="width: 54%; margin-top:-10px; font-size: 20px;"  name="IncompatibleOptionsList">
-                <c:forEach items="${listOfActiveOptions}" var="option">
-                    <option>${option.name}</option>
-                </c:forEach>
-            </select>
+            <div class="col"></div>
         </div>
 
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col"></div>
+
+            <div class="col-5">
+                <div>
+                    <p id="headlineLabel" style="float:left; width:41%;">Connection cost</p>
+                </div>
+                <div style="clear:both;">
+                    <spring:bind path="connectionCost" >
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input path="connectionCost" class="form-control" type="number"
+                                        style="float:left; width:30%; margin-top:-10px;" placeholder="Connection cost" name="connectionCostForm"></form:input>
+                            <form:errors path="connectionCost" id="errorsLabel" class="label"></form:errors>
+                        </div>
+                    </spring:bind>
+
+
+                    <p id="headlineLabel" style="clear:both; width:20%; padding-top:10px;">Price</p>
+                    <spring:bind path="price" >
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input path="price" class="form-control defaultForm" id="inputForm" type="number" placeholder="Price"
+                                        style="float:left; width:30%; margin-top:-10px;" name="priceForm"></form:input>
+                            <form:errors path="price" id="errorsLabel" class="label"></form:errors>
+                        </div>
+                    </spring:bind>
+
+                </div>
+            </div>
+
+            <div class="col"></div>
+        </div>
+
+        <div class="row">
+            <div class="col"></div>
+
+            <div class="col-5">
+                <p id="headlineLabel" style="margin-top: 10px">Short description</p>
+                <spring:bind path="shortDiscription" >
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input path="shortDiscription" class="form-control defaultForm" id="inputForm" type="text" placeholder="Short description"
+                                    style="margin-top:-10px; width: 54%;" name="shortDiscriptionForm"></form:input>
+                        <form:errors path="shortDiscription" id="errorsLabel" class="label"></form:errors>
+                    </div>
+                </spring:bind>
+            </div>
+
+            <div class="col"></div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col"></div>
+            <div class="col-5">
+
+                <p id="headlineLabel">Obligatory options</p>
+                <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedObligatoryOptions" id="selectedObligatoryOptions">
+                    <c:forEach items="${listOfActiveOptions}" var="option" >
+                        <option>${option.name}</option>
+                    </c:forEach>
+                </select>
+
+                <div style="margin-top:15px;">
+                    <p id="headlineLabel" >Incompatible options</p>
+                    <select class="mul-select" multiple="true"
+                            style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedIncompatibleOptions" id="selectedIncompatibleOptions">
+                        <c:forEach items="${listOfActiveOptions}" var="option">
+                            <option>${option.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col"></div>
+            <div class="col-5">
+                <button type="submit" class="btn btn-primary btn-lg btn-lg" id="saveButton" >Save</button>
+                </form:form>
+
+            </div>
+
+            <div class="col"></div>
+        </div>
     </div>
-    <div class="col"></div>
 </div>
-
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <button type="submit" class="btn btn-primary btn-lg btn-lg" id="saveButton" >Save</button>
-        </form:form>
-
-    </div>
-
-    <div class="col"></div>
-</div>
+</body>
 
 
 <jsp:directive.include file = "footerTemplate.jsp" />
