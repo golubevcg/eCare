@@ -12,14 +12,7 @@ public class MainPageController {
     static final Logger log = Logger.getLogger(MainPageController.class);
 
     @GetMapping("/")
-    public String getMain(Model model, CsrfToken token){
+    public String getMain(Model model, CsrfToken token) {
         return "main";
     }
-
-
-    @GetMapping("/newTariff")
-    public String getNewTarif(Model model, CsrfToken token){
-        return "newTariff";
-    }
-
-   }
+}

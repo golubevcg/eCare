@@ -62,6 +62,7 @@ public class NewOptionController {
         optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
 
         optionServiceImpl.convertToEntityAndSave(optionDTO);
+        log.info("New option was registered successfully.");
 
         return "/workerOffice";
     }

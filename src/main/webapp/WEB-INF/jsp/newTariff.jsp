@@ -2,139 +2,138 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resources/styles/newTarif.css">
+    <title>New Option</title>
+    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/resources/styles/registration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
+<jsp:directive.include file = "headerTemplateAdmin.jsp" />
 
-        <img src="/resources/static/logo.png" class="rounded float-left" alt="..." style="width:65px; float:left;">
+<div>
+    <script src="/resources/js/newTariff.js"></script>
+</div>
 
-        <div class="dropdown" style="float:left; ">
+<div id="page-container">
+    <div id="content-wrap">
 
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Тарифы
-            </button>
+        <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Тариф1</a>
-                <a class="dropdown-item" href="#">Тариф2</a>
-                <a class="dropdown-item" href="#">Тариф3</a>
+            <div class="row">
+                <div class="col"></div>
+
+                <div class="col-5">
+                    <h1 class="display-4" id="privateOfficeLabel">Registering a new tariff</h1>
+                </div>
+
+                <div class="col"></div>
             </div>
 
         </div>
+        <form:form method="POST" modelAttribute="tariffDTO"  id="tariffDTOInputForm">
 
-        <div class="dropdown" style="float:left;">
+        <div class="row">
+            <div class="col"></div>
 
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опции
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Опция1</a>
-                <a class="dropdown-item" href="#">Опция2</a>
-                <a class="dropdown-item" href="#">Опция3</a>
+            <div class="col-5">
+                <div>
+                    <p id="headlineLabel" style="float:left; width:41%; margin-top: -20px;">Name</p>
+                </div>
+                <div style="clear:both;">
+                    <spring:bind path="name" >
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <form:input path="name" class="form-control" type="text"
+                                        style="float:left; width:30%; margin-top:-10px;" placeholder="Name" name="nameForm"></form:input>
+                            <form:errors path="name" id="errorsLabel" class="label"></form:errors>
+                        </div>
+                    </spring:bind>
+                </div>
             </div>
 
+            <div class="col"></div>
         </div>
 
-        <button class="btn btn my-2 my-sm-0 mr-auto" id="ownCabinet" type="submit" style="float:right;"
-                data-toggle="modal" data-target="#exampleModal">Личный кабинет</button>
-    </div>
-    <div class="col"></div>
-</div>
 
-<div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
+        <div class="row" style="margin-top: 10px">
+            <div class="col"></div>
 
-    <div class="row">
-        <div class="col"></div>
+            <div class="col-5">
+                <p id="headlineLabel" ">Price</p>
+                <spring:bind path="price" >
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input path="price" class="form-control defaultForm" id="inputForm" type="number" placeholder="Price"
+                                    style="margin-top:-10px; width: 54%;" name="tariffNameForm"></form:input>
+                        <form:errors path="price" id="errorsLabel" class="label"></form:errors>
+                    </div>
+                </spring:bind>
+            </div>
 
-        <div class="col-5">
-            <h1 class="display-4" id="privateOfficeLabel">Опция 1</h1>
+            <div class="col"></div>
         </div>
 
-        <div class="col"></div>
-    </div>
+        <div class="row">
+            <div class="col"></div>
 
-</div>
+            <div class="col-5">
+                <p id="headlineLabel" style="margin-top: 10px">Short description</p>
+                <spring:bind path="shortDiscription" >
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input path="shortDiscription" class="form-control defaultForm" id="inputForm" type="text" placeholder="Short description"
+                                    style="margin-top:-10px; width: 65%; height: 110px;" name="shortDiscriptionForm"></form:input>
+                        <form:errors path="shortDiscription" id="errorsLabel" class="label"></form:errors>
+                    </div>
+                </spring:bind>
+            </div>
 
-<div class="row" style="margin-top: 10px">
-    <div class="col"></div>
-
-    <div class="col-5">
-        <div>
-            <p id="headlineLabel" style="float:left; width:13%;">Цена</p>
-            <p id="headlineLabel" style="float:left; width:40%;">Название</p>
-
+            <div class="col"></div>
         </div>
 
-        <div style="clear:both;">
-        <input class="form-control" type="text" style="width:12%; background-color: #ffffff; float:left; border-color: black;  margin-top:-10px" placeholder="Цена">
-        <input class="form-control" type="text" style="width:40%; background-color: white; float:left; border-color: black; margin-left:2%; margin-top:-10px" placeholder="Название">
+        <div class="row" style="margin-top:10px;">
+            <div class="col"></div>
+            <div class="col-5">
+
+                <p id="headlineLabel">Available options</p>
+                <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions" id="selectedOptions">
+                    <c:forEach items="${listOfActiveOptions}" var="option" >
+                        <option>${option.name}</option>
+                    </c:forEach>
+                </select>
+
+            </div>
+            <div class="col"></div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col"></div>
+            <div class="col-5">
+                <button type="submit" class="btn btn-primary btn-lg btn-lg" id="saveButton" >Save</button>
+                </form:form>
+
+            </div>
+
+            <div class="col"></div>
         </div>
     </div>
-
-    <div class="col"></div>
 </div>
-
-<div class="row">
-    <div class="col"></div>
-
-    <div class="col-5">
-        <p id="headlineLabel" style="margin-top: 10px">Описание</p>
-        <input class="form-control" type="text" style="width:50%; height:100px; background-color: white; float:left; border-color: black; margin-top:-10px;" placeholder="Описание">
-    </div>
-
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <div style="margin-top:5px;">
-            <p id="headlineLabel" >Доступные опции</p>
-            <select class="form-control form-control-lg" style="width: 100%; margin-top:-10px; margin-bottom: 10px">
-                <option>Доступные опции</option>
-            </select>
-        </div>
-    </div>
-    <div class="col"></div>
-</div>
-
-<div class="row" style="margin-top:10px;">
-    <div class="col"></div>
-    <div class="col-5">
-        <button type="button" class="btn btn-primary btn-lg btn-lg" id="saveButton"> Сохранить</button>
-    </div>
-
-    <div class="col"></div>
-</div>
-
-
-
-
-<!--for dropdown menus scripts-->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </body>
 
-<div class="footer" id="footer">
-    <p class="lead" style="font-size: 15px; ">golubevcg@gmail.com 2020</p>
-</div>
 
-
+<jsp:directive.include file = "footerTemplate.jsp" />
 
 </html>

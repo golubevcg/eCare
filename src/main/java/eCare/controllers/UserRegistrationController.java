@@ -1,10 +1,7 @@
 package eCare.controllers;
 
 import com.google.gson.*;
-import eCare.model.dto.ContractDTO;
-import eCare.model.dto.RoleDTO;
-import eCare.model.dto.UserContractDTO;
-import eCare.model.dto.UserDTO;
+import eCare.model.dto.*;
 import eCare.model.enitity.Option;
 import eCare.services.impl.*;
 import eCare.validator.UserContractDTOValidator;
@@ -76,7 +73,12 @@ public class UserRegistrationController {
                 }
             }
 
-            contractDTO.setTariff(tariffServiceImpl.getTariffDTOByTariffname(selectedTariff));
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff);
+            if (tariffDTO != null) {
+                contractDTO.setTariff(tariffDTO);
+
+            }
+
         }
 
         if(userFormBindingResult.hasErrors()){

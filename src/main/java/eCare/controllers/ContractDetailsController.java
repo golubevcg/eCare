@@ -92,9 +92,15 @@ public class ContractDetailsController {
     public @ResponseBody
     String postClientOffice(@RequestBody String selectedTariffName) {
 
-        Set<OptionDTO> setOfOptions =
-                tariffServiceImpl.getTariffDTOByTariffname(selectedTariffName.replace("\"", ""))
-                        .getSetOfOptions();
+        TariffDTO tariffDTO = tariffServiceImpl
+                .getTariffDTOByTariffnameOrNull(selectedTariffName
+                        .replace("\"", ""));
+
+        Set<OptionDTO> setOfOptions = new HashSet<>();
+        if(tariffDTO!=null){
+            setOfOptions = tariffDTO.getSetOfOptions();
+        }
+
 
         ArrayList<OptionDTO> sortedListOfOptions = new ArrayList<>();
         sortedListOfOptions.addAll(setOfOptions);
@@ -130,7 +136,10 @@ public class ContractDetailsController {
         }
 
         if (!currentContract.getTariff().getName().equals(tariffSelectedCheckboxes)) {
-            currentContract.setTariff(tariffServiceImpl.getTariffDTOByTariffname(tariffSelectedCheckboxes));
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariffSelectedCheckboxes);
+            if(tariffDTO!=null){
+                currentContract.setTariff(tariffDTO);
+            }
         }
 
         JsonArray jsonArrayLockedOptions = obj.get("lockedOptionsArray").getAsJsonArray();

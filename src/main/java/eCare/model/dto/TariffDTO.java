@@ -36,4 +36,8 @@ public class TariffDTO {
     private boolean isActive = true;
 
     private Set<OptionDTO> setOfOptions = new HashSet<>();
+
+    public void addOptionDTO(OptionDTO optionDTO){
+        setOfOptions.add(optionDTO);
+    }
 }

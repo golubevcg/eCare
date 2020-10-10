@@ -47,14 +47,23 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffDTO getTariffDTOByTariffname(String name){
-        Tariff tariff = this.getTariffByTariffName(name).get(0);
-        return tariffMapper.toDTO(tariff);
+    public TariffDTO getTariffDTOByTariffnameOrNull(String name){
+        List<Tariff> listOfTariffs = this.getTariffByTariffName(name);
+        if(listOfTariffs.isEmpty()){
+            return null;
+        }else {
+            Tariff tariff = listOfTariffs.get(0);
+            return tariffMapper.toDTO(tariff);
+        }
     }
 
     @Override
     public Tariff convertDtoToEntity(TariffDTO tariffDto){
         return tariffMapper.toEntity(tariffDto);
+    }
+
+    public void convertToEntityAndSave(TariffDTO tariffDTO){
+        tarifDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
