@@ -11,5 +11,6 @@ public interface OptionService {
     List<Option> getOptionByName(String optionName);
     List<OptionDTO> searchForOptionByName(String optionName);
     List<OptionDTO> getActiveOptions();
+    OptionDTO getOptionDTOByName(String name);
 
 }

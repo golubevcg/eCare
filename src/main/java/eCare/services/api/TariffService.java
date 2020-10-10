@@ -14,4 +14,5 @@ public interface TariffService {
     Tariff convertDtoToEntity(TariffDTO tariffDto);
     List<TariffDTO> getActiveTariffs();
     List<TariffDTO> searchForTariffDTOByName(String name);
+    void convertToEntityAndSave(TariffDTO tariffDTO);
 }

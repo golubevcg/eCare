@@ -3,6 +3,7 @@ package eCare.dao.impl;
 import eCare.HibernateSessionFactoryUtil;
 import eCare.dao.api.UserDao;
 import eCare.model.dto.UserDTO;
+import eCare.model.enitity.Contract;
 import eCare.model.enitity.Role;
 import eCare.model.enitity.User;
 import org.hibernate.Session;
@@ -89,6 +90,20 @@ public class UserDaoImpl implements UserDao {
         session.close();
         return listOfUsers;
     }
+
+    @Override
+    public List<User> searchForUserBySecondName(String searchInput) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<User> usersList = session.createQuery(
+                "select u " +
+                        "from User u " +
+                        "where u.secondname like:string", User.class)
+                .setParameter("string", "%" + searchInput + "%")
+                .list();
+        session.close();
+        return usersList;
+    }
+
 
     public void checkUserRoles(User user, Session session){
         try {

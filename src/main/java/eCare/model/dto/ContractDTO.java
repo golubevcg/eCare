@@ -27,7 +27,9 @@ public class ContractDTO implements Comparable{
     private TariffDTO tariff;
     @Expose
     private boolean isActive = true;
+
     private Set<OptionDTO> setOfOptions = new HashSet<>();
+
     private Set<OptionDTO> setOfBlockedOptions = new HashSet<>();
 
     public String getContractNumber() {

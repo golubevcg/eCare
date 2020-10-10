@@ -15,35 +15,35 @@ import java.util.List;
 public class TariffDaoImpl implements TariffDao {
 
     @Override
-    public void save(Tariff tarif) {
+    public void save(Tariff tariff) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        session.merge(tarif);
+        session.merge(tariff);
         transaction2.commit();
         session.close();
     }
 
     @Override
-    public void update(Tariff tarif) {
+    public void update(Tariff tariff) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        session.update(tarif);
+        session.update(tariff);
         transaction2.commit();
         session.close();
     }
 
     @Override
-    public void delete(Tariff tarif) {
+    public void delete(Tariff tariff) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction2 = session.beginTransaction();
-        tarif.setActive(false);
-        session.update(tarif);
+        tariff.setActive(false);
+        session.update(tariff);
         transaction2.commit();
         session.close();
     }
 
     @Override
-    public List<Tariff> getTariffByTariffName(String tarifName) {
+    public List<Tariff> getTariffByTariffName(String tariffName) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -51,7 +51,7 @@ public class TariffDaoImpl implements TariffDao {
                 "select t " +
                         "from Tariff t " +
                         "where t.name = :name", Tariff.class)
-                .setParameter("name", tarifName).list();
+                .setParameter("name", tariffName).list();
 
         transaction.commit();
         session.close();

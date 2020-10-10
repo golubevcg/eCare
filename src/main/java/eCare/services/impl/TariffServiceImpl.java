@@ -21,16 +21,16 @@ public class TariffServiceImpl implements TariffService {
     TariffMapper tariffMapper;
 
     @Override
-    public void save(Tariff tarif) { tarifDaoImpl.save(tarif); }
+    public void save(Tariff tariff) { tarifDaoImpl.save(tariff); }
 
     @Override
-    public void update(Tariff tarif) {
-        tarifDaoImpl.update(tarif);
+    public void update(Tariff tariff) {
+        tarifDaoImpl.update(tariff);
     }
 
     @Override
-    public void delete(Tariff tarif) {
-        tarifDaoImpl.delete(tarif);
+    public void delete(Tariff tariff) {
+        tarifDaoImpl.delete(tariff);
     }
 
     @Override

@@ -57,6 +57,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> searchForUserBySecondName(String searchInput) {
+        return userDaoImpl.searchForUserBySecondName(searchInput)
+                .stream()
+                .map(u->userMapper.toDTO(u))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public User convertDTOtoEntity(UserDTO userDTO){
         return userMapper.toEntity(userDTO);
     }
