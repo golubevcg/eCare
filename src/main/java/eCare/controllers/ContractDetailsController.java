@@ -181,13 +181,14 @@ public class ContractDetailsController {
                                             obligatoryOptionIds,
                                             notSelectedOptionIds);
 
+        System.out.println("RECURSION WAS RUNNED: " + recusrionsCounter + " times.");
+
         Set<String>[] array = new HashSet[2];
         array[0]=incompatibleOptionIds;
         array[1]=obligatoryOptionIds;
 
         System.out.println("+++++++++++++++INCOMP OPTIONS TO EXPORT++++++++++++++++++++++++");
-        for (String str: incompatibleOptionIds
-             ) {
+        for (String str: incompatibleOptionIds) {
             System.out.println(str);
         }
 
@@ -202,10 +203,14 @@ public class ContractDetailsController {
         return gson.toJson(array);
     }
 
+    private int recusrionsCounter = 0;
+
     public void cascadeCheckOptionDependencies(String currentOptionId,
                                                Set<String> incompatibleOptionIds,
                                                Set<String> obligatoryOptionIds,
                                                Set<String> notSelectedOptionIds){
+        recusrionsCounter = recusrionsCounter + 1;
+        System.out.println("************STARTED CASCADE CHECK IN OPTION WITH ID:" + currentOptionId);
         //получаем из базы текущую опцию и из неё получаем да сета - несовместимых и обязательных опций
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.parseLong(currentOptionId));
         Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();

@@ -235,18 +235,18 @@
             <div class="row" id="enabledOptionsContainer">
 
                         <c:forEach items="${enabledOptionsDTOMap}" var="entry">
-                            <hr style="margin-top:10px; width:100%;">
+                        <hr style="margin-top:10px; width:100%;">
 
                         <div class="col-3">
-                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.name}</p>
+                            <p class="lead columnContentLabels" name="label${entry.key.option_id}">${entry.key.name}</p>
                         </div>
 
                         <div class="col-2">
-                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.price}</p>
+                            <p class="lead columnContentLabels" name="label${entry.key.option_id}">${entry.key.price}</p>
                         </div>
 
                         <div class="col-5">
-                            <p class="lead columnContentLabels" name="${entry.key.option_id}label">${entry.key.shortDiscription}</p>
+                            <p class="lead columnContentLabels" name="label${entry.key.option_id}">${entry.key.shortDiscription}</p>
                         </div>
 
 
@@ -257,13 +257,13 @@
                                         <c:when test="${entry.value eq false}">
                                             <label class="switch" style="clear:both; " name="group1">
                                                 <input type="checkbox" name="optionCheckbox" id="${entry.key.option_id}">
-                                                <span class="slider round" id="${entry.key.option_id}Slider"></span>
+                                                <span class="slider round" id="Slider${entry.key.option_id}"></span>
                                             </label>
                                         </c:when>
                                         <c:otherwise>
                                             <label class="switch" style="clear:both; " name="group1">
                                                 <input type="checkbox" checked name="optionCheckbox" id="${entry.key.option_id}">
-                                                <span class="slider round" id="${entry.key.option_id}Slider"></span>
+                                                <span class="slider round" id="Slider${entry.key.option_id}"></span>
                                             </label>
                                         </c:otherwise>
                                     </c:choose>

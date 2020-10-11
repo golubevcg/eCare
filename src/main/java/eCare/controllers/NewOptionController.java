@@ -49,17 +49,21 @@ public class NewOptionController {
             return "newOption";
         }
 
-        Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
-        for (int i = 0; i < selectedIncompatibleOptions.length; i++) {
-            incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedIncompatibleOptions[i]) );
+        if(selectedIncompatibleOptions!=null){
+            Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
+            for (int i = 0; i < selectedIncompatibleOptions.length; i++) {
+                incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedIncompatibleOptions[i]) );
+            }
+            optionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
         }
-        optionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
 
-        Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
-        for (int i = 0; i < selectedObligatoryOptions.length; i++) {
-            obligatoryOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedObligatoryOptions[i]) );
+        if(selectedObligatoryOptions!=null) {
+            Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
+            for (int i = 0; i < selectedObligatoryOptions.length; i++) {
+                obligatoryOptionsSet.add(optionServiceImpl.getOptionDTOByName(selectedObligatoryOptions[i]));
+            }
+            optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
         }
-        optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
 
         optionServiceImpl.convertToEntityAndSave(optionDTO);
         log.info("New option was registered successfully.");
