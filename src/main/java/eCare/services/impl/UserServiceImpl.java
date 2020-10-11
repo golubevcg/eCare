@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> searchForUserBySecondName(String searchInput) {
-        return userDaoImpl.searchForUserBySecondName(searchInput)
+    public List<UserDTO> searchForUserByLogin(String searchInput) {
+        return userDaoImpl.searchForUserByLogin(searchInput)
                 .stream()
                 .map(u->userMapper.toDTO(u))
                 .collect(Collectors.toList());

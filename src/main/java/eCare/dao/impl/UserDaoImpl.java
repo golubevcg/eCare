@@ -92,12 +92,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> searchForUserBySecondName(String searchInput) {
+    public List<User> searchForUserByLogin(String searchInput) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         List<User> usersList = session.createQuery(
                 "select u " +
                         "from User u " +
-                        "where u.secondname like:string", User.class)
+                        "where u.login like:string", User.class)
                 .setParameter("string", "%" + searchInput + "%")
                 .list();
         session.close();

@@ -11,5 +11,5 @@ public interface UserDao {
     void delete(User user);
     List<User> getUserByLogin(String login);
     List<User> getUserDTOByPassportInfo(Long passwordInfo);
-    List<User> searchForUserBySecondName(String searchInput);
+    List<User> searchForUserByLogin(String searchInput);
 }

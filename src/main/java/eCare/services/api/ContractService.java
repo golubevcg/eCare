@@ -12,5 +12,8 @@ public interface ContractService {
      List<Contract> getContractByNumber(String number);
      List<Contract> getContractById(Long contractID);
      List<ContractDTO> searchForContractByNumber(String number);
+     Contract convertDTOtoEntity(ContractDTO contractDTO);
+     void convertToEntityAndSave(ContractDTO contractDTO);
+
 
 }

@@ -59,4 +59,15 @@ public class ContractDTO implements Comparable{
             return -1;
         }
     }
+
+    @Override
+    public String toString() {
+        return "ContractDTO{" +
+                "contract_id=" + contract_id +
+                ", contractNumber='" + contractNumber + '\'' +
+                ", isBlocked=" + isBlocked +
+                ", user=" + user.getLogin() + " " + user.getUser_id() +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

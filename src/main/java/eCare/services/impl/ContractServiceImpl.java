@@ -70,11 +70,12 @@ public class ContractServiceImpl implements ContractService {
     }
 
 
-
+    @Override
     public Contract convertDTOtoEntity(ContractDTO contractDTO){
         return contractMapper.toEntity(contractDTO);
     }
 
+    @Override
     public void convertToEntityAndSave(ContractDTO contractDTO){
         this.save(contractMapper.toEntity(contractDTO));
     }

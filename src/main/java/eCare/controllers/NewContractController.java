@@ -8,12 +8,18 @@ import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
 import eCare.model.enitity.Option;
 import eCare.model.enitity.User;
+import eCare.services.api.ContractService;
+import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.services.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.context.SaveContextOnUpdateOrErrorResponseWrapper;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,19 +30,29 @@ import java.util.Set;
 @Controller
 public class NewContractController {
 
+    static final Logger log = Logger.getLogger(MainPageController.class);
+
     @Autowired
     UserService userServiceImpl;
 
     @Autowired
     TariffService tariffServiceImpl;
 
+    @Autowired
+    OptionService optionServiceImpl;
+
+    @Autowired
+    ContractService contractServiceImpl;
+
     @GetMapping(value = "/newContract")
     public String getUserRegistration(Model model){
 
         List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
-
+        model.addAttribute("selectedUserError", "");
         model.addAttribute("listOfTariffs", listOfTariffs);
         model.addAttribute("contractDTO", new ContractDTO());
+        model.addAttribute("phoneNumberPatternError", "");
+        model.addAttribute("phoneNumberEmptyError", "");
         return "newContract";
     }
 
@@ -56,14 +72,61 @@ public class NewContractController {
     @GetMapping(value = "/newContract/getUsersList", produces = "application/json")
     public @ResponseBody
     String getUsersList(@RequestParam(value="term", required = false, defaultValue="") String term){
-        List<UserDTO> listOfUsers = userServiceImpl.searchForUserBySecondName(term);
+        List<UserDTO> listOfUsers = userServiceImpl.searchForUserByLogin(term);
         List<String> secondAndFirstNameOfUserlist = new ArrayList<>();
 
         for (UserDTO user: listOfUsers) {
-            secondAndFirstNameOfUserlist.add(user.getSecondname() + " " + user.getFirstname());
+            secondAndFirstNameOfUserlist.add(user.getLogin());
         }
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(secondAndFirstNameOfUserlist);
     }
 
+    @PostMapping(value = "/newContract")
+    public String saveUser(Model model, CsrfToken csrfToken,
+                           @ModelAttribute ContractDTO contractDTO,
+                           BindingResult bindingResult,
+                           @RequestParam(required = false, name="contractNumber") String contractNumber,
+                           @RequestParam(required = false, name="usersList") String selectedLogin,
+                           @RequestParam(required = false, name="selectedTariff") String selectedTariff,
+                           @RequestParam(required = false, name="selectedOptions") String[] selectedOptions){
+
+
+        if(contractNumber.isEmpty()){
+            bindingResult.addError(new ObjectError("phoneNumberEmptyError", "This field is required."));
+            model.addAttribute("phoneNumberEmptyError", "This field is required.");
+        }else{
+            if(!contractNumber.matches("[+]*([0-9]{11})")){
+                bindingResult.addError(new ObjectError("phoneNumberPatterError", "Phone number should look like this: +7XXXXXXXXXX."));
+                model.addAttribute("phoneNumberPatternError", "Phone number should look like this: +7XXXXXXXXXX.");
+            }
+        }
+
+        if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
+            bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+            model.addAttribute("selectedUserError", "Please select existing user.");
+        }
+
+        if(bindingResult.hasErrors()){
+            List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
+            model.addAttribute("listOfTariffs", listOfTariffs);
+            model.addAttribute("contractDTO", new ContractDTO());
+            return "newContract";
+        }
+
+        ContractDTO contractDTO1 = new ContractDTO();
+        contractDTO1.setContractNumber(contractNumber);
+        contractDTO1.setUser(userServiceImpl.getUserDTOByLogin(selectedLogin));
+        contractDTO1.setTariff(tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff));
+        if(selectedOptions!=null){
+            for (int i = 0; i < selectedOptions.length; i++) {
+                contractDTO1.addOption(optionServiceImpl.getOptionDTOByName(selectedOptions[i]));
+            }
+        }
+
+        contractServiceImpl.convertToEntityAndSave(contractDTO1);
+        log.info("New contract was successfully registered.");
+
+        return "workerOffice";
+    }
 }

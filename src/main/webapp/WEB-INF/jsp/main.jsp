@@ -58,7 +58,7 @@
             <h5 class="card-header">Base</h5>
             <div class="card-body">
                 <p class="card-text">200 minutes<br />
-                    10 гигабайт <br /> 100 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
+                    10 Gb <br /> 100 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
                 <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
@@ -67,16 +67,16 @@
             <h5 class="card-header">Standart</h5>
             <div class="card-body">
                 <p class="card-text">300 minutes<br />
-                    20 гигабайт <br /> 200 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
+                    20 Gb <br /> 200 messages <br /> Telegram, Whatsup, <br /> Viber available <br /> even at zero</p>
                 <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
 
         <div class="card">
-            <h5 class="card-header">Расширеный</h5>
+            <h5 class="card-header">Extended</h5>
             <div class="card-body">
                 <p class="card-text">400 minutes<br />
-                    30 гигабайт <br /> 300 messages <br /> Unlimited </br>video services,</br> messengers</p>
+                    30 Gb <br /> 300 messages <br /> Unlimited </br>video services,</br> messengers</p>
                 <a href="#" class="btn" id="cardButton">More details</a>
             </div>
         </div>
@@ -130,7 +130,7 @@
     <div class="col-5">
 
         <div class="jumbotron" id="jumbotron1">
-            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Didn't have enough communication?</p>
+            <p class="lead" style="font-weight: bolder; font-size: 20px; margin-left:-15px;">Not enough communication?</p>
             <p class="lead" style="font-size: 15px; margin-top:-15px; margin-left:-13px;">Purchase additional minute packages as 100, 200 and 300 minutes options</p>
         </div>
 

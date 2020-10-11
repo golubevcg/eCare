@@ -13,5 +13,5 @@ public interface UserService {
     void convertToEntityAndSave(UserDTO userDTO);
     UserDTO getUserDTOByLogin(String login);
     List<UserDTO> getUserDTOByPassportInfo(Long passportInfo);
-    List<UserDTO> searchForUserBySecondName(String searchInput);
+    List<UserDTO> searchForUserByLogin(String searchInput);
 }

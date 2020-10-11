@@ -202,3 +202,13 @@ hr.rounded {
     background-color: #4b99ee;
     color:white;
 }
+
+.select2-results__options{
+    font-size:18px !important;
+    background-color: white; !important;
+}
+
+.select2-selection__rendered {
+    font-size:18px !important;
+    background-color: white; !important;
+}
