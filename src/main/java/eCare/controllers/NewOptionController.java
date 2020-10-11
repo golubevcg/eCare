@@ -52,7 +52,7 @@ public class NewOptionController {
         if(selectedIncompatibleOptions!=null){
             Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
             for (int i = 0; i < selectedIncompatibleOptions.length; i++) {
-                incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByName(selectedIncompatibleOptions[i]) );
+                incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByNameOrNull(selectedIncompatibleOptions[i]) );
             }
             optionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
         }
@@ -60,7 +60,7 @@ public class NewOptionController {
         if(selectedObligatoryOptions!=null) {
             Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
             for (int i = 0; i < selectedObligatoryOptions.length; i++) {
-                obligatoryOptionsSet.add(optionServiceImpl.getOptionDTOByName(selectedObligatoryOptions[i]));
+                obligatoryOptionsSet.add(optionServiceImpl.getOptionDTOByNameOrNull(selectedObligatoryOptions[i]));
             }
             optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
         }

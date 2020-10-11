@@ -2,19 +2,16 @@ package eCare.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import eCare.dao.impl.UserDaoImpl;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
 import eCare.model.enitity.Option;
-import eCare.model.enitity.User;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.context.SaveContextOnUpdateOrErrorResponseWrapper;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -120,7 +117,7 @@ public class NewContractController {
         contractDTO1.setTariff(tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff));
         if(selectedOptions!=null){
             for (int i = 0; i < selectedOptions.length; i++) {
-                contractDTO1.addOption(optionServiceImpl.getOptionDTOByName(selectedOptions[i]));
+                contractDTO1.addOption(optionServiceImpl.getOptionDTOByNameOrNull(selectedOptions[i]));
             }
         }
 

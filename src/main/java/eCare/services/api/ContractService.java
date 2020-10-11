@@ -14,6 +14,5 @@ public interface ContractService {
      List<ContractDTO> searchForContractByNumber(String number);
      Contract convertDTOtoEntity(ContractDTO contractDTO);
      void convertToEntityAndSave(ContractDTO contractDTO);
-
-
+     void convertToEntityAndUpdate(ContractDTO contractDTO);
 }

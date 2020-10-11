@@ -69,6 +69,10 @@ public class ContractServiceImpl implements ContractService {
                 .collect(Collectors.toList());
     }
 
+    public void convertToEntityAndUpdate(ContractDTO contractDTO){
+        contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
+    }
+
 
     @Override
     public Contract convertDTOtoEntity(ContractDTO contractDTO){

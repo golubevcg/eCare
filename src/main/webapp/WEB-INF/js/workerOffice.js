@@ -221,7 +221,7 @@ function searchOptionByName(searchInput, currentPage) {
                         + "<p class=\"lead\" id=\"columnDiscriptionLabels\">" + (i + 1) + ".</p>"
                         + "</div>"
                         + "<div class=\"col-3\">"
-                        + "<p class=\"lead\" id=\"columnContentLabels\">" + result[i].name + "</p>"
+                        + "<a href=\"/checkOption/" + result[i].name + "\"><p class=\"lead\" id=\"columnContentLabels\">" + result[i].name + "</p></a>"
                         + "</div>"
 
                         + "<div class=\"col-3\">"
