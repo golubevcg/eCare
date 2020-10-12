@@ -136,23 +136,7 @@
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedObligatoryOptions" id="selectedObligatoryOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                            <c:choose>
-                                <c:when test="${optionDTO.obligatoryOptionsSet.size() eq 0}">
-                                    <option>${option.name}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach items="${optionDTO.obligatoryOptionsSet}" var="oblOption">
-                                        <c:choose>
-                                            <c:when test="${option.name eq oblOption.name}">
-                                                <option selected>${oblOption.name}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option>${option.name}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
+                                <option>${option.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -164,23 +148,7 @@
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedIncompatibleOptions" id="selectedIncompatibleOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                            <c:choose>
-                                <c:when test="${optionDTO.incompatibleOptionsSet.size() eq 0}">
-                                    <option>${option.name}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach items="${optionDTO.incompatibleOptionsSet}" var="incOption">
-                                        <c:choose>
-                                            <c:when test="${option.name eq incOption.name}">
-                                                <option selected>${incOption.name}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option>${option.name}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
+                                <option>${option.name}</option>
                         </c:forEach>
                     </select>
                 </div>

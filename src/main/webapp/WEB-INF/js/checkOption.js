@@ -10,48 +10,26 @@ function makePageEditable(){
     $('[name="selectedObligatoryOptions"]').attr("disabled", false);
     $('[name="selectedIncompatibleOptions"]').attr("disabled", false);
 
-    var map = {};
-    $('#selectedObligatoryOptions option').each(function () {
-        if (map[this.value]) {
-            $(this).remove()
-        }
-        map[this.value] = true;
-    })
-
-    var map = {};
-    $('#selectedIncompatibleOptions option').each(function () {
-        if (map[this.value]) {
-            $(this).remove()
-        }
-        map[this.value] = true;
-    })
 }
 
-// $(document).ready(function(){
-//
-//     let oldName = $('#inputFormName').val();
-//     $.ajax({
-//         type: 'GET',
-//         url: '/checkOption/getIncompatibleAndObligatoryOptions/' + oldName,
-//         success: function(result){
-//
-//             let incompatibleOptionNamesSet = result[0];
-//             let obligatoryOptionNamesSet = result[1];
-//
-//             // $('#selectedObligatoryOptions option').each(function () {
-//                 console.log(result[0].length);
-//                 for (let i = 0; i < incompatibleOptionNamesSet.length; i++) {
-//                     // console.log(incompatibleOptionNamesSet[i]);
-//                 }
-//             // })
-//
-//             $('#selectedIncompatibleOptions option').each(function () {
-//
-//             })
-//         }
-//     });
-//
-// });
+$(document).ready(function(){
+
+    let oldName = $('#inputFormName').val();
+    $.ajax({
+        type: 'GET',
+        url: '/checkOption/getIncompatibleAndObligatoryOptions/' + oldName,
+        success: function(result){
+            let parsedResult = JSON.parse(result);
+            let incompatibleOptionNamesSet = parsedResult[0];
+            let obligatoryOptionNamesSet = parsedResult[1];
+
+            $('#selectedIncompatibleOptions').val(incompatibleOptionNamesSet).change();
+            $('#selectedObligatoryOptions').val(obligatoryOptionNamesSet).change();
+
+        }
+    });
+
+});
 
 $(document).ready(function(){
     $(".mul-select").select2({
@@ -67,8 +45,10 @@ $(document).ready(function(){
         let selectedOption = $(this).val();
 
         $("#selectedIncompatibleOptions>option").map(function() {
-            if(selectedOption[0] === $(this).val()){
-                $(this).remove();
+            if(selectedOption!=null){
+                if(selectedOption[0] === $(this).val()){
+                    $(this).remove();
+                }
             }
         });
 
@@ -82,33 +62,16 @@ $(document).ready(function(){
         let selectedOption = $(this).val();
 
         $("#selectedObligatoryOptions>option").map(function() {
-            if(selectedOption[0] === $(this).val()){
-                $(this).remove();
+            if(selectedOption!=null){
+                if(selectedOption[0] === $(this).val()){
+                    $(this).remove();
+                }
             }
         });
 
+
+
     });
-});
-
-$(document).ready(function() {
-    setTimeout(function() {
-    let arrayOfSelectedObligatoryOptions = $('[name="obligatoryOptionElement"]');
-    let obligatoryOptions = $('[name="obligatorySelectedElement"]');
-
-    for (let i = 0; i < arrayOfSelectedObligatoryOptions.length; i++) {
-
-        for (let j = 0; j < obligatoryOptions.length; j++) {
-            if(arrayOfSelectedObligatoryOptions[i].text===obligatoryOptions[j].text){
-                console.log(arrayOfSelectedObligatoryOptions[i].id);
-                let searchedID = '#' + arrayOfSelectedObligatoryOptions[i].id;
-                console.log(searchedID)
-                console.log($(searchedID).id);
-                $(searchedID).attr('selected', 'selected');
-            }
-
-        }
-    }
-    }, 2000);
 });
 
 function validateAndSubmitIfTrue(){
@@ -165,9 +128,29 @@ function validateAndSubmitIfTrue(){
         }
     }
 
-    if(validation==="true"){
-        $("#userDTOInputForm").submit();
+    if(validation==="true") {
+        // let name = $('#inputFormName').val();
+        // let connectionCost = $('#inputFormConnCost').val();
+        // let price = $('#inputFormPrice').val();
+        // let shortDiscription = $('#inputFormShortDisc').val();
+        let selectedObligatoryOptions = $('#selectedObligatoryOptions').select2('data');
+        let selectedIncompatibleOptions = $('#selectedIncompatibleOptions').select2('data');
+
+        let arrayOfArrays = [];
+        arrayOfArrays.push(selectedObligatoryOptions);
+        arrayOfArrays.push(selectedIncompatibleOptions);
+
+        $.ajax({
+            contentType: "application/json",
+            type: 'POST',
+            url: '/checkOption/submitArraysValues/',
+            data: JSON.stringify(arrayOfArrays),
+            success: function (result1) {
+                $("#userDTOInputForm").submit();
+            }
+        })
     }
+
 
 }
 
