@@ -129,10 +129,6 @@ function validateAndSubmitIfTrue(){
     }
 
     if(validation==="true") {
-        // let name = $('#inputFormName').val();
-        // let connectionCost = $('#inputFormConnCost').val();
-        // let price = $('#inputFormPrice').val();
-        // let shortDiscription = $('#inputFormShortDisc').val();
         let selectedObligatoryOptions = $('#selectedObligatoryOptions').select2('data');
         let selectedIncompatibleOptions = $('#selectedIncompatibleOptions').select2('data');
 

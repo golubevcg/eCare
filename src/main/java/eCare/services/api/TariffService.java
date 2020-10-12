@@ -15,4 +15,5 @@ public interface TariffService {
     List<TariffDTO> getActiveTariffs();
     List<TariffDTO> searchForTariffDTOByName(String name);
     void convertToEntityAndSave(TariffDTO tariffDTO);
+    void convertToEntityAndUpdate(TariffDTO tariffDTO);
 }

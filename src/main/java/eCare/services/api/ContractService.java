@@ -15,4 +15,6 @@ public interface ContractService {
      Contract convertDTOtoEntity(ContractDTO contractDTO);
      void convertToEntityAndSave(ContractDTO contractDTO);
      void convertToEntityAndUpdate(ContractDTO contractDTO);
+     List<ContractDTO> getContractDTOByNumber(String number);
+     List<ContractDTO> getContractDTOById(Long contractID);
 }

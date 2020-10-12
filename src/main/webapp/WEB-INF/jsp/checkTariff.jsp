@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Check Tariff</title>
+    <title>Tariff details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/styles/checkTariff.css">
@@ -118,23 +118,7 @@
                     <select class="mul-select" multiple="true" style="float:left; width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions"
                             id="selectedOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                            <c:choose>
-                                <c:when test="${tariffDTO.setOfOptions.size() eq 0}">
                                     <option>${option.name}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach items="${tariffDTO.setOfOptions}" var="avOption">
-                                        <c:choose>
-                                            <c:when test="${option.name eq avOption.name}">
-                                                <option selected>${avOption.name}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option>${option.name}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
                         </c:forEach>
                     </select>
                     <label style="color:red; float:left;" id="selectedOptionsField" hidden>At least 3 options must be selected.</label>
@@ -151,9 +135,9 @@
                         <label class="form-check-label" for="exampleCheck1" name="checkbox2" hidden>Block all connected with this tariff contracts</label>
                     </div>
                     <input class="btn btn-lg btn-primary btn-block" onclick="validateAndSubmitIfTrue()"
-                           style="width:35%; clear:both; margin-top:20px;" hidden name="SaveChangesButton" value="Save changes"></input>
+                           style="width:35%; clear:both; margin-top:20px;" hidden name="SaveChangesButton" value="Save changes">
                     <input class="btn btn-lg btn-primary btn-block" onclick="deleteOption()"
-                           style="width:35%; clear:both; float:right; color:white; background-color: red; margin-top:-48px;" hidden name="deleteOptionButton" value="Delete Tariff"></input>
+                           style="width:35%; clear:both; float:right; color:white; background-color: red; margin-top:-48px;" hidden name="deleteOptionButton" value="Delete Tariff">
                     </form:form>
 
                 </div>

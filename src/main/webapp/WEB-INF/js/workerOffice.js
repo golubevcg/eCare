@@ -31,7 +31,7 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
                         + "</div>"
 
                         + "<div class=\"col-3\">"
-                        + "<p class=\"lead\" id=\"columnContentLabels\">" + result[i].contractNumber + "</p>"
+                        + "<a href=\"/checkContract/" + result[i].contract_id + "\"><p class=\"lead\" id=\"columnContentLabels\">" + result[i].contractNumber + "</p></a>"
                         + "</div>"
 
                         + "<div class=\"col-4\">"
@@ -44,7 +44,7 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
                         + "</div>"
 
                         + "<div class=\"col-2\">"
-                        + "<button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" id=\"editButton\">Details</button>"
+                        + "<a href=\"/checkContract/" + result[i].contract_id + "\"><button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" id=\"editButton\">Details</button></a>"
                         + "</div>"
                         + "</div>";
             }

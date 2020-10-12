@@ -42,7 +42,7 @@ public class NewContractController {
     ContractService contractServiceImpl;
 
     @GetMapping(value = "/newContract")
-    public String getUserRegistration(Model model){
+    public String getNewContract(Model model){
 
         List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("selectedUserError", "");

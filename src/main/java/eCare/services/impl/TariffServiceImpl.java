@@ -58,6 +58,11 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
+    public void convertToEntityAndUpdate(TariffDTO tariffDTO){
+        tarifDaoImpl.update( tariffMapper.toEntity(tariffDTO) );
+    }
+
+    @Override
     public Tariff convertDtoToEntity(TariffDTO tariffDto){
         return tariffMapper.toEntity(tariffDto);
     }
