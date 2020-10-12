@@ -127,15 +127,15 @@ function searchTariffByName(searchInput, currentPage) {
                             + "<p class=\"lead\" id=\"columnDiscriptionLabels\">" + (i + 1) + ".</p>"
                             + "</div>"
                             + "<div class=\"col-5\">"
-                            + "<p class=\"lead\" id=\"columnContentLabels\">" + result[i].name + "</p>"
+                            + "<a href=\"/checkTariff/" + result[i].name + "\"><p class=\"lead\" id=\"columnContentLabels\">" + result[i].name + "</p></a>"
                             + "</div>"
                             + "<div class=\"col-4\">"
                             + "<p class=\"lead\" id=\"columnContentLabels\">" + result[i].price + "</p>"
                             + "</div>"
 
                             + "<div class=\"col-2\">"
-                            + "<button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" "
-                            + "id=\"editButton\" style=\"margin-left:10px;\">Details</button>"
+                            + "<a href=\"/checkTariff/" + result[i].name + "\" ><button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" "
+                            + "id=\"editButton\" style=\"margin-left:10px;\">Details</button></a>"
                             + "</div>"
                             + "</div>";
 
@@ -233,7 +233,7 @@ function searchOptionByName(searchInput, currentPage) {
                         + "</div>"
 
                         + "<div class=\"col-3\">"
-                        + "<button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" id=\"editButton\">Details</button>"
+                        + "<a href=\"/checkOption/" + result[i].name + "\"><button type=\"button\" class=\"btn btn-primary btn-lg btn-lg\" id=\"editButton\">Details</button></a>"
                         + "</div>"
                         + "</div>";
                 }

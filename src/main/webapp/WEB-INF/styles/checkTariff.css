@@ -1,0 +1,94 @@
+#dropdownMenuButton{
+    background-color:transparent;
+    color:black;
+    border:transparent;
+    font-family: MS Shell Dig 2;
+}
+
+#privateOfficeJumbotron{
+    background-color: #4b99ee;
+    margin-top:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#privateOfficeLabel{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:30px;
+}
+
+#ownCabinet {
+    float:right;
+    font-family: MS Shell Dig 2;
+}
+
+#headlineLabel{
+    margin-left:5px;
+}
+
+#inputForm{
+    width:40%;
+    background-color: white;
+    float:left;
+    border-color: black;
+}
+
+#saveButton{
+    background-color: white;
+    color:black;
+    border: 2px solid #1f2229;
+}
+
+
+#footer{
+    background-color: #1A1C22;
+    color:white;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    min-height: 50px;
+    vertical-align: bottom;
+    margin-top:15px;
+}
+
+#inputFormName:disabled, #inputFormPrice:disabled, #inputFormShortDisc:disabled{
+    width:40%;
+    background-color: white;
+    float:left;
+    border-color: white;
+    color:black;
+    padding-left:5px;
+    font-size: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+}
+
+#inputFormName, #inputFormPrice, #inputFormShortDisc{
+    width:40%;
+    background-color: white;
+    float:left;
+    border-color: #808080;
+    color:black;
+    padding-left:5px;
+    font-size: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+}
+
+
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
+}
+
+
+

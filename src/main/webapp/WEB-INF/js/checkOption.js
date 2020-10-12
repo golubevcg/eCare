@@ -1,6 +1,7 @@
 function makePageEditable(){
     $('[name="SaveChangesButton"]').removeAttr('hidden');
     $('[name="blockConnectedContracts"]').removeAttr('hidden');
+    $('[name="deleteOptionButton"]').removeAttr('hidden');
     $('[name="checkbox2"]').removeAttr('hidden');
     $('[name="name"]').attr("disabled", false);
     $('[name="connectionCost"]').attr("disabled", false);
@@ -8,7 +9,6 @@ function makePageEditable(){
     $('[name="shortDiscription"]').attr("disabled", false);
     $('[name="selectedObligatoryOptions"]').attr("disabled", false);
     $('[name="selectedIncompatibleOptions"]').attr("disabled", false);
-
 
     var map = {};
     $('#selectedObligatoryOptions option').each(function () {
@@ -18,16 +18,40 @@ function makePageEditable(){
         map[this.value] = true;
     })
 
-    var map1 = {};
+    var map = {};
     $('#selectedIncompatibleOptions option').each(function () {
-        if (map1[this.value]) {
+        if (map[this.value]) {
             $(this).remove()
         }
-        map1[this.value] = true;
+        map[this.value] = true;
     })
-
-
 }
+
+// $(document).ready(function(){
+//
+//     let oldName = $('#inputFormName').val();
+//     $.ajax({
+//         type: 'GET',
+//         url: '/checkOption/getIncompatibleAndObligatoryOptions/' + oldName,
+//         success: function(result){
+//
+//             let incompatibleOptionNamesSet = result[0];
+//             let obligatoryOptionNamesSet = result[1];
+//
+//             // $('#selectedObligatoryOptions option').each(function () {
+//                 console.log(result[0].length);
+//                 for (let i = 0; i < incompatibleOptionNamesSet.length; i++) {
+//                     // console.log(incompatibleOptionNamesSet[i]);
+//                 }
+//             // })
+//
+//             $('#selectedIncompatibleOptions option').each(function () {
+//
+//             })
+//         }
+//     });
+//
+// });
 
 $(document).ready(function(){
     $(".mul-select").select2({
@@ -145,6 +169,26 @@ function validateAndSubmitIfTrue(){
         $("#userDTOInputForm").submit();
     }
 
+}
+
+function deleteOption(){
+    if (confirm("Are you sure you want to delete this option?")) {
+        let optionName = $('#inputFormName').val();
+        $.ajax({
+            type: 'GET',
+            url: '/checkOption/deleteOption/' + optionName,
+            success: function(result){
+                console.log(result);
+                if(result==="true"){
+                    location.href = '/workerOffice';
+                }else{
+                    alert("Option with this name was not found.")
+                }
+            }
+        });
+    } else {
+
+    }
 }
 
 

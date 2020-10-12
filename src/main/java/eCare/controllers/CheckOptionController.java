@@ -1,6 +1,7 @@
 package eCare.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.services.api.ContractService;
@@ -37,6 +38,8 @@ public class CheckOptionController {
         model.addAttribute("optionDTO", optionDTO);
         return "checkOption";
     }
+
+
 
     @PostMapping(value = "/checkOption/{optionName}")
     public String submitEditedOptions(Model model, @PathVariable(name="optionName") String optionName,
@@ -95,4 +98,37 @@ public class CheckOptionController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/checkOption/deleteOption/{optionName}", method = RequestMethod.GET)
+    public String deleteOption(@PathVariable("optionName") String optionName) {
+        OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
+        optionDTO.setActive(false);
+        optionServiceImpl.convertToEntityAndUpdate(optionDTO);
+        return "true";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/checkOption/getIncompatibleAndObligatoryOptions/{oldName}", method = RequestMethod.GET)
+    public String getDependedOptions(@PathVariable("oldName") String oldName) {
+        OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(oldName);
+        Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
+        Set<String> incompatibleOptionNamesSet = new HashSet<>();
+        for (OptionDTO option: incompatibleOptionsSet) {
+            incompatibleOptionNamesSet.add(option.getName());
+        }
+
+        Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
+        Set<String> obligatoryOptionNamesSet = new HashSet<>();
+        for (OptionDTO option: obligatoryOptionsSet) {
+            obligatoryOptionNamesSet.add(option.getName());
+        }
+
+        Set<String>[] array = new HashSet[2];
+        array[0]=incompatibleOptionNamesSet;
+        array[1]=obligatoryOptionNamesSet;
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        System.out.println(gson.toJson(array));
+        return gson.toJson(array);
+    }
 }

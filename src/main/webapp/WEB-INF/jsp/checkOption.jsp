@@ -45,10 +45,10 @@
                 <div class="col"></div>
 
                 <div class="col-5">
-                    <h1 class="display-4" id="privateOfficeLabel" style="float:left;">Option details</h1>
+                    <h1 class="display-4" id="privateOfficeLabel" style="float:left; width:4350%">Option details</h1>
                     <sec:authorize access="hasAuthority('ADMIN')">
                         <button type="button" class="btn btn-primary"
-                            style="float: left;width:11%; font-size: 15px; background-color: white; color:black;"
+                            style="float:left;width:11%; font-size: 15px; background-color: white; color:black;"
                                 onclick="makePageEditable()">Edit</button>
                     </sec:authorize>
                 </div>
@@ -64,7 +64,7 @@
                 <p id="headlineLabel" style="margin-top:-25px;">Name</p>
                 <spring:bind path="name" >
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input path="name" class="form-control defaultForm" id="inputFormName" type="text" disabled="true"
+                        <form:input path="name" class="form-control defaultForm inputform" id="inputFormName" type="text" disabled="true"
                                     style="margin-top:-10px; width: 54%;" name="optionNameForm"></form:input>
                     </div>
                     <label style="color:red;" id="nameFieldRequired" hidden>This field is required.</label>
@@ -200,6 +200,8 @@
                     </div>
                     <input class="btn btn-lg btn-primary btn-block" onclick="validateAndSubmitIfTrue()"
                            style="width:35%; clear:both; margin-top:20px;" hidden name="SaveChangesButton" value="Save changes"></input>
+                    <input class="btn btn-lg btn-primary btn-block" onclick="deleteOption()"
+                           style="width:35%; clear:both; float:right; color:white; background-color: red; margin-top:-48px;" hidden name="deleteOptionButton" value="Delete Option"></input>
                 </sec:authorize>
             </div>
             <div class="col"></div>
