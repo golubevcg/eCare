@@ -1,16 +1,17 @@
 package eCare.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
+import eCare.model.enitity.Contract;
 import eCare.model.enitity.Option;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.services.api.UserService;
+import eCare.services.impl.TariffServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -20,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,13 +45,17 @@ public class CheckContractController {
     ContractService contractServiceImpl;
 
     private String oldNumber;
+    private String oldUserName;
+
 
     @GetMapping(value = "/checkContract/{contractId}")
     public String checkContractNumber(Model model,
                                       @PathVariable(name="contractId") String contractId){
         ContractDTO contractDTO = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
         oldNumber = contractDTO.getContractNumber();
-                List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
+        oldUserName = contractDTO.getUser().getLogin();
+        List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
+
         model.addAttribute("listOfTariffs", listOfTariffs);
         model.addAttribute("contractDTO", contractDTO);
         return "checkContract";
@@ -97,15 +103,76 @@ public class CheckContractController {
     @ResponseBody
     @RequestMapping(value = "/checkContract/checkNewNumber/{newNum}", method = RequestMethod.GET)
     public String checkNewName(@PathVariable("newNum") String newNum) {
-
         if(oldNumber.equals(newNum)){
             return "false";
         }
-        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(newNum);
-        if(tariffDTO!=null){
+        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(newNum).get(0);
+        if(contractDTO!=null){
             return "true";
         }else{
             return "false";
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/checkContract/checkUser/{selectedUser}", method = RequestMethod.GET)
+    public String checkUser(@PathVariable("selectedUser") String selectedUser) {
+
+        if(oldUserName.equals(selectedUser)){
+            return "true";
+        }
+
+        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(selectedUser);
+        if(userDTO!=null){
+            return "true";
+        }else{
+            return "false";
+        }
+    }
+
+    @PostMapping(value = "/checkContract/submitChanges/", produces = "application/json")
+    public @ResponseBody
+    String submitValues(Model model, CsrfToken token, Principal principal,
+                                @RequestBody String exportArray) {
+        JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
+
+        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(oldNumber).get(0);
+
+        String number = jsonObject.get("newNum").getAsString();
+        String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
+        String tariff = jsonObject.get("selectedTariff").getAsString();
+        Boolean isBlocked = jsonObject.get("isContractBlocked").getAsBoolean();
+
+        JsonArray jsonArrayTest = jsonObject.get("selectedOptions").getAsJsonArray();
+
+        contractDTO.setContractNumber(number);
+        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(selectedUserLogin);
+        contractDTO.setUser(userDTO);
+        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariff);
+        contractDTO.setTariff(tariffDTO);
+        if(jsonArrayTest.size()!=0) {
+
+            for (int i = 0; i < jsonArrayTest.size(); i++) {
+                contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
+            }
+        }
+        contractDTO.setBlocked(isBlocked);
+        contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+
+        return "true";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/checkContract/deleteContract/{contractNumber}", method = RequestMethod.GET)
+    public String deleteContract(@PathVariable("contractNumber") String contractNumber) {
+        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumberOrNull(contractNumber);
+        if(contractDTO==null){
+            return "false";
+        }else{
+            contractDTO.setActive(false);
+            contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+            return "true";
+        }
+
     }
 }

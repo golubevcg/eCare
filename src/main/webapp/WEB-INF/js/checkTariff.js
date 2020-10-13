@@ -107,7 +107,7 @@ function deleteOption(){
             type: 'GET',
             url: '/checkTariff/deleteTariff/' + tariffName,
             success: function(result){
-                if(result==="true"){
+                if(result.toString()==="true"){
                     location.href = '/workerOffice';
                 }else{
                     alert("Tariff with this name was not found.")

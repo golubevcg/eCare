@@ -74,30 +74,30 @@ $(document).ready(function(){
 
 
 function validateAndSubmitIfTrue() {
-
-    let foo = $('#selectedOptions').val();
     let validation = "true";
 
     let newNum = $('#numberLabel').val();
-    console.log(newNum);
+    let numberValidationField = $('#phoneNumberFieldRequired');
+    let userValidationField = $('#selectedUserFieldRequired');
 
-    var re = new RegExp("[+]*([0-9]{11})");
     if (newNum === "") {
-        $('#nameFieldRequired').text("This field is required.");
-        $('#nameFieldRequired').removeAttr('hidden');
+        numberValidationField.text("This field is required.");
+        numberValidationField.removeAttr('hidden');
         validation = "false";
     } else {
-        if (re.test(newNum)) {
-            $('#nameFieldRequired').text("Phone number should look like this: +7XXXXXXXXXX.");
-            $('#nameFieldRequired').removeAttr('hidden');
+        let re = new RegExp("[+]*([0-9]{11})");
+        if (!re.test(newNum)) {
+            numberValidationField.text("Phone number should look like this: +7XXXXXXXXXX.");
+            numberValidationField.removeAttr('hidden');
+            validation = "false";
         } else {
             $.ajax({
                 type: 'GET',
                 url: '/checkContract/checkNewNumber/' + newNum,
                 success: function (result) {
                     if (result === "true") {
-                        $('#nameFieldRequired').text("Contract with this phone number already exists.");
-                        $('#nameFieldRequired').removeAttr('hidden');
+                        numberValidationField.text("Contract with this phone number already exists.");
+                        numberValidationField.removeAttr('hidden');
                         validation = "false";
                     }
                 }
@@ -108,9 +108,63 @@ function validateAndSubmitIfTrue() {
 
     let selectedUser = $('#usersList').val();
     if(selectedUser === ""){
-        $('#nameFieldRequired').text("This field is required.");
-        $('#nameFieldRequired').removeAttr('hidden');
+        userValidationField.text("This field is required.");
+        userValidationField.removeAttr('hidden');
     }else{
+
+        let selectedUser = $('#usersList').val();
+        $.ajax({
+            type: 'GET',
+            url: '/checkContract/checkUser/' + selectedUser,
+            success: function (result) {
+                if (result === "false") {
+                    userValidationField.text("Please select user from dropdown suggestions.");
+                    userValidationField.removeAttr('hidden');
+                    validation = "false";
+                }
+            }
+        });
+    }
+
+    if(validation==="true"){
+        let newNum = $('#numberLabel').val();
+        let selectedUserLogin = $('#usersList').val();
+        let selectedTariff = $('#tariffsList').val();
+        let selectedOptions = $('#optionsList').val();
+        let isContractBlocked = $('#exampleCheck1').prop('checked');
+        let exportArray = { newNum, selectedUserLogin, selectedTariff, selectedOptions, isContractBlocked};
+
+        $.ajax({
+            contentType: "application/json",
+            type: 'POST',
+            url: '/checkContract/submitChanges/',
+            data: JSON.stringify(exportArray),
+            success: function(result) {
+                if(result.toString()==="true"){
+                    location.href = '/workerOffice';
+                }else{
+                    alert("Error, contract was not updated");
+                }
+            }
+        });
+    }
+}
+
+function deleteContract(){
+    if (confirm("Are you sure you want to delete this contract?")) {
+        let contractNumber = $('#numberLabel').val();
+        $.ajax({
+            type: 'GET',
+            url: '/checkContract/deleteContract/' + contractNumber,
+            success: function(result){
+                if(result.toString()==="true"){
+                    location.href = '/workerOffice';
+                }else{
+                    alert("Contract with this number was not found.")
+                }
+            }
+        });
+    } else {
 
     }
 }

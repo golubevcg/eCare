@@ -1,0 +1,188 @@
+
+#dropdownMenuButton{
+    background-color:transparent;
+    color:black;
+    border:transparent;
+    font-family: MS Shell Dig 2;
+}
+
+#privateOfficeJumbotron{
+    background-color:  #4b99ee;
+    margin-top:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#privateOfficeLabel{
+    width: 500px;
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    color:white;
+    font-size:30px;
+}
+
+#ownCabinet {
+    float:right;
+    font-family: MS Shell Dig 2;
+}
+
+/* Customize the label (the container) */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.defaultForm {
+    margin-top:10px;
+    clear:both;
+    width:40%;
+    float:left;
+    border-color:black;
+}
+
+#errorsLabel{
+    clear:both;
+    float:left;
+    color:red;
+}
+
+#ContractLabel{
+    text-align: left;
+    font-family: MS Shell Dig 2;
+    font-size:30px;
+    margin-top:20px;
+
+}
+
+#footer{
+    background-color: #1A1C22;
+    color:white;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    min-height: 50px;
+    vertical-align: bottom;
+    margin-top:15px;
+}
+
+#labelCheckboxContainer{
+    clear:both;
+    margin-left:0px;
+    font-size: 18px;
+    text-align: left;
+    padding-top: 9px;
+}
+
+input[type=checkbox]:checked ~ .remove-check {
+    display: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+select {
+    font-size: 18px;
+}
+select#fixed {
+    -webkit-appearance: none;
+}
+
+#tariffsList{
+    -webkit-appearance: none;
+}
+
+.select2-results__options{
+    font-size:18px !important;
+    background-color: white; !important;
+}
+
+.select2-selection__rendered {
+    font-size:18px !important;
+    background-color: white; !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    font-size:18px !important;
+    background-color: white; !important;
+    color:black; !important;
+}
+
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
+}

@@ -69,6 +69,15 @@ public class ContractServiceImpl implements ContractService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ContractDTO getContractDTOByNumberOrNull(String number) {
+        List<Contract> contractDTOList = contractDaoImpl.getContractByNumber(number);
+        if(contractDTOList==null){
+            return null;
+        }else{
+            return contractMapper.toDTO(contractDTOList.get(0));
+        } }
+
     public void convertToEntityAndUpdate(ContractDTO contractDTO){
         contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
     }

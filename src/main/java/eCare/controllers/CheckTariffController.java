@@ -53,7 +53,7 @@ public class CheckTariffController {
         return "checkTariff";
     }
 
-   @ResponseBody
+    @ResponseBody
     @RequestMapping(value = "/checkTariff/checkNewName/{newName}", method = RequestMethod.GET)
     public String checkNewName(@PathVariable("newName") String newName) {
         if(oldName.equals(newName)){
