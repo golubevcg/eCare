@@ -7,14 +7,12 @@ import eCare.model.dto.TariffDTO;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
-import eCare.services.impl.ContractServiceImpl;
 import eCare.validator.TariffDTOValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -23,9 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class CheckTariffController {
+public class CheckTariffPageController {
 
-    static final Logger log = Logger.getLogger(UserRegistrationController.class);
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
     @Autowired
     private OptionService optionServiceImpl;

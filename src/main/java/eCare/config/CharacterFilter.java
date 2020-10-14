@@ -3,6 +3,10 @@ package eCare.config;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * This is character servlet filter to convert UTF-8 characters in all requests\responses
+ */
+
 public class CharacterFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

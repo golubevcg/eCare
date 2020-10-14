@@ -16,9 +16,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-public class UserRegistrationController {
+public class NewUserRegPageController {
 
-    static final Logger log = Logger.getLogger(UserRegistrationController.class);
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
     @Autowired
     private UserServiceImpl userServiceImpl;

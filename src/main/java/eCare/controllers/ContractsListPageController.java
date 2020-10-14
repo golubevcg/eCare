@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.*;
 
 @Controller
-public class ContractsController {
+public class ContractsListPageController {
 
     @Autowired
     UserServiceImpl userServiceImpl;

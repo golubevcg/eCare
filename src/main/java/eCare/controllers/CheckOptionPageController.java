@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class CheckOptionController {
+public class CheckOptionPageController {
 
-    static final Logger log = Logger.getLogger(UserRegistrationController.class);
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
     @Autowired
     private OptionService optionServiceImpl;

@@ -15,15 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Controller
-public class CheckUserController {
+public class CheckUserPageController {
 
-    static final Logger log = Logger.getLogger(MainPageController.class);
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     @Autowired
     UserService userServiceImpl;

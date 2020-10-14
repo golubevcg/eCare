@@ -19,7 +19,7 @@ import java.security.Principal;
 import java.util.*;
 
 @Controller
-public class ContractDetailsController {
+public class ContractDetailsPageController {
 
     @Autowired
     UserServiceImpl userServiceImpl;

@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class NewContractController {
+public class NewContractRegPageController {
 
-    static final Logger log = Logger.getLogger(MainPageController.class);
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     @Autowired
     UserService userServiceImpl;

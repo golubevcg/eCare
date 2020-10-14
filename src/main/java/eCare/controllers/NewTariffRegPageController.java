@@ -1,14 +1,9 @@
 package eCare.controllers;
 
-import eCare.dao.impl.TariffDaoImpl;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
-import eCare.model.enitity.Option;
-import eCare.model.enitity.Tariff;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
-import eCare.services.impl.OptionServiceImpl;
-import eCare.services.impl.TariffServiceImpl;
 import eCare.validator.TariffDTOValidator;
 import org.apache.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -26,9 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class NewTariffController {
+public class NewTariffRegPageController {
 
-    static final Logger log = Logger.getLogger(UserRegistrationController.class);
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
     @Autowired
     private OptionService optionService;

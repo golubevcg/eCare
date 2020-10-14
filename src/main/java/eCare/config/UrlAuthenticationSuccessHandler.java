@@ -16,6 +16,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *  This class used to map redirect after login based on role,
+ *  for example: after logging in user with role "USER" will be send on page A,
+ *  and user with role "ADMIN" will be send to page B
+ */
+
 public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     protected final Logger logger = Logger.getLogger(this.getClass());

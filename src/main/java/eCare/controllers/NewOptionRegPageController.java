@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class NewOptionController {
+public class NewOptionRegPageController {
 
-    static final Logger log = Logger.getLogger(UserRegistrationController.class);
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
     @Autowired
     private OptionServiceImpl optionServiceImpl;

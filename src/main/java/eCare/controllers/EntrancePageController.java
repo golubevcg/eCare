@@ -7,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainPageController {
+public class EntrancePageController {
 
-    static final Logger log = Logger.getLogger(MainPageController.class);
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     @GetMapping("/")
     public String getMain(Model model, CsrfToken token) {

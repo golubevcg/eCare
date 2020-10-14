@@ -20,7 +20,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class WorkerOfficeController {
+public class WorkerOfficePageController {
 
     @Autowired
     ContractServiceImpl contractServiceImpl;

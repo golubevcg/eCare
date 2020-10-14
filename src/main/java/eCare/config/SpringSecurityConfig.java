@@ -27,6 +27,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
+
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler(){
         return new UrlAuthenticationSuccessHandler();

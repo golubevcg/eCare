@@ -46,6 +46,11 @@ public class SpringConfig implements WebMvcConfigurer {
                 .addResourceLocations("/WEB-INF/");
     }
 
+     /**
+     * This bean used for validation purposes, in path under Basename there is
+     * a property file, in which validation messages are stored.
+     */
+
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
@@ -55,6 +60,10 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return source;
     }
+
+    /**
+     * This bean used to convert entity to dto in services
+     */
 
     @Bean
     public ModelMapper modelMapper() {
