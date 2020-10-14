@@ -5,10 +5,12 @@ import eCare.model.dto.ContractDTO;
 import eCare.model.enitity.Contract;
 import eCare.model.converters.ContractMapper;
 import eCare.services.api.ContractService;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,6 +21,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     ContractMapper contractMapper;
+
 
     @Override
     public void save(Contract contract) {

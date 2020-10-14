@@ -22,7 +22,7 @@
 <div id="page-container">
     <div id="content-wrap">
 
-        <jsp:directive.include file = "headerTemplateAdmin.jsp" />
+        <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
         <div>
             <script src="/resources/js/workerOffice.js"></script>

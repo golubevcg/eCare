@@ -20,7 +20,7 @@
 <div id="page-container">
     <div id="content-wrap">
 
-        <jsp:directive.include file = "headerTemplateUser.jsp" />
+        <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
@@ -86,7 +86,9 @@
                         </div>
 
                         <div class="col-3">
+                            <a href="/checkTariff/${entry.tariff.name}">
                             <p class="lead" id="columnContentLabels">${entry.tariff.name}</p>
+                            </a>
                         </div>
 
                         <div class="col-2">

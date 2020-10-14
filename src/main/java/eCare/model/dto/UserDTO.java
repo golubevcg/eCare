@@ -59,4 +59,15 @@ public class UserDTO {
                 ", roles=" + roles +
                 '}';
     }
+
+    public Set<ContractDTO> getListOfActiveContracts() {
+        Set<ContractDTO> setOfActiveContracts = new HashSet<>();
+
+        for (ContractDTO contractDTO: listOfContracts) {
+            if(contractDTO.isActive()){
+                setOfActiveContracts.add(contractDTO);
+            }
+        }
+        return setOfActiveContracts;
+    }
 }

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 
 <html lang="en">
@@ -29,7 +30,7 @@
 <div id="page-container">
     <div id="content-wrap">
 
-    <jsp:directive.include file = "headerTemplateAdmin.jsp" />
+    <jsp:directive.include file = "headerTemplateByRole.jsp" />
     <div></div>
 
     <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

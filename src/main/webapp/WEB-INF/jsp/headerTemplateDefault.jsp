@@ -43,25 +43,12 @@
                     </div>
 
                     <a class="btn" id="dropdownMenuButton" href="/login"  style="float:right; ">Login</a>
-
-<%--                    <div class="dropdown" style="float:right; ">--%>
-
-<%--                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"--%>
-<%--                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--%>
-<%--                            My account--%>
-<%--                        </button>--%>
-
-<%--                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">--%>
-<%--                            <a class="dropdown-item" href="/login">Login</a>--%>
-
-<%--                        </div>--%>
-
-<%--                    </div>--%>
                 </div>
                 <div class="col"></div>
             </div>
 
         </div>
     </div>
+
 
 <div style="margin-top:60px;"></div>

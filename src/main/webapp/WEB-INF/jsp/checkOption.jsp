@@ -23,13 +23,7 @@
 </head>
 <body>
 
-<sec:authorize access="hasAuthority('ADMIN')">
-    <jsp:directive.include file = "headerTemplateAdmin.jsp" />
-</sec:authorize>
-
-<sec:authorize access="hasAuthority('USER')">
-    <jsp:directive.include file = "headerTemplateUser.jsp" />
-</sec:authorize>
+<jsp:directive.include file = "headerTemplateByRole.jsp" />
 
 <div>
     <script src="/resources/js/checkOption.js"></script>

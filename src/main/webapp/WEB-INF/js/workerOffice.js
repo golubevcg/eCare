@@ -35,8 +35,8 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
                         + "</div>"
 
                         + "<div class=\"col-4\">"
-                        + "<p class=\"lead\" id=\"columnContentLabels\">"
-                        + result[i].user.firstname + " " + result[i].user.secondname + "</p>"
+                        + "<a href=\"/checkUser/" + result[i].user.login + "\"><p class=\"lead\" id=\"columnContentLabels\">"
+                        + result[i].user.firstname + " " + result[i].user.secondname + "</p></a>"
                         + "</div>"
 
                         + "<div class=\"col-2\">"

@@ -72,7 +72,7 @@
 <div id="page-container">
     <div id="content-wrap">
 
-    <jsp:directive.include file = "headerTemplateAdmin.jsp" />
+    <jsp:directive.include file = "headerTemplateByRole.jsp" />
     <div></div>
 
     <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

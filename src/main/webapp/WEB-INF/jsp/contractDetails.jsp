@@ -18,7 +18,8 @@
 </head>
 
 <body>
-<jsp:directive.include file = "headerTemplateUser.jsp" />
+<jsp:directive.include file = "headerTemplateByRole.jsp" />
+
 
 <div>
         <script src="/resources/js/contractDetails.js"></script>
@@ -185,11 +186,11 @@
                                 <label class="switch" style="clear:both; margin-top:5px; float:left;">
                                     <c:choose>
                                         <c:when test="${tariff.name eq selectedTariff}">
-                                            <input type="checkbox" checked name="tariffCheckbox" id="${tariff.name}"
+                                            <input type="checkbox" checked name="tariffCheckbox" group="tariffsGroup" id="${tariff.name}"
                                                    name="tariffCheckbox">
                                         </c:when>
                                         <c:otherwise>
-                                            <input type="checkbox" name="tariffCheckbox" id="${tariff.name}"
+                                            <input type="checkbox" name="tariffCheckbox" group="tariffsGroup" id="${tariff.name}"
                                                    name="tariffCheckbox">
                                         </c:otherwise>
                                     </c:choose>

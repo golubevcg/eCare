@@ -23,7 +23,7 @@ public class ContractsController {
     @GetMapping("/contracts")
     public String getClientOffice(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
-        Set<ContractDTO> contractsSet = userDTO.getListOfContracts();
+        Set<ContractDTO> contractsSet = userDTO.getListOfActiveContracts();
 
         ArrayList<ContractDTO> sortedListOfContracts = new ArrayList<>();
         sortedListOfContracts.addAll(contractsSet);
