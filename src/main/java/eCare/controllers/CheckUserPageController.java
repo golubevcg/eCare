@@ -39,7 +39,7 @@ public class CheckUserPageController {
         Set<ContractDTO> listOfContracts = userDTO.getListOfContracts();
         model.addAttribute("userForm", userDTO);
         model.addAttribute("listOfTariffs", listOfContracts);
-        return "checkUser";
+        return "checkUserPage";
     }
 
     @ResponseBody

@@ -18,11 +18,11 @@ public class LoginPageController {
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
-        return "login";
+        return "loginPage";
     }
 
     @PostMapping("/login")
     public String postMain(Model model, String error, String logout) {
-        return "login";
+        return "loginPage";
     }
 }

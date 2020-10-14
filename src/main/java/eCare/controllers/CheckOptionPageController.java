@@ -39,7 +39,7 @@ public class CheckOptionPageController {
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("optionDTO", optionDTO);
-        return "checkOption";
+        return "checkOptionPage";
     }
 
     private Set<OptionDTO> obligatoryOptionsSetFin = new HashSet<>();
@@ -102,7 +102,7 @@ public class CheckOptionPageController {
             optionServiceImpl.convertToEntityAndUpdate(optionDTO1);
         }
 
-        return "/workerOffice";
+        return "workerOfficePage";
     }
 
     @ResponseBody

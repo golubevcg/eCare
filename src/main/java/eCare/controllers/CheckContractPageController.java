@@ -54,7 +54,7 @@ public class CheckContractPageController {
 
         model.addAttribute("listOfTariffs", listOfTariffs);
         model.addAttribute("contractDTO", contractDTO);
-        return "checkContract";
+        return "checkContractPage";
     }
 
     @ResponseBody

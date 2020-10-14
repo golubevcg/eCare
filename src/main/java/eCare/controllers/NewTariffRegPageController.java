@@ -39,7 +39,7 @@ public class NewTariffRegPageController {
         List<OptionDTO> listOfAllActiveOptions = optionService.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("tariffDTO", new TariffDTO());
-        return "newTariff";
+        return "newTariffRegPage";
     }
 
     @PostMapping(value = "/newTariff")
@@ -50,7 +50,7 @@ public class NewTariffRegPageController {
         tariffDTOValidator.validate(tariffDTO, tariffDTOBindingResult);
 
         if(tariffDTOBindingResult.hasErrors()){
-            return "newTariff";
+            return "newTariffRegPage";
         }
 
         if(selectedOptions!=null){
@@ -67,7 +67,7 @@ public class NewTariffRegPageController {
         tariffService.convertToEntityAndSave( tariffDTO );
         log.info("New tariff was registered successfully.");
 
-        return "/workerOffice";
+        return "workerOfficePage";
     }
 
 }

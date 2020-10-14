@@ -50,7 +50,7 @@ public class NewContractRegPageController {
         model.addAttribute("contractDTO", new ContractDTO());
         model.addAttribute("phoneNumberPatternError", "");
         model.addAttribute("phoneNumberEmptyError", "");
-        return "newContract";
+        return "newContractRegPage";
     }
 
     @ResponseBody
@@ -108,7 +108,7 @@ public class NewContractRegPageController {
             List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
             model.addAttribute("listOfTariffs", listOfTariffs);
             model.addAttribute("contractDTO", new ContractDTO());
-            return "newContract";
+            return "newContractRegPage";
         }
 
         ContractDTO contractDTO1 = new ContractDTO();
@@ -124,6 +124,6 @@ public class NewContractRegPageController {
         contractServiceImpl.convertToEntityAndSave(contractDTO1);
         log.info("New contract was successfully registered.");
 
-        return "workerOffice";
+        return "workerOfficePage";
     }
 }

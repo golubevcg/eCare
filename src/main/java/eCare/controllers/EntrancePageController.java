@@ -13,6 +13,6 @@ public class EntrancePageController {
 
     @GetMapping("/")
     public String getMain(Model model, CsrfToken token) {
-        return "main";
+        return "entrancePage";
     }
 }

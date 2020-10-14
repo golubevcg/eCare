@@ -42,7 +42,7 @@ public class NewUserRegPageController {
     public String getUserRegistration(Model model){
         model.addAttribute("userForm", new UserContractDTO());
         model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
-        return "userRegistration";
+        return "userRegPage";
     }
 
     @PostMapping("/userRegistration")
@@ -83,7 +83,7 @@ public class NewUserRegPageController {
         }
 
         if(userFormBindingResult.hasErrors()){
-            return "userRegistration";
+            return "userRegPage";
         }
 
 
@@ -101,7 +101,7 @@ public class NewUserRegPageController {
         }
 
 
-        return "workerOffice";
+        return "workerOfficePage";
     }
 
     @ResponseBody

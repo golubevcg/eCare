@@ -30,14 +30,14 @@ public class ContractsListPageController {
         Collections.sort(sortedListOfContracts);
 
         model.addAttribute("contractsSet", sortedListOfContracts);
-        return "contracts";
+        return "contractsListPage";
     }
 
     @PostMapping("/contracts")
     public String postClientOffice(Model model, Principal principal,
                                    @RequestParam String tariffCheckbox) {
 
-        return "contracts";
+        return "contractsListPage";
     }
 
 }

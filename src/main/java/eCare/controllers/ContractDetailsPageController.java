@@ -85,7 +85,7 @@ public class ContractDetailsPageController {
         model.addAttribute("connectedOptions", optionDTOLinkedHashSet);
         model.addAttribute("isBlocked", currentContract.isBlocked());
 
-        return "contractDetails";
+        return "contractDetailsPage";
     }
 
     @PostMapping(value = "/contractDetails/getTariffOptions", produces = "application/json")

@@ -33,7 +33,7 @@ public class WorkerOfficePageController {
 
     @GetMapping("/workerOffice")
     public String getWorkerOffice(Model model, CsrfToken token){
-        return "workerOffice";
+        return "workerOfficePage";
     }
 
     @GetMapping(value = "/workerOffice/searchInContracts/{searchInput}", produces = "application/json")

@@ -48,7 +48,7 @@ public class CheckTariffPageController {
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("tariffDTO", tariffDTO);
-        return "checkTariff";
+        return "checkTariffPage";
     }
 
     @ResponseBody
@@ -121,7 +121,7 @@ public class CheckTariffPageController {
         }else {
             tariffService.convertToEntityAndUpdate(tariffDTOtoUpdate);
         }
-        return "/workerOffice";
+        return "workerOfficePage";
     }
 
     @ResponseBody

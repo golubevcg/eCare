@@ -33,7 +33,7 @@ public class NewOptionRegPageController {
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("optionDTO", new OptionDTO());
-        return "newOption";
+        return "newOptionRegPage";
     }
 
     @PostMapping(value = "/newOption")
@@ -46,7 +46,7 @@ public class NewOptionRegPageController {
         optionDTOValidator.validate(optionDTO, optionDTOBindingResult);
 
         if(optionDTOBindingResult.hasErrors()){
-            return "newOption";
+            return "newOptionRegPage";
         }
 
         if(selectedIncompatibleOptions!=null){
@@ -68,7 +68,7 @@ public class NewOptionRegPageController {
         optionServiceImpl.convertToEntityAndSave(optionDTO);
         log.info("New option was registered successfully.");
 
-        return "/workerOffice";
+        return "workerOfficePage";
     }
 
 }
