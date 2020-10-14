@@ -1,3 +1,19 @@
+
+$(document).ready(function() {
+    if ($('input[name="blockNumberCheckBox"]').attr('checked') == "checked") {
+        $('input[name="tariffCheckbox"]').attr("disabled", true);
+
+        $('input[name="optionCheckbox"]').attr("disabled", true);
+
+        $(".columnContentLabels").css('color', '#d3d3d3');
+
+        $(".slider").css('background-color', '#d3d3d3');
+    }
+});
+
+
+
+
 $(document).ready(function(){
     $('input[name="tariffCheckbox"]').on('change', function() {
         $('input[name="' + this.name + '"]').not(this).prop('checked', false);

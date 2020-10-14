@@ -44,6 +44,8 @@
     <div class="col-5">
         <h1 class="display-4" id="numberLabel">${contractNumber}</h1>
         <h1 class="display-4" id="firstSecondNameLabel">${firstAndSecondNames}</h1>
+
+
     </div>
 
     <div class="col"></div>
@@ -53,8 +55,12 @@
     <div class="col"></div>
     <div class="col-5">
         <p class="lead"
-           style="font-family: MS Shell Dig 2; font-size: 20px; float:left; margin-bottom:10px; margin-left:10px;">
+           style="font-family: MS Shell Dig 2; font-size: 20px; float:left;
+           margin-bottom:10px; margin-left:10px; margin-top:30px;">
             Сurrent tariff:</p>
+        <c:if test="${isBlocked eq true}">
+            <p class="lead" id="numberLabel" style="color:red; float:right; font-weight:bold; font-size: 30px; margin-top:10px;">Contract blocked</p>
+        </c:if>
         <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; margin-top:15px;">
             <div class="row">
                 <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">${selectedTariff}</p>
