@@ -104,6 +104,23 @@ public class UserDaoImpl implements UserDao {
         return usersList;
     }
 
+    @Override
+    public List<User> getUserByEmail(String email) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<User> listOfUsers = session.createQuery(
+                "select u " +
+                        "from User u " +
+                        "where u.email = :email", User.class)
+                .setParameter( "email", email )
+                .list();
+
+        transaction.commit();
+        session.close();
+        return listOfUsers;
+    }
+
 
     public void checkUserRoles(User user, Session session){
         try {

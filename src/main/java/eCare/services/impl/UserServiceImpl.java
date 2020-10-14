@@ -43,9 +43,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserDTOByLogin(String login){
-        User user = this.getUserByLogin(login).get(0);
-        return  userMapper.toDTO(user);
+    public UserDTO getUserDTOByLoginOrNull(String login){
+        List<User> listUsers = this.getUserByLogin(login);
+        if(!listUsers.isEmpty() && listUsers!=null){
+            User user = listUsers.get(0);
+            return  userMapper.toDTO(user);
+        }else{ return null;}
     }
 
     @Override
@@ -59,6 +62,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> searchForUserByLogin(String searchInput) {
         return userDaoImpl.searchForUserByLogin(searchInput)
+                .stream()
+                .map(u->userMapper.toDTO(u))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getUserByEmail(String email) {
+        return userDaoImpl.getUserByEmail(email);
+    }
+
+    @Override
+    public List<UserDTO> getUserDTOByEmail(String email) {
+        return userDaoImpl.getUserByEmail(email)
                 .stream()
                 .map(u->userMapper.toDTO(u))
                 .collect(Collectors.toList());

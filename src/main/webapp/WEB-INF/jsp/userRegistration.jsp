@@ -168,13 +168,7 @@
                     </div>
                 </spring:bind>
 
-                <spring:bind path="contractNumber">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input path="contractNumber" class="form-control defaultForm" type="number"
-                                    style="width:40%;" placeholder="+7XXXXXXXXXX"></form:input>
-                        <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
-                    </div>
-                </spring:bind>
+
 
 
             <label class="container" id="labelCheckboxContainer" style="margin-left:20px;">Company member
@@ -185,6 +179,15 @@
 
 
             <div id="tarifOptionsForUserRegistration">
+
+                <spring:bind path="contractNumber">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input path="contractNumber" class="form-control defaultForm" type="number"
+                                    style="width:40%;" placeholder="+7XXXXXXXXXX"></form:input>
+                        <form:errors path="contractNumber" id="errorsLabel" ></form:errors>
+                    </div>
+                </spring:bind>
+
                 <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; padding-left:0;">Select tariff:</label>
 
                 <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px;"

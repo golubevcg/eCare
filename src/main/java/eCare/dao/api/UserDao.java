@@ -12,4 +12,5 @@ public interface UserDao {
     List<User> getUserByLogin(String login);
     List<User> getUserDTOByPassportInfo(Long passwordInfo);
     List<User> searchForUserByLogin(String searchInput);
+    List<User> getUserByEmail(String email);
 }

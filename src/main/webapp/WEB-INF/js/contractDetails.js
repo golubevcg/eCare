@@ -16,23 +16,23 @@ $(document).ready(function(){
                     var finexp = finexp
                         + "<hr style=\"margin-top:10px; width:100%;\">"
                         + "<div class=\"col-3\">"
-                        + "<p class=\"lead columnContentLabels\" name=\"optionNameLabel\" id=\"" + result[i].option_id + "label\">" + result[i].name + "</p>"
+                        + "<p class=\"lead columnContentLabels\" name=\"label" + result[i].option_id + "\">" + result[i].name + "</p>"
                         + "</div>"
 
                         + "<div class=\"col-2\">"
-                        + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].price + "</p>"
+                        + "<p class=\"lead columnContentLabels\" name=\"label" + result[i].option_id + "\">" + result[i].price + "</p>"
                         + "</div>"
 
                         + "<div class=\"col-5\">"
-                        + "<p class=\"lead columnContentLabels\" id=\"" + result[i].option_id + "label\">" + result[i].shortDiscription + "</p>"
+                        + "<p class=\"lead columnContentLabels\" name=\"label" + result[i].option_id + "\">" + result[i].shortDiscription + "</p>"
                         + "</div>"
 
                         +  "<div class=\"col-1\">"
                         + "<div class=\"form-check\">"
 
                         + "<label class=\"switch\" style=\"clear:both; \" name=\"group1\">"
-                        + "<input type=\"checkbox\" name=\"optionCheckbox\" id=\"" + result[i].option_id + "\">"
-                        + "<span class=\"slider round\" id=" + result[i].option_id + "Slider\"></span>"
+                        + "<input type=\"checkbox\"  name=\"optionCheckbox\" id=\"" + result[i].option_id + "\">"
+                        + "<span class=\"slider round\" id=Slider" + result[i].option_id + "\"></span>"
                         + "</label>"
 
                         + "</div>"
@@ -114,146 +114,176 @@ $(document).ready(function(){
     })
 });
 
-$(document).ready(function(){
-    $( "input[name='optionCheckbox']").on('change', function()
-    {   checkSwitchesAndChangeIfNeeded($(this))  });
+
+$(document).change(function(){
+    $( "input[name='optionCheckbox']").on('change', function(){   checkSwitchesAndChangeIfNeeded($(this))  });
 })
 
-function checkSwitchesAndChangeIfNeeded(selectedOption, fromObligatory)
-{
-    var isChecked;
-    if(fromObligatory){
-        isChecked=true;
-    }else{
-        isChecked = selectedOption.prop('checked');
+$(document).ready(function(){
+    $( "input[name='optionCheckbox']").on('change', function(){   checkSwitchesAndChangeIfNeeded($(this))  });
+})
+
+function checkSwitchesAndChangeIfNeeded(selectedOption){
+    let isChecked = selectedOption.prop('checked');
+    let selectedOptionId = selectedOption.attr('id');
+    console.log("==============================" + selectedOption.attr('name'))
+    let restOptionCheckboxes = $('input[name="' + selectedOption.attr('name') + '"]').not(this).toArray();
+
+    // console.log("length:" + restOptionCheckboxes.length);
+    // console.log(selectedOption.attr('id'));
+
+    let restOptionIds = [];
+    let restOptionIdsCheckedValues = [];
+    for (let i = 0; i < restOptionCheckboxes.length; i++) {
+        restOptionIds.push(restOptionCheckboxes[i].getAttribute('id'));
+        restOptionIdsCheckedValues.push(restOptionCheckboxes[i].checked);
+        console.log(restOptionCheckboxes[i].checked);
     }
 
-    var restOptionCheckboxes = $('input[name="' + selectedOption.attr('name') + '"]').not(this);
-    var selectedOptionId = selectedOption.attr('id');
-    let booleanResult = true;
+    let arrayOfArrays = [];
+    arrayOfArrays.push(restOptionIds);
+    arrayOfArrays.push(restOptionIdsCheckedValues);
 
-    console.log("currently in function:" + selectedOptionId + ", isChecked = " + isChecked);
+    console.log(    JSON.stringify(arrayOfArrays)
+    );
 
     $.ajax({
-        type: 'GET',
+        contentType: "application/json",
+        type: 'POST',
         url: '/contractDetails/loadDependedOptions/' + selectedOptionId,
+        data: JSON.stringify(restOptionIds),
         success: function (result){
-            if(result[0].length>0){
-                for (let i = 0; i < restOptionCheckboxes.length; i++) {
+            let incompatibleOptionsArray = result[0];
+            console.log("incompatibleOptionsArray:");
+            console.log(result[0]);
+            let obligatoryOptionsArray = result[1];
+            console.log("obligatoryOptionsArray:");
+            console.log(result[1]);
 
-                    for(var j = 0; j < result[0].length; j++){
+            if(isChecked===false){
+                console.log("checked is false, looking for options to unlock...");
+                $.ajax({
+                    contentType: "application/json",
+                    type: 'POST',
+                    url: '/contractDetails/loadDependedOptionsSingleDepth/' + selectedOptionId,
+                    data: JSON.stringify(restOptionIds),
+                    success: function (result1){
 
-                        let testedOptionId = result[0][j].option_id;
+                        let incompatibleOptionsArray1 = result1[0];
+                        let obligatoryOptionsArray1 = result1[1];
 
-                        if(testedOptionId==restOptionCheckboxes[i].id){
+                        console.log("TRD: ioa: incompatibleOptionsArray1.length");
+                        console.log("TRD: ooa: obligatoryOptionsArray1.length");
 
-                            if( checkSwitchesAndChangeIfNeeded($("#" + testedOptionId), false)){
+                        for (let i = 0; i < restOptionCheckboxes.length; i++) {
 
-                                console.log("(#IMCOMP)in option with id " + selectedOptionId + " recursive function returned true, working...");
-                                if(isChecked){
-                                    console.log("(#IMCOMP)in option with id " + selectedOptionId + " checked true");
+                            for (let j = 0; j < incompatibleOptionsArray1.length; j++) {
 
-                                    let is_option_disabled = $("#" + testedOptionId).attr('disabled') == "disabled";
-                                    let is_option_turned_on = $("#" + testedOptionId).prop('checked');
-
-                                    if (is_option_disabled && is_option_turned_on){
-                                        console.log('(#IMCOMP)is_option_disabled && is_option_turned_on is true');
-                                        alert(selectedOption.attr('id') + " have incompatible connection with - "
-                                            + result[0][j].name + " it must not be disabled.");
-                                        $("#" + selectedOptionId).removeAttr('checked');
-                                    }else {
-                                        turnOffCheckBoxAndDisable(testedOptionId);
-                                        console.log('(#IMCOMP)is_option_disabled && is_option_turned_on is false');
-                                    }
-                                    console.log("(#IMCOMP)for " + selectedOptionId + " returned booleanResult: " + booleanResult);
-                                    return booleanResult;
-
-                                }else{
-                                    console.log("(#IMCOMP)in option with id " + selectedOptionId + " checked FALSE");
-                                    removeDisabledFromCheckBox(testedOptionId);
-                                    return booleanResult;
+                                if(restOptionCheckboxes[i].getAttribute('id') === incompatibleOptionsArray1[j]){
+                                    console.log("TRD Incompatible option match found...");
+                                    removeDisabledFromCheckBox(restOptionCheckboxes[i].getAttribute('id'));
+                                    console.log(restOptionCheckboxes[i] + " disable removed.");
                                 }
 
-                            } else {
-                                console.log("(#IMCOMP)in option with id " + selectedOptionId + " recursive function returned FALSE, rejecting changes");
-                                // $("#" + selectedOptionId).prop("checked", false);
-                                booleanResult = false;
-                                console.log("(#IMCOMP)for " + selectedOptionId + " returned booleanResult: " + booleanResult);
-                                return booleanResult;
                             }
+
+                            for (let j = 0; j < obligatoryOptionsArray1.length; j++) {
+                                if(restOptionCheckboxes[i].getAttribute('id') === obligatoryOptionsArray1[j]){
+                                    console.log("TRD Obligatory option match found...");
+                                    removeDisabledFromCheckBox(restOptionCheckboxes[i].getAttribute('id'));
+                                    console.log(restOptionCheckboxes[i] + " disable removed.");
+
+                                }
+                            }
+
+                        }
+                }});
+
+
+            }else{
+
+                let enablingApproved = true;
+
+                for (let i = 0; i < restOptionCheckboxes.length; i++) {
+                    for (let j = 0; j < incompatibleOptionsArray.length; j++) {
+                        if(restOptionCheckboxes[i].getAttribute('id') === incompatibleOptionsArray[j]
+                                                                && restOptionCheckboxes[i].getAttribute('disabled')
+                                                                && restOptionCheckboxes[i].getAttribute('checked')===true){
+                            alert("id " +  restOptionCheckboxes[i] + " this option should not be disabled, please enable this option.");
+                            enablingApproved = false;
+                            $("#" + selectedOptionId).prop("checked", false);
+
+                        }
+                    }
+
+                    for (let j = 0; j < obligatoryOptionsArray.length; j++) {
+                        if(restOptionCheckboxes[i].getAttribute('id') === obligatoryOptionsArray[j]
+                            && restOptionCheckboxes[i].getAttribute('disabled')
+                            && restOptionCheckboxes[i].getAttribute('checked')===false){
+                            alert("id " + restOptionCheckboxes[i] + " this option should not be disabled, please enable this option.");
+                            enablingApproved = false;
+                            $("#" + selectedOptionId).prop("checked", false);
                         }
                     }
                 }
-            }
 
-            if(result[1].length>0){
-                for (let i = 0; i < restOptionCheckboxes.length; i++) {
+                console.log("ENABLING APPROOVED: " + enablingApproved);
+                if(enablingApproved){
+                    console.log("enabling approved = " + enablingApproved + "! working...")
+                    console.log("restOptionCheckboxes.length: " + restOptionCheckboxes.length);
+                    console.log("incompatibleOptionsArray.length: " + incompatibleOptionsArray.length);
+                    console.log("obligatoryOptionsArray.length: " + obligatoryOptionsArray.length);
 
-                    for(var j = 0; j < result[1].length; j++){
+                    for (let i = 0; i < restOptionCheckboxes.length; i++) {
+                        console.log("entered restOptionCheckboxes array.")
 
-                        if(result[1][j].option_id==restOptionCheckboxes[i].id){
+                        for (let j = 0; j < incompatibleOptionsArray.length; j++) {
+                            console.log("CHECKING restOptionCheckboxes[i]:" + restOptionCheckboxes[i] + "WITH incompOptArray: " + incompatibleOptionsArray[j]);
+                            if(restOptionCheckboxes[i].getAttribute('id') === incompatibleOptionsArray[j]){
+                                console.log("restOptionCheckboxes[i]:" + restOptionCheckboxes[i].getAttribute('id'));
+                                console.log("incompatibleOptionsArray[i]" + incompatibleOptionsArray[j]);
 
-                            if(isChecked) {
-                                console.log("(#OBLIG)is checked for " + selectedOptionId + " is TRUE");
+                                turnOffCheckBoxAndDisable(restOptionCheckboxes[i].getAttribute('id'));
+                                console.log("option with id = " + restOptionCheckboxes[i].getAttribute('id') + "is turnedOff and disabled");
+                            }
+                        }
 
-                                if( checkSwitchesAndChangeIfNeeded($("#" + result[1][j].option_id), true )){
+                        for (let k = 0; k < obligatoryOptionsArray.length; k++) {
+                            console.log("CHECKING restOptionCheckboxes[i]:" + restOptionCheckboxes[i] + "WITH obligOptArray: " + obligatoryOptionsArray[k]);
+                            if(restOptionCheckboxes[i].getAttribute('id') === obligatoryOptionsArray[k]){
+                                turnOnCheckBoxAndDisable(restOptionCheckboxes[i].getAttribute('id'));
+                                console.log("option with id = " + restOptionCheckboxes[i].getAttribute('id') + "is turnedON and disabled");
 
-                                        console.log("(#OBLIG)in option with id " + selectedOptionId + " recursive function returned true, working...");
-                                        if ($("#" + result[1][j].option_id).attr('disabled') == "disabled") {
-                                            alert(selectedOption.attr('id') + "have incompatible connection with - "
-                                                + result[1][j].name + "it must not be disabled.");
-                                            $("#" + selectedOption.attr('id')).prop("checked", false);
-                                        } else {
-                                            console.log("(#OBLIG)in option with id " + result[1][j].option_id + " NOT DISABLED working...");
-                                            $("#" + result[1][j].option_id).removeAttr("checked");
-                                            $("#" + result[1][j].option_id).prop('checked', true);
-                                            $("#" + result[1][j].option_id).attr("disabled", true);
-                                            $("[name=" + result[1][j].option_id + "label]").css('color', '#d3d3d3');
-                                            $("#" + result[1][j].option_id + "Slider").css('background-color', '#9acffa');
-                                            console.log("(#OBLIG)in option with id " + result[1][j].option_id
-                                                + " sucefully disabled, returned boolean result " + booleanResult);
-                                        }
-                                        return booleanResult;
-
-
-                                }else{
-                                    console.log("(#OBLIG)in option with id " + $("#" + result[1][j].option_id) + " recursive function returned FALSE, rejecting changes");
-                                    console.log("(#OBLIG) boolean result returned: " + booleanResult)
-                                    booleanResult = false;
-                                    return booleanResult;
-                                }
-                            } else {
-                                console.log("(#OBLIG)is checked for " + selectedOptionId + " is FALSE returning boolean result: " + booleanResult);
-
-                                $("[name=" + result[1][j].option_id + "label]").css('color', 'black');
-                                $("#" + result[1][j].option_id + "Slider").removeAttr("style");
-                                $("#" + result[1][j].option_id).attr("disabled", false);
-                                return booleanResult;
                             }
                         }
                     }
+
                 }
+
             }
 
-            console.log('4'+booleanResult);
-            return booleanResult;
         }});
-
-        return booleanResult;
 
 }
 
 function turnOffCheckBoxAndDisable(current_option_id){
     $("#" + current_option_id).prop("checked", false);
     $("#" + current_option_id).attr("disabled", true);
-    $("[name=" + current_option_id + "label]").css('color', '#d3d3d3');
-    $("#" + current_option_id + "Slider").css('background-color', '#d3d3d3');
+    $("[name=label" + current_option_id + "]").css('color', '#d3d3d3');
+    $("#Slider" + current_option_id).css('background-color', '#d3d3d3');
+}
+
+function turnOnCheckBoxAndDisable(current_option_id){
+    $("#" + current_option_id).prop("checked", true);
+    $("#" + current_option_id).attr("disabled", true);
+    $("[name=label" + current_option_id + "]").css('color', '#d3d3d3');
+    $("#Slider" + current_option_id).css('background-color', '#9acffa');
 }
 
 function removeDisabledFromCheckBox(current_option_id){
-    $("#" + current_option_id).removeAttr('checked');
+    // $("#" + current_option_id).removeAttr('checked');
     $("#" + current_option_id).attr("disabled", false);
-    $("[name=" + current_option_id + "label]").css('color', 'black');
-    $("#" + current_option_id + "Slider").removeAttr("style");
+    $("[name=label" + current_option_id + "]").css('color', 'black');
+    $("#Slider" + current_option_id ).removeAttr("style");
 }
 

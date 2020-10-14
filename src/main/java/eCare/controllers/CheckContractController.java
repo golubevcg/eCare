@@ -5,20 +5,16 @@ import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
-import eCare.model.enitity.Contract;
 import eCare.model.enitity.Option;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.services.api.UserService;
-import eCare.services.impl.TariffServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -122,7 +118,7 @@ public class CheckContractController {
             return "true";
         }
 
-        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(selectedUser);
+        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(selectedUser);
         if(userDTO!=null){
             return "true";
         }else{
@@ -146,7 +142,7 @@ public class CheckContractController {
         JsonArray jsonArrayTest = jsonObject.get("selectedOptions").getAsJsonArray();
 
         contractDTO.setContractNumber(number);
-        UserDTO userDTO = userServiceImpl.getUserDTOByLogin(selectedUserLogin);
+        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(selectedUserLogin);
         contractDTO.setUser(userDTO);
         TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariff);
         contractDTO.setTariff(tariffDTO);

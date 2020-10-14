@@ -29,6 +29,10 @@ public class UserContractDTOValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+
+    }
+
+    public void validate(Object o, Errors errors, Boolean roleCheckbox) {
         UserContractDTO user = (UserContractDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
@@ -56,10 +60,16 @@ public class UserContractDTOValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Required");
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
         if( 6 > user.getConfirmPassword().length()){
             errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+        if( userServiceImpl.getUserByEmail(user.getEmail())!=null){
+            errors.rejectValue("email", "Dublicate.userForm.email");
+        }
+
+
 
         if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>1){
             errors.rejectValue("passportInfo", "Dublicate.userForm.passportInfo");
@@ -74,8 +84,10 @@ public class UserContractDTOValidator implements Validator {
             errors.rejectValue("contractNumber", "Pattern.contractDTO.contractNumber");
         }
 
-        if(contractServiceImpl.getContractDTOByNumber(user.getContractNumber()).size()>0){
-            errors.rejectValue("login", "Duplicate.contractDTO.contractNumber");
+        if( roleCheckbox==null) {
+            if(contractServiceImpl.getContractDTOByNumber(user.getContractNumber()).size()>0){
+                errors.rejectValue("login", "Duplicate.contractDTO.contractNumber");
+            }
         }
 
     }

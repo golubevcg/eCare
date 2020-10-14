@@ -113,7 +113,7 @@ public class NewContractController {
 
         ContractDTO contractDTO1 = new ContractDTO();
         contractDTO1.setContractNumber(contractNumber);
-        contractDTO1.setUser(userServiceImpl.getUserDTOByLogin(selectedLogin));
+        contractDTO1.setUser(userServiceImpl.getUserDTOByLoginOrNull(selectedLogin));
         contractDTO1.setTariff(tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff));
         if(selectedOptions!=null){
             for (int i = 0; i < selectedOptions.length; i++) {

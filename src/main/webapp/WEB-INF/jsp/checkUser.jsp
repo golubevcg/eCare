@@ -21,26 +21,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 </head>
 
-<script type="text/javascript">
-
-    $(document).ready(function(){
-        $(".mul-select").select2({
-            tags: true,
-            tokenSeparators: ['/',',',';'," "]
-        });
-    })
-
-    function revealTarifOptionsSelector() {
-        var x = document.getElementById("tarifOptionsForUserRegistration");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-
-
-</script>
+<div>
+    <script src="/resources/js/checkUser.js"></script>
+</div>
 
 <body>
 <div id="page-container">
@@ -56,6 +39,11 @@
 
             <div class="col-5">
                 <h1 class="display-4" id="privateOfficeLabel">New user registration</h1>
+                <sec:authorize access="hasAuthority('ADMIN')">
+                    <button type="button" class="btn btn-primary"
+                            style="float: left;width:11%; font-size: 15px; background-color: white; color:black;"
+                            onclick="makePageEditable()">Edit</button>
+                </sec:authorize>
             </div>
 
             <div class="col"></div>
@@ -68,65 +56,105 @@
         <div class="col-5">
 
             <form:form method="POST" modelAttribute="userForm" class="form-signin" id="userDTOInputForm">
-
+                <label>Firstname:</label>
                 <spring:bind path="firstname" >
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="firstname" class="form-control defaultForm" type="text"
-                                    style="width:40%; margin-top:-20px;" placeholder="First name"></form:input>
+                                    style="width:40%; margin-top:-5px;" placeholder="First name" disabled="true" id="firstname"></form:input>
                         <form:errors path="firstname" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="firstnameFieldRequired" hidden>This field is required.</label>
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Secondname:</label>
                 <spring:bind path="secondname">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="secondname" class="form-control defaultForm" type="text"
-                                    style="width:40%;" placeholder="Last name"></form:input>
+                                    style="width:40%;" placeholder="Last name" disabled="true" id="secondname"></form:input>
                         <form:errors path="secondname" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="secondnameFieldRequired" hidden>This field is required.</label>
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Date Of Birth:</label>
                 <spring:bind path="dateOfBirth">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <input path="dateOfBirth" class="form-control defaultForm" type="date" dataformatas="yyyy-MM-dd" name="dateOfBirth"
-                               style="width:25%;" placeholder="Date of birth">
+                               style="width:25%;" placeholder="Date of birth" value="${userForm.dateOfBirth.toString().substring(0,10)}" disabled="true"
+                        id="dateOfBirth">
                         <form:errors path="dateOfBirth" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="dateOfBirthFieldRequired" hidden>This field is required.</label>
 
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Passport information:</label>
                 <spring:bind path="passportInfo">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="passportInfo" class="form-control defaultForm" type="number"
-                                    style="width:40%;" placeholder="Passport information"></form:input>
+                                    style="width:40%;" placeholder="Passport information" disabled="true"
+                        id="passportInfo"></form:input>
                         <form:errors path="passportInfo" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="passportInfoFieldRequired" hidden>This field is required.</label>
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Adress:</label>
                 <spring:bind path="address">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="address" class="form-control defaultForm" type="text"
-                                    style="width:57%;" placeholder="Adress"></form:input>
+                                    style="width:57%;" placeholder="Adress" disabled="true" id="adress"></form:input>
                         <form:errors path="address" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="adressInfoFieldRequired" hidden>This field is required.</label>
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Email:</label>
                 <spring:bind path="email">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="email" class="form-control defaultForm" type="text"
-                                    style="width:40%;" placeholder="E-mail"></form:input>
+                                    style="width:40%;" placeholder="E-mail" disabled="true" id="email"></form:input>
                         <form:errors path="email" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="emailInfoFieldRequired" hidden>This field is required.</label>
 
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Login:</label>
                 <spring:bind path="login">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="login" class="form-control defaultForm" type="text"
-                                    style="width:40%;" placeholder="Login"></form:input>
+                                    style="width:40%;" placeholder="Login" disabled="true" id="login"></form:input>
                         <form:errors path="login" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
+                <label style="color:red; clear:both; float:left;" id="loginInfoFieldRequired" hidden>This field is required.</label>
 
-            <input class="btn btn-lg btn-primary btn-block" type="submit" style="width:35%; clear:both; margin-top:20px;" hidden></input>
+
+                <label style="clear:both; float:left; margin-top:5px; margin-bottom:-10px;">Connected contracts:</label>
+
+                <div style="margin-top: 10px; margin-bottom:20px;">
+                    <c:forEach items="${userForm.listOfContracts}" var="contract" >
+                        <hr style="clear:both; float:left; width: 100%;">
+                        <a href="/checkContract/${contract.contract_id}">
+                        <label style="clear:both; float:left; margin-top:5px; margin-bottom:5px;">${contract.contractNumber}</label>
+                        </a>
+                    </c:forEach>
+                </div>
+
+                <div style="margin-top:20px;">
+                    <input class="btn btn-lg btn-primary btn-block" id="saveChangesButton" onclick="validateAndSubmitIfTrue()"
+                           value="Save Changes" style="width:35%; clear:both; " hidden>
+
+                    <input class="btn btn-lg btn-primary btn-block" onclick="deleteContract()"
+                           style="width:35%; clear:both; float:right; color:white; background-color: red; margin-top:-48px;" hidden id="deleteUserButton" value="Delete User">
+                </div>
+
 
             </form:form>
 

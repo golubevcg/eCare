@@ -76,8 +76,9 @@ public class UserRegistrationController {
             TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff);
             if (tariffDTO != null) {
                 contractDTO.setTariff(tariffDTO);
-
             }
+
+            contractDTO.setUser(userDTO);
 
         }
 
@@ -85,7 +86,6 @@ public class UserRegistrationController {
             return "userRegistration";
         }
 
-        contractDTO.setUser(userDTO);
 
         HashSet<RoleDTO> roleDTOHashSet = new HashSet<>();
         roleDTOHashSet.add(roleDTO);
@@ -95,8 +95,11 @@ public class UserRegistrationController {
         userDTO.setRoles(roleDTOHashSet);
         userServiceImpl.convertToEntityAndSave(userDTO);
 
-        contractDTO.setUser(userServiceImpl.getUserDTOByLogin(userDTO.getLogin()));
-        contractServiceImpl.convertToEntityAndSave(contractDTO);
+        if( roleCheckbox==null) {
+            contractDTO.setUser(userServiceImpl.getUserDTOByLoginOrNull(userDTO.getLogin()));
+            contractServiceImpl.convertToEntityAndSave(contractDTO);
+        }
+
 
         return "workerOffice";
     }

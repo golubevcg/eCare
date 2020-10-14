@@ -41,7 +41,7 @@ public class ContractDetailsController {
     public String getClientOffice(Model model, CsrfToken token, Principal principal,
                                   @PathVariable(value = "contractID") String contractID) {
 
-        currentUser = userServiceImpl.getUserDTOByLogin(principal.getName());
+        currentUser = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
         currentContract = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
 
         model.addAttribute("contractNumber", currentContract.getContractNumber());

@@ -186,3 +186,16 @@ select#fixed {
 #content-wrap {
     padding-bottom: 2.5rem;
 }
+
+
+#firstname:disabled, #secondname:disabled, #dateOfBirth:disabled, #passportInfo:disabled, #adress:disabled, #email:disabled, #login:disabled{
+    width:40%;
+    background-color: white;
+    float:left;
+    border-color: white;
+    color:black;
+    padding-left:5px;
+    font-size: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}

@@ -110,6 +110,7 @@ function validateAndSubmitIfTrue() {
     if(selectedUser === ""){
         userValidationField.text("This field is required.");
         userValidationField.removeAttr('hidden');
+        validation = "false";
     }else{
 
         let selectedUser = $('#usersList').val();
