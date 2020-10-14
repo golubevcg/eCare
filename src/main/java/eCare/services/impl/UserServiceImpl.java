@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void convertToEntityAndUpdate(UserDTO userDTO){
+        userDaoImpl.update(userMapper.toEntity(userDTO));
+    }
+
+    @Override
     public void delete(User user) { userDaoImpl.delete(user); }
 
     @Override

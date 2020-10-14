@@ -151,7 +151,7 @@
                     <input class="btn btn-lg btn-primary btn-block" id="saveChangesButton" onclick="validateAndSubmitIfTrue()"
                            value="Save Changes" style="width:35%; clear:both; " hidden>
 
-                    <input class="btn btn-lg btn-primary btn-block" onclick="deleteContract()"
+                    <input class="btn btn-lg btn-primary btn-block" onclick="deleteUser()"
                            style="width:35%; clear:both; float:right; color:white; background-color: red; margin-top:-48px;" hidden id="deleteUserButton" value="Delete User">
                 </div>
 

@@ -46,7 +46,7 @@ function validateAndSubmitIfTrue(){
             type: 'GET',
             url: '/checkUser/checkPassportInfo/' + newPassport,
             success: function (result) {
-                if (result.toString() === "true") {
+                if (result.toString() === "false") {
                     $('#passportInfoFieldRequired').text("Passport with this number already exists.");
                     $('#passportInfoFieldRequired').removeAttr('hidden');
                     validation = "false";
@@ -64,12 +64,12 @@ function validateAndSubmitIfTrue(){
         $('#emailInfoFieldRequired').removeAttr('hidden');
         validation = false;
     }else{
-        let newEmail = $('#emailInfoFieldRequired').val();
+        let newEmail = $('#email').val();
         $.ajax({
             type: 'GET',
             url: '/checkUser/checkEmail/' + newEmail,
             success: function (result) {
-                if (result.toString() === "true") {
+                if (result.toString() === "false") {
                     $('#emailInfoFieldRequired').text("User with such email already registered.");
                     $('#emailInfoFieldRequired').removeAttr('hidden');
                     validation = "false";
@@ -87,7 +87,7 @@ function validateAndSubmitIfTrue(){
             type: 'GET',
             url: '/checkUser/checkLogin/' + newLogin,
             success: function (result) {
-                if (result.toString() === "true") {
+                if (result.toString() === "false") {
                     $('#loginInfoFieldRequired').text("User with such login already registered.");
                     $('#loginInfoFieldRequired').removeAttr('hidden');
                     validation = "false";
@@ -98,11 +98,50 @@ function validateAndSubmitIfTrue(){
 
     if(validation){
 
+        let firstName = $('#firstname').val();
+        let secondName = $('#secondname').val();
+        let dateOfBirth = $('#dateOfBirth').val();
+        let passportInfo = $('#passportInfo').val();
+        let address = $('#adress').val();
+        let email = $('#email').val();
+        let login = $('#login').val();
+
+        let exportArray = { firstName, secondName, dateOfBirth, passportInfo, address, email, login};
+
+        console.log(dateOfBirth);
+        $.ajax({
+            contentType: "application/json",
+            type: 'POST',
+            url: '/checkUser/submitChanges/',
+            data: JSON.stringify(exportArray),
+            success: function(result) {
+                if(result.toString()==="true"){
+                    location.href = '/workerOffice';
+                }else{
+                    alert("Error, user was not updated");
+                }
+            }
+        });
 
     }
 
+}
 
+function deleteUser(){
+    if (confirm("Are you sure you want to delete this User?")) {
+        let login = $('#login').val();
+        $.ajax({
+            type: 'GET',
+            url: '/checkUser/deleteUser/' + login,
+            success: function(result){
+                if(result.toString()==="true"){
+                    location.href = '/workerOffice';
+                }else{
+                    alert("User with this login was not found.")
+                }
+            }
+        });
+    } else {
 
-
-
+    }
 }

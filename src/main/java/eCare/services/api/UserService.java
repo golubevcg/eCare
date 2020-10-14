@@ -7,6 +7,9 @@ import java.util.List;
 public interface UserService {
     void save(User user);
     void update(User user);
+
+    void convertToEntityAndUpdate(UserDTO userDTO);
+
     void delete(User user);
     List<User> getUserByLogin(String login);
     User convertDTOtoEntity(UserDTO userDTO);
