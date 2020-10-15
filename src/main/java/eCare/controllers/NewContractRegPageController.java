@@ -43,7 +43,6 @@ public class NewContractRegPageController {
 
     @GetMapping(value = "/newContract")
     public String getNewContract(Model model){
-
         List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("selectedUserError", "");
         model.addAttribute("listOfTariffs", listOfTariffs);
@@ -99,9 +98,14 @@ public class NewContractRegPageController {
             }
         }
 
-        if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
+        if(selectedLogin.isEmpty()){
             bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
             model.addAttribute("selectedUserError", "Please select existing user.");
+        }else{
+            if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
+                bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+                model.addAttribute("selectedUserError", "Please select existing user.");
+            }
         }
 
         if(bindingResult.hasErrors()){

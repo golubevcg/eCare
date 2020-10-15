@@ -33,6 +33,8 @@ public class UserContractDTOValidator implements Validator {
     }
 
     public void validate(Object o, Errors errors, Boolean roleCheckbox) {
+        System.out.println("entered validation");
+
         UserContractDTO user = (UserContractDTO) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
@@ -68,7 +70,6 @@ public class UserContractDTOValidator implements Validator {
         if( userServiceImpl.getUserByEmail(user.getEmail())!=null){
             errors.rejectValue("email", "Dublicate.userForm.email");
         }
-
 
 
         if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>1){

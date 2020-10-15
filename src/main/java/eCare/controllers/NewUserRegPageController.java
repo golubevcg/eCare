@@ -42,7 +42,7 @@ public class NewUserRegPageController {
     public String getUserRegistration(Model model){
         model.addAttribute("userForm", new UserContractDTO());
         model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
-        return "userRegPage";
+        return "newUserRegPage";
     }
 
     @PostMapping("/userRegistration")
@@ -55,7 +55,13 @@ public class NewUserRegPageController {
 
         model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
         model.addAttribute("selectedTariff", selectedTariff);
-        userValidator.validate(userForm, userFormBindingResult);
+
+        userValidator.validate(userForm, userFormBindingResult, Boolean.valueOf(roleCheckbox));
+        if(userFormBindingResult.hasErrors()){
+            return "newUserRegPage";
+        }
+
+
         UserDTO userDTO = userForm.getUserDTO();
         RoleDTO roleDTO = new RoleDTO();
 
@@ -81,11 +87,6 @@ public class NewUserRegPageController {
             contractDTO.setUser(userDTO);
 
         }
-
-        if(userFormBindingResult.hasErrors()){
-            return "userRegPage";
-        }
-
 
         HashSet<RoleDTO> roleDTOHashSet = new HashSet<>();
         roleDTOHashSet.add(roleDTO);
