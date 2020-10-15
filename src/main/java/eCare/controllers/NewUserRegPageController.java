@@ -101,6 +101,7 @@ public class NewUserRegPageController {
             contractServiceImpl.convertToEntityAndSave(contractDTO);
         }
 
+        log.info("User with login: " + userDTO.getLogin() + " was registered successfully.");
 
         return "workerOfficePage";
     }

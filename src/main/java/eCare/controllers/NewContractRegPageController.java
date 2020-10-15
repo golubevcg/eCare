@@ -126,7 +126,7 @@ public class NewContractRegPageController {
         }
 
         contractServiceImpl.convertToEntityAndSave(contractDTO1);
-        log.info("New contract was successfully registered.");
+        log.info("New contract  with number: " + contractDTO1.getContractNumber() + " was successfully registered.");
 
         return "workerOfficePage";
     }

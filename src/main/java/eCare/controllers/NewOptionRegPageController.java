@@ -66,7 +66,7 @@ public class NewOptionRegPageController {
         }
 
         optionServiceImpl.convertToEntityAndSave(optionDTO);
-        log.info("New option was registered successfully.");
+        log.info("New option with name: " + optionDTO.getName() + " registered successfully.");
 
         return "workerOfficePage";
     }

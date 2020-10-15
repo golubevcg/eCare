@@ -65,7 +65,7 @@ public class NewTariffRegPageController {
         }
 
         tariffService.convertToEntityAndSave( tariffDTO );
-        log.info("New tariff was registered successfully.");
+        log.info("New tariff with name: " + tariffDTO.getName() + " was registered successfully.");
 
         return "workerOfficePage";
     }
