@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Controller for checking or editing contracts.
+ * Controller for page, in which checking or editing contracts occur.
  */
 
 @Controller
@@ -48,8 +48,8 @@ public class CheckContractPageController {
     private String userNameOfContractOwnerBeforeEditing;
 
     @GetMapping(value = "/checkContract/{contractId}")
-    public String getCheckContractModelToView(Model model,
-                                              @PathVariable(name="contractId") String contractId){
+    public String getCheckContractPage(Model model,
+                                       @PathVariable(name="contractId") String contractId){
         ContractDTO contractDTObeforeEditing = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
         contractNumberBeforeEditing = contractDTObeforeEditing.getContractNumber();
         userNameOfContractOwnerBeforeEditing = contractDTObeforeEditing.getUser().getLogin();

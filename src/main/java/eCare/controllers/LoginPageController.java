@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LoginPageController {
 
     @GetMapping("/login")
-    public String getLogin(Model model, String error, String logout) {
+    public String getLoginPage(Model model, String error, String logout) {
 
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");

@@ -12,7 +12,7 @@ public class EntrancePageController {
     static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     @GetMapping("/")
-    public String getMain(Model model, CsrfToken token) {
+    public String getEntrancePage(Model model, CsrfToken token) {
         return "entrancePage";
     }
 }

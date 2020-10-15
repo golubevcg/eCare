@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.*;
 
+/**
+ * Controller for page, in which user can check and edit contract details.
+ */
+
 @Controller
 public class ContractDetailsPageController {
 
@@ -36,21 +40,20 @@ public class ContractDetailsPageController {
     @Autowired
     OptionServiceImpl optionServiceImpl;
 
-    UserDTO currentUser;
-
-    ContractDTO currentContract;
+    UserDTO userBeforeEditing;
+    ContractDTO contractBeforeEditing;
 
     @GetMapping("/contractDetails/{contractID}")
-    public String getClientOffice(Model model, CsrfToken token, Principal principal,
-                                  @PathVariable(value = "contractID") String contractID) {
+    public String getContractDetailsPage(Model model, CsrfToken token, Principal principal,
+                                         @PathVariable(value = "contractID") String contractID) {
 
-        currentUser = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
-        currentContract = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
+        userBeforeEditing = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
+        contractBeforeEditing = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
 
-        model.addAttribute("contractNumber", currentContract.getContractNumber());
-        model.addAttribute("firstAndSecondNames", currentUser.getFirstname() + " " + currentUser.getSecondname());
+        model.addAttribute("contractNumber", contractBeforeEditing.getContractNumber());
+        model.addAttribute("firstAndSecondNames", userBeforeEditing.getFirstname() + " " + userBeforeEditing.getSecondname());
 
-        TariffDTO tariffDTO = currentContract.getTariff();
+        TariffDTO tariffDTO = contractBeforeEditing.getTariff();
         model.addAttribute("selectedTariff", tariffDTO.getName());
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
         model.addAttribute("tariffPrice", tariffDTO.getPrice() + " $ / month");
@@ -60,7 +63,7 @@ public class ContractDetailsPageController {
         sortedListOfAvailableOptions.addAll(availableOptions);
         Collections.sort(sortedListOfAvailableOptions);
 
-        Set<OptionDTO> connectedOptions = currentContract.getSetOfOptions();
+        Set<OptionDTO> connectedOptions = contractBeforeEditing.getSetOfOptions();
         ArrayList<OptionDTO> sortedListOfConnectedOptions = new ArrayList<>();
         sortedListOfConnectedOptions.addAll(connectedOptions);
         Collections.sort(sortedListOfConnectedOptions);
@@ -86,7 +89,7 @@ public class ContractDetailsPageController {
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("activeTariffsList", activeTariffsList);
         model.addAttribute("connectedOptions", optionDTOLinkedHashSet);
-        model.addAttribute("isBlocked", currentContract.isBlocked());
+        model.addAttribute("isBlocked", contractBeforeEditing.isBlocked());
 
         return "contractDetailsPage";
     }
@@ -130,16 +133,16 @@ public class ContractDetailsPageController {
                 setOfOptions.add(optionServiceImpl.getOptionDTOById(jsonArray.get(i).getAsLong()));
             }
         }
-        currentContract.setSetOfOptions(setOfOptions);
+        contractBeforeEditing.setSetOfOptions(setOfOptions);
 
-        if (currentContract.isBlocked() != blockNumberCheckBox) {
-            currentContract.setBlocked(blockNumberCheckBox);
+        if (contractBeforeEditing.isBlocked() != blockNumberCheckBox) {
+            contractBeforeEditing.setBlocked(blockNumberCheckBox);
         }
 
-        if (!currentContract.getTariff().getName().equals(tariffSelectedCheckboxes)) {
+        if (!contractBeforeEditing.getTariff().getName().equals(tariffSelectedCheckboxes)) {
             TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariffSelectedCheckboxes);
             if(tariffDTO!=null){
-                currentContract.setTariff(tariffDTO);
+                contractBeforeEditing.setTariff(tariffDTO);
             }
         }
 
@@ -147,13 +150,13 @@ public class ContractDetailsPageController {
 
         if(jsonArrayLockedOptions.size()!=0){
             for (int i = 0; i < jsonArrayLockedOptions.size(); i++) {
-                currentContract.addLockedOption(optionServiceImpl.getOptionDTOById(
+                contractBeforeEditing.addLockedOption(optionServiceImpl.getOptionDTOById(
                         jsonArrayLockedOptions.get(i).getAsLong() ) );
             }
         }
 
-        contractServiceImpl.updateConvertDTO(currentContract);
-        log.info(currentContract.getContractNumber() + " contract with this number was successfully updated.");
+        contractServiceImpl.updateConvertDTO(contractBeforeEditing);
+        log.info(contractBeforeEditing.getContractNumber() + " contract with this number was successfully updated.");
 
         return "true";
     }
@@ -161,7 +164,8 @@ public class ContractDetailsPageController {
 
     /**
      *
-      This option returns two arrays - first with arrays of id's for incompatible options, second for obligatory
+      This method used for returning two arrays as json - first witharrays of id's for incompatible options,
+      second for obligatory, they will be parced in front end for enabling/disabling dependent options.
      */
     @PostMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
@@ -188,10 +192,9 @@ public class ContractDetailsPageController {
         return gson.toJson(array);
     }
 
-    /**this is recursion function which in part
-      of checking obligatory option's call itself again
+    /**
+     * This function for checking depending options in child options (recursively)
      */
-
     public void cascadeCheckOptionDependencies(OptionDTO currentOption,
                                                Set<String> incompatibleOptionIds,
                                                Set<String> obligatoryOptionIds,
@@ -227,9 +230,7 @@ public class ContractDetailsPageController {
     public @ResponseBody
     String getLockedOptions(Model model, CsrfToken token, Principal principal) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return gson.toJson(currentContract.getSetOfBlockedOptions());
+        return gson.toJson(contractBeforeEditing.getSetOfBlockedOptions());
     }
-
-
 
 }

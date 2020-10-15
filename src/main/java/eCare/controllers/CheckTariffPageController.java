@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * Controller for checking or editing tariffs.
+ * Controller for page, in which checking or editing tariffs occur.
  */
 @Controller
 public class CheckTariffPageController {
@@ -38,7 +38,7 @@ public class CheckTariffPageController {
     private String tariffNameBeforeEditing;
 
     @GetMapping(value = "/checkTariff/{tariffName}")
-    public String getCheckTariffModelToView(Model model, @PathVariable(name="tariffName")String tariffName){
+    public String getCheckTariffPage(Model model, @PathVariable(name="tariffName")String tariffName){
 
         tariffNameBeforeEditing = tariffName;
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(tariffName);

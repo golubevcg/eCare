@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Controller for checking or editing options.
+ * Controller for page, in which checking or editing options occur.
  */
 
 @Controller
@@ -35,7 +35,7 @@ public class CheckOptionPageController {
     private String optionNameBeforeEditing;
 
     @GetMapping(value = "/checkOption/{optionName}")
-    public String getCheckOptionModelToView(Model model, @PathVariable(name="optionName") String optionName) {
+    public String getCheckOptionPage(Model model, @PathVariable(name="optionName") String optionName) {
         optionNameBeforeEditing = optionName;
         OptionDTO optionDTOBeforeEditing = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();

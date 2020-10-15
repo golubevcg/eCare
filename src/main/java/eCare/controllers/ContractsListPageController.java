@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.*;
 
+/**
+ * Controller to the page, which returns list of user contracts.
+ */
 @Controller
 public class ContractsListPageController {
 
@@ -21,7 +24,7 @@ public class ContractsListPageController {
     UserServiceImpl userServiceImpl;
 
     @GetMapping("/contracts")
-    public String getClientOffice(Model model, CsrfToken token, Principal principal) {
+    public String getContractsListPage(Model model, CsrfToken token, Principal principal) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
         Set<ContractDTO> contractsSet = userDTO.getListOfActiveContracts();
 

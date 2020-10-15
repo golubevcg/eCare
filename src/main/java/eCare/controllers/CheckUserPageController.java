@@ -18,6 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller for page, in which checking or editing of user occur.
+ */
+
 @Controller
 public class CheckUserPageController {
 
@@ -31,7 +35,7 @@ public class CheckUserPageController {
     private String userEmailBeforeEditing;
 
     @GetMapping(value = "/checkUser/{userLogin}", produces = "text/plain;charset=UTF-8")
-    public String getUserRegistration(Model model, @PathVariable(name = "userLogin") String userLogin) {
+    public String getUserRegistrationPage(Model model, @PathVariable(name = "userLogin") String userLogin) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(userLogin);
         userLoginBeforeEditing = userDTO.getLogin();
         userPassportBeforeEditing = userDTO.getPassportInfo();
