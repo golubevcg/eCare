@@ -26,7 +26,7 @@
 <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
 <div>
-    <script src="/resources/js/checkOption.js"></script>
+    <script src="/resources/js/checkOptionPage.js"></script>
 </div>
 
 <div id="page-container">

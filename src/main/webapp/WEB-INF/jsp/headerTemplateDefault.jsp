@@ -1,5 +1,5 @@
 
-<link type="text/css" rel="stylesheet" href="/resources/styles/mainStyles.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/entrancePage.css">
 
     <div class="fixed-header">
         <div class="jumbotron jumbotron-fluid" id="headerJumbotron">

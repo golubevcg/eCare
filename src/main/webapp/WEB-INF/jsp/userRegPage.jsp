@@ -12,7 +12,7 @@
     <title>New User</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resources/styles/registration.css">
+    <link rel="stylesheet" href="/resources/css/registrationPagesCss.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -74,7 +74,7 @@
     <div id="content-wrap">
 
     <jsp:directive.include file = "headerTemplateByRole.jsp" />
-        
+
     <div></div>
 
     <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

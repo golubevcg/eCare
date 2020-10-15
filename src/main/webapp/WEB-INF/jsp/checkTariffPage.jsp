@@ -29,7 +29,7 @@
 <div id="page-container">
     <div id="content-wrap">
     <div>
-        <script src="/resources/js/checkTariff.js"></script>
+        <script src="/resources/js/checkTariffPage.js"></script>
     </div>
 
             <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

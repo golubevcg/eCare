@@ -11,7 +11,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/registrationPagesCss.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!--for dropdown menus scripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -27,7 +27,7 @@
         <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
         <div>
-            <script src="/resources/js/workerOffice.js"></script>
+            <script src="/resources/js/workerOfficePage.js"></script>
         </div>
 
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

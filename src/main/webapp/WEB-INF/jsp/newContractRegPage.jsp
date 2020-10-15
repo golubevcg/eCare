@@ -13,7 +13,7 @@
     <title>New contract</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/styles/newContract.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/newContractPage.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
@@ -34,7 +34,7 @@
         <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
         <div>
-                <script src="/resources/js/newContract.js"></script>
+                <script src="/resources/js/newContractPage.js"></script>
         </div>
 
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
@@ -61,29 +61,29 @@
                 <input class="form-control defaultForm" id="numberLabel" name="contractNumber"
                        type="number" placeholder="Enter contract phone number" style="width:38%;">${contractNumber}
                     <c:if test="${not empty phoneNumberEmptyError}">
-                        <label style="color:red;" id="labelCheckboxContainer">${phoneNumberEmptyError}</label>
+                        <label style="color:red;" >${phoneNumberEmptyError}</label>
 
                     </c:if>
                     <c:if test="${not empty phoneNumberPatternError}">
-                           <label style="color:red;" id="labelCheckboxContainer">${phoneNumberPatternError}</label>
+                           <label style="color:red;" >${phoneNumberPatternError}</label>
                     </c:if>
 
                 <div id="userSelectorContainer" style="clear:both;">
-                    <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select User</label>
+                    <label class="container" style="clear:both; float:left; margin-top: 10px; ">Select User</label>
                     <div class="autocomplete" style="width:300px;">
                     <input class="form-control defaultForm" id="usersList" style="width:100%;" type="text"
                            name="usersList" placeholder="User login"
                     style="background-color: white;font-size: 20px; color:black;">
 
                     <c:if test="${not empty phoneNumberPatternError}">
-                    <label style="color:red;" id="labelCheckboxContainer">${selectedUserError}</label>
+                    <label style="color:red;">${selectedUserError}</label>
                     </c:if>
 
                     </div>
                 </div>
 
                 <div id="tarifOptionsForUserRegistration">
-                    <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select tariff:</label>
+                    <label class="container" style="clear:both; float:left; margin-top: 10px; ">Select tariff:</label>
 
                     <select class="form-control form-control-lg" style="clear:both; width: 60%; margin-top:10px; -webkit-appearance: none;"
                             name="selectedTariff" id="tariffsList">
@@ -91,7 +91,7 @@
                                 <option selected>${tariff.name}</option>
                         </c:forEach>
                     </select>
-                    <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select additional options:</label>
+                    <label class="container" style="clear:both; float:left; margin-top: 10px; ">Select additional options:</label>
                     <select class="mul-select" multiple="true" id="optionsList" style="width:60%; font-size: 20px" name="selectedOptions">
                     </select>
 

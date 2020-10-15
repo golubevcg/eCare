@@ -1,4 +1,4 @@
-<link type="text/css" rel="stylesheet" href="/resources/styles/mainStyles.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/entrancePage.css">
 
 
 <sec:authorize access="hasAuthority('ADMIN')">

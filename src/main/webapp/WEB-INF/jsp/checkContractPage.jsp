@@ -30,7 +30,7 @@
         <jsp:directive.include file = "headerTemplateByRole.jsp" />
 
         <div>
-                <script src="/resources/js/checkContract.js"></script>
+                <script src="/resources/js/checkContractPage.js"></script>
         </div>
 
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
