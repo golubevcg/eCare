@@ -1,8 +1,7 @@
 package eCare.dao.impl;
 
-import eCare.HibernateSessionFactoryUtil;
+import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.TariffDao;
-import eCare.model.enitity.Contract;
 import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

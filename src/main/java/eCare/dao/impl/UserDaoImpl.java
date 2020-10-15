@@ -1,19 +1,15 @@
 package eCare.dao.impl;
 
-import eCare.HibernateSessionFactoryUtil;
+import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.UserDao;
-import eCare.model.dto.UserDTO;
-import eCare.model.enitity.Contract;
 import eCare.model.enitity.Role;
 import eCare.model.enitity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

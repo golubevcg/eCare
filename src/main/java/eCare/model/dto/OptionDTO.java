@@ -1,7 +1,6 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
-import eCare.model.enitity.Contract;
 import lombok.*;
 
 import java.util.HashSet;
@@ -22,7 +21,7 @@ public class OptionDTO implements Comparable{
     @Expose
     private Integer connectionCost;
     @Expose
-    private String shortDiscription;
+    private String shortDescription;
     private boolean isActive = true;
     private Set<TariffDTO> tariffsOptions = new HashSet<>();
     private Set<ContractDTO> contractsOptions = new HashSet<>();
@@ -48,7 +47,7 @@ public class OptionDTO implements Comparable{
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", connectionCost=" + connectionCost +
-                ", shortDiscription='" + shortDiscription + '\'' +
+                ", shortDiscription='" + shortDescription + '\'' +
                 ", isActive=" + isActive +
                 ", tariffsOptions=" + tariffsOptions +
                 ", incompatibleOptionsList=" + incompatibleOptionsSet +

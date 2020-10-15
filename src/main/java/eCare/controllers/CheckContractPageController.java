@@ -23,6 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Controller for checking or editing contracts.
+ */
+
 @Controller
 public class CheckContractPageController {
 
@@ -40,31 +44,31 @@ public class CheckContractPageController {
     @Autowired
     ContractService contractServiceImpl;
 
-    private String oldNumber;
-    private String oldUserName;
-
+    private String contractNumberBeforeEditing;
+    private String userNameOfContractOwnerBeforeEditing;
 
     @GetMapping(value = "/checkContract/{contractId}")
-    public String checkContractNumber(Model model,
-                                      @PathVariable(name="contractId") String contractId){
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
-        oldNumber = contractDTO.getContractNumber();
-        oldUserName = contractDTO.getUser().getLogin();
+    public String getCheckContractModelToView(Model model,
+                                              @PathVariable(name="contractId") String contractId){
+        ContractDTO contractDTObeforeEditing = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
+        contractNumberBeforeEditing = contractDTObeforeEditing.getContractNumber();
+        userNameOfContractOwnerBeforeEditing = contractDTObeforeEditing.getUser().getLogin();
         List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
-
         model.addAttribute("listOfTariffs", listOfTariffs);
-        model.addAttribute("contractDTO", contractDTO);
+        model.addAttribute("contractDTO", contractDTObeforeEditing);
         return "checkContractPage";
     }
 
     @ResponseBody
     @RequestMapping(value = "/checkContract/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
-    public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
-        Set<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getSetOfOptions();
+    public String returnOptionsListForSelectedTariff(@PathVariable("selectedTariff") String selectedTariff) {
+        Set<Option> optionsList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getSetOfOptions();
+
         Set<String> optionNamesSet = new HashSet<>();
-        for (Option option: optionList) {
+        for (Option option: optionsList) {
             optionNamesSet.add(option.getName());
         }
+
         return new Gson().toJson(optionNamesSet);
     }
 
@@ -99,7 +103,7 @@ public class CheckContractPageController {
     @ResponseBody
     @RequestMapping(value = "/checkContract/checkNewNumber/{newNum}", method = RequestMethod.GET)
     public String checkNewName(@PathVariable("newNum") String newNum) {
-        if(oldNumber.equals(newNum)){
+        if(contractNumberBeforeEditing.equals(newNum)){
             return "false";
         }
         ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(newNum).get(0);
@@ -114,7 +118,7 @@ public class CheckContractPageController {
     @RequestMapping(value = "/checkContract/checkUser/{selectedUser}", method = RequestMethod.GET)
     public String checkUser(@PathVariable("selectedUser") String selectedUser) {
 
-        if(oldUserName.equals(selectedUser)){
+        if(userNameOfContractOwnerBeforeEditing.equals(selectedUser)){
             return "true";
         }
 
@@ -130,9 +134,10 @@ public class CheckContractPageController {
     public @ResponseBody
     String submitValues(Model model, CsrfToken token, Principal principal,
                                 @RequestBody String exportArray) {
+
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(oldNumber).get(0);
+        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
 
         String number = jsonObject.get("newNum").getAsString();
         String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
@@ -147,13 +152,14 @@ public class CheckContractPageController {
         TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariff);
         contractDTO.setTariff(tariffDTO);
         if(jsonArrayTest.size()!=0) {
-
             for (int i = 0; i < jsonArrayTest.size(); i++) {
                 contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
             }
         }
         contractDTO.setBlocked(isBlocked);
         contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+
+        log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
 
         return "true";
     }

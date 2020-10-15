@@ -1,3 +1,4 @@
+//edit button action
 function makePageEditable(){
     $('[name="SaveChangesButton"]').removeAttr('hidden');
     $('[name="blockConnectedContracts"]').removeAttr('hidden');
@@ -9,11 +10,9 @@ function makePageEditable(){
     $('[name="shortDiscription"]').attr("disabled", false);
     $('[name="selectedObligatoryOptions"]').attr("disabled", false);
     $('[name="selectedIncompatibleOptions"]').attr("disabled", false);
-
 }
 
 $(document).ready(function(){
-
     let oldName = $('#inputFormName').val();
     $.ajax({
         type: 'GET',
@@ -80,14 +79,16 @@ function validateAndSubmitIfTrue(){
 
     let newName = $('#inputFormName').val();
 
+    let newNameField = $('#nameFieldRequired');
+
     if(newName===""){
-        $('#nameFieldRequired').text("This field is required.");
-        $('#nameFieldRequired').removeAttr('hidden');
+        newNameField.text("This field is required.");
+        newNameField.removeAttr('hidden');
         validation="false";
     }else{
         if(newName.length<4){
-            $('#nameFieldRequired').text("Name must be more than 4 characters.");
-            $('#nameFieldRequired').removeAttr('hidden');
+            newNameField.text("Name must be more than 4 characters.");
+            newNameField.removeAttr('hidden');
             validation="false";
         }else{
             $.ajax({
@@ -95,8 +96,8 @@ function validateAndSubmitIfTrue(){
                 url: '/checkOption/checkNewName/' + newName,
                 success: function(result){
                     if(result==="true"){
-                        $('#nameFieldRequired').text("Option with this name already exists.");
-                        $('#nameFieldRequired').removeAttr('hidden');
+                        newNameField.text("Option with this name already exists.");
+                        newNameField.removeAttr('hidden');
                         validation="false";
                     }
                 }
@@ -115,15 +116,16 @@ function validateAndSubmitIfTrue(){
         validation="false";
     }
 
+    let shortDescriptionFieldRequired = $('#shortDescriptionFieldRequired');
     let inputFormShortDisc = $('#inputFormShortDisc').val();
     if(inputFormShortDisc===""){
-        $('#shortDiscriptionFieldRequired').text("This field is required.");
-        $('#shortDiscriptionFieldRequired').removeAttr('hidden');
+        shortDescriptionFieldRequired.text("This field is required.");
+        shortDescriptionFieldRequired.removeAttr('hidden');
         validation="false";
     }else{
         if(inputFormShortDisc.length<8){
-            $('#shortDiscriptionFieldRequired').text("Name must be more than 8 characters.");
-            $('#shortDiscriptionFieldRequired').removeAttr('hidden');
+            shortDescriptionFieldRequired.text("Name must be more than 8 characters.");
+            shortDescriptionFieldRequired.removeAttr('hidden');
             validation="false";
         }
     }

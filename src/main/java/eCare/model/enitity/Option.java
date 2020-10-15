@@ -31,7 +31,7 @@ public class Option {
     private Integer connectionCost;
 
     @Column(name= "shortdescription")
-    private String shortDiscription;
+    private String shortDescription;
 
     @Column(name="isactive")
     private boolean isActive = true;

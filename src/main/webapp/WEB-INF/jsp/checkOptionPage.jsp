@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Option details</title>
-    <link type="text/css" rel="stylesheet" href="/resources/styles/checkOption.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/checkOption.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
@@ -76,7 +76,7 @@
 
             <div class="col-5">
                 <div>
-                    <p id="headlineLabel">Connection cost</p>
+                    <p class="headlineLabel">Connection cost</p>
                 </div>
                 <div style="clear:both;">
                     <spring:bind path="connectionCost" >
@@ -109,12 +109,12 @@
 
             <div class="col-5">
                 <p id="headlineLabel" style="margin-top: 10px">Short description</p>
-                <spring:bind path="shortDiscription" >
+                <spring:bind path="shortDescription">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input path="shortDiscription" class="form-control defaultForm" id="inputFormShortDisc" type="text" disabled="true"  placeholder="Short description"
+                        <form:input path="shortDescription" class="form-control defaultForm" id="inputFormShortDisc" type="text" disabled="true" placeholder="Short description"
                                     style="margin-top:-10px; width: 100%;  text-align: justify;" name="shortDiscriptionForm"></form:input>
                     </div>
-                    <label style="color:red; float:left;" id="shortDiscriptionFieldRequired" hidden>This field is required.</label>
+                    <label style="color:red; float:left;" id="shortDescriptionFieldRequired" hidden>This field is required.</label>
                 </spring:bind>
             </div>
 
@@ -125,7 +125,7 @@
             <div class="col"></div>
             <div class="col-5">
                 <div>
-                    <p id="headlineLabel">Obligatory options</p>
+                    <p class="headlineLabel">Obligatory options</p>
                     <select class="mul-select" multiple="true"
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedObligatoryOptions" id="selectedObligatoryOptions" disabled="true">
@@ -137,7 +137,7 @@
 
             <div style="margin-top:15px; clear:both;">
                 <div>
-                    <p id="headlineLabel">Incompatible options</p>
+                    <p class="headlineLabel">Incompatible options</p>
                     <select class="mul-select" multiple="true"
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedIncompatibleOptions" id="selectedIncompatibleOptions" disabled="true">

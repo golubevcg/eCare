@@ -6,6 +6,7 @@ $(document).ready(function(){
     });
 });
 
+
 function makePageEditable(){
     $('[name="SaveChangesButton"]').removeAttr('hidden');
     $('[name="blockConnectedContracts"]').removeAttr('hidden');
@@ -15,7 +16,6 @@ function makePageEditable(){
     $('[name="price"]').attr("disabled", false);
     $('[name="shortDiscription"]').attr("disabled", false);
     $('[name="selectedOptions"]').attr("disabled", false);
-
 }
 
 $(document).ready(function(){

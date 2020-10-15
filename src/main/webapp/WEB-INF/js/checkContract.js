@@ -1,4 +1,5 @@
 
+//edit button action event, to turn on edit mode on page (ADMIN only)
 function makePageEditable(){
     $('[name="SaveChangesButton"]').removeAttr('hidden');
     $('[name="deleteOptionButton"]').removeAttr('hidden');
@@ -10,6 +11,7 @@ function makePageEditable(){
     $('[name="selectedOptions"]').attr("disabled", false);
 }
 
+//ajax request to load options by tariff
 $(document).ready(function(){
     $('#tariffsList').on('change', function()
     {
@@ -29,6 +31,7 @@ $(document).ready(function(){
     });
 });
 
+
 $(document).ready(function(){
         var selectedTariff = $("#tariffsList").val();
         $.ajax({
@@ -45,6 +48,9 @@ $(document).ready(function(){
     });
 });
 
+/**
+ * multi select list for tariff picking
+ */
 $(document).ready(function(){
     $(".mul-select").select2({
         tags: true,
@@ -52,6 +58,9 @@ $(document).ready(function(){
     });
 })
 
+/**
+ * autocomplete search for user picking
+ */
 $(document).ready($(function() {
     $("#usersList").autocomplete({
         source: "/newContract/getUsersList",

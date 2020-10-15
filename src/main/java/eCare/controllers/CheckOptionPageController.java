@@ -13,10 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * Controller for checking or editing options.
+ */
 
 @Controller
 public class CheckOptionPageController {
@@ -29,26 +32,27 @@ public class CheckOptionPageController {
     @Autowired
     private ContractService contractServiceImpl;
 
-    private String oldName;
+    private String optionNameBeforeEditing;
 
     @GetMapping(value = "/checkOption/{optionName}")
-    public String getOptionToCheck(Model model, @PathVariable(name="optionName") String optionName) {
-        oldName = optionName;
-        OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
-
+    public String getCheckOptionModelToView(Model model, @PathVariable(name="optionName") String optionName) {
+        optionNameBeforeEditing = optionName;
+        OptionDTO optionDTOBeforeEditing = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
-        model.addAttribute("optionDTO", optionDTO);
+        model.addAttribute("optionDTO", optionDTOBeforeEditing);
         return "checkOptionPage";
     }
 
-    private Set<OptionDTO> obligatoryOptionsSetFin = new HashSet<>();
-    private Set<OptionDTO> incompatibleOptionsSetFin = new HashSet<>();
+    private Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
+    private Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
 
-
+    /**
+     * here we submit incompatible and obligatory options set's, it will be used in submitEditedOptions method
+     */
     @PostMapping(value = "/checkOption/submitArraysValues", produces = "application/json")
     public @ResponseBody
-    void getDependingOptions(Model model, CsrfToken token, Principal principal,
+    void getDependingOptions(Model model, CsrfToken token,
                                @RequestBody String arrayOfArrays) {
         JsonArray jsonArray = JsonParser.parseString(arrayOfArrays).getAsJsonArray();
 
@@ -56,7 +60,7 @@ public class CheckOptionPageController {
         if(obligatoryOptionsJsonArray.size()!=0) {
             for (int i = 0; i < obligatoryOptionsJsonArray.size(); i++) {
                 JsonObject jsonObject = obligatoryOptionsJsonArray.get(i).getAsJsonObject();
-                obligatoryOptionsSetFin.add(optionServiceImpl.getOptionDTOByNameOrNull(jsonObject.get("id").getAsString()));
+                obligatoryOptionsSet.add(optionServiceImpl.getOptionDTOByNameOrNull(jsonObject.get("id").getAsString()));
             }
         }
 
@@ -64,31 +68,32 @@ public class CheckOptionPageController {
         if(incompatibleOptionsJsonArray.size()!=0){
             for (int i = 0; i <incompatibleOptionsJsonArray.size() ; i++) {
                 JsonObject jsonObject = incompatibleOptionsJsonArray.get(i).getAsJsonObject();
-                incompatibleOptionsSetFin.add( optionServiceImpl.getOptionDTOByNameOrNull( jsonObject.get("id").getAsString()) );
+                incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByNameOrNull( jsonObject.get("id").getAsString()) );
             }
         }
 
 
     }
 
+
     @PostMapping(value = "/checkOption/{optionName}")
-    public String submitEditedOptions(Model model, @PathVariable(name="optionName") String optionName,
-                                      @ModelAttribute OptionDTO optionDTO,
-                                      BindingResult optionDTOBindingResult,
-                                      @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
+    public String submitEditedOption(Model model, @PathVariable(name="optionName") String optionName,
+                                     @ModelAttribute OptionDTO optionDTO,
+                                     BindingResult optionDTOBindingResult,
+                                     @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
         OptionDTO optionDTO1 = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
         optionDTO1.setName( optionDTO.getName() );
         optionDTO1.setPrice( optionDTO.getPrice() );
         optionDTO1.setConnectionCost( optionDTO.getConnectionCost() );
-        optionDTO1.setShortDiscription( optionDTO.getShortDiscription() );
+        optionDTO1.setShortDescription( optionDTO.getShortDescription() );
 
-        if(incompatibleOptionsSetFin!=null) {
-            optionDTO1.setIncompatibleOptionsSet(incompatibleOptionsSetFin);
+        if(incompatibleOptionsSet !=null) {
+            optionDTO1.setIncompatibleOptionsSet(incompatibleOptionsSet);
         }
 
-        if(obligatoryOptionsSetFin!=null) {
-            optionDTO1.setObligatoryOptionsSet(obligatoryOptionsSetFin);
+        if(obligatoryOptionsSet !=null) {
+            optionDTO1.setObligatoryOptionsSet(obligatoryOptionsSet);
         }
 
         if( blockConnectedContracts!=null){
@@ -102,13 +107,14 @@ public class CheckOptionPageController {
             optionServiceImpl.convertToEntityAndUpdate(optionDTO1);
         }
 
+        log.info(optionDTO1.getName() + " was successfully edited and updated.");
         return "workerOfficePage";
     }
 
     @ResponseBody
     @RequestMapping(value = "/checkOption/checkNewName/{newName}", method = RequestMethod.GET)
-    public String loadOptionByTariff(@PathVariable("newName") String newName) {
-        if(oldName.equals(newName)){
+    public String newNameValidationCheckInDB(@PathVariable("newName") String newName) {
+        if(optionNameBeforeEditing.equals(newName)){
             return "false";
         }
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(newName);

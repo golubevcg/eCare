@@ -1,4 +1,4 @@
-
+//edit button action
 function makePageEditable(){
     $('#firstname').attr("disabled", false);
     $('#secondname').attr("disabled", false);

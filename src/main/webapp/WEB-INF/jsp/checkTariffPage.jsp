@@ -13,10 +13,9 @@
     <title>Tariff details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="/resources/styles/checkTariff.css">
+    <link rel="stylesheet" href="/resources/css/checkTariff.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -32,9 +31,6 @@
     <div>
         <script src="/resources/js/checkTariff.js"></script>
     </div>
-
-    <div id="page-container">
-        <div id="content-wrap">
 
             <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
 
@@ -82,7 +78,7 @@
                 <div class="col"></div>
 
                 <div class="col-5">
-                    <p id="headlineLabel" ">Price</p>
+                    <p id="headlineLabel">Price</p>
                     <spring:bind path="price" >
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input path="price" class="form-control defaultForm" id="inputFormPrice" type="number" placeholder="Price"
@@ -116,7 +112,7 @@
                 <div class="col"></div>
                 <div class="col-5">
 
-                    <p id="headlineLabel">Available options</p>
+                    <p class="headlineLabel">Available options</p>
                     <select class="mul-select" multiple="true" style="float:left; width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions"
                             id="selectedOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
@@ -146,8 +142,6 @@
 
                 <div class="col"></div>
             </div>
-        </div>
-    </div>
     </div>
 </div>
 </body>

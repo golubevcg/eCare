@@ -1,16 +1,12 @@
 package eCare.dao.impl;
 
-import eCare.HibernateSessionFactoryUtil;
+import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.OptionDao;
-import eCare.model.enitity.Contract;
 import eCare.model.enitity.Option;
-import eCare.model.enitity.Tariff;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

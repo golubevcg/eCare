@@ -9,6 +9,7 @@ import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
 import eCare.services.impl.UserServiceImpl;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import java.util.*;
 
 @Controller
 public class ContractDetailsPageController {
+
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     @Autowired
     UserServiceImpl userServiceImpl;
@@ -150,10 +153,16 @@ public class ContractDetailsPageController {
         }
 
         contractServiceImpl.updateConvertDTO(currentContract);
+        log.info(currentContract.getContractNumber() + " contract with this number was successfully updated.");
 
         return "true";
     }
 
+
+    /**
+     *
+      This option returns two arrays - first with arrays of id's for incompatible options, second for obligatory
+     */
     @PostMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
     String getDependingOptions(Model model, CsrfToken token, Principal principal,
@@ -178,6 +187,10 @@ public class ContractDetailsPageController {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(array);
     }
+
+    /**this is recursion function which in part
+      of checking obligatory option's call itself again
+     */
 
     public void cascadeCheckOptionDependencies(OptionDTO currentOption,
                                                Set<String> incompatibleOptionIds,

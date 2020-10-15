@@ -26,16 +26,16 @@ public class CheckUserPageController {
     @Autowired
     UserService userServiceImpl;
 
-    private String oldUserLogin;
-    private Long oldUserPassport;
-    private String oldUserEmail;
+    private String userLoginBeforeEditing;
+    private Long userPassportBeforeEditing;
+    private String userEmailBeforeEditing;
 
     @GetMapping(value = "/checkUser/{userLogin}", produces = "text/plain;charset=UTF-8")
     public String getUserRegistration(Model model, @PathVariable(name = "userLogin") String userLogin) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(userLogin);
-        oldUserLogin = userDTO.getLogin();
-        oldUserPassport = userDTO.getPassportInfo();
-        oldUserEmail = userDTO.getEmail();
+        userLoginBeforeEditing = userDTO.getLogin();
+        userPassportBeforeEditing = userDTO.getPassportInfo();
+        userEmailBeforeEditing = userDTO.getEmail();
         Set<ContractDTO> listOfContracts = userDTO.getListOfContracts();
         model.addAttribute("userForm", userDTO);
         model.addAttribute("listOfTariffs", listOfContracts);
@@ -46,7 +46,7 @@ public class CheckUserPageController {
     @RequestMapping(value = "/checkUser/checkPassportInfo/{newPassport}", method = RequestMethod.GET)
     public String checkPassport(@PathVariable("newPassport") String newPassport) {
 
-        if (oldUserPassport.equals(Long.valueOf(newPassport))) {
+        if (userPassportBeforeEditing.equals(Long.valueOf(newPassport))) {
             return "true";
         }
 
@@ -62,7 +62,7 @@ public class CheckUserPageController {
     @GetMapping(value = "/checkUser/checkEmail/{newEmail}")
     public String checkEmail(@PathVariable("newEmail") String newEmail) {
 
-        if (oldUserEmail.equals(newEmail)) {
+        if (userEmailBeforeEditing.equals(newEmail)) {
             return "true";
         }
 
@@ -78,7 +78,7 @@ public class CheckUserPageController {
     @RequestMapping(value = "/checkUser/checkLogin/{newLogin}", method = RequestMethod.GET)
     public String checkLogin(@PathVariable("newLogin") String newLogin) {
 
-        if (oldUserLogin.equals(newLogin)) {
+        if (userLoginBeforeEditing.equals(newLogin)) {
             return "true";
         }
 
@@ -104,7 +104,7 @@ public class CheckUserPageController {
         String email = jsonObject.get("email").getAsString();
         String login = jsonObject.get("login").getAsString();
 
-        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(oldUserLogin);
+        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(userLoginBeforeEditing);
 
         userDTO.setFirstname(firstName);
         userDTO.setSecondname(secondName);

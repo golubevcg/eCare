@@ -107,9 +107,9 @@
                 <p id="headlineLabel" style="margin-top: 10px">Short description</p>
                 <spring:bind path="shortDiscription" >
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input path="shortDiscription" class="form-control defaultForm" id="inputForm" type="text" placeholder="Short description"
+                        <form:input path="shortDescription" class="form-control defaultForm" id="inputForm" type="text" placeholder="Short description"
                                     style="margin-top:-10px; width: 54%;" name="shortDiscriptionForm"></form:input>
-                        <form:errors path="shortDiscription" id="errorsLabel" class="label"></form:errors>
+                        <form:errors path="shortDescription" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>
             </div>

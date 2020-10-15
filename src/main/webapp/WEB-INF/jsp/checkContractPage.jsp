@@ -5,24 +5,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Contract details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/styles/checkContract.css">
-
+    <link type="text/css" rel="stylesheet" href="/resources/css/checkContract.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-
-    <!--for dropdown menus scripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -42,7 +37,6 @@
 
             <div class="row">
                 <div class="col"></div>
-
                 <div class="col-5">
                     <h1 class="display-4" id="privateOfficeLabel">Contract details</h1>
                     <sec:authorize access="hasAuthority('ADMIN')">
@@ -51,7 +45,6 @@
                                 onclick="makePageEditable()">Edit</button>
                     </sec:authorize>
                 </div>
-
                 <div class="col"></div>
             </div>
 
@@ -63,7 +56,7 @@
             <div class="col"></div>
 
             <div class="col-5">
-                <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; margin-top: -20px; ">Contract phone number</label>
+                <label class="container labelCheckboxContainer" style="clear:both; float:left; margin-top: -20px;f">Contract phone number</label>
                 <input class="form-control defaultForm" id="numberLabel" name="contractNumber"
                        type="number" disabled="true" placeholder="Enter contract phone number" style="width:38%;" value="${contractDTO.contractNumber}">
                 <label style="color:red; float:left;" id="phoneNumberFieldRequired" hidden>This field is required.</label>
@@ -85,7 +78,7 @@
             <div class="col"></div>
 
             <div class="col-5">
-                    <label class="container" id="labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select tariff:</label>
+                    <label class="container labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select tariff:</label>
                     <select class="form-control form-control-lg" style="clear:both; float:left; clear:both; width: 60%; margin-top:10px; -webkit-appearance: none;"
                             name="selectedTariff" id="tariffsList" disabled="true">
                         <c:forEach items="${listOfTariffs}" var="tariff">
@@ -101,7 +94,7 @@
                     </select>
                     <label style="color:red; float:left; clear:both;" id="selectedTariffFieldRequired" hidden>This field is required.</label>
 
-                    <label class="container" id="labelCheckboxContainer" style="margin-top: 10px; ">Select additional options:</label>
+                    <label class="container labelCheckboxContainer" style="margin-top: 10px; ">Select additional options:</label>
                     <select class="mul-select" multiple="true" id="optionsList"
                             style="width:40%; font-size: 20px;" name="selectedOptions" disabled="true">
                     </select>

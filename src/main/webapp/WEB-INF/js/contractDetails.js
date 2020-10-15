@@ -215,6 +215,7 @@ function checkSwitchesAndChangeIfNeeded(selectedOption){
 
                 }
 
+                //then if enablingApproved is true -> then we start to do operations under this case
                 if (enablingApproved) {
                     for (let i = 0; i < restOptionCheckboxes.length; i++) {
                         for (let j = 0; j < incompatibleOptionsArray.length; j++) {

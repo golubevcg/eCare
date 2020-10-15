@@ -11,9 +11,8 @@
     <title>Contract details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/styles/contractDetails.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/contractDetails.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <!--for dropdown menus scripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -45,7 +44,7 @@
     <div class="col"></div>
 
     <div class="col-5">
-        <h1 class="display-4" id="numberLabel">${contractNumber}</h1>
+        <h1 class="display-4" name="numberLabel">${contractNumber}</h1>
         <h1 class="display-4" id="firstSecondNameLabel">${firstAndSecondNames}</h1>
 
 
@@ -62,7 +61,7 @@
            margin-bottom:10px; margin-left:10px; margin-top:30px;">
             Сurrent tariff:</p>
         <c:if test="${isBlocked eq true}">
-            <p class="lead" id="numberLabel" style="color:red; float:right; font-weight:bold; font-size: 30px; margin-top:10px;">Contract blocked</p>
+            <p class="lead" name="numberLabel" style="color:red; float:right; font-weight:bold; font-size: 30px; margin-top:10px;">Contract blocked</p>
         </c:if>
         <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; margin-top:15px;">
             <div class="row">
@@ -88,7 +87,7 @@
         <p class="lead"
            style="font-family: MS Shell Dig 2; font-size: 20px; float:left; margin-bottom:10px; margin-left:10px;">
             Сonnected options:</p>
-        <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; padding-top:20px;">
+        <div class="jumbotron choosenTariffJumbotron" style="clear:both; padding-top:20px;">
 
             <c:choose>
                 <c:when test="${empty connectedOptions}">
@@ -117,7 +116,7 @@
                             <div class="col">
                                 <p class="lead"
                                    style="font-family: MS Shell Dig 2; font-size: 18px; float:left;"
-                                >${option.shortDiscription} </p>
+                                >${option.shortDescription} </p>
                             </div>
 
                             <c:choose>
@@ -142,7 +141,7 @@
 <div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron" id="choosenTarifJumbotron" >
+        <div class="jumbotron choosenTarifJumbotron">
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
@@ -151,22 +150,20 @@
 
             <div class="row" >
                 <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels">Tariff</p>
+                    <p class="lead columnDiscriptionLabels">Tariff</p>
                 </div>
 
                 <div class="col-2">
-                    <p class="lead" id="columnDiscriptionLabels">Price</p>
+                    <p class="lead columnDiscriptionLabels">Price</p>
                 </div>
 
                 <div class="col-5">
-                    <p class="lead" id="columnDiscriptionLabels">Description</p>
+                    <p class="lead columnDiscriptionLabels" >Description</p>
                 </div>
 
                 <div class="col-1"> </div>
             </div>
 
-
-<%--            <hr style="width: 105%; clear:both; margin-left:-17px;">--%>
 
             <c:forEach items="${activeTariffsList}" var="tariff"  varStatus="status">
                 <hr style="margin-top:10px; width:100%;">
@@ -215,7 +212,7 @@
 <div class="row" style="margin-top:-5px; clear:both;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron" id="choosenTarifJumbotron" >
+        <div class="jumbotron choosenTarifJumbotron" >
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
@@ -224,15 +221,15 @@
 
             <div class="row">
                 <div class="col-3">
-                    <p class="lead" id="columnDiscriptionLabels" name="optionNameLabel">Option</p>
+                    <p class="lead columnDiscriptionLabels">Option</p>
                 </div>
 
                 <div class="col-2">
-                    <p class="lead" id="columnDiscriptionLabels">Price</p>
+                    <p class="lead columnDiscriptionLabels">Price</p>
                 </div>
 
                 <div class="col-5">
-                    <p class="lead" id="columnDiscriptionLabels">Description</p>
+                    <p class="lead columnDiscriptionLabels">Description</p>
                 </div>
 
                 <div class="col-1">
@@ -255,7 +252,7 @@
                         </div>
 
                         <div class="col-5">
-                            <p class="lead columnContentLabels" name="label${entry.key.option_id}">${entry.key.shortDiscription}</p>
+                            <p class="lead columnContentLabels" name="label${entry.key.option_id}">${entry.key.shortDescription}</p>
                         </div>
 
 
@@ -337,7 +334,6 @@
     </div>
 
 </form:form>
-
 
 
 

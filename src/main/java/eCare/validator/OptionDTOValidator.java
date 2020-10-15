@@ -1,12 +1,8 @@
 package eCare.validator;
 
 import eCare.model.dto.OptionDTO;
-import eCare.model.dto.UserContractDTO;
-import eCare.model.enitity.Option;
 import eCare.model.enitity.User;
 import eCare.services.api.OptionService;
-import eCare.services.impl.ContractServiceImpl;
-import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -37,7 +33,7 @@ public class OptionDTOValidator implements Validator {
             errors.rejectValue("name", "Duplicate.optionDTO.name");
         }
 
-        if(option.getShortDiscription().length()<8){
+        if(option.getShortDescription().length()<8){
             errors.rejectValue("shortDiscription", "Duplicate.optionDTO.shortDescriptionLength");
         }
 

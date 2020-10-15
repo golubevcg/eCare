@@ -1,4 +1,4 @@
-package eCare;
+package eCare.model;
 
 import eCare.model.enitity.*;
 import org.hibernate.SessionFactory;

@@ -7,7 +7,6 @@ import eCare.model.dto.TariffDTO;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
-import eCare.validator.TariffDTOValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -19,7 +18,9 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Controller for checking or editing tariffs.
+ */
 @Controller
 public class CheckTariffPageController {
 
@@ -34,15 +35,12 @@ public class CheckTariffPageController {
     @Autowired
     private ContractService contractServiceImpl;
 
-    @Autowired
-    private TariffDTOValidator tariffDTOValidator;
-
-    private String oldName;
+    private String tariffNameBeforeEditing;
 
     @GetMapping(value = "/checkTariff/{tariffName}")
-    public String getTariff(Model model, @PathVariable(name="tariffName")String tariffName){
+    public String getCheckTariffModelToView(Model model, @PathVariable(name="tariffName")String tariffName){
 
-        oldName = tariffName;
+        tariffNameBeforeEditing = tariffName;
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(tariffName);
 
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
@@ -54,7 +52,7 @@ public class CheckTariffPageController {
     @ResponseBody
     @RequestMapping(value = "/checkTariff/checkNewName/{newName}", method = RequestMethod.GET)
     public String checkNewName(@PathVariable("newName") String newName) {
-        if(oldName.equals(newName)){
+        if(tariffNameBeforeEditing.equals(newName)){
             return "false";
         }
 
@@ -75,7 +73,6 @@ public class CheckTariffPageController {
         for (OptionDTO option: optionsSet) {
             optionNamesSet.add(option.getName());
         }
-
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(optionNamesSet);
     }
@@ -102,7 +99,7 @@ public class CheckTariffPageController {
                                       @ModelAttribute TariffDTO tariffDTO,
                                       @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
-        TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffnameOrNull(oldName);
+        TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffnameOrNull(tariffNameBeforeEditing);
         tariffDTOtoUpdate.setName(tariffDTO.getName());
         tariffDTOtoUpdate.setPrice(tariffDTO.getPrice());
         tariffDTOtoUpdate.setShortDiscription(tariffDTO.getShortDiscription());
@@ -121,6 +118,8 @@ public class CheckTariffPageController {
         }else {
             tariffService.convertToEntityAndUpdate(tariffDTOtoUpdate);
         }
+
+        log.info(tariffDTOtoUpdate + " was edited and updated in database.");
         return "workerOfficePage";
     }
 
