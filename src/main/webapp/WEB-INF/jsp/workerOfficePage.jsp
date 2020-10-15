@@ -11,7 +11,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/css/registrationPagesCss.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/workerOfficePage.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!--for dropdown menus scripts-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -66,15 +66,15 @@
                     </div>
 
                     <div class="col-3">
-                        <p class="lead" id="columnDiscriptionLabels">Phone number</p>
+                        <p class="lead columnDiscriptionLabels">Phone number</p>
                     </div>
 
                     <div class="col-4">
-                        <p class="lead" id="columnDiscriptionLabels">First and Last Name</p>
+                        <p class="lead columnDiscriptionLabels">First and Last Name</p>
                     </div>
 
                     <div class="col-2">
-                        <p class="lead" id="columnDiscriptionLabels">Tariff</p>
+                        <p class="lead columnDiscriptionLabels" >Tariff</p>
                     </div>
 
                 </div>
@@ -112,11 +112,11 @@
                     </div>
 
                     <div class="col-5">
-                        <p class="lead" id="columnDiscriptionLabels">Name</p>
+                        <p class="lead columnDiscriptionLabels">Name</p>
                     </div>
 
                     <div class="col-2">
-                        <p class="lead" id="columnDiscriptionLabels">Price</p>
+                        <p class="lead columnDiscriptionLabels">Price</p>
                     </div>
 
 
@@ -157,15 +157,15 @@
                     </div>
 
                     <div class="col-3">
-                        <p class="lead" id="columnDiscriptionLabels">Name</p>
+                        <p class="lead columnDiscriptionLabels">Name</p>
                     </div>
 
                     <div class="col-3">
-                        <p class="lead" id="columnDiscriptionLabels">Connection price</p>
+                        <p class="lead columnDiscriptionLabels">Connection price</p>
                     </div>
 
                     <div class="col-2">
-                        <p class="lead" id="columnDiscriptionLabels">Price</p>
+                        <p class="lead columnDiscriptionLabels">Price</p>
                     </div>
 
                 </div>

@@ -20,8 +20,6 @@
 
 <body>
 <jsp:directive.include file = "headerTemplateByRole.jsp" />
-
-
 <div>
         <script src="/resources/js/contractDetailsPage.js"></script>
 </div>
@@ -44,7 +42,7 @@
     <div class="col"></div>
 
     <div class="col-5">
-        <h1 class="display-4" name="numberLabel">${contractNumber}</h1>
+        <h1 class="display-4" id="numberLabel">${contractNumber}</h1>
         <h1 class="display-4" id="firstSecondNameLabel">${firstAndSecondNames}</h1>
 
 
@@ -63,7 +61,7 @@
         <c:if test="${isBlocked eq true}">
             <p class="lead" name="numberLabel" style="color:red; float:right; font-weight:bold; font-size: 30px; margin-top:10px;">Contract blocked</p>
         </c:if>
-        <div class="jumbotron" id="choosenTarifJumbotron" style="clear:both; margin-top:15px;">
+        <div class="jumbotron choosenTariffJumbotron" style="clear:both; margin-top:15px;">
             <div class="row">
                 <p class="lead" style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">${selectedTariff}</p>
             </div>
@@ -141,7 +139,7 @@
 <div class="row" style="margin-top:-5px;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron choosenTarifJumbotron">
+        <div class="jumbotron choosenTariffJumbotron">
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
@@ -212,7 +210,7 @@
 <div class="row" style="margin-top:-5px; clear:both;">
     <div class="col"></div>
     <div class="col-5">
-        <div class="jumbotron choosenTarifJumbotron" >
+        <div class="jumbotron choosenTariffJumbotron" >
             <div class="row">
                 <p class="lead"
                    style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">

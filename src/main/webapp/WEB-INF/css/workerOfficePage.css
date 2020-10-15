@@ -55,7 +55,7 @@
     margin-bottom: 10px;
 }
 
-#columnDiscriptionLabels{
+.columnDiscriptionLabels{
     font-family: MS Shell Dig 2;
     font-size: 15px;
     float:left;

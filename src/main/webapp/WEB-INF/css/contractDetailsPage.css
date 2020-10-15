@@ -47,7 +47,7 @@
     font:bold;
 }
 
-#choosenTarifJumbotron {
+.choosenTariffJumbotron {
     padding-top:5px;
     padding-bottom:5px;
     background-color: white;
