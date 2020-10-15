@@ -27,14 +27,14 @@ public class OptionDTOValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "Required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "Required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "connectionCost", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDiscription", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDescription", "Required");
 
         if(optionServiceImpl.getOptionByName(option.getName()).size()>0){
             errors.rejectValue("name", "Duplicate.optionDTO.name");
         }
 
         if(option.getShortDescription().length()<8){
-            errors.rejectValue("shortDiscription", "Duplicate.optionDTO.shortDescriptionLength");
+            errors.rejectValue("shortDescription", "Duplicate.optionDTO.shortDescriptionLength");
         }
 
     }
