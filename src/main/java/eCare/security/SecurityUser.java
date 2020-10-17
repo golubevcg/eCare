@@ -1,6 +1,6 @@
 package eCare.security;
 
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

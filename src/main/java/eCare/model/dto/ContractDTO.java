@@ -1,8 +1,6 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
-import eCare.model.enitity.Contract;
-import eCare.model.enitity.Option;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

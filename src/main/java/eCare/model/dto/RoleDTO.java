@@ -1,6 +1,5 @@
 package eCare.model.dto;
 
-import eCare.model.enitity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package eCare.services.impl;
 
-import eCare.dao.impl.RoleDaoImpl;
+import eCare.dao.api.RoleDao;
 import eCare.model.dto.RoleDTO;
-import eCare.model.enitity.Role;
+import eCare.model.entity.Role;
 import eCare.model.converters.RoleMapper;
 import eCare.services.api.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    RoleDaoImpl roleDaoImpl;
+    private RoleDao roleDaoImpl;
 
     @Autowired
-    RoleMapper roleMapper;
+    private RoleMapper roleMapper;
 
     @Override
     public void save(Role role) { roleDaoImpl.save(role); }

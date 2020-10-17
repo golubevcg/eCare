@@ -1,9 +1,9 @@
 package eCare.services.impl;
 
-import eCare.dao.impl.RoleDaoImpl;
-import eCare.dao.impl.UserDaoImpl;
+import eCare.dao.api.RoleDao;
+import eCare.dao.api.UserDao;
 import eCare.model.dto.UserDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import eCare.model.converters.UserMapper;
 import eCare.services.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDaoImpl userDaoImpl;
+    private UserDao userDaoImpl;
 
     @Autowired
-    RoleDaoImpl roleDaoImpl;
+    private RoleDao roleDaoImpl;
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public void save(User user){

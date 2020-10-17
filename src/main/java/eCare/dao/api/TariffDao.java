@@ -1,6 +1,6 @@
 package eCare.dao.api;
 
-import eCare.model.enitity.Tariff;
+import eCare.model.entity.Tariff;
 
 import java.util.List;
 

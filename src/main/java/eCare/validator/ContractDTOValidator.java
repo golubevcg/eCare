@@ -1,8 +1,7 @@
 package eCare.validator;
 
 import eCare.model.dto.ContractDTO;
-import eCare.model.dto.UserContractDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

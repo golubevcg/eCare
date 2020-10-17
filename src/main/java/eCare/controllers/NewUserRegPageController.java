@@ -2,7 +2,7 @@ package eCare.controllers;
 
 import com.google.gson.*;
 import eCare.model.dto.*;
-import eCare.model.enitity.Option;
+import eCare.model.entity.Option;
 import eCare.services.impl.*;
 import eCare.validator.UserContractDTOValidator;
 import org.apache.log4j.Logger;

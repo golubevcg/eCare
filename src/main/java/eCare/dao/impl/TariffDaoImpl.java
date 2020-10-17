@@ -1,99 +1,85 @@
 package eCare.dao.impl;
 
-import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.TariffDao;
-import eCare.model.enitity.Tariff;
+import eCare.model.entity.Tariff;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.stereotype.Service;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Service
+@Repository
 public class TariffDaoImpl implements TariffDao {
 
+    private final SessionFactory sessionFactory;
+
+    public TariffDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
+    @Transactional
     public void save(Tariff tariff) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.merge(tariff);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void update(Tariff tariff) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.update(tariff);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void delete(Tariff tariff) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         tariff.setActive(false);
         session.update(tariff);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public List<Tariff> getTariffByTariffName(String tariffName) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTarifs = session.createQuery(
                 "select t " +
                         "from Tariff t " +
                         "where t.name = :name", Tariff.class)
                 .setParameter("name", tariffName).list();
-
-        transaction.commit();
-        session.close();
-
         return listOfTarifs;
     }
 
     @Override
+    @Transactional
     public List<Tariff> getAllTariffs() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTarifs = session.createQuery(
                 "select t from Tariff t", Tariff.class).list();
-        transaction.commit();
-        session.close();
         return listOfTarifs;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public List<Tariff> getActiveTariffs() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTariffs = session.createQuery(
                 "select t from Tariff t where t.isActive=true", Tariff.class).list();
-        transaction.commit();
-        session.close();
         return listOfTariffs;
     }
 
     @Override
+    @Transactional
     public List<Tariff> searchForTariffByName(String name){
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         List<Tariff> contractsList = session.createQuery(
                 "select t " +
                         "from Tariff t " +
                         "where t.name like:string", Tariff.class)
                 .setParameter("string", "%" + name + "%")
                 .list();
-        transaction.commit();
-        session.close();
-
         return contractsList;
     }
 

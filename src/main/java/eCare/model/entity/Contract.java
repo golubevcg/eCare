@@ -1,6 +1,5 @@
-package eCare.model.enitity;
+package eCare.model.entity;
 
-import eCare.model.dto.ContractDTO;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

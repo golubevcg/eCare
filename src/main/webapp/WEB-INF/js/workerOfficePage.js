@@ -11,13 +11,14 @@ function searchContractByPhoneNumber(searchInput, currentPage) {
         type: 'GET',
         url: '/workerOffice/searchInContracts/' + searchInput,
         success: function (result) {
+
             let maxItemsPerPage = 5;
             let resultLength = result.length;
             let pagesAmount = Math.ceil((resultLength + 1) / maxItemsPerPage);
 
             let firstArrayValue = (currentPage) * maxItemsPerPage;
-
             let lastArrayValue = (currentPage+1) * maxItemsPerPage;
+
             if(lastArrayValue>result.length){
                 lastArrayValue=result.length;
             }

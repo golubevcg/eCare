@@ -1,7 +1,7 @@
 package eCare.services.api;
 
 import eCare.model.dto.TariffDTO;
-import eCare.model.enitity.Tariff;
+import eCare.model.entity.Tariff;
 import java.util.List;
 
 public interface TariffService {

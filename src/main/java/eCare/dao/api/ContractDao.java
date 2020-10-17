@@ -1,6 +1,6 @@
 package eCare.dao.api;
 
-import eCare.model.enitity.Contract;
+import eCare.model.entity.Contract;
 
 import java.util.List;
 

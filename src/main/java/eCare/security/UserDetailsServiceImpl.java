@@ -1,7 +1,6 @@
 package eCare.security;
 
-import eCare.config.SpringSecurityConfig;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import eCare.services.impl.UserServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

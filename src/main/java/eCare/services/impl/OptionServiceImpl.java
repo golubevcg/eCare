@@ -1,8 +1,8 @@
 package eCare.services.impl;
 
-import eCare.dao.impl.OptionDaoImpl;
+import eCare.dao.api.OptionDao;
 import eCare.model.dto.OptionDTO;
-import eCare.model.enitity.Option;
+import eCare.model.entity.Option;
 import eCare.model.converters.OptionMapper;
 import eCare.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class OptionServiceImpl implements OptionService {
 
     @Autowired
-    private OptionDaoImpl optionDaoImpl;
+    private OptionDao optionDaoImpl;
 
     @Autowired
     private OptionMapper optionMapper;

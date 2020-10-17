@@ -1,7 +1,7 @@
 package eCare.services.api;
 
 import eCare.model.dto.ContractDTO;
-import eCare.model.enitity.Contract;
+import eCare.model.entity.Contract;
 
 import java.util.List;
 

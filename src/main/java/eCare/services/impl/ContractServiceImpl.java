@@ -1,26 +1,24 @@
 package eCare.services.impl;
 
-import eCare.dao.impl.ContractDaoImpl;
+import eCare.dao.api.ContractDao;
 import eCare.model.dto.ContractDTO;
-import eCare.model.enitity.Contract;
+import eCare.model.entity.Contract;
 import eCare.model.converters.ContractMapper;
 import eCare.services.api.ContractService;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 public class ContractServiceImpl implements ContractService {
 
     @Autowired
-    ContractDaoImpl contractDaoImpl;
+    private ContractDao contractDaoImpl;
 
     @Autowired
-    ContractMapper contractMapper;
+    private ContractMapper contractMapper;
 
 
     @Override

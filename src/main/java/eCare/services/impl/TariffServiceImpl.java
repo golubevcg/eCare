@@ -2,7 +2,7 @@ package eCare.services.impl;
 
 import eCare.dao.api.TariffDao;
 import eCare.model.dto.TariffDTO;
-import eCare.model.enitity.Tariff;
+import eCare.model.entity.Tariff;
 import eCare.model.converters.TariffMapper;
 import eCare.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class TariffServiceImpl implements TariffService {
     private TariffDao tarifDaoImpl;
 
     @Autowired
-    TariffMapper tariffMapper;
+    private TariffMapper tariffMapper;
 
     @Override
     public void save(Tariff tariff) { tarifDaoImpl.save(tariff); }

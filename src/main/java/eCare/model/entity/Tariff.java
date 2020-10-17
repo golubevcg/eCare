@@ -1,4 +1,4 @@
-package eCare.model.enitity;
+package eCare.model.entity;
 
 import lombok.*;
 import org.hibernate.annotations.Fetch;

@@ -38,7 +38,7 @@ public class WorkerOfficePageController {
 
     @GetMapping(value = "/workerOffice/searchInContracts/{searchInput}", produces = "application/json")
     public @ResponseBody
-    String getContractSearchResult(Model model, CsrfToken token, Principal principal,@PathVariable String searchInput) {
+    String getContractSearchResult(@PathVariable String searchInput) {
         List<ContractDTO> searchResult = contractServiceImpl.searchForContractByNumber(searchInput);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(searchResult);

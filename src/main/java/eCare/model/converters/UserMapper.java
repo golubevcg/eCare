@@ -1,7 +1,7 @@
 package eCare.model.converters;
 
 import eCare.model.dto.UserDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

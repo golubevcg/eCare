@@ -1,11 +1,9 @@
 package eCare.model.converters;
 
 import eCare.model.dto.RoleDTO;
-import eCare.model.enitity.Role;
-import eCare.services.impl.RoleServiceImpl;
+import eCare.model.entity.Role;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

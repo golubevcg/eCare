@@ -1,102 +1,88 @@
 package eCare.dao.impl;
 
-import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.OptionDao;
-import eCare.model.enitity.Option;
+import eCare.model.entity.Option;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.stereotype.Service;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Repository
 public class OptionDaoImpl implements OptionDao {
 
+    private final SessionFactory sessionFactory;
+
+    public OptionDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
+    @Transactional
     public void save(Option option) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.save(option);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void update(Option option) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.update(option);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void delete(Option option) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         option.setActive(false);
         session.update(option);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public List<Option> getOptionByName(String name) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<Option> optionsList = session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name = :nam", Option.class)
                 .setParameter("nam", name).list();
-
-        transaction.commit();
-        session.close();
-
         return optionsList;
     }
 
     @Override
+    @Transactional
     public List<Option> getOptionById(Long id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<Option> optionsList = session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.option_id = :id", Option.class)
                 .setParameter("id", id).list();
-
-        transaction.commit();
-        session.close();
-
         return optionsList;
     }
 
     @Override
+    @Transactional
     public List<Option> searchForOptionByName(String name) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         List<Option> contractsList = session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name like:string", Option.class)
                 .setParameter("string", "%" + name + "%")
                 .list();
-        transaction.commit();
-        session.close();
         return contractsList;
     }
 
     @Override
+    @Transactional
     public List<Option> getActiveOptions() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         List<Option> listOfTariffs = session.createQuery(
                 "select o from Option o where o.isActive=true", Option.class).list();
-        transaction.commit();
-        session.close();
         return listOfTariffs;
     }
 }

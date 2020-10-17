@@ -1,21 +1,27 @@
 package eCare.dao.impl;
 
-import eCare.model.HibernateSessionFactoryUtil;
 import eCare.dao.api.UserDao;
-import eCare.model.enitity.Role;
-import eCare.model.enitity.User;
+import eCare.model.entity.Role;
+import eCare.model.entity.User;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Repository
 public class UserDaoImpl implements UserDao {
+
+    private final SessionFactory sessionFactory;
+
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Autowired
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -23,101 +29,84 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public void save(User user) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         this.checkUserRoles(user, session);
         user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
         session.merge(user);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void update(User user) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction2 = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         session.update(user);
-        transaction2.commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void delete(User user){
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         user.setActive(false);
         session.update(user);
-        transaction.commit();
-        session.close();
     }
 
 
     @Override
+    @Transactional
     public List<User> getUserByLogin(String login){
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.login = :login", User.class)
                 .setParameter( "login", login )
                 .list();
-
-        transaction.commit();
-        session.close();
         return listOfUsers;
     }
 
     @Override
+    @Transactional
     public List<User> getUserDTOByPassportInfo(Long passportInfo) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.passportInfo = :passportInfo", User.class)
                 .setParameter( "passportInfo", passportInfo )
                 .list();
-
-        transaction.commit();
-        session.close();
         return listOfUsers;
     }
 
     @Override
+    @Transactional
     public List<User> searchForUserByLogin(String searchInput) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.getCurrentSession();
         List<User> usersList = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.login like:string", User.class)
                 .setParameter("string", "%" + searchInput + "%")
                 .list();
-        session.close();
         return usersList;
     }
 
     @Override
+    @Transactional
     public List<User> getUserByEmail(String email) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.email = :email", User.class)
                 .setParameter( "email", email )
                 .list();
-
-        transaction.commit();
-        session.close();
         return listOfUsers;
     }
 
-
+    @Override
+    @Transactional
     public void checkUserRoles(User user, Session session){
         try {
             Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)

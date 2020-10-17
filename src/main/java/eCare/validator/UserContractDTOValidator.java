@@ -1,8 +1,7 @@
 package eCare.validator;
 
 import eCare.model.dto.UserContractDTO;
-import eCare.model.dto.UserDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import java.util.Objects;
 
 @Component
 public class UserContractDTOValidator implements Validator {

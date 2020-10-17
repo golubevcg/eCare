@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
-import eCare.model.enitity.Option;
+import eCare.model.entity.Option;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;

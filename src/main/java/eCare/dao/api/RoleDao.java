@@ -1,6 +1,6 @@
 package eCare.dao.api;
 
-import eCare.model.enitity.Role;
+import eCare.model.entity.Role;
 
 import java.util.List;
 

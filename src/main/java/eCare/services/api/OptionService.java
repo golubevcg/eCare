@@ -1,7 +1,7 @@
 package eCare.services.api;
 
 import eCare.model.dto.OptionDTO;
-import eCare.model.enitity.Option;
+import eCare.model.entity.Option;
 import java.util.List;
 
 public interface OptionService {

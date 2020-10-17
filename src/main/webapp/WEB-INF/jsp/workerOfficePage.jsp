@@ -58,7 +58,7 @@
             <div class="col"></div>
         </div>
 
-        <div class="row" style="margin-top:5px;">
+        <div class="row" id="ContractsRow" style="margin-top:5px;">
             <div class="col"></div>
             <div class="col-5">
                 <div class="row">
@@ -87,11 +87,10 @@
             <div class="col"></div>
             <div class="col-5" id="foundedContractsRow">
             </div>
-
             <div class="col"></div>
         </div>
 
-        <div class="row" style="margin-top:25px;">
+        <div class="row" id="tariffsRow" style="margin-top:25px;">
             <div class="col"></div>
             <div class="col-5">
                 <p style="font-weight: bolder;">Search for tariff by name</p>

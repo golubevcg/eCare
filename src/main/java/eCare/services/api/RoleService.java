@@ -1,7 +1,7 @@
 package eCare.services.api;
 
 import eCare.model.dto.RoleDTO;
-import eCare.model.enitity.Role;
+import eCare.model.entity.Role;
 
 import java.util.List;
 

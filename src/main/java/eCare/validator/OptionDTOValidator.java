@@ -1,7 +1,7 @@
 package eCare.validator;
 
 import eCare.model.dto.OptionDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
 import eCare.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

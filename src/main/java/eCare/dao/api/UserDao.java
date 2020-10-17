@@ -1,7 +1,7 @@
 package eCare.dao.api;
 
-import eCare.model.dto.UserDTO;
-import eCare.model.enitity.User;
+import eCare.model.entity.User;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -13,4 +13,5 @@ public interface UserDao {
     List<User> getUserDTOByPassportInfo(Long passwordInfo);
     List<User> searchForUserByLogin(String searchInput);
     List<User> getUserByEmail(String email);
+    void checkUserRoles(User user, Session session);
 }
