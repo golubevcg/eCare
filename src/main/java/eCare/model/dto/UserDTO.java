@@ -28,7 +28,7 @@ public class UserDTO {
     private Date dateOfBirth;
 
     @Expose
-    private Long passportInfo;
+    private String passportInfo;
 
     @Expose
     private String address;

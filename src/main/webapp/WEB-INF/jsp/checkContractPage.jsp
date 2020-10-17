@@ -56,9 +56,9 @@
             <div class="col"></div>
 
             <div class="col-5">
-                <label class="container labelCheckboxContainer" style="clear:both; float:left; margin-top: -20px;f">Contract phone number</label>
+                <label class="container labelCheckboxContainer" style="clear:both; float:left; margin-top: -20px;">Contract phone number</label>
                 <input class="form-control defaultForm" id="numberLabel" name="contractNumber"
-                       type="number" disabled="true" placeholder="Enter contract phone number" style="width:38%;" value="${contractDTO.contractNumber}">
+                      disabled="true" placeholder="Enter contract phone number" style="width:38%;" value="${contractDTO.contractNumber}">
                 <label style="color:red; float:left;" id="phoneNumberFieldRequired" hidden>This field is required.</label>
 
                 <div id="userSelectorContainer" style="clear:both;">

@@ -42,7 +42,7 @@ public class UserContractDTOValidator implements Validator {
         }
 
         if(userServiceImpl.getUserByLogin(user.getLogin()).size()>0){
-            errors.rejectValue("login", "Dublicate.userForm.login");
+            errors.rejectValue("login", "Duplicate.userForm.login");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
@@ -57,18 +57,19 @@ public class UserContractDTOValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Required");
 
-        if( 6 > user.getConfirmPassword().length()){
-            errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
-        }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
         if( !userServiceImpl.getUserByEmail(user.getEmail()).isEmpty()){
-            errors.rejectValue("email", "Dublicate.userForm.email");
+            errors.rejectValue("email", "Duplicate.userForm.email");
         }
 
 
         if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>1){
-            errors.rejectValue("passportInfo", "Dublicate.userForm.passportInfo");
+            errors.rejectValue("passportInfo", "Duplicate.userForm.passportInfo");
+        }
+
+        if( user.getPassportInfo().length()<8 ){
+            errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");

@@ -44,14 +44,8 @@ public class HibernateConfig {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty(
-//                "hibernate.hbm2ddl.auto", "update");
         hibernateProperties.setProperty(
                 "hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
-        hibernateProperties.setProperty("hibernate.show_sql", "true");
-        hibernateProperties.setProperty("hibernate.generate_statistics", "true");
-        hibernateProperties.setProperty("org.hibernate.stat", "DEBUG");
-
         return hibernateProperties;
     }
 }

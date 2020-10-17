@@ -35,7 +35,7 @@ public class User {
     private Date dateOfBirth;
 
     @Column(name="passportinfo")
-    private Long passportInfo;
+    private String passportInfo;
 
     @Column
     private String address;

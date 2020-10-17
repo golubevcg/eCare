@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public List<User> getUserDTOByPassportInfo(Long passportInfo) {
+    public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
                 "select u " +

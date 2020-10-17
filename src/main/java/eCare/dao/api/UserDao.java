@@ -10,7 +10,7 @@ public interface UserDao {
     void update(User user);
     void delete(User user);
     List<User> getUserByLogin(String login);
-    List<User> getUserDTOByPassportInfo(Long passwordInfo);
+    List<User> getUserDTOByPassportInfo(String passwordInfo);
     List<User> searchForUserByLogin(String searchInput);
     List<User> getUserByEmail(String email);
     void checkUserRoles(User user, Session session);

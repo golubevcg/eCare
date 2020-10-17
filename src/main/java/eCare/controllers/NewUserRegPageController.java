@@ -20,23 +20,31 @@ public class NewUserRegPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
-    @Autowired
-    private TariffServiceImpl tariffServiceImpl;
+    private final TariffServiceImpl tariffServiceImpl;
 
-    @Autowired
-    private UserContractDTOValidator userValidator;
+    private final UserContractDTOValidator userValidator;
 
-    @Autowired
-    private OptionServiceImpl optionServiceImpl;
+    private final OptionServiceImpl optionServiceImpl;
 
-    @Autowired
-    private RoleServiceImpl roleServiceImpl;
+    private final RoleServiceImpl roleServiceImpl;
 
-    @Autowired
-    private ContractServiceImpl contractServiceImpl;
+    private final ContractServiceImpl contractServiceImpl;
+
+    public NewUserRegPageController(RoleServiceImpl roleServiceImpl,
+                                    ContractServiceImpl contractServiceImpl,
+                                    OptionServiceImpl optionServiceImpl,
+                                    UserContractDTOValidator userValidator,
+                                    TariffServiceImpl tariffServiceImpl,
+                                    UserServiceImpl userServiceImpl) {
+        this.roleServiceImpl = roleServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
+        this.userValidator = userValidator;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.userServiceImpl = userServiceImpl;
+    }
 
     @GetMapping(value = "/userRegistration", produces = "text/plain;charset=UTF-8")
     public String getUserRegistration(Model model){

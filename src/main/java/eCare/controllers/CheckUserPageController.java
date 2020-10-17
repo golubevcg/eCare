@@ -31,7 +31,7 @@ public class CheckUserPageController {
     UserService userServiceImpl;
 
     private String userLoginBeforeEditing;
-    private Long userPassportBeforeEditing;
+    private String userPassportBeforeEditing;
     private String userEmailBeforeEditing;
 
     @GetMapping(value = "/checkUser/{userLogin}", produces = "text/plain;charset=UTF-8")
@@ -54,7 +54,7 @@ public class CheckUserPageController {
             return "true";
         }
 
-        List<UserDTO> listOfUsers = userServiceImpl.getUserDTOByPassportInfo(Long.valueOf(newPassport));
+        List<UserDTO> listOfUsers = userServiceImpl.getUserDTOByPassportInfo(newPassport);
         if (listOfUsers != null) {
             return "false";
         } else {
@@ -117,7 +117,7 @@ public class CheckUserPageController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        userDTO.setPassportInfo(Long.valueOf(passportInfo));
+        userDTO.setPassportInfo(passportInfo);
         userDTO.setAddress(address);
         userDTO.setEmail(email);
         userDTO.setLogin(login);

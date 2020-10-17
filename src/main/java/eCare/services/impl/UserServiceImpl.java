@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUserDTOByPassportInfo(Long passportInfo) {
+    public List<UserDTO> getUserDTOByPassportInfo(String passportInfo) {
         return userDaoImpl.getUserDTOByPassportInfo(passportInfo)
                 .stream()
                 .map(user->userMapper.toDTO(user))

@@ -20,7 +20,7 @@ public class UserContractDTO {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateOfBirth;
-    private Long passportInfo;
+    private String passportInfo;
     private String address;
     private String email;
     private String password;
