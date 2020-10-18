@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<jsp:directive.include file = "headerTemplateByRole.jsp" />
+<jsp:directive.include file = "headerTemplate.jsp" />
 
 <div>
     <script src="/resources/js/checkOptionPage.js"></script>

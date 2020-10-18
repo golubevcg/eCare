@@ -24,7 +24,7 @@
 <div id="page-container">
     <div id="content-wrap">
 
-        <jsp:directive.include file = "headerTemplateByRole.jsp" />
+        <jsp:directive.include file = "headerTemplate.jsp" />
 
         <div>
             <script src="/resources/js/workerOfficePage.js"></script>

@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<jsp:directive.include file = "headerTemplateByRole.jsp" />
+<jsp:directive.include file = "headerTemplate.jsp" />
 <div>
         <script src="/resources/js/contractDetailsPage.js"></script>
 </div>
@@ -235,7 +235,6 @@
 
             </div>
 
-<%--            <hr>--%>
             <div class="row" id="enabledOptionsContainer">
 
                         <c:forEach items="${enabledOptionsDTOMap}" var="entry">
@@ -255,7 +254,6 @@
 
 
                         <div class="col-1">
-
                                 <div class="form-check">
                                     <c:choose>
                                         <c:when test="${entry.value eq false}">
@@ -271,12 +269,8 @@
                                             </label>
                                         </c:otherwise>
                                     </c:choose>
-
                                 </div>
-
                             </div>
-
-
                         </c:forEach>
 
             </div>
@@ -323,13 +317,13 @@
         <div class="col"></div>
     </div>
 
-    <div class="row" style="margin-bottom:30px">
-        <div class="col"></div>
-            <input class="btn btn-lg btn-primary btn-block"
-                   type="submit" style="width:20%;"
-                   value="Save changes" onclick="onSubmitClick()"></input>
-        <div class="col"></div>
-    </div>
+<%--    <div class="row" style="margin-bottom:30px">--%>
+<%--        <div class="col"></div>--%>
+<%--            <input class="btn btn-lg btn-primary btn-block"--%>
+<%--                   type="submit" style="width:20%;"--%>
+<%--                   value="Save changes" onclick="onSubmitClick()"></input>--%>
+<%--        <div class="col"></div>--%>
+<%--    </div>--%>
 
 </form:form>
 
