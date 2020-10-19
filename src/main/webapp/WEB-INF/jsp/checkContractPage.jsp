@@ -79,15 +79,17 @@
 
             <div class="col-5">
                     <label class="container labelCheckboxContainer" style="clear:both; float:left; margin-top: 10px; ">Select tariff:</label>
-                    <select class="form-control form-control-lg" style="clear:both; float:left; clear:both; width: 60%; margin-top:10px; -webkit-appearance: none;"
+
+
+                <select class="form-control form-control-lg" style="clear:both; float:left; clear:both; width: 60%; margin-top:10px; -webkit-appearance: none;"
                             name="selectedTariff" id="tariffsList" disabled="true">
-                        <c:forEach items="${listOfTariffs}" var="tariff">
+                        <c:forEach items="${listOfTariffs}" var="tariffFromList">
                             <c:choose>
-                                <c:when test="${tariff.name}==${contractDTO.tariff.name}">
-                                    <option selected>${tariff.name}</option>
+                                <c:when test="${tariffFromList.name == contractDTO.tariff.name}">
+                                    <option selected>${tariffFromList.name}</option>
                                 </c:when>
                                 <c:otherwise>
-                                    <option>${tariff.name}</option>
+                                    <option>${tariffFromList.name}</option>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
