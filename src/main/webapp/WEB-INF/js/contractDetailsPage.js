@@ -84,7 +84,6 @@ function onSubmitClick(){
     var lockedOptionsArray = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.disabled==true)
         .map(ch=>ch.id.toString());
 
-    console.log(JSON.stringify(lockedOptionsArray));
 
     var exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
         tariffSelectedCheckboxes:tariffSelectedCheckboxes,
@@ -92,7 +91,6 @@ function onSubmitClick(){
         lockedOptionsArray:lockedOptionsArray}
 
     let contractNumber = $('#numberLabel').text();
-    console.log(contractNumber);
     $.ajax({
         contentType: "application/json",
         url: '/contractDetails/submitvalues/' + contractNumber,
@@ -193,8 +191,8 @@ function checkSwitchesAndChangeIfNeeded(selectedOption){
 
                     for (let j = 0; j < incompatibleOptionsArray.length; j++) {
                         if (restOptionCheckboxes[i].getAttribute('id') === incompatibleOptionsArray[j]
-                            && restOptionCheckboxes[i].getAttribute('disabled')
-                            && restOptionCheckboxes[i].getAttribute('checked') === true) {
+                            && restOptionCheckboxes[i].getAttribute('disabled') === 'disabled'
+                            && restOptionCheckboxes[i].checked === true) {
                             alert("id " + restOptionCheckboxes[i] + " this option should not be disabled, please enable this option.");
                             enablingApproved = false;
                             $("#" + selectedOptionId).prop("checked", false);
@@ -204,8 +202,8 @@ function checkSwitchesAndChangeIfNeeded(selectedOption){
                     for (let j = 0; j < obligatoryOptionsArray.length; j++) {
 
                         if (restOptionCheckboxes[i].getAttribute('id') === obligatoryOptionsArray[j]
-                            && restOptionCheckboxes[i].getAttribute('disabled')
-                            && restOptionCheckboxes[i].getAttribute('checked') === false) {
+                            && restOptionCheckboxes[i].getAttribute('disabled') === 'disabled'
+                            && restOptionCheckboxes[i].checked === false) {
                             alert("id " + restOptionCheckboxes[i] + " this option should not be disabled, please enable this option.");
                             enablingApproved = false;
                             $("#" + selectedOptionId).prop("checked", false);
