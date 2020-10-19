@@ -40,18 +40,4 @@ public class OptionDTO implements Comparable{
         }
     }
 
-    @Override
-    public String toString() {
-        return "OptionDTO{" +
-                "option_id=" + option_id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", connectionCost=" + connectionCost +
-                ", shortDiscription='" + shortDescription + '\'' +
-                ", isActive=" + isActive +
-                ", tariffsOptions=" + tariffsOptions +
-                ", incompatibleOptionsList=" + incompatibleOptionsSet +
-                ", obligatoryOptionsList=" + obligatoryOptionsSet +
-                '}';
-    }
 }

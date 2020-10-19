@@ -33,15 +33,15 @@ $(document).ready(function(){
 
 function validateAndSubmitIfTrue(){
 
-    let newNumber = $('#numberLabel').val();
+    let newName = $('#inputFormName').val();
     let validation = true;
 
-    if(newNumber===""){
+    if(newName===""){
         $('#phoneNumberFieldRequired').text("This field is required.");
         $('#phoneNumberFieldRequired').removeAttr('hidden');
         validation="false";
     }else{
-        if(newNumber.length<4){
+        if(newName.length<4){
             $('#nameFieldRequired').text("Name must be more than 4 characters.");
             $('#nameFieldRequired').removeAttr('hidden');
             validation="false";
@@ -79,12 +79,7 @@ function validateAndSubmitIfTrue(){
         }
     }
 
-    if($('#numberLabel').val().length<3){
-        $('#selectedOptionsField').removeAttr('hidden');
-        validation="false";
-    }
-
-    if(validation==="true"){
+    if(validation.toString()==="true"){
         let selectedAvailableOptions = $('#selectedOptions').select2('data');
 
         $.ajax({

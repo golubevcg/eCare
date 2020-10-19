@@ -41,7 +41,7 @@ public class CheckTariffPageController {
     public String getCheckTariffPage(Model model, @PathVariable(name="tariffName")String tariffName){
 
         tariffNameBeforeEditing = tariffName;
-        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(tariffName);
+        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(tariffName);
 
         List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
@@ -56,7 +56,7 @@ public class CheckTariffPageController {
             return "false";
         }
 
-        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(newName);
+        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(newName);
         if(tariffDTO!=null){
             return "true";
         }else{
@@ -67,7 +67,7 @@ public class CheckTariffPageController {
     @ResponseBody
     @RequestMapping(value = "/checkTariff/getAvailableOptions/{oldName}", method = RequestMethod.GET)
     public String getAvailableOptions(@PathVariable("oldName") String oldName) {
-        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(oldName);
+        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(oldName);
         Set<OptionDTO> optionsSet = tariffDTO.getSetOfOptions();
         Set<String> optionNamesSet = new HashSet<>();
         for (OptionDTO option: optionsSet) {
@@ -99,7 +99,7 @@ public class CheckTariffPageController {
                                       @ModelAttribute TariffDTO tariffDTO,
                                       @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
-        TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffnameOrNull(tariffNameBeforeEditing);
+        TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffNameOrNull(tariffNameBeforeEditing);
         tariffDTOtoUpdate.setName(tariffDTO.getName());
         tariffDTOtoUpdate.setPrice(tariffDTO.getPrice());
         tariffDTOtoUpdate.setShortDiscription(tariffDTO.getShortDiscription());
@@ -126,7 +126,7 @@ public class CheckTariffPageController {
     @ResponseBody
     @RequestMapping(value = "/checkTariff/deleteTariff/{tariffName}", method = RequestMethod.GET)
     public String deleteOption(@PathVariable("tariffName") String tariffName) {
-        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffnameOrNull(tariffName);
+        TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(tariffName);
         tariffDTO.setActive(false);
         tariffService.convertToEntityAndUpdate(tariffDTO);
         return "true";

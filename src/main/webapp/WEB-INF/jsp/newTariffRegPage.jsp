@@ -110,11 +110,13 @@
             <div class="col-5">
 
                 <p id="headlineLabel">Available options</p>
+                <spring:bind path="shortDiscription" >
                 <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions" id="selectedOptions">
                     <c:forEach items="${listOfActiveOptions}" var="option" >
                         <option>${option.name}</option>
                     </c:forEach>
                 </select>
+                </spring:bind>
 
             </div>
             <div class="col"></div>

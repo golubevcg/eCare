@@ -118,7 +118,7 @@ public class NewContractRegPageController {
         ContractDTO contractDTO1 = new ContractDTO();
         contractDTO1.setContractNumber(contractNumber);
         contractDTO1.setUser(userServiceImpl.getUserDTOByLoginOrNull(selectedLogin));
-        contractDTO1.setTariff(tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff));
+        contractDTO1.setTariff(tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff));
         if(selectedOptions!=null){
             for (int i = 0; i < selectedOptions.length; i++) {
                 contractDTO1.addOption(optionServiceImpl.getOptionDTOByNameOrNull(selectedOptions[i]));

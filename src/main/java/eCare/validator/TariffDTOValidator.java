@@ -28,7 +28,7 @@ public class TariffDTOValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "Required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDiscription", "Required");
 
-        if(tariffServiceImpl.getTariffDTOByTariffnameOrNull( tariffDTO.getName() )!=null){
+        if(tariffServiceImpl.getTariffDTOByTariffNameOrNull( tariffDTO.getName() )!=null){
             errors.rejectValue("name", "Duplicate.tariffDTO.name");
         }
 

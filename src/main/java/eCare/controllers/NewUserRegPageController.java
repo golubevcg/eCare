@@ -6,7 +6,6 @@ import eCare.model.entity.Option;
 import eCare.services.impl.*;
 import eCare.validator.UserContractDTOValidator;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -87,7 +86,7 @@ public class NewUserRegPageController {
                 }
             }
 
-            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariff);
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
             if (tariffDTO != null) {
                 contractDTO.setTariff(tariffDTO);
             }

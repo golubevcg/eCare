@@ -99,7 +99,7 @@ public class ContractDetailsPageController {
     String postClientOffice(@RequestBody String selectedTariffName) {
 
         TariffDTO tariffDTO = tariffServiceImpl
-                .getTariffDTOByTariffnameOrNull(selectedTariffName
+                .getTariffDTOByTariffNameOrNull(selectedTariffName
                         .replace("\"", ""));
 
         Set<OptionDTO> setOfOptions = new HashSet<>();
@@ -140,7 +140,7 @@ public class ContractDetailsPageController {
         }
 
         if (!contractBeforeEditing.getTariff().getName().equals(tariffSelectedCheckboxes)) {
-            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariffSelectedCheckboxes);
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariffSelectedCheckboxes);
             if(tariffDTO!=null){
                 contractBeforeEditing.setTariff(tariffDTO);
             }
@@ -173,7 +173,7 @@ public class ContractDetailsPageController {
                                @PathVariable(value = "selectedOption") String selectedOptionId,
                                @RequestBody String[] selectedTariffName) {
         OptionDTO changedOptionDTO = optionServiceImpl.getOptionDTOById( Long.valueOf(selectedOptionId) );
-        TariffDTO selectedTariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(selectedTariffName[0]);
+        TariffDTO selectedTariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariffName[0]);
         Boolean isChecked = Boolean.valueOf(selectedTariffName[1]);
 
         Set<OptionDTO> notSelectedOptionsSet = selectedTariffDTO.getSetOfOptions();

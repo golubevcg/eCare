@@ -14,40 +14,42 @@ import java.util.stream.Collectors;
 @Component
 public class TariffServiceImpl implements TariffService {
 
-    @Autowired
-    private TariffDao tarifDaoImpl;
+    private final TariffDao tariffDaoImpl;
+    private final TariffMapper tariffMapper;
 
-    @Autowired
-    private TariffMapper tariffMapper;
+    public TariffServiceImpl(TariffDao tariffDaoImpl, TariffMapper tariffMapper) {
+        this.tariffDaoImpl = tariffDaoImpl;
+        this.tariffMapper = tariffMapper;
+    }
 
     @Override
-    public void save(Tariff tariff) { tarifDaoImpl.save(tariff); }
+    public void save(Tariff tariff) { tariffDaoImpl.save(tariff); }
 
     @Override
     public void update(Tariff tariff) {
-        tarifDaoImpl.update(tariff);
+        tariffDaoImpl.update(tariff);
     }
 
     @Override
     public void delete(Tariff tariff) {
-        tarifDaoImpl.delete(tariff);
+        tariffDaoImpl.delete(tariff);
     }
 
     @Override
     public List<Tariff> getTariffByTariffName(String tariffName){
-        return tarifDaoImpl.getTariffByTariffName(tariffName);
+        return tariffDaoImpl.getTariffByTariffName(tariffName);
     }
 
     @Override
     public List<TariffDTO> getAllTariffs() {
-        return tarifDaoImpl.getAllTariffs()
+        return tariffDaoImpl.getAllTariffs()
                 .stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public TariffDTO getTariffDTOByTariffnameOrNull(String name){
+    public TariffDTO getTariffDTOByTariffNameOrNull(String name){
         List<Tariff> listOfTariffs = this.getTariffByTariffName(name);
         if(listOfTariffs.isEmpty()){
             return null;
@@ -59,7 +61,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public void convertToEntityAndUpdate(TariffDTO tariffDTO){
-        tarifDaoImpl.update( tariffMapper.toEntity(tariffDTO) );
+        tariffDaoImpl.update( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
@@ -68,19 +70,19 @@ public class TariffServiceImpl implements TariffService {
     }
 
     public void convertToEntityAndSave(TariffDTO tariffDTO){
-        tarifDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
+        tariffDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
     public List<TariffDTO> getActiveTariffs() {
-        return tarifDaoImpl.getActiveTariffs().stream()
+        return tariffDaoImpl.getActiveTariffs().stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<TariffDTO> searchForTariffDTOByName(String name) {
-        return tarifDaoImpl.searchForTariffByName(name).stream()
+        return tariffDaoImpl.searchForTariffByName(name).stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
     }

@@ -50,12 +50,12 @@ public class CheckContractPageController {
     @GetMapping(value = "/checkContract/{contractId}")
     public String getCheckContractPage(Model model,
                                        @PathVariable(name="contractId") String contractId){
-        ContractDTO contractDTObeforeEditing = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
-        contractNumberBeforeEditing = contractDTObeforeEditing.getContractNumber();
-        userNameOfContractOwnerBeforeEditing = contractDTObeforeEditing.getUser().getLogin();
+        ContractDTO contractDTOBeforeEditing = contractServiceImpl.getContractDTOById(Long.valueOf(contractId)).get(0);
+        contractNumberBeforeEditing = contractDTOBeforeEditing.getContractNumber();
+        userNameOfContractOwnerBeforeEditing = contractDTOBeforeEditing.getUser().getLogin();
         List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("listOfTariffs", listOfTariffs);
-        model.addAttribute("contractDTO", contractDTObeforeEditing);
+        model.addAttribute("contractDTO", contractDTOBeforeEditing);
         return "checkContractPage";
     }
 
@@ -149,7 +149,7 @@ public class CheckContractPageController {
         contractDTO.setContractNumber(number);
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(selectedUserLogin);
         contractDTO.setUser(userDTO);
-        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffnameOrNull(tariff);
+        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariff);
         contractDTO.setTariff(tariffDTO);
         if(jsonArrayTest.size()!=0) {
             for (int i = 0; i < jsonArrayTest.size(); i++) {

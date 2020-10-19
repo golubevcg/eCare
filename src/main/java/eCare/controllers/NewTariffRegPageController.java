@@ -43,10 +43,9 @@ public class NewTariffRegPageController {
     }
 
     @PostMapping(value = "/newTariff")
-    public String getValue(Model model, @ModelAttribute("tariffDTO") TariffDTO tariffDTO,
-                                        BindingResult tariffDTOBindingResult,
-        @RequestParam(required=false, name= "selectedOptions") String[] selectedOptions){
-
+    public String submitNewTariff(Model model, @ModelAttribute("tariffDTO") TariffDTO tariffDTO,
+                                  BindingResult tariffDTOBindingResult,
+                                  @RequestParam(required=false, name= "selectedOptions") String[] selectedOptions){
         tariffDTOValidator.validate(tariffDTO, tariffDTOBindingResult);
 
         if(tariffDTOBindingResult.hasErrors()){
@@ -55,10 +54,9 @@ public class NewTariffRegPageController {
 
         if(selectedOptions!=null){
             Set<OptionDTO> optionDTOSet = new HashSet<>();
-            ModelMapper mapper = new ModelMapper();
-
+            System.out.println("new options entered!");
             for (int i = 0; i < selectedOptions.length; i++) {
-                OptionDTO optionDTO = mapper.map(optionService.getOptionByName(selectedOptions[i]), OptionDTO.class);
+                OptionDTO optionDTO = optionService.getOptionDTOByNameOrNull(selectedOptions[i]);
                 optionDTOSet.add( optionDTO);
             }
             tariffDTO.setSetOfOptions(optionDTOSet);
