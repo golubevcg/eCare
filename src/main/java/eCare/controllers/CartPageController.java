@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.*;
 
@@ -28,7 +29,7 @@ import java.util.*;
 public class CartPageController {
 
     @GetMapping(value = "/cartPage")
-    public String getCartPage(Model model){
+    public String getCartPage(Model model, HttpSession httpSession){
 
         Map<String, Map<String, String>> map = new HashMap<>();
         String num = "+79118903345";

@@ -20,6 +20,7 @@
 
 <body>
 <jsp:directive.include file = "headerTemplate.jsp" />
+<label hidden id="cartValue">${cartValue}</label>
 <div>
         <script src="/resources/js/contractDetailsPage.js"></script>
 </div>
@@ -183,7 +184,7 @@
                                 <label class="switch" style="clear:both; margin-top:5px; float:left;">
                                     <c:choose>
                                         <c:when test="${tariff.name eq selectedTariff}">
-                                            <input type="checkbox" checked name="tariffCheckbox" group="tariffsGroup" id="${tariff.name}"
+                                            <input type="checkbox" checked name="tariffCheckbox"  group="tariffsGroup" id="${tariff.name}"
                                                    name="tariffCheckbox">
                                         </c:when>
                                         <c:otherwise>
@@ -258,13 +259,13 @@
                                     <c:choose>
                                         <c:when test="${entry.value eq false}">
                                             <label class="switch" style="clear:both; " name="group1">
-                                                <input type="checkbox" name="optionCheckbox" id="${entry.key.option_id}">
+                                                <input type="checkbox" name="optionCheckbox" onchange="checkSwitchesAndChangeIfNeeded($(this))" id="${entry.key.option_id}">
                                                 <span class="slider round" id="Slider${entry.key.option_id}"></span>
                                             </label>
                                         </c:when>
                                         <c:otherwise>
                                             <label class="switch" style="clear:both; " name="group1">
-                                                <input type="checkbox" checked name="optionCheckbox" id="${entry.key.option_id}">
+                                                <input type="checkbox" checked name="optionCheckbox" onchange="checkSwitchesAndChangeIfNeeded($(this))" id="${entry.key.option_id}">
                                                 <span class="slider round" id="Slider${entry.key.option_id}"></span>
                                             </label>
                                         </c:otherwise>

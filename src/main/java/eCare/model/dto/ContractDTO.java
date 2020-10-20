@@ -28,8 +28,6 @@ public class ContractDTO implements Comparable{
 
     private Set<OptionDTO> setOfOptions = new HashSet<>();
 
-    private Set<OptionDTO> setOfBlockedOptions = new HashSet<>();
-
     public String getContractNumber() {
         return contractNumber;
     }
@@ -41,11 +39,6 @@ public class ContractDTO implements Comparable{
     public void addOption(OptionDTO optionDTO){
         setOfOptions.add(optionDTO);
     }
-
-    public void addLockedOption(OptionDTO optionDTO){
-        setOfBlockedOptions.add(optionDTO);
-    }
-
 
     @Override
     public int compareTo(Object o) {

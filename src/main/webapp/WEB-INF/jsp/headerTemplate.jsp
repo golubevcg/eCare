@@ -178,7 +178,7 @@
 
                         <div style="float:right">
                             <a href="/cartPage">
-                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton">
+                                <button class="btn btn-secondary" type="button" id="dropdownMenuButton" name="cartValueButton">
                                     Cart
                                 </button>
                             </a>
