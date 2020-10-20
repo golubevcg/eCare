@@ -81,14 +81,9 @@ function onSubmitClick(){
     let blockNubCheckBArray = document.getElementsByName("blockNumberCheckBox");
     let blockNumberCheckBox = Array.prototype.slice.call(blockNubCheckBArray).map(ch=>ch.checked.toString());
 
-    let lockedOptionsArray = Array.prototype.slice.call(optionsCheckboxes).filter(ch => ch.disabled==true)
-        .map(ch=>ch.id.toString());
-
-
     let exportObject = {optionsSelectedCheckboxes:optionsSelectedCheckboxes,
         tariffSelectedCheckboxes:tariffSelectedCheckboxes,
-        blockNumberCheckBox:blockNumberCheckBox,
-        lockedOptionsArray:lockedOptionsArray}
+        blockNumberCheckBox:blockNumberCheckBox}
 
     let contractNumber = $('#numberLabel').text();
     $.ajax({
@@ -134,11 +129,15 @@ function checkSwitchesAndChangeIfNeeded(selectedOption){
         checkedOptionIds = checkedOptionIds + "," + checkedOptionNames[i].id;
     }
 
+    let contractNumber = $('#numberLabel').text();
+
+
     let arrayOfArrays = [];
     arrayOfArrays.push(selectedTariffName);
     arrayOfArrays.push(isChecked);
-    arrayOfArrays.push(disabledOptionIds)
-    arrayOfArrays.push(checkedOptionIds)
+    arrayOfArrays.push(disabledOptionIds);
+    arrayOfArrays.push(checkedOptionIds);
+    arrayOfArrays.push(contractNumber);
 
     $.ajax({
         contentType: "application/json",

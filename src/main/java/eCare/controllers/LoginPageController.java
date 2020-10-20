@@ -16,7 +16,7 @@ public class LoginPageController {
     @GetMapping("/login")
     public String getLoginPage(Model model, String error, String logout, HttpSession httpSession) {
 
-        httpSession.setAttribute("cartChangedContractsList", new HashSet<ContractDTO>());
+        httpSession.setAttribute("cartChangedContractsSet", new HashSet<ContractDTO>());
 
 
         if (error != null) {

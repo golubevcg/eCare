@@ -55,8 +55,8 @@
                                     margin:0px; margin-top:0px; margin-bottom:0px; clear:both; float:right;">
                             <div>
                                 <button class="btn btn-secondary" type="button" style="clear:both; float:right;" >X</button>
-                                <p class="lead" style="float:right; margin-right: 115px;">${nentry.value}</p>
-                                <p class="lead" style="float:right; margin-right: 120px;">${nentry.key}</p>
+                                <p class="lead" style="float:right; margin-right: 110px;">${nentry.value}</p>
+                                <p class="lead" style="float:right; margin-right: 115px;">${nentry.key}</p>
                             </div>
                         </c:forEach>
                     </div>

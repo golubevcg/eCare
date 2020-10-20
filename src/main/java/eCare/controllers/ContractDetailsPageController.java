@@ -5,6 +5,7 @@ import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
+import eCare.model.entity.Contract;
 import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
@@ -115,15 +116,14 @@ public class ContractDetailsPageController {
         ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumberOrNull(contractNumber);
         contractDTO.setTariff(tariffDTO);
 
-        HashSet<ContractDTO> cartChangedContractsList = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsList");
-        if(cartChangedContractsList.contains(contractDTO)){
-            cartChangedContractsList.remove(contractDTO);
-            cartChangedContractsList.add(contractDTO);
+        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
+        if(cartChangedContractsSet.contains(contractDTO)){
+            cartChangedContractsSet.remove(contractDTO);
+            cartChangedContractsSet.add(contractDTO);
         }else{
-            cartChangedContractsList.add(contractDTO);
+            cartChangedContractsSet.add(contractDTO);
         }
-
-        session.setAttribute("cartChangedContractsList", cartChangedContractsList );
+        session.setAttribute("cartChangedContractsSet", cartChangedContractsSet );
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(sortedListOfOptions);
@@ -132,9 +132,16 @@ public class ContractDetailsPageController {
     @RequestMapping(value = "/contractDetails/submitvalues/{contractNumber}", produces = "application/json")
     public @ResponseBody
     String updateValuesOnInformationFromView(@RequestBody String exportObject, @PathVariable String contractNumber,
-                                             HttpSession httpSession) {
+                                             HttpSession session) {
 
-        ContractDTO contractBeforeEditing = (ContractDTO) httpSession.getAttribute("contractBeforeEditing");
+        ContractDTO contractBeforeEditing = null;;
+
+        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
+        for (ContractDTO contractDTO: cartChangedContractsSet) {
+            if(contractDTO.getContractNumber().equals(contractNumber)){
+                contractBeforeEditing = contractDTO;
+            }
+        }
 
         JsonObject obj = JsonParser.parseString(exportObject).getAsJsonObject();
         Boolean blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsBoolean();
@@ -162,8 +169,6 @@ public class ContractDetailsPageController {
             }
         }
 
-        JsonArray jsonArrayLockedOptions = obj.get("lockedOptionsArray").getAsJsonArray();
-
         contractServiceImpl.updateConvertDTO(contractBeforeEditing);
         log.info(contractBeforeEditing.getContractNumber() + " contract with this number was successfully updated.");
 
@@ -173,25 +178,26 @@ public class ContractDetailsPageController {
 
     /**
      *
-      This method used for returning two arrays as json - first witharrays of id's for incompatible options,
+      This method used for returning two arrays as json - first with arrays of id's for incompatible options,
       second for obligatory, they will be parced in front end for enabling/disabling dependent options.
+      And with error message if child options blocked for enabling/disabling.
      */
     @PostMapping(value = "/contractDetails/loadDependedOptions/{selectedOption}", produces = "application/json")
     public @ResponseBody
-    String getDependingOptions(Model model, CsrfToken token, Principal principal,
-                               @PathVariable(value = "selectedOption") String selectedOptionId,
-                               @RequestBody String[] selectedTariffName) {
+    String getDependingOptions(@PathVariable(value = "selectedOption") String selectedOptionId,
+                               @RequestBody String[] stringsArrayInfoFromFront, HttpSession session) {
         OptionDTO changedOptionDTO = optionServiceImpl.getOptionDTOById( Long.valueOf(selectedOptionId) );
-        TariffDTO selectedTariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariffName[0]);
-        Boolean isChecked = Boolean.valueOf(selectedTariffName[1]);
+        TariffDTO selectedTariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(stringsArrayInfoFromFront[0]);
+        Boolean isChecked = Boolean.valueOf(stringsArrayInfoFromFront[1]);
+        String contractNumber = stringsArrayInfoFromFront[4];
 
-        String[] blockedOptionIdsArray = selectedTariffName[2].split(",");
+        String[] blockedOptionIdsArray = stringsArrayInfoFromFront[2].split(",");
         Set<String> blockedOptionIdsSet = new HashSet<>();
         for (int i = 0; i < blockedOptionIdsArray.length; i++) {
             blockedOptionIdsSet.add( blockedOptionIdsArray[i] );
         }
 
-        String[] checkedOptionIdsArray = selectedTariffName[3].split(",");
+        String[] checkedOptionIdsArray = stringsArrayInfoFromFront[3].split(",");
         Set<String> checkedOptionIdsSet = new HashSet<>();
         for (int i = 0; i < checkedOptionIdsArray.length; i++) {
             checkedOptionIdsSet.add( checkedOptionIdsArray[i] );
@@ -227,6 +233,33 @@ public class ContractDetailsPageController {
         String finalErrorMessage = obligatoryErrorMessage + incompatibleErrorMessage;
         errorMessageSet.add(finalErrorMessage);
         array[2]= errorMessageSet;
+
+        if(finalErrorMessage.length()==0){
+
+                ContractDTO contractBeforeEditing = null;
+
+                HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
+                for (ContractDTO contractDTO: cartChangedContractsSet) {
+                    if(contractDTO.getContractNumber().equals(contractNumber)){
+                        contractBeforeEditing = contractDTO;
+                    }
+                }
+
+                OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
+
+                cartChangedContractsSet.remove(contractBeforeEditing);
+                if(isChecked){
+                    contractBeforeEditing.addOption(optionDTO);
+                }else{
+                    contractBeforeEditing.removeOption(optionDTO);
+                }
+
+                cartChangedContractsSet.add(contractBeforeEditing);
+
+                session.setAttribute("cartChangedContractsSet", cartChangedContractsSet);
+
+
+        }
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(array);

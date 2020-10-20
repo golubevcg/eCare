@@ -1,10 +1,7 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
@@ -13,6 +10,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"login"})
 public class UserDTO {
     @Expose
     private Long user_id;

@@ -64,6 +64,10 @@ public class Contract implements Comparable{
         setOfOptions.add(option);
     }
 
+    public void removeOption(Option option){
+        setOfOptions.remove(option);
+    }
+
     @Override
     public int compareTo(Object o) {
         if (this == o) return 0;

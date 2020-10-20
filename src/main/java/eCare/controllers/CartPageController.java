@@ -1,25 +1,18 @@
 package eCare.controllers;
 
-import com.google.gson.*;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
-import eCare.model.dto.TariffDTO;
-import eCare.model.dto.UserDTO;
-import eCare.model.entity.Option;
-import eCare.services.api.ContractService;
-import eCare.services.api.OptionService;
-import eCare.services.api.TariffService;
-import eCare.services.api.UserService;
-import org.apache.log4j.Logger;
+import eCare.services.impl.ContractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Controller for page, in which cart finalisation occur.
@@ -28,29 +21,50 @@ import java.util.*;
 @Controller
 public class CartPageController {
 
+    final
+    ContractServiceImpl contractService;
+
+    public CartPageController(ContractServiceImpl contractService) {
+        this.contractService = contractService;
+    }
+
     @GetMapping(value = "/cartPage")
-    public String getCartPage(Model model, HttpSession httpSession){
+    public String getCartPage(Model model, HttpSession session){
 
         Map<String, Map<String, String>> map = new HashMap<>();
-        String num = "+79118903345";
-        Map<String, String> mapOpt1 = new HashMap<>();
-        String opt1 = "option1";
-        String opt2 = "option2";
-        mapOpt1.put(opt1, "true");
-        mapOpt1.put(opt2, "false");
+        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
 
-        map.put(num, mapOpt1);
+        for (ContractDTO contract: cartChangedContractsSet) {
+            ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contract.getContractNumber());
+            String number = contractDTOFromDB.getContractNumber();
 
-        String num1 = "+79113423345";
-        Map<String, String> mapOpt2 = new HashMap<>();
-        String opt3 = "option3";
-        String opt4 = "option4";
-        String opt5 = "option5";
-        mapOpt2.put(opt3, "false");
-        mapOpt2.put(opt4, "false");
-        mapOpt2.put(opt5, "true");
+            Map<String, String> mapOpt = new HashMap<>();
 
-        map.put(num1,mapOpt2);
+            if(!contract.getTariff().equals( contractDTOFromDB.getTariff() )){
+
+            }
+
+            //here we check if in new contract exists freshly connected options
+            for (OptionDTO optionDTOFromSession: contract.getSetOfOptions()) {
+                if(!contractDTOFromDB.getSetOfOptions().contains(optionDTOFromSession)){
+                    mapOpt.put(optionDTOFromSession.getName(), "disabled");
+                }
+            }
+
+            //here we check if in new contract were removed old options
+            for (OptionDTO optionDTOFromDb: contractDTOFromDB.getSetOfOptions()) {
+                if(!contract.getSetOfOptions().contains(optionDTOFromDb)){
+                    mapOpt.put(optionDTOFromDb.getName(), "enabled");
+                }
+            }
+
+            if(contract.isBlocked() != contractDTOFromDB.isBlocked()){
+
+            }
+
+            map.put(number,mapOpt);
+        }
+
 
         model.addAttribute("contractsOptions", map);
 

@@ -1,10 +1,7 @@
 package eCare.model.dto;
 
 import com.google.gson.annotations.Expose;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.*;
 
@@ -12,6 +9,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"contractNumber"})
 public class ContractDTO implements Comparable{
     @Expose
     private Long contract_id;
@@ -40,6 +38,10 @@ public class ContractDTO implements Comparable{
         setOfOptions.add(optionDTO);
     }
 
+    public void removeOption(OptionDTO optionDTO) {
+            setOfOptions.remove(optionDTO);
+    }
+
     @Override
     public int compareTo(Object o) {
         if (this == o) return 0;
@@ -61,4 +63,5 @@ public class ContractDTO implements Comparable{
                 ", isActive=" + isActive +
                 '}';
     }
+
 }
