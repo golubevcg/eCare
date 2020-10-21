@@ -2,6 +2,8 @@ package eCare.validator;
 
 import eCare.model.dto.UserContractDTO;
 import eCare.model.entity.User;
+import eCare.services.api.ContractService;
+import eCare.services.api.UserService;
 import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,16 @@ import org.springframework.validation.Validator;
 @Component
 public class UserContractDTOValidator implements Validator {
 
-    @Autowired
-    UserServiceImpl userServiceImpl;
+    final
+    UserService userServiceImpl;
 
-    @Autowired
-    ContractServiceImpl contractServiceImpl;
+    final
+    ContractService contractServiceImpl;
+
+    public UserContractDTOValidator(UserService userServiceImpl, ContractService contractServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

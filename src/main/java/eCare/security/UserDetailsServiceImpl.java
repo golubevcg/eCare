@@ -1,9 +1,8 @@
 package eCare.security;
 
 import eCare.model.entity.User;
-import eCare.services.impl.UserServiceImpl;
+import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,12 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
 
     static final Logger log = Logger.getLogger(UserDetailsServiceImpl.class);
 
-    @Autowired
-    UserServiceImpl userServiceImpl;
+    final
+    UserService userServiceImpl;
+
+    public UserDetailsServiceImpl(UserService userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

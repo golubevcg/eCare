@@ -2,16 +2,15 @@ package eCare.controllers;
 
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
-import eCare.services.impl.ContractServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import eCare.services.api.ContractService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,51 +21,75 @@ import java.util.Set;
 public class CartPageController {
 
     final
-    ContractServiceImpl contractService;
+    ContractService contractService;
 
-    public CartPageController(ContractServiceImpl contractService) {
+    public CartPageController(ContractService contractService) {
         this.contractService = contractService;
     }
 
     @GetMapping(value = "/cartPage")
     public String getCartPage(Model model, HttpSession session){
 
-        Map<String, Map<String, String>> map = new HashMap<>();
-        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
+        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
 
-        for (ContractDTO contract: cartChangedContractsSet) {
-            ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contract.getContractNumber());
-            String number = contractDTOFromDB.getContractNumber();
+        List<ContractDTO> onlyContractsChanges = new ArrayList<>();
 
-            Map<String, String> mapOpt = new HashMap<>();
+        for (ContractDTO contractDTOFromCart: cartChangedContractsSet) {
+            ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contractDTOFromCart.getContractNumber());
+            ContractDTO editedContractDTO = new ContractDTO();
+            editedContractDTO.setContractNumber(contractDTOFromDB.getContractNumber());
+            boolean isChanged = false;
 
-            if(!contract.getTariff().equals( contractDTOFromDB.getTariff() )){
-
+            if(!contractDTOFromCart.getTariff().equals( contractDTOFromDB.getTariff() )){
+                editedContractDTO.setTariff(contractDTOFromCart.getTariff());
+                isChanged = true;
             }
 
+            Set<OptionDTO> optionDTOSet = new HashSet<>();
             //here we check if in new contract exists freshly connected options
-            for (OptionDTO optionDTOFromSession: contract.getSetOfOptions()) {
+            for (OptionDTO optionDTOFromSession: contractDTOFromCart.getSetOfOptions()) {
                 if(!contractDTOFromDB.getSetOfOptions().contains(optionDTOFromSession)){
-                    mapOpt.put(optionDTOFromSession.getName(), "disabled");
+                    optionDTOSet.add(optionDTOFromSession);
+                    isChanged = true;
                 }
             }
 
             //here we check if in new contract were removed old options
             for (OptionDTO optionDTOFromDb: contractDTOFromDB.getSetOfOptions()) {
-                if(!contract.getSetOfOptions().contains(optionDTOFromDb)){
-                    mapOpt.put(optionDTOFromDb.getName(), "enabled");
+                if(!contractDTOFromCart.getSetOfOptions().contains(optionDTOFromDb)){
+                    optionDTOSet.add(optionDTOFromDb);
+                    isChanged = true;
                 }
             }
 
-            if(contract.isBlocked() != contractDTOFromDB.isBlocked()){
-
+            if(!optionDTOSet.isEmpty()){
+                editedContractDTO.setSetOfOptions(optionDTOSet);
+                isChanged = true;
             }
 
-            map.put(number,mapOpt);
+            if(contractDTOFromCart.isBlocked() != contractDTOFromDB.isBlocked()){
+                editedContractDTO.setBlocked(contractDTOFromCart.isBlocked());
+                isChanged = true;
+            }
+
+            if(isChanged){
+                onlyContractsChanges.add(editedContractDTO);
+            }
         }
 
+        for (int i = 0; i < onlyContractsChanges.size(); i++) {
+            System.out.println("contract " + i);
+            System.out.println(onlyContractsChanges.get(i).getContractNumber());
+            System.out.println("tariff " + onlyContractsChanges.get(i).getTariff());
 
-        model.addAttribute("contractsOptions", map);
+            for (OptionDTO optiondDTO:onlyContractsChanges.get(i).getSetOfOptions()) {
+                System.out.println("option: " + optiondDTO.getName());
+            }
+
+
+        }
+
+        model.addAttribute("onlyContractsChanges", onlyContractsChanges);
 
         return "cartPage";
     }

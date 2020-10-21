@@ -2,6 +2,8 @@ package eCare.services.api;
 
 import eCare.model.dto.OptionDTO;
 import eCare.model.entity.Option;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 public interface OptionService {
@@ -12,5 +14,18 @@ public interface OptionService {
     List<OptionDTO> searchForOptionByName(String optionName);
     List<OptionDTO> getActiveOptions();
     OptionDTO getOptionDTOByNameOrNull(String name);
+
+    @Transactional
+    OptionDTO getOptionDTOById(Long optionId);
+
+    @Transactional
+    List<Option> getOptionById(Long optionId);
+
     void convertToEntityAndUpdate(OptionDTO optionDTO);
+
+    @Transactional
+    Option convertDTOtoEntity(OptionDTO optionDTO);
+
+    @Transactional
+    void convertToEntityAndSave(OptionDTO optionDTO);
 }

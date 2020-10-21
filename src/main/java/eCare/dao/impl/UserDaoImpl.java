@@ -29,7 +29,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
         this.checkUserRoles(user, session);
@@ -38,14 +37,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void update(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.update(user);
     }
 
     @Override
-    @Transactional
     public void delete(User user){
         Session session = sessionFactory.getCurrentSession();
         user.setActive(false);
@@ -54,7 +51,6 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    @Transactional
     public List<User> getUserByLogin(String login){
         Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
@@ -67,7 +63,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
@@ -80,7 +75,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public List<User> searchForUserByLogin(String searchInput) {
         Session session = sessionFactory.getCurrentSession();
         List<User> usersList = session.createQuery(
@@ -93,7 +87,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public List<User> getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
         List<User> listOfUsers = session.createQuery(
@@ -106,7 +99,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void checkUserRoles(User user, Session session){
         try {
             Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)

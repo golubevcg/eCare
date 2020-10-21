@@ -21,21 +21,18 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
-    @Transactional
     public void save(Contract contract) {
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(contract);
+        session.persist(contract);
     }
 
     @Override
-    @Transactional
     public void update(Contract contract) {
         Session session = sessionFactory.getCurrentSession();
         session.update(contract);
     }
 
     @Override
-    @Transactional
     public void delete(Contract contract) {
         Session session = sessionFactory.getCurrentSession();
         contract.setActive(false);
@@ -43,7 +40,6 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
-    @Transactional
     public List<Contract> searchForContractByNumber(String number){
         Session session = sessionFactory.getCurrentSession();
         List<Contract> contractsList = session.createQuery(
@@ -56,7 +52,6 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
-    @Transactional
     public List<Contract> getContractByNumber(String number) {
         Session session = sessionFactory.getCurrentSession();
         List<Contract> contractsList = session.createQuery(
@@ -68,7 +63,6 @@ public class ContractDaoImpl implements ContractDao {
     }
 
     @Override
-    @Transactional
     public List<Contract> getContractById(Long id) {
         Session session = sessionFactory.getCurrentSession();
         List<Contract> contractsList = session.createQuery(

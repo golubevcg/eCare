@@ -19,21 +19,18 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    @Transactional
     public void save(Tariff tariff) {
         Session session = sessionFactory.getCurrentSession();
-        session.merge(tariff);
+        session.persist(tariff);
     }
 
     @Override
-    @Transactional
     public void update(Tariff tariff) {
         Session session = sessionFactory.getCurrentSession();
         session.update(tariff);
     }
 
     @Override
-    @Transactional
     public void delete(Tariff tariff) {
         Session session = sessionFactory.getCurrentSession();
         tariff.setActive(false);
@@ -41,7 +38,6 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    @Transactional
     public List<Tariff> getTariffByTariffName(String tariffName) {
         Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTarifs = session.createQuery(
@@ -53,7 +49,6 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    @Transactional
     public List<Tariff> getAllTariffs() {
         Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTarifs = session.createQuery(
@@ -62,7 +57,6 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    @Transactional
     public List<Tariff> getActiveTariffs() {
         Session session = sessionFactory.getCurrentSession();
         List<Tariff> listOfTariffs = session.createQuery(
@@ -71,7 +65,6 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    @Transactional
     public List<Tariff> searchForTariffByName(String name){
         Session session = sessionFactory.getCurrentSession();
         List<Tariff> contractsList = session.createQuery(

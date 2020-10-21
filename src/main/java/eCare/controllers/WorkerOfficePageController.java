@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
+import eCare.services.api.ContractService;
+import eCare.services.api.OptionService;
+import eCare.services.api.TariffService;
 import eCare.services.impl.ContractServiceImpl;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.services.impl.TariffServiceImpl;
@@ -22,14 +25,20 @@ import java.util.List;
 @Controller
 public class WorkerOfficePageController {
 
-    @Autowired
-    ContractServiceImpl contractServiceImpl;
+    final
+    ContractService contractServiceImpl;
 
-    @Autowired
-    TariffServiceImpl tariffServiceImpl;
+    final
+    TariffService tariffServiceImpl;
 
-    @Autowired
-    OptionServiceImpl optionServiceImpl;
+    final
+    OptionService optionServiceImpl;
+
+    public WorkerOfficePageController(ContractService contractServiceImpl, TariffService tariffServiceImpl, OptionService optionServiceImpl) {
+        this.contractServiceImpl = contractServiceImpl;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
+    }
 
     @GetMapping("/workerOffice")
     public String getWorkerOffice(Model model, CsrfToken token){

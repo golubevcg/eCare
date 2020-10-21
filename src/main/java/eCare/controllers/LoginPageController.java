@@ -16,9 +16,6 @@ public class LoginPageController {
     @GetMapping("/login")
     public String getLoginPage(Model model, String error, String logout, HttpSession httpSession) {
 
-        httpSession.setAttribute("cartChangedContractsSet", new HashSet<ContractDTO>());
-
-
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
         }

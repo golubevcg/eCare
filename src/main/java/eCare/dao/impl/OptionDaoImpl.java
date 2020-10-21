@@ -19,21 +19,18 @@ public class OptionDaoImpl implements OptionDao {
     }
 
     @Override
-    @Transactional
     public void save(Option option) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(option);
+        session.persist(option);
     }
 
     @Override
-    @Transactional
     public void update(Option option) {
         Session session = sessionFactory.getCurrentSession();
         session.update(option);
     }
 
     @Override
-    @Transactional
     public void delete(Option option) {
         Session session = sessionFactory.getCurrentSession();
         option.setActive(false);
@@ -41,7 +38,6 @@ public class OptionDaoImpl implements OptionDao {
     }
 
     @Override
-    @Transactional
     public List<Option> getOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         List<Option> optionsList = session.createQuery(
@@ -53,7 +49,6 @@ public class OptionDaoImpl implements OptionDao {
     }
 
     @Override
-    @Transactional
     public List<Option> getOptionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
         List<Option> optionsList = session.createQuery(
@@ -65,7 +60,6 @@ public class OptionDaoImpl implements OptionDao {
     }
 
     @Override
-    @Transactional
     public List<Option> searchForOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         List<Option> contractsList = session.createQuery(
@@ -78,7 +72,6 @@ public class OptionDaoImpl implements OptionDao {
     }
 
     @Override
-    @Transactional
     public List<Option> getActiveOptions() {
         Session session = sessionFactory.getCurrentSession();
         List<Option> listOfTariffs = session.createQuery(

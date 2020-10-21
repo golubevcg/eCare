@@ -1,6 +1,7 @@
 package eCare.controllers;
 
 import eCare.model.dto.OptionDTO;
+import eCare.services.api.OptionService;
 import eCare.services.impl.OptionServiceImpl;
 import eCare.validator.OptionDTOValidator;
 import org.apache.log4j.Logger;
@@ -22,11 +23,14 @@ public class NewOptionRegPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    @Autowired
-    private OptionServiceImpl optionServiceImpl;
+    private final OptionService optionServiceImpl;
 
-    @Autowired
-    private OptionDTOValidator optionDTOValidator;
+    private final OptionDTOValidator optionDTOValidator;
+
+    public NewOptionRegPageController(OptionService optionServiceImpl, OptionDTOValidator optionDTOValidator) {
+        this.optionServiceImpl = optionServiceImpl;
+        this.optionDTOValidator = optionDTOValidator;
+    }
 
     @GetMapping(value = "/newOption")
     public String getUserRegistration(Model model){

@@ -22,40 +22,36 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    @Transactional
     public void save(Role role) {
         Session session = sessionFactory.getCurrentSession();
         Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
                 .getResultList());
 
         if (allRolesSet.isEmpty()) {
-            session.save(role);
+            session.persist(role);
         }else {
             List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
                     .setParameter("roleName", role.getRolename()).getResultList();
             if (found.isEmpty()) {
-                session.save(role);
+                session.persist(role);
             }
         }
 
     }
 
     @Override
-    @Transactional
     public void update(Role role) {
         Session session = sessionFactory.getCurrentSession();
         session.update(role);
     }
 
     @Override
-    @Transactional
     public void delete(Role role) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(role);
     }
 
     @Override
-    @Transactional
     public List<Role> getRoleByRoleName(String roleName) {
         Session session = sessionFactory.getCurrentSession();
         List<Role> listOfRoles = session.createQuery(

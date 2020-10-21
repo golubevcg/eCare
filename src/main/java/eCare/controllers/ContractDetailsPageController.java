@@ -1,15 +1,15 @@
 package eCare.controllers;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.dto.UserDTO;
-import eCare.model.entity.Contract;
-import eCare.services.impl.ContractServiceImpl;
-import eCare.services.impl.OptionServiceImpl;
-import eCare.services.impl.TariffServiceImpl;
-import eCare.services.impl.UserServiceImpl;
+import eCare.services.api.ContractService;
+import eCare.services.api.OptionService;
+import eCare.services.api.TariffService;
+import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -29,11 +29,12 @@ public class ContractDetailsPageController {
 
     static final Logger log = Logger.getLogger(EntrancePageController.class);
 
-    final UserServiceImpl userServiceImpl;
-    final TariffServiceImpl tariffServiceImpl;
-    final ContractServiceImpl contractServiceImpl;
-    final OptionServiceImpl optionServiceImpl;
-    public ContractDetailsPageController(UserServiceImpl userServiceImpl, TariffServiceImpl tariffServiceImpl, ContractServiceImpl contractServiceImpl, OptionServiceImpl optionServiceImpl) {
+    final UserService userServiceImpl;
+    final TariffService tariffServiceImpl;
+    final ContractService contractServiceImpl;
+    final OptionService optionServiceImpl;
+    public ContractDetailsPageController(UserService userServiceImpl, TariffService tariffServiceImpl,
+                                         ContractService contractServiceImpl, OptionService optionServiceImpl) {
         this.userServiceImpl = userServiceImpl;
         this.tariffServiceImpl = tariffServiceImpl;
         this.contractServiceImpl = contractServiceImpl;
@@ -44,19 +45,25 @@ public class ContractDetailsPageController {
     public String getContractDetailsPage(Model model, CsrfToken token, Principal principal,
                                          @PathVariable(value = "contractID") String contractID, HttpSession session) {
 
+        ContractDTO currentContractForCartFromSession = null;
+        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
+            if(contractDTO.getContract_id().toString().equals(contractID)){
+                currentContractForCartFromSession = contractDTO;
+            }
+        }
 
-        UserDTO userBeforeEditing = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
-        ContractDTO contractBeforeEditing = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
-        session.setAttribute("contractBeforeEditing", contractBeforeEditing);
+        System.out.println(currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
+        for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
+            System.out.println("option: " + option.getName());
+        }
 
-        session.setAttribute("cartChangedContractsSet", contractBeforeEditing.getUser().getListOfContracts());
+        UserDTO userBeforeEditing = currentContractForCartFromSession.getUser();
 
-        model.addAttribute("contractBeforeEditing", contractBeforeEditing);
-
-        model.addAttribute("contractNumber", contractBeforeEditing.getContractNumber());
+        model.addAttribute("contractNumber", currentContractForCartFromSession.getContractNumber());
         model.addAttribute("firstAndSecondNames", userBeforeEditing.getFirstname() + " " + userBeforeEditing.getSecondname());
 
-        TariffDTO tariffDTO = contractBeforeEditing.getTariff();
+        TariffDTO tariffDTO = currentContractForCartFromSession.getTariff();
         model.addAttribute("selectedTariff", tariffDTO.getName());
         model.addAttribute("tariffDecription", tariffDTO.getShortDiscription());
         model.addAttribute("tariffPrice", tariffDTO.getPrice() + " $ / month");
@@ -66,7 +73,7 @@ public class ContractDetailsPageController {
         sortedListOfAvailableOptions.addAll(availableOptions);
         Collections.sort(sortedListOfAvailableOptions);
 
-        Set<OptionDTO> connectedOptions = contractBeforeEditing.getSetOfOptions();
+        Set<OptionDTO> connectedOptions = currentContractForCartFromSession.getSetOfOptions();
         ArrayList<OptionDTO> sortedListOfConnectedOptions = new ArrayList<>();
         sortedListOfConnectedOptions.addAll(connectedOptions);
         Collections.sort(sortedListOfConnectedOptions);
@@ -92,7 +99,7 @@ public class ContractDetailsPageController {
         List<TariffDTO> activeTariffsList = tariffServiceImpl.getActiveTariffs();
         model.addAttribute("activeTariffsList", activeTariffsList);
         model.addAttribute("connectedOptions", optionDTOLinkedHashSet);
-        model.addAttribute("isBlocked", contractBeforeEditing.isBlocked());
+        model.addAttribute("isBlocked", currentContractForCartFromSession.isBlocked());
 
         return "contractDetailsPage";
     }
@@ -101,6 +108,14 @@ public class ContractDetailsPageController {
     public @ResponseBody
     String postClientOffice(@RequestBody String selectedTariffName, HttpSession session,
                             @PathVariable(value = "contractNumber") String contractNumber) {
+
+        ContractDTO currentContractForCartFromSession = null;
+        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
+            if(contractDTO.getContractNumber().equals(contractNumber)){
+                currentContractForCartFromSession = contractDTO;
+            }
+        }
 
         TariffDTO tariffDTO = tariffServiceImpl
                 .getTariffDTOByTariffNameOrNull(selectedTariffName
@@ -115,68 +130,20 @@ public class ContractDetailsPageController {
         sortedListOfOptions.addAll(setOfOptions);
         Collections.sort(sortedListOfOptions);
 
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumberOrNull(contractNumber);
-        contractDTO.setTariff(tariffDTO);
+        currentContractForCartFromSession.setTariff(tariffDTO);
+        currentContractForCartFromSession.setSetOfOptions(new HashSet<>());
+        cartContractsSetChangedForCart.add(currentContractForCartFromSession);
+        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
 
-        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
-        if(cartChangedContractsSet.contains(contractDTO)){
-            cartChangedContractsSet.remove(contractDTO);
-            cartChangedContractsSet.add(contractDTO);
-        }else{
-            cartChangedContractsSet.add(contractDTO);
+        System.out.println("afterTariffChange: " + currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
+        for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
+            System.out.println("option: " + option.getName());
         }
-        session.setAttribute("cartChangedContractsSet", cartChangedContractsSet );
+
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(sortedListOfOptions);
     }
-
-    @RequestMapping(value = "/contractDetails/submitvalues/{contractNumber}", produces = "application/json")
-    public @ResponseBody
-    String updateValuesOnInformationFromView(@RequestBody String exportObject, @PathVariable String contractNumber,
-                                             HttpSession session) {
-
-        ContractDTO contractBeforeEditing = null;;
-
-        HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
-        for (ContractDTO contractDTO: cartChangedContractsSet) {
-            if(contractDTO.getContractNumber().equals(contractNumber)){
-                contractBeforeEditing = contractDTO;
-            }
-        }
-
-        JsonObject obj = JsonParser.parseString(exportObject).getAsJsonObject();
-        Boolean blockNumberCheckBox = obj.get("blockNumberCheckBox").getAsBoolean();
-
-        String tariffSelectedCheckboxes = obj.get("tariffSelectedCheckboxes").getAsString();
-        JsonArray jsonArray = obj.get("optionsSelectedCheckboxes").getAsJsonArray();
-
-        Set<OptionDTO> setOfOptions = new HashSet<>();
-
-        if (jsonArray.size() != 0) {
-            for (int i = 0; i < jsonArray.size(); i++) {
-                setOfOptions.add(optionServiceImpl.getOptionDTOById(jsonArray.get(i).getAsLong()));
-            }
-        }
-        contractBeforeEditing.setSetOfOptions(setOfOptions);
-
-        if (contractBeforeEditing.isBlocked() != blockNumberCheckBox) {
-            contractBeforeEditing.setBlocked(blockNumberCheckBox);
-        }
-
-        if (!contractBeforeEditing.getTariff().getName().equals(tariffSelectedCheckboxes)) {
-            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariffSelectedCheckboxes);
-            if(tariffDTO!=null){
-                contractBeforeEditing.setTariff(tariffDTO);
-            }
-        }
-
-        contractServiceImpl.updateConvertDTO(contractBeforeEditing);
-        log.info(contractBeforeEditing.getContractNumber() + " contract with this number was successfully updated.");
-
-        return "true";
-    }
-
 
     /**
      *
@@ -238,28 +205,38 @@ public class ContractDetailsPageController {
 
         if(finalErrorMessage.length()==0){
 
-                ContractDTO contractBeforeEditing = null;
-
-                HashSet<ContractDTO> cartChangedContractsSet = (HashSet<ContractDTO>) session.getAttribute("cartChangedContractsSet");
-                for (ContractDTO contractDTO: cartChangedContractsSet) {
+                ContractDTO currentContractForCartFromSession = null;
+                HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+                for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
                     if(contractDTO.getContractNumber().equals(contractNumber)){
-                        contractBeforeEditing = contractDTO;
+                        currentContractForCartFromSession = contractDTO;
                     }
                 }
 
                 OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
-
-                cartChangedContractsSet.remove(contractBeforeEditing);
                 if(isChecked){
-                    contractBeforeEditing.addOption(optionDTO);
+                    currentContractForCartFromSession.addOption(optionDTO);
                 }else{
-                    contractBeforeEditing.removeOption(optionDTO);
+                    currentContractForCartFromSession.removeOption(optionDTO);
                 }
 
-                cartChangedContractsSet.add(contractBeforeEditing);
+                for (String optionIdi: incompatibleOptionIds) {
+                    OptionDTO optionDTOInc = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdi));
+                    currentContractForCartFromSession.removeOption(optionDTOInc);
+                }
 
-                session.setAttribute("cartChangedContractsSet", cartChangedContractsSet);
+                for (String optionIdo: obligatoryOptionIds) {
+                    OptionDTO optionDTOObl = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdo));
+                    currentContractForCartFromSession.addOption(optionDTOObl);
+                }
 
+                cartContractsSetChangedForCart.add(currentContractForCartFromSession);
+                session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+
+                System.out.println(currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
+                for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
+                    System.out.println("option: " + option.getName());
+                }
 
         }
 

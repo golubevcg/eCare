@@ -3,6 +3,7 @@ package eCare.controllers;
 import com.google.gson.*;
 import eCare.model.dto.*;
 import eCare.model.entity.Option;
+import eCare.services.api.*;
 import eCare.services.impl.*;
 import eCare.validator.UserContractDTOValidator;
 import org.apache.log4j.Logger;
@@ -19,24 +20,24 @@ public class NewUserRegPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userServiceImpl;
 
-    private final TariffServiceImpl tariffServiceImpl;
+    private final TariffService tariffServiceImpl;
 
     private final UserContractDTOValidator userValidator;
 
-    private final OptionServiceImpl optionServiceImpl;
+    private final OptionService optionServiceImpl;
 
-    private final RoleServiceImpl roleServiceImpl;
+    private final RoleService roleServiceImpl;
 
-    private final ContractServiceImpl contractServiceImpl;
+    private final ContractService contractServiceImpl;
 
-    public NewUserRegPageController(RoleServiceImpl roleServiceImpl,
-                                    ContractServiceImpl contractServiceImpl,
-                                    OptionServiceImpl optionServiceImpl,
+    public NewUserRegPageController(RoleService roleServiceImpl,
+                                    ContractService contractServiceImpl,
+                                    OptionService optionServiceImpl,
                                     UserContractDTOValidator userValidator,
-                                    TariffServiceImpl tariffServiceImpl,
-                                    UserServiceImpl userServiceImpl) {
+                                    TariffService tariffServiceImpl,
+                                    UserService userServiceImpl) {
         this.roleServiceImpl = roleServiceImpl;
         this.contractServiceImpl = contractServiceImpl;
         this.optionServiceImpl = optionServiceImpl;

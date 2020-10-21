@@ -44,19 +44,21 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-5" style="margin-top:-15px;">
-                <c:forEach var="entry" items="${contractsOptions}">
+                <c:forEach items="${onlyContractsChanges}" var="entry" >
 
-                    <p class="lead" id="columnContentLabels" style="clear:both; float:left;">${entry.key}</p>
+                    <p class="lead" id="columnContentLabels" style="clear:both; float:left;">${entry.contractNumber}</p>
+                    <p class="lead" id="columnContentLabels" ></p>
+
                     <button class="btn btn-secondary" type="button" style="float:right;" >X</button>
 
                     <div>
-                        <c:forEach var="nentry" items="${entry.value}">
+                        <c:forEach items="${entry.setOfOptions}" var="nentry" >
                             <hr class="rounded" style="width: 65%; clear:both; padding:2px;
                                     margin:0px; margin-top:0px; margin-bottom:0px; clear:both; float:right;">
                             <div>
                                 <button class="btn btn-secondary" type="button" style="clear:both; float:right;" >X</button>
-                                <p class="lead" style="float:right; margin-right: 110px;">${nentry.value}</p>
-                                <p class="lead" style="float:right; margin-right: 115px;">${nentry.key}</p>
+                                <p class="lead" style="float:right; margin-right: 110px;">${nentry.name}</p>
+<%--                                <p class="lead" style="float:right; margin-right: 115px;">${nentry.key}</p>--%>
                             </div>
                         </c:forEach>
                     </div>
