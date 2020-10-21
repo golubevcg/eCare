@@ -173,4 +173,11 @@ hr.rounded {
     content: none;
 }
 
+input:checked:disabled + .slider {
+    background-color: #9acffa;
+}
+
+input:disabled + .slider {
+    background-color: #d3d3d3;
+}
 

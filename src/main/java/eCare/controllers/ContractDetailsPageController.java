@@ -49,6 +49,8 @@ public class ContractDetailsPageController {
         ContractDTO contractBeforeEditing = contractServiceImpl.getContractDTOById(Long.parseLong(contractID)).get(0);
         session.setAttribute("contractBeforeEditing", contractBeforeEditing);
 
+        session.setAttribute("cartChangedContractsSet", contractBeforeEditing.getUser().getListOfContracts());
+
         model.addAttribute("contractBeforeEditing", contractBeforeEditing);
 
         model.addAttribute("contractNumber", contractBeforeEditing.getContractNumber());

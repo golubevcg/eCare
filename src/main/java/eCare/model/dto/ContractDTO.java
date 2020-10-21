@@ -11,6 +11,7 @@ import java.util.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"contractNumber"})
 public class ContractDTO implements Comparable{
+
     @Expose
     private Long contract_id;
     @Expose

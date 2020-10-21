@@ -208,17 +208,11 @@ function setCheckedAndDisable(current_option_id, checkedValue){
     currOpt.attr("disabled", true);
 
     $("[name=label" + current_option_id + "]").css('color', '#d3d3d3');
-    if(checkedValue){
-        $("#Slider" + current_option_id).css('background-color', '#9acffa');
-    }else{
-        $("#Slider" + current_option_id).css('background-color', '#d3d3d3');
-    }
 }
 
 function removeDisabledFromCheckBox(current_option_id){
     $("#" + current_option_id).attr("disabled", false);
     $("[name=label" + current_option_id + "]").css('color', 'black');
     $("#Slider" + current_option_id ).removeAttr("style");
-
 }
 

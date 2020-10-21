@@ -32,20 +32,27 @@ public class CheckContractPageController {
 
     static final Logger log = Logger.getLogger(EntrancePageController.class);
 
-    @Autowired
+    final
     UserService userServiceImpl;
 
-    @Autowired
+    final
     TariffService tariffServiceImpl;
 
-    @Autowired
+    final
     OptionService optionServiceImpl;
 
-    @Autowired
+    final
     ContractService contractServiceImpl;
 
     private String contractNumberBeforeEditing;
     private String userNameOfContractOwnerBeforeEditing;
+
+    public CheckContractPageController(UserService userServiceImpl, TariffService tariffServiceImpl, OptionService optionServiceImpl, ContractService contractServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+    }
 
     @GetMapping(value = "/checkContract/{contractId}")
     public String getCheckContractPage(Model model,
