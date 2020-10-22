@@ -11,7 +11,7 @@
     <title>Cart</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="/resources/css/checkContractPage.css">
+    <link type="text/css" rel="stylesheet" href="/resources/css/cartPage.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
@@ -29,7 +29,7 @@
     <div id="content-wrap">
         <jsp:directive.include file = "headerTemplate.jsp" />
         <div>
-<%--                <script src="/resources/js/checkContractPage.js"></script>--%>
+                <script src="/resources/js/cartPage.js"></script>
         </div>
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">
             <div class="row">
@@ -45,30 +45,130 @@
             <div class="col"></div>
             <div class="col-5" style="margin-top:-15px;">
                 <c:forEach items="${onlyContractsChanges}" var="entry" >
-
-                    <p class="lead" id="columnContentLabels" style="clear:both; float:left;">${entry.contractNumber}</p>
-                    <p class="lead" id="columnContentLabels" ></p>
-
-                    <button class="btn btn-secondary" type="button" style="float:right;" >X</button>
-
-                    <div>
-                        <c:forEach items="${entry.setOfOptions}" var="nentry" >
-                            <hr class="rounded" style="width: 65%; clear:both; padding:2px;
-                                    margin:0px; margin-top:0px; margin-bottom:0px; clear:both; float:right;">
-                            <div>
-                                <button class="btn btn-secondary" type="button" style="clear:both; float:right;" >X</button>
-                                <p class="lead" style="float:right; margin-right: 110px;">${nentry.name}</p>
-<%--                                <p class="lead" style="float:right; margin-right: 115px;">${nentry.key}</p>--%>
+                    <div id="toRemove${entry.contractNumber}">
+                        <button class="btn" type="button" onclick="remove($(this))" style="clear:both; float:right; font-size: 20px;"
+                                id="toRemove${entry.contractNumber}">X</button>
+                        <div class="jumbotron choosenTariffJumbotron">
+                            <div class="row">
+                                        <p class="lead" id="contractNumber"
+                                           style="font-family: MS Shell Dig 2; font-weight: bolder;  font-size: 25px; float:left;">
+                                                ${entry.contractNumber}</p>
                             </div>
-                        </c:forEach>
+                            <div style="margin-top:-10px;">
+                                <c:choose>
+                                    <c:when test="${empty entry.tariff}">
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div>
+                                            <div class="row" style="clear:both; margin-bottom:25px;">
+                                                <div class="col-4">
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <p class="lead columnDiscriptionLabel">Tariff:</p>
+                                                </div>
+
+                                                <div class="col-3">
+                                                </div>
+
+                                                <div class="col-1">
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:-10px;">
+                                                <div class="col-4">
+                                                </div>
+
+                                                <div class="col-4">
+                                                    <p class="lead columnDiscriptionLabels">${entry.tariff.name}</p>
+                                                </div>
+
+                                                <div class="col-3">
+                                                </div>
+
+                                                <div class="col-1">
+                                                    <button class="btn" type="button" onclick="remove($(this))" style="clear:both; padding:0; margin:0;" >X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:set var="contractNumber" >${entry.contractNumber}</c:set>
+                                <c:choose>
+                                <c:when test="${empty mapOfOptionsEnabledDisabled[contractNumber]}">
+
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="row" style="clear:both; margin-bottom:25px;">
+                                        <div class="col-4">
+                                        </div>
+
+                                        <div class="col-4">
+                                            <p class="lead columnDiscriptionLabel">Options:</p>
+                                        </div>
+
+                                        <div class="col-3">
+                                        </div>
+
+                                        <div class="col-3">
+                                        </div>
+                                    </div>
+                                    <c:forEach items="${mapOfOptionsEnabledDisabled[contractNumber]}" var="nentry" >
+                                        <div class="row" style="margin-top:-10px;">
+                                            <div class="col-4">
+                                            </div>
+
+                                            <div class="col-4">
+                                                <p class="lead">${nentry.key}</p>
+                                            </div>
+
+                                            <div class="col-3">
+                                                <p class="lead">${nentry.value}</p>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <button class="btn" type="button" onclick="remove($(this))" style="clear:both; padding:0; margin:0;">X</button>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+
+                                    <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
+                                </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${empty entry.blocked}">
+
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="row" style="clear:both;">
+                                            <div class="col-4">
+                                            </div>
+
+                                            <div class="col-4">
+                                                <p class="lead" id="columnContentLabels"  >Contract blocked:</p>
+                                            </div>
+
+                                            <div class="col-3">
+                                                <p class="lead" id="columnContentLabels" >${entry.blocked}</p>
+                                            </div>
+
+                                            <div class="col-1">
+                                                <button class="btn" type="button" style="clear:both; padding:0; margin:0;" onclick="remove($(this))">X</button>
+                                            </div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </div>
+                        </div>
                     </div>
-                    <hr class="rounded" style="width: 100%; clear:both; padding:2px;
-                                    margin:0px; margin-top:0px; margin-bottom:0px;">
                 </c:forEach>
 
                 <div>
-                    <hr class="rounded" style="width: 100%; clear:both; padding:2px;
-                                    margin:0px; margin-top:0px; margin-bottom:0px;">
                     <button class="btn btn-secondary" type="button" style="margin-left:240px;" >Submit changes</button>
                 </div>
 

@@ -279,11 +279,10 @@
         <div class="col"></div>
     </div>
         <div class="col"></div>
-    </div>
+</div>
 
     <div class="row" style="margin-bottom:30px">
         <div class="col"></div>
-
 
 
             <c:choose>
@@ -294,7 +293,7 @@
 
                     <div>
                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                        <input type="checkbox" name="blockNumberCheckBox">
+                        <input type="checkbox" name="blockNumberCheckBox" onchange="sendBlockedToSession($(this))">
                         <span class="slider round" ></span>
                     </label>
                 </c:when>
@@ -305,7 +304,7 @@
 
                     <div>
                     <label class="switch" style="clear:both; margin-top:5px;" name="group1">
-                        <input type="checkbox" checked disabled="disabled" name="blockNumberCheckBox">
+                        <input type="checkbox" checked disabled="disabled" name="blockNumberCheckBox" onchange="sendBlockedToSession($(this))">
                         <span class="slider round" style="background-color: #9acffa"></span>
                     </label>
                 </c:otherwise>

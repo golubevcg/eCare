@@ -5,13 +5,10 @@ import eCare.model.dto.OptionDTO;
 import eCare.services.api.ContractService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Controller for page, in which cart finalisation occur.
@@ -34,6 +31,8 @@ public class CartPageController {
 
         List<ContractDTO> onlyContractsChanges = new ArrayList<>();
 
+        Map<String, Map<String, String> > mapOfOptionsEnabledDisabled = new HashMap<>();
+
         for (ContractDTO contractDTOFromCart: cartChangedContractsSet) {
             ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contractDTOFromCart.getContractNumber());
             ContractDTO editedContractDTO = new ContractDTO();
@@ -45,11 +44,11 @@ public class CartPageController {
                 isChanged = true;
             }
 
-            Set<OptionDTO> optionDTOSet = new HashSet<>();
+            Map<String, String> optionMapEnabledDisabled = new HashMap<>();
             //here we check if in new contract exists freshly connected options
             for (OptionDTO optionDTOFromSession: contractDTOFromCart.getSetOfOptions()) {
                 if(!contractDTOFromDB.getSetOfOptions().contains(optionDTOFromSession)){
-                    optionDTOSet.add(optionDTOFromSession);
+                    optionMapEnabledDisabled.put(optionDTOFromSession.getName(), "enabled");
                     isChanged = true;
                 }
             }
@@ -57,15 +56,12 @@ public class CartPageController {
             //here we check if in new contract were removed old options
             for (OptionDTO optionDTOFromDb: contractDTOFromDB.getSetOfOptions()) {
                 if(!contractDTOFromCart.getSetOfOptions().contains(optionDTOFromDb)){
-                    optionDTOSet.add(optionDTOFromDb);
+                    optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
                     isChanged = true;
                 }
             }
 
-            if(!optionDTOSet.isEmpty()){
-                editedContractDTO.setSetOfOptions(optionDTOSet);
-                isChanged = true;
-            }
+            mapOfOptionsEnabledDisabled.put(contractDTOFromCart.getContractNumber(), optionMapEnabledDisabled);
 
             if(contractDTOFromCart.isBlocked() != contractDTOFromDB.isBlocked()){
                 editedContractDTO.setBlocked(contractDTOFromCart.isBlocked());
@@ -77,21 +73,23 @@ public class CartPageController {
             }
         }
 
-        for (int i = 0; i < onlyContractsChanges.size(); i++) {
-            System.out.println("contract " + i);
-            System.out.println(onlyContractsChanges.get(i).getContractNumber());
-            System.out.println("tariff " + onlyContractsChanges.get(i).getTariff());
-
-            for (OptionDTO optiondDTO:onlyContractsChanges.get(i).getSetOfOptions()) {
-                System.out.println("option: " + optiondDTO.getName());
-            }
-
-
-        }
-
         model.addAttribute("onlyContractsChanges", onlyContractsChanges);
+        model.addAttribute("mapOfOptionsEnabledDisabled", mapOfOptionsEnabledDisabled);
 
         return "cartPage";
     }
 
+    @PostMapping(value = "/cartPage/removeContractFromSession/{contractNumber}", produces = "application/json")
+    public @ResponseBody
+    String removeContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
+                                     @RequestBody String checked, HttpSession session) {
+        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
+            if(contractDTO.getContractNumber().equals(contractNumber)){
+                cartContractsSetChangedForCart.remove(contractDTO);
+            }
+        }
+        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+        return "";
+    }
 }

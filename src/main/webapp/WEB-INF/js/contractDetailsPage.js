@@ -216,3 +216,19 @@ function removeDisabledFromCheckBox(current_option_id){
     $("#Slider" + current_option_id ).removeAttr("style");
 }
 
+function sendBlockedToSession(isBlocked){
+
+    let checked = isBlocked.prop('checked');
+    let contractNumber = $('#numberLabel').text();
+
+    $.ajax({
+        contentType: "application/json",
+        url: '/contractDetails/updateBlockedInSession/' + contractNumber,
+        type: 'POST',
+        data: JSON.stringify(checked),
+        success: function (result) {
+
+        }
+    });
+}
+

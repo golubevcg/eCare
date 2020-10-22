@@ -278,4 +278,20 @@ public class ContractDetailsPageController {
 
     }
 
+    @PostMapping(value = "/contractDetails/updateBlockedInSession/{contractNumber}", produces = "application/json")
+    public @ResponseBody
+    String updateBlockedInSession(@PathVariable(value = "contractNumber") String contractNumber,
+                               @RequestBody String checked, HttpSession session) {
+        ContractDTO contract = null;
+        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
+            if(contractDTO.getContractNumber().equals(contractNumber)){
+                contract = contractDTO;
+            }
+        }
+        contract.setBlocked(Boolean.parseBoolean(checked));
+        cartContractsSetChangedForCart.add(contract);
+        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+        return "";
+    }
 }
