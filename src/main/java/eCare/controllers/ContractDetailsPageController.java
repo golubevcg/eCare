@@ -53,11 +53,6 @@ public class ContractDetailsPageController {
             }
         }
 
-        System.out.println(currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
-        for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
-            System.out.println("option: " + option.getName());
-        }
-
         UserDTO userBeforeEditing = currentContractForCartFromSession.getUser();
 
         model.addAttribute("contractNumber", currentContractForCartFromSession.getContractNumber());
@@ -134,11 +129,6 @@ public class ContractDetailsPageController {
         currentContractForCartFromSession.setSetOfOptions(new HashSet<>());
         cartContractsSetChangedForCart.add(currentContractForCartFromSession);
         session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
-
-        System.out.println("afterTariffChange: " + currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
-        for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
-            System.out.println("option: " + option.getName());
-        }
 
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -232,11 +222,6 @@ public class ContractDetailsPageController {
 
                 cartContractsSetChangedForCart.add(currentContractForCartFromSession);
                 session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
-
-                System.out.println(currentContractForCartFromSession.getContractNumber() + " , " + currentContractForCartFromSession.getTariff().getName());
-                for (OptionDTO option: currentContractForCartFromSession.getSetOfOptions()) {
-                    System.out.println("option: " + option.getName());
-                }
 
         }
 

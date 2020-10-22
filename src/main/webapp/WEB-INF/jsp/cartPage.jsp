@@ -46,7 +46,7 @@
             <div class="col-5" style="margin-top:-15px;">
                 <c:forEach items="${onlyContractsChanges}" var="entry" >
                     <div id="toRemove${entry.contractNumber}">
-                        <button class="btn" type="button" onclick="remove($(this))" style="clear:both; float:right; font-size: 20px;"
+                        <button class="btn" type="button" onclick="removeContract($(this))" style="clear:both; float:right; font-size: 20px;"
                                 id="toRemove${entry.contractNumber}">X</button>
                         <div class="jumbotron choosenTariffJumbotron">
                             <div class="row">
@@ -60,7 +60,7 @@
 
                                     </c:when>
                                     <c:otherwise>
-                                        <div>
+                                        <div id="tariff${entry.tariff.name}">
                                             <div class="row" style="clear:both; margin-bottom:25px;">
                                                 <div class="col-4">
                                                 </div>
@@ -88,12 +88,13 @@
                                                 </div>
 
                                                 <div class="col-1">
-                                                    <button class="btn" type="button" onclick="remove($(this))" style="clear:both; padding:0; margin:0;" >X</button>
+                                                    <button class="btn" type="button" onclick="removeTariff($(this))"
+                                                            style="clear:both; padding:0; margin:0;" id="tariff${entry.tariff.name}">X</button>
                                                 </div>
                                             </div>
+                                            <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                         </div>
 
-                                        <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                     </c:otherwise>
                                 </c:choose>
 
@@ -136,30 +137,33 @@
                                         </div>
                                     </c:forEach>
 
-                                    <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                 </c:otherwise>
                                 </c:choose>
                                 <c:choose>
-                                    <c:when test="${empty entry.blocked}">
+                                    <c:when test="${showBlockedOnPage eq true}">
+                                        <div id="isBlocked${entry.contractNumber}" >
+                                            <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
+                                            <div class="row" style="clear:both;">
+                                                <div class="col-4">
+                                                </div>
 
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="row" style="clear:both;">
-                                            <div class="col-4">
-                                            </div>
+                                                <div class="col-4">
+                                                    <p class="lead" id="columnContentLabels"  >Contract blocked:</p>
+                                                </div>
 
-                                            <div class="col-4">
-                                                <p class="lead" id="columnContentLabels"  >Contract blocked:</p>
-                                            </div>
+                                                <div class="col-3">
+                                                    <p class="lead" id="columnContentLabels" >${entry.blocked}</p>
+                                                </div>
 
-                                            <div class="col-3">
-                                                <p class="lead" id="columnContentLabels" >${entry.blocked}</p>
-                                            </div>
-
-                                            <div class="col-1">
-                                                <button class="btn" type="button" style="clear:both; padding:0; margin:0;" onclick="remove($(this))">X</button>
+                                                <div class="col-1">
+                                                    <button class="btn" type="button" style="clear:both; padding:0; margin:0;" onclick="removeIsBlocked($(this))"
+                                                    id="isBlocked${entry.contractNumber}">X</button>
+                                                </div>
                                             </div>
                                         </div>
+                                    </c:when>
+                                    <c:otherwise>
+
                                     </c:otherwise>
                                 </c:choose>
 
