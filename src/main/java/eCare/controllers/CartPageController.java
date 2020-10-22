@@ -131,4 +131,10 @@ public class CartPageController {
 
     }
 
+    @GetMapping(value = "/cartPage/removeOptionInContractFromSession/{contractNumber}", produces = "application/json")
+    public @ResponseBody
+    void removeOptionInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
+                                           HttpSession session) {
+    }
+
 }

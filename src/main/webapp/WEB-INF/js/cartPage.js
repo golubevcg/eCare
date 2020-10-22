@@ -25,4 +25,12 @@ function removeIsBlocked(button){
     $('#' + button.attr('id')).remove();
 }
 
+function removeOption(button){
+    let contractNumber = $('#contractNumber').text();
+    $.ajax({
+        type: 'GET',
+        url: '/cartPage/removeOptionInContractFromSession/' + contractNumber,
+    });
+    $('#' + button.attr('id')).remove();
+}
 

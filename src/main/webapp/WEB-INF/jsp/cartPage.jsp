@@ -119,20 +119,22 @@
                                         </div>
                                     </div>
                                     <c:forEach items="${mapOfOptionsEnabledDisabled[contractNumber]}" var="nentry" >
-                                        <div class="row" style="margin-top:-10px;">
-                                            <div class="col-4">
-                                            </div>
+                                        <div id="option${nentry.key}">
+                                            <div class="row" style="margin-top:-10px;">
+                                                <div class="col-4">
+                                                </div>
 
-                                            <div class="col-4">
-                                                <p class="lead">${nentry.key}</p>
-                                            </div>
+                                                <div class="col-4">
+                                                    <p class="lead">${nentry.key}</p>
+                                                </div>
 
-                                            <div class="col-3">
-                                                <p class="lead">${nentry.value}</p>
-                                            </div>
+                                                <div class="col-3">
+                                                    <p class="lead">${nentry.value}</p>
+                                                </div>
 
-                                            <div class="col-1">
-                                                <button class="btn" type="button" onclick="remove($(this))" style="clear:both; padding:0; margin:0;">X</button>
+                                                <div class="col-1">
+                                                    <button class="btn" type="button" onclick="removeOption($(this))" id="option${nentry.key}" style="clear:both; padding:0; margin:0;">X</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </c:forEach>
