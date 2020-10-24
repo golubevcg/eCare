@@ -61,6 +61,7 @@
                                     </c:when>
                                     <c:otherwise>
                                         <div id="tariff${entry.tariff.name}">
+                                            <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                             <div class="row" style="clear:both; margin-bottom:25px;">
                                                 <div class="col-4">
                                                 </div>
@@ -92,7 +93,6 @@
                                                             style="clear:both; padding:0; margin:0;" id="tariff${entry.tariff.name}">X</button>
                                                 </div>
                                             </div>
-                                            <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                         </div>
 
                                     </c:otherwise>
@@ -118,14 +118,15 @@
                                         <div class="col-3">
                                         </div>
                                     </div>
+                                    <div id="option${nentry.key}" class="optionsDiv">
                                     <c:forEach items="${mapOfOptionsEnabledDisabled[contractNumber]}" var="nentry" >
-                                        <div id="option${nentry.key}">
+                                        <div id="option${nentry.key.replace(" ", "")}div">
                                             <div class="row" style="margin-top:-10px;">
                                                 <div class="col-4">
                                                 </div>
 
                                                 <div class="col-4">
-                                                    <p class="lead">${nentry.key}</p>
+                                                    <p class="lead" >${nentry.key}</p>
                                                 </div>
 
                                                 <div class="col-3">
@@ -133,11 +134,14 @@
                                                 </div>
 
                                                 <div class="col-1">
-                                                    <button class="btn" type="button" onclick="removeOption($(this))" id="option${nentry.key}" style="clear:both; padding:0; margin:0;">X</button>
+                                                    <button class="btn" type="button" onclick="removeOption($(this))"
+                                                            id="option${nentry.key.replace(" ", "")}"  name="${nentry.key}"
+                                                            style="clear:both; padding:0; margin:0;">X</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </c:forEach>
+                                    </div>
 
                                 </c:otherwise>
                                 </c:choose>
@@ -175,7 +179,7 @@
                 </c:forEach>
 
                 <div>
-                    <button class="btn btn-secondary" type="button" style="margin-left:240px;" >Submit changes</button>
+                    <button class="btn btn-secondary" type="button" style="margin-left:240px;" onclick="submitChanges()">Submit changes</button>
                 </div>
 
             </div>
