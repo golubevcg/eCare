@@ -40,8 +40,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/login").permitAll()
                 .antMatchers("/userRegistration", "/workerOffice", "/newTariff",
-                        "/newOption", "/newContract").hasAuthority("ADMIN")
-                .antMatchers("/clientOffice", "/contracts").hasAuthority("USER")
+                        "/newOption", "/newContract", "/ad", "/checkTariff", "/checkOption").hasAuthority("ADMIN")
+                .antMatchers("/clientOffice",
+                        "/contracts", "/cartPage", "/contractDetails",
+                        "/checkTariff", "/checkOption").hasAuthority("USER")
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest()
                 .authenticated()

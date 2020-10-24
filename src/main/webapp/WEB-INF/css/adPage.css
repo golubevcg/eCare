@@ -1,0 +1,44 @@
+
+.border-contrainer{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #1A1C22;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    width: 75%;
+}
+.btn{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #1A1C22;
+    border-radius: 8px;
+    padding: 5px 15px;
+}
+
+.btn:hover {
+    background-color: #4b99ee;
+    color: white;
+    border-color: #4b99ee;
+}
+
+.inputForm{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #1A1C22;
+    border-radius: 8px;
+    padding: 5px 15px;
+}
+
+#page-container {
+    position: relative;
+    min-height: 85vh;
+}
+
+#content-wrap {
+    padding-bottom: 2.5rem;
+}
+
+/*.dropdown-toggle::after {*/
+/*    content: none;*/
+/*}*/

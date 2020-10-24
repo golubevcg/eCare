@@ -28,7 +28,7 @@
 <div id="page-container">
     <div id="content-wrap">
         <jsp:directive.include file = "headerTemplate.jsp" />
-        <div>
+    <div>
                 <script src="/resources/js/cartPage.js"></script>
         </div>
         <div class="jumbotron jumbotron-fluid" id="privateOfficeJumbotron">

@@ -107,6 +107,7 @@
                                 <a class="dropdown-item" href="/newContract">New contract</a>
                                 <a class="dropdown-item" href="/newTariff">New tariff</a>
                                 <a class="dropdown-item" href="/newOption">New option</a>
+                                <a class="dropdown-item" href="/adPage">Edit ad</a>
 
                                 <a class="dropdown-item" href="<c:url value="/logout"/>">Logout</a>
                             </div>
