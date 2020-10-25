@@ -2,7 +2,6 @@ package eCare.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.services.api.ContractService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.*;
 
 /**

@@ -5,7 +5,6 @@ import eCare.model.dto.ContractDTO;
 import eCare.model.entity.Contract;
 import eCare.model.converters.ContractMapper;
 import eCare.services.api.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

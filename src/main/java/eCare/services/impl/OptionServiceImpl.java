@@ -5,7 +5,6 @@ import eCare.model.dto.OptionDTO;
 import eCare.model.entity.Option;
 import eCare.model.converters.OptionMapper;
 import eCare.services.api.OptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

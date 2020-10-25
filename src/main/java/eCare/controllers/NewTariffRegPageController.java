@@ -6,7 +6,6 @@ import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.validator.TariffDTOValidator;
 import org.apache.log4j.Logger;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
