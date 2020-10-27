@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cart</title>
+    <title>adPage</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="/resources/css/adPage.css">
@@ -31,19 +31,104 @@
     <div id="content-wrap">
     <jsp:directive.include file = "headerTemplate.jsp" />
 
-        <div class="row" style="padding-top: 50px;">
-            <div class="col"></div>
-            <div class="col">
-                <div class="form-group">
-                    <input class="form-control" id="adText" type="text">
+        <div class="row" style="padding-top: 20px;">
+            <div class="col-3"></div>
+            <div class="col" style="margin-left:30px;">
+                <div class="card">
+                            <h5 class="card-header">
+                                <select class="form-control form-control-lg" name="selectedTariff" id="tariffslist1"
+                                onchange="changeDescriptionAndPrice($(this))">
+                                    <c:forEach items="${listOfTariffs}" var="tariff">
+
+                                        <c:choose>
+                                            <c:when test="${tariff.name eq listOfAdTariffs[0].name}">
+                                                <option selected>${tariff.name}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option>${tariff.name}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                    </c:forEach>
+                                </select>
+                            </h5>
+                            <div class="card-body">
+                                <label style="font-size:15px; color:#d3d3d3" id="tariffdsc">Tariff description:</label>
+
+                                <p class="card-text" id="tariffslist1description">${listOfAdTariffs[0].shortDiscription}</p>
+
+                                <hr>
+                                <label style="font-size:20px" id="tariffslist1price">${listOfAdTariffs[0].price}$/month</label>
+
+                            </div>
+                        </div>
+                <div class="card">
+                    <h5 class="card-header">
+                        <select class="form-control form-control-lg" name="selectedTariff" id="tariffslist2"
+                                onchange="changeDescriptionAndPrice($(this))">
+                            <c:forEach items="${listOfTariffs}" var="tariff">
+                                <c:choose>
+                                    <c:when test="${tariff.name eq listOfAdTariffs[1].name}">
+                                        <option selected>${tariff.name}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option>${tariff.name}</option>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </c:forEach>
+                        </select>
+                    </h5>
+                    <div class="card-body">
+                        <label style="font-size:15px; color:#d3d3d3">Tariff description:</label>
+                        <p class="card-text" id="tariffslist2description">${listOfAdTariffs[1].shortDiscription}</p>
+                        <hr>
+                        <label style="font-size:20px" id="tariffslist2price">${listOfAdTariffs[1].price}$/month</label>
+
+                    </div>
                 </div>
-                <input type="submit" class="btn" onclick="submitAd()">
+                <div class="card">
+                    <h5 class="card-header">
+                        <select class="form-control form-control-lg" name="selectedTariff" id="tariffslist3"
+                                onchange="changeDescriptionAndPrice($(this))">
+                            <c:forEach items="${listOfTariffs}" var="tariff">
+
+                                <c:choose>
+                                    <c:when test="${tariff.name eq listOfAdTariffs[2].name}">
+                                        <option selected>${tariff.name}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option>${tariff.name}</option>
+                                    </c:otherwise>
+                                </c:choose>
+
+                            </c:forEach>
+                        </select>
+                    </h5>
+                    <div class="card-body">
+                        <label style="font-size:15px; color:#d3d3d3">Tariff description:</label>
+                        <p class="card-text" id="tariffslist3description">${listOfAdTariffs[2].shortDiscription}</p>
+                        <hr>
+                        <label style="font-size:20px" id="tariffslist3price">${listOfAdTariffs[2].price}$/month</label>
+
+                    </div>
+                </div>
             </div>
-            <div class="col"></div>
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row" style="padding-top: 25px;">
+            <div class="col-5"></div>
+            <div class="col-3" style="margin-left:50px;">
+                    <input class="btn" onclick="submitAd()" value="Save changes">
+            </div>
+            <div class="col-6"></div>
         </div>
 
     </div>
 </div>
+
+
 
 
 </body>

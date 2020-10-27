@@ -11,8 +11,11 @@ import java.util.Objects;
 @Component
 public class UserMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public UserMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public User toEntity(UserDTO userDTO){
         return Objects.isNull(userDTO) ? null : modelMapper.map(userDTO, User.class);

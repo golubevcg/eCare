@@ -1,23 +1,32 @@
 function submitAd(){
 
-    let textVal = $('#adText').val();
-
-    console.log( textVal );
-    let adText = {"adText" : textVal};
+    let arr = [$('#tariffslist1').val(), $('#tariffslist2').val(), $('#tariffslist3').val()];
 
     $.ajax({
-        type: 'POST',
         contentType: "application/json",
-        url: '/adPage/submit/',
-        data: JSON.stringify(adText),
+        type: 'POST',
+        url: '/adPage/submit',
+        data: JSON.stringify(arr),
         success(result){
-            // console.log(result);
-            // if(result.toString()==="true"){
-            //     location.href = '/workerOffice';
-            // }else{
-            //     alert("Error, ad was not updated");
-            // }
+            alert("Ad was successfully updated!");
+            location.reload();
         }
     });
+
+}
+
+function changeDescriptionAndPrice(listNode){
+        let selectedTariff = listNode.val();
+        let selectedId = listNode.attr('id');
+
+        $.ajax({
+                type: 'GET',
+                url: '/adPage/getTariffInfo/' + selectedTariff,
+                success: function(result){
+                    let parsedResult = JSON.parse(result);
+                    $("#" + selectedId + "description").text(parsedResult[0]);
+                    $("#" + selectedId + "price").text(parsedResult[1]);
+                }
+            });
 
 }

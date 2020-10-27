@@ -13,8 +13,11 @@ import java.util.Objects;
 @Scope(value = "prototype")
 public class TariffMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public TariffMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public Tariff toEntity(TariffDTO tariffDTO){
         return Objects.isNull(tariffDTO) ? null : modelMapper.map(tariffDTO, Tariff.class);

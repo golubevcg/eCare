@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class MessagingConfiguration {
 
     private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
-    private static final String MESSAGE_QUEUE = "message_queue";
+    private static final String MESSAGE_TOPIC = "message_topic";
 
     @Bean
     public ConnectionFactory connectionFactory()
@@ -26,15 +26,13 @@ public class MessagingConfiguration {
         return connectionFactory;
     }
 
-    /*
-     * Used here for Sending Messages.
-     */
     @Bean
     public JmsTemplate jmsTemplate()
     {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
-        template.setDefaultDestinationName(MESSAGE_QUEUE);
+        template.setDefaultDestinationName(MESSAGE_TOPIC);
+        template.setPubSubDomain(true);
         return template;
     }
 

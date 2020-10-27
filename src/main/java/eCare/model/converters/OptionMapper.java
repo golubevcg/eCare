@@ -11,8 +11,11 @@ import java.util.Objects;
 @Component
 public class OptionMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public OptionMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public Option toEntity(OptionDTO optionDTO){
         return Objects.isNull(optionDTO) ? null : modelMapper.map(optionDTO, Option.class);

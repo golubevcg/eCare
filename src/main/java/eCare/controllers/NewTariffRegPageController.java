@@ -58,7 +58,6 @@ public class NewTariffRegPageController {
 
                 OptionDTO optionDTO = optionService.getOptionDTOByNameOrNull(selectedOptions[i]);
                 optionDTOSet.add( optionDTO);
-                System.out.println(optionDTO.getName() + " " + optionDTO.hashCode());
             }
             tariffDTO.setSetOfOptions(optionDTOSet);
         }

@@ -11,8 +11,11 @@ import java.util.Objects;
 @Component
 public class RoleMapper {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public RoleMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public Role toEntity(RoleDTO roleDTO){
         return Objects.isNull(roleDTO) ? null : modelMapper.map(roleDTO, Role.class);

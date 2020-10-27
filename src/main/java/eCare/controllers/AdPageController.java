@@ -1,14 +1,22 @@
 package eCare.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import eCare.model.dto.OptionDTO;
+import com.google.gson.JsonArray;
+import eCare.model.dto.AdDTO;
+import eCare.model.dto.TariffDTO;
+import eCare.model.entity.Ad;
 import eCare.mq.MessageSender;
-import org.springframework.beans.factory.annotation.Autowired;
+import eCare.services.api.AdService;
+import eCare.services.api.TariffService;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AdPageController {
@@ -16,32 +24,62 @@ public class AdPageController {
     final
     MessageSender messageSender;
 
-    @Autowired
+    final
     JmsTemplate jmsTemplate;
 
-    public AdPageController(MessageSender messageSender) {
+    final
+    TariffService tariffServiceImpl;
+
+    final AdService adServiceIml;
+
+
+    public AdPageController(MessageSender messageSender, JmsTemplate jmsTemplate,
+                            TariffService tariffServiceImpl, AdService adServiceIml) {
         this.messageSender = messageSender;
+        this.jmsTemplate = jmsTemplate;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.adServiceIml = adServiceIml;
     }
 
     @GetMapping("/adPage")
     public String getAdTextPage(Model model){
-        model.addAttribute("adText", new String());
+        model.addAttribute("listOfTariffs", tariffServiceImpl.getActiveTariffs());
+        ArrayList<TariffDTO> tariffDTOSFromMainAd =
+                new ArrayList<>(adServiceIml.getAdDTOByNameOrNull("main").getSetOfTariffs());
+        Collections.sort(tariffDTOSFromMainAd);
+        model.addAttribute("listOfAdTariffs", tariffDTOSFromMainAd);
         return "adPage";
     }
 
-    @PostMapping("/adPage/submit")
+    @PostMapping(value = "/adPage/submit", produces = "application/json")
     public @ResponseBody
-    String postAdTextPageUpdateAd(@RequestBody String adText){
-        JsonObject json = new Gson().fromJson(adText, JsonObject.class);
-        String parsedAdText = json.get("adText").getAsString();
+    String submitAdChanges(@RequestBody String adText){
+        JsonArray jsonArray = new Gson().fromJson(adText, JsonArray.class);
 
-        OptionDTO optionDTO = new OptionDTO();
-        optionDTO.setName(parsedAdText);
-        optionDTO.setPrice(123);
-        optionDTO.setConnectionCost(11);
+        AdDTO adDTO = adServiceIml.getAdDTOByNameOrNull("main");
 
-        messageSender.sendOptionDTO(optionDTO);
+        Set<TariffDTO> tariffDTOSet = new HashSet<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(jsonArray.get(i).getAsString());
+            tariffDTOSet.add(tariffDTO);
+        }
 
+        adDTO.setSetOfTariffs(tariffDTOSet);
+
+        adServiceIml.convertToEntityAndUpdate(adDTO);
+
+//                messageSender.sendMessage(parsedAdText);
         return "true";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/adPage/getTariffInfo/{selectedTariff}", method = RequestMethod.GET)
+    public String getTariffInfo(@PathVariable("selectedTariff") String selectedTariff) {
+        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
+        String[] exportArray = new String[2];
+        exportArray[0] = tariffDTO.getShortDiscription();
+        exportArray[1] = tariffDTO.getPrice().toString();
+        return new Gson().toJson(exportArray);
+    }
+
 }

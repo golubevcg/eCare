@@ -11,10 +11,14 @@ import java.util.Objects;
 @Component
 public class ContractMapper {
 
-   @Autowired
+   final
    ModelMapper modelMapper;
 
-   public Contract toEntity(ContractDTO contractDTO){
+    public ContractMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
+    public Contract toEntity(ContractDTO contractDTO){
        return Objects.isNull(contractDTO) ? null : modelMapper.map(contractDTO, Contract.class);
    }
 
