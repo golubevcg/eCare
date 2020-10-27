@@ -29,6 +29,7 @@ public class TariffDTO implements Comparable{
     @Expose
     private boolean isActive = true;
 
+    @Expose
     private Set<OptionDTO> setOfOptions = new HashSet<>();
 
     public void addOptionDTO(OptionDTO optionDTO){
