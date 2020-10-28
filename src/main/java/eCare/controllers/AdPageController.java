@@ -68,7 +68,7 @@ public class AdPageController {
 
         adServiceIml.convertToEntityAndUpdate(adDTO);
 
-//                messageSender.sendMessage(parsedAdText);
+        messageSender.sendTariffsDTOSet(tariffDTOSet);
         return "true";
     }
 

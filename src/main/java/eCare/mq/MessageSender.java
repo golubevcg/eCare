@@ -1,7 +1,9 @@
 package eCare.mq;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import eCare.model.dto.OptionDTO;
+import eCare.model.dto.TariffDTO;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
@@ -10,6 +12,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import java.util.Set;
 
 @Component
 public class MessageSender {
@@ -34,9 +37,9 @@ public class MessageSender {
         });
     }
 
-    public void sendOptionDTO(OptionDTO optionDTO){
-        Gson gson = new Gson();
-        this.sendMessage(gson.toJson(optionDTO));
+    public void sendTariffsDTOSet(Set<TariffDTO> tariffDTOSet){
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        this.sendMessage(gson.toJson(tariffDTOSet));
     }
 
 }

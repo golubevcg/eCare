@@ -26,7 +26,7 @@ public class TariffDTO implements Comparable{
 
     private Set<ContractDTO> setOfContracts = new HashSet<>();
 
-    @Expose
+//    @Expose
     private boolean isActive = true;
 
     @Expose

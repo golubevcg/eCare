@@ -1,6 +1,5 @@
 package eCare.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
@@ -14,7 +13,7 @@ import java.util.Arrays;
 @Configuration
 public class MessagingConfiguration {
 
-    private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
+        private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
     private static final String MESSAGE_TOPIC = "message_topic";
 
     @Bean

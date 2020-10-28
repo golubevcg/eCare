@@ -22,8 +22,9 @@ public class OptionDTO implements Comparable{
     private Integer connectionCost;
     @Expose
     private String shortDescription;
-    
+
     private boolean isActive = true;
+
     private Set<TariffDTO> tariffsOptions = new HashSet<>();
     private Set<ContractDTO> contractsOptions = new HashSet<>();
     private Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
