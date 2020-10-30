@@ -20,7 +20,6 @@ import static org.modelmapper.config.Configuration.AccessLevel.PRIVATE;
 @Configuration
 @ComponentScan("eCare")
 @EnableWebMvc
-@Import({ MessagingConfiguration.class })
 public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;

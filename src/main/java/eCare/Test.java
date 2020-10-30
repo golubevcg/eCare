@@ -1,20 +1,12 @@
-package eCare.mq;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import eCare.model.dto.TariffDTO;
-import org.springframework.stereotype.Component;
+package eCare;
 
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Properties;
-import java.util.Set;
 
-@Component
-public class MessageSender {
-
+public class Test {
     private static final String JMS_CONNECTION_FACTORY_JNDI = "jms/RemoteConnectionFactory";
     private static final String JMS_QUEUE_JNDI = "jms/quene/test";
     private static final String WILDFLY_REMOTING_URL = "http-remoting://127.0.0.1:8081";
@@ -34,14 +26,12 @@ public class MessageSender {
             Queue queue = (Queue) context.lookup(JMS_QUEUE_JNDI);
             QueueConnection connection = connectionFactory.createQueueConnection(JMS_USERNAME, JMS_PASSWORD);
             connection.start();
-            QueueSession session = connection.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
+            QueueSession session = connection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
             QueueSender sender = session.createSender(queue);
 
-            TextMessage textMessage = session.createTextMessage(message);
+            TextMessage textMessage = session.createTextMessage("updated");
 
             sender.send(textMessage);
-
-
             session.close();
             connection.close();
         } catch (NamingException | JMSException e) {
@@ -49,9 +39,9 @@ public class MessageSender {
         }
     }
 
-    public void sendTariffsDTOSet(Set<TariffDTO> tariffDTOSet){
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        this.sendMessage(gson.toJson(tariffDTOSet));
+    public static void main(String[] args) {
+        Test test = new Test();
+        test.sendMessage("tsetse");
     }
 
 }

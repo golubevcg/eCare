@@ -180,6 +180,14 @@
       <version>5.16.0</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.wildfly/wildfly-jms-client-bom -->
+    <dependency>
+      <groupId>org.wildfly</groupId>
+      <artifactId>wildfly-jms-client-bom</artifactId>
+      <version>21.0.0.Final</version>
+      <type>pom</type>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import eCare.model.dto.AdDTO;
 import eCare.model.dto.TariffDTO;
-import eCare.model.entity.Ad;
 import eCare.mq.MessageSender;
 import eCare.services.api.AdService;
 import eCare.services.api.TariffService;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,18 +23,15 @@ public class AdPageController {
     MessageSender messageSender;
 
     final
-    JmsTemplate jmsTemplate;
-
-    final
     TariffService tariffServiceImpl;
 
-    final AdService adServiceIml;
+    final
+    AdService adServiceIml;
 
 
-    public AdPageController(MessageSender messageSender, JmsTemplate jmsTemplate,
+    public AdPageController(MessageSender messageSender,
                             TariffService tariffServiceImpl, AdService adServiceIml) {
         this.messageSender = messageSender;
-        this.jmsTemplate = jmsTemplate;
         this.tariffServiceImpl = tariffServiceImpl;
         this.adServiceIml = adServiceIml;
     }
@@ -69,6 +64,7 @@ public class AdPageController {
         adServiceIml.convertToEntityAndUpdate(adDTO);
 
         messageSender.sendTariffsDTOSet(tariffDTOSet);
+//        messageSender.sendMessage("test");
         return "true";
     }
 
