@@ -19,12 +19,11 @@ public class AdRestController {
         this.adServiceIml = adServiceIml;
     }
 
-    @GetMapping(value="adPage/getAdTariffs/{adName}", produces = "application/json")
+    @GetMapping(value="getAdTariffs/{adName}", produces = "application/json")
     public String getMainAdTariffs(@PathVariable String adName){
         Set<TariffDTO> listOfTariffs = adServiceIml.getAdDTOByNameOrNull(adName).getSetOfTariffs();
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(listOfTariffs);
     }
-
 
 }
