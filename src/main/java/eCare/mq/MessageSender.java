@@ -17,7 +17,7 @@ public class MessageSender {
 
     private static final String JMS_CONNECTION_FACTORY_JNDI = "jms/RemoteConnectionFactory";
     private static final String JMS_QUEUE_JNDI = "jms/quene/test";
-    private static final String WILDFLY_REMOTING_URL = "http-remoting://127.0.0.1:8081";
+    private static final String WILDFLY_REMOTING_URL = "http-remoting://127.0.0.1:8080";
     private static final String JMS_USERNAME = "quickstartUser";
     private static final String JMS_PASSWORD = "quickstartPwd1!";
 
