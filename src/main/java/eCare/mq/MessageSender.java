@@ -41,17 +41,12 @@ public class MessageSender {
 
             sender.send(textMessage);
 
-
             session.close();
             connection.close();
+            System.out.println("message sended to mq");
         } catch (NamingException | JMSException e) {
             e.printStackTrace();
         }
-    }
-
-    public void sendTariffsDTOSet(Set<TariffDTO> tariffDTOSet){
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        this.sendMessage(gson.toJson(tariffDTOSet));
     }
 
 }

@@ -2,21 +2,27 @@ package eCare.dao.impl;
 
 import eCare.dao.api.AdDao;
 import eCare.model.entity.Ad;
-import eCare.model.entity.Contract;
-import eCare.model.entity.User;
+import eCare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class AdDaoImpl implements AdDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    final
+    MessageSender messageSender;
+
+    public AdDaoImpl(MessageSender messageSender, SessionFactory sessionFactory) {
+        this.messageSender = messageSender;
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void save(Ad ad) {
@@ -50,4 +56,5 @@ public class AdDaoImpl implements AdDao {
             return adsList.get(0);
         }
     }
+
 }

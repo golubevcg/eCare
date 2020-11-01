@@ -3,17 +3,20 @@ package eCare.dao.impl;
 import eCare.dao.api.UserDao;
 import eCare.model.entity.Role;
 import eCare.model.entity.User;
+import eCare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
     private final SessionFactory sessionFactory;
@@ -32,7 +35,7 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         this.checkUserRoles(user, session);
         user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
-        session.merge(user);
+        session.persist(user);
     }
 
     @Override

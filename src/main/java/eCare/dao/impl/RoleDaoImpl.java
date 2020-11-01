@@ -5,12 +5,14 @@ import eCare.model.entity.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Repository
+@Transactional
 public class RoleDaoImpl implements RoleDao {
 
     private final SessionFactory sessionFactory;

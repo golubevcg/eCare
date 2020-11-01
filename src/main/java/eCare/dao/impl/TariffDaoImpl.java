@@ -2,19 +2,27 @@ package eCare.dao.impl;
 
 import eCare.dao.api.TariffDao;
 import eCare.model.entity.Tariff;
+import eCare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class TariffDaoImpl implements TariffDao {
 
     private final SessionFactory sessionFactory;
 
-    public TariffDaoImpl(SessionFactory sessionFactory) {
+    final
+    MessageSender messageSender;
+
+    public TariffDaoImpl(SessionFactory sessionFactory, MessageSender messageSender) {
         this.sessionFactory = sessionFactory;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -74,7 +82,5 @@ public class TariffDaoImpl implements TariffDao {
                 .list();
         return contractsList;
     }
-
-
 
 }

@@ -3,6 +3,7 @@ package eCare.controllers;
 import com.google.gson.*;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
+import eCare.mq.MessageSender;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import org.apache.log4j.Logger;
@@ -26,13 +27,19 @@ public class CheckOptionPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    @Autowired
-    private OptionService optionServiceImpl;
+    private final OptionService optionServiceImpl;
 
-    @Autowired
-    private ContractService contractServiceImpl;
+    private final ContractService contractServiceImpl;
+
+    private final MessageSender messageSender;
 
     private String optionNameBeforeEditing;
+
+    public CheckOptionPageController(OptionService optionServiceImpl, ContractService contractServiceImpl, MessageSender messageSender) {
+        this.optionServiceImpl = optionServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+        this.messageSender = messageSender;
+    }
 
     @GetMapping(value = "/checkOption/{optionName}")
     public String getCheckOptionPage(Model model, @PathVariable(name="optionName") String optionName) {
@@ -107,6 +114,7 @@ public class CheckOptionPageController {
             optionServiceImpl.convertToEntityAndUpdate(optionDTO1);
         }
 
+        messageSender.sendMessage("update");
         log.info(optionDTO1.getName() + " was successfully edited and updated.");
         return "workerOfficePage";
     }

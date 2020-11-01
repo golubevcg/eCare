@@ -25,7 +25,6 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    @Transactional
     public void save(Contract contract) {
         contractDaoImpl.save(contract);
     }

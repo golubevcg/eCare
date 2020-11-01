@@ -2,19 +2,27 @@ package eCare.dao.impl;
 
 import eCare.dao.api.OptionDao;
 import eCare.model.entity.Option;
+import eCare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class OptionDaoImpl implements OptionDao {
 
     private final SessionFactory sessionFactory;
 
-    public OptionDaoImpl(SessionFactory sessionFactory) {
+    final
+    MessageSender messageSender;
+
+    public OptionDaoImpl(SessionFactory sessionFactory, MessageSender messageSender) {
         this.sessionFactory = sessionFactory;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -77,4 +85,5 @@ public class OptionDaoImpl implements OptionDao {
                 "select o from Option o where o.isActive=true", Option.class).list();
         return listOfTariffs;
     }
+
 }

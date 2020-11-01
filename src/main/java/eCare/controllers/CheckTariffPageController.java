@@ -4,6 +4,7 @@ import com.google.gson.*;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
+import eCare.mq.MessageSender;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
@@ -26,16 +27,23 @@ public class CheckTariffPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    @Autowired
-    private OptionService optionServiceImpl;
+    private final OptionService optionServiceImpl;
 
-    @Autowired
-    private TariffService tariffService;
+    private final TariffService tariffService;
 
-    @Autowired
-    private ContractService contractServiceImpl;
+    private final ContractService contractServiceImpl;
+
+    private final MessageSender messageSender;
 
     private String tariffNameBeforeEditing;
+
+    public CheckTariffPageController(OptionService optionServiceImpl, TariffService tariffService,
+                                     ContractService contractServiceImpl, MessageSender messageSender) {
+        this.optionServiceImpl = optionServiceImpl;
+        this.tariffService = tariffService;
+        this.contractServiceImpl = contractServiceImpl;
+        this.messageSender = messageSender;
+    }
 
     @GetMapping(value = "/checkTariff/{tariffName}")
     public String getCheckTariffPage(Model model, @PathVariable(name="tariffName")String tariffName){
@@ -95,9 +103,9 @@ public class CheckTariffPageController {
     }
 
     @PostMapping(value = "/checkTariff/{tariffName}")
-    public String submitEditedOptions(Model model, @PathVariable(name="tariffName") String tariffName,
-                                      @ModelAttribute TariffDTO tariffDTO,
-                                      @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
+    public String submitEditedTariff(Model model, @PathVariable(name="tariffName") String tariffName,
+                                     @ModelAttribute TariffDTO tariffDTO,
+                                     @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
         TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffNameOrNull(tariffNameBeforeEditing);
         tariffDTOtoUpdate.setName(tariffDTO.getName());
@@ -118,6 +126,8 @@ public class CheckTariffPageController {
         }else {
             tariffService.convertToEntityAndUpdate(tariffDTOtoUpdate);
         }
+
+        messageSender.sendMessage("update");
 
         log.info(tariffDTOtoUpdate + " was edited and updated in database.");
         return "workerOfficePage";
