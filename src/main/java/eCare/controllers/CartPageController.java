@@ -7,6 +7,7 @@ import eCare.model.dto.OptionDTO;
 import eCare.services.api.CartService;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ import java.util.*;
 
 @Controller
 public class CartPageController {
+
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
     final
     ContractService contractService;
@@ -49,8 +52,7 @@ public class CartPageController {
 
             for (ContractDTO contractDTOFromCart : cartContractsSetChangedFromCart) {
                 cartServiceImpl.compareContractInDBWithContractInSession(
-                        contractDTOFromCart,onlyContractsChanges,
-                        showBlockedOnPage, mapOfOptionsEnabledDisabled);
+                        contractDTOFromCart,onlyContractsChanges,showBlockedOnPage, mapOfOptionsEnabledDisabled);
             }
 
             model.addAttribute("onlyContractsChanges", onlyContractsChanges);
@@ -63,7 +65,8 @@ public class CartPageController {
 
     @GetMapping(value = "/cartPage/removeContractChangingFromSession/{contractNumber}", produces = "application/json")
     public @ResponseBody
-    void removeContractFromSession(@PathVariable(value = "contractNumber") String contractNumber, HttpSession session) {
+    void removeContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
+                                   HttpSession session) {
         cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
         cartContractsSetChangedFromCart.removeIf(
                 contractDTO -> contractDTO.getContractNumber().equals(contractNumber.trim()) );
@@ -74,7 +77,8 @@ public class CartPageController {
 
     @GetMapping(value = "/cartPage/removeTariffChangingFromSession/{contractNumber}", produces = "application/json")
     public @ResponseBody
-    void removeTariffChangingInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber, HttpSession session) {
+    void removeChangedTariffInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
+                                                  HttpSession session) {
         cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
         ContractDTO contractDTO = getContractByNumberFromSession(contractNumber);
 
@@ -86,9 +90,11 @@ public class CartPageController {
         session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedFromCart);
     }
 
-    @GetMapping(value = "/cartPage/removeIsBlockedInContractFromSession/{contractNumber}", produces = "application/json")
+    @GetMapping(value = "/cartPage/removeIsBlockedInContractFromSession/{contractNumber}",
+            produces = "application/json")
     public @ResponseBody
-    void removeIsBlockedInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber, HttpSession session) {
+    void removeIsBlockedInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
+                                              HttpSession session) {
         cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
         ContractDTO contractDTO = getContractByNumberFromSession(contractNumber);
 
@@ -115,7 +121,7 @@ public class CartPageController {
         Set<OptionDTO> optionsSet = contractDTO.getSetOfOptions();
         if(!optionsSet.isEmpty() && optionsSet.contains(changedOption)){
             optionsSet.remove(changedOption);
-        }else {
+        }else{
             optionsSet.add(changedOption);
         }
 
@@ -126,11 +132,13 @@ public class CartPageController {
 
     @GetMapping(value = "/cartPage/submitChanges")
     public @ResponseBody
-    String removeIsBlockedInContractFromSession(HttpSession session) {
+    String submitChanges(HttpSession session) {
         HashSet<ContractDTO> cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
 
         for (ContractDTO contractFromSession:cartContractsSetChangedFromCart) {
             contractService.updateConvertDTO(contractFromSession);
+            log.info("Changes for contract with number = "
+                    + contractFromSession.getContractNumber() + " were submitted");
         }
         session.removeAttribute("cartContractsSetChangedForCart");
 
