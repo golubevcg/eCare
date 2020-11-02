@@ -1,10 +1,20 @@
 package eCare.services.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import eCare.controllers.EntrancePageController;
 import eCare.dao.api.ContractDao;
 import eCare.model.dto.ContractDTO;
+import eCare.model.dto.TariffDTO;
+import eCare.model.dto.UserDTO;
 import eCare.model.entity.Contract;
 import eCare.model.converters.ContractMapper;
 import eCare.services.api.ContractService;
+import eCare.services.api.OptionService;
+import eCare.services.api.TariffService;
+import eCare.services.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +24,34 @@ import java.util.stream.Collectors;
 @Component
 public class ContractServiceImpl implements ContractService {
 
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
+
     private final ContractDao contractDaoImpl;
 
     private final ContractMapper contractMapper;
 
-    public ContractServiceImpl(ContractDao contractDaoImpl, ContractMapper contractMapper) {
+    final
+    UserService userServiceImpl;
+
+    final
+    ContractService contractServiceImpl;
+
+    final
+    TariffService tariffServiceImpl;
+
+    final
+    OptionService optionServiceImpl;
+
+
+    public ContractServiceImpl(ContractDao contractDaoImpl, ContractMapper contractMapper,
+                               UserService userServiceImpl, ContractService contractServiceImpl,
+                               TariffService tariffServiceImpl, OptionService optionServiceImpl) {
         this.contractDaoImpl = contractDaoImpl;
         this.contractMapper = contractMapper;
+        this.userServiceImpl = userServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
     }
 
 
@@ -111,6 +142,42 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public void convertToEntityAndSave(ContractDTO contractDTO){
         this.save(contractMapper.toEntity(contractDTO));
+    }
+
+    @Override
+    public boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing){
+        JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
+
+        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
+
+        String number = jsonObject.get("newNum").getAsString();
+        String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
+        String tariff = jsonObject.get("selectedTariff").getAsString();
+        Boolean isBlocked = jsonObject.get("isContractBlocked").getAsBoolean();
+
+        JsonArray jsonArrayTest = jsonObject.get("selectedOptions").getAsJsonArray();
+
+        contractDTO.setContractNumber(number);
+        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(selectedUserLogin);
+        contractDTO.setUser(userDTO);
+        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariff);
+        contractDTO.setTariff(tariffDTO);
+
+        if(jsonArrayTest.size()!=0) {
+            for (int i = 0; i < jsonArrayTest.size(); i++) {
+                contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
+            }
+        }
+        contractDTO.setBlocked(isBlocked);
+        try{
+
+        }catch (Exception e){
+
+        }
+        contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+
+        log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
+        return true;
     }
 
 }

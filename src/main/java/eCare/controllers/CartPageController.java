@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -95,9 +96,10 @@ public class CartPageController {
     public @ResponseBody
     void removeIsBlockedInContractFromSession(@PathVariable(value = "contractNumber") String contractNumber,
                                               HttpSession session) {
-        cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
-        ContractDTO contractDTO = getContractByNumberFromSession(contractNumber);
 
+        cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
+
+        ContractDTO contractDTO = getContractByNumberFromSession(contractNumber);
         ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contractNumber.trim());
         contractDTO.setBlocked(contractDTOFromDB.isBlocked());
 

@@ -138,36 +138,14 @@ public class CheckContractPageController {
 
     @PostMapping(value = "/checkContract/submitChanges/", produces = "application/json")
     public @ResponseBody
-    String submitValues(Model model, CsrfToken token, Principal principal,
-                                @RequestBody String exportArray) {
+    String submitValues(CsrfToken token, @RequestBody String exportArray) {
 
-        JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
-
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
-
-        String number = jsonObject.get("newNum").getAsString();
-        String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
-        String tariff = jsonObject.get("selectedTariff").getAsString();
-        Boolean isBlocked = jsonObject.get("isContractBlocked").getAsBoolean();
-
-        JsonArray jsonArrayTest = jsonObject.get("selectedOptions").getAsJsonArray();
-
-        contractDTO.setContractNumber(number);
-        UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(selectedUserLogin);
-        contractDTO.setUser(userDTO);
-        TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariff);
-        contractDTO.setTariff(tariffDTO);
-        if(jsonArrayTest.size()!=0) {
-            for (int i = 0; i < jsonArrayTest.size(); i++) {
-                contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
-            }
+        if( contractServiceImpl.submitValuesFromController(exportArray, contractNumberBeforeEditing) ){
+            return "true";
+        }else{
+            return"false";
         }
-        contractDTO.setBlocked(isBlocked);
-        contractServiceImpl.convertToEntityAndUpdate(contractDTO);
 
-        log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
-
-        return "true";
     }
 
     @ResponseBody

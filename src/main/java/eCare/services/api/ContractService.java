@@ -23,4 +23,5 @@ public interface ContractService {
      List<ContractDTO> getContractDTOByNumber(String number);
      ContractDTO getContractDTOByNumberOrNull(String number);
      List<ContractDTO> getContractDTOById(Long contractID);
+    boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing);
 }
