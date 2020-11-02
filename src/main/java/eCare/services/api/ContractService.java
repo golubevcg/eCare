@@ -9,11 +9,7 @@ import java.util.List;
 public interface ContractService {
      void save(Contract contract);
      void update(Contract contract);
-
-    @Transactional
-    void updateConvertDTO(ContractDTO contractDTO);
-
-    void delete(Contract contract);
+     void delete(Contract contract);
      List<Contract> getContractByNumber(String number);
      List<Contract> getContractById(Long contractID);
      List<ContractDTO> searchForContractByNumber(String number);
@@ -23,5 +19,5 @@ public interface ContractService {
      List<ContractDTO> getContractDTOByNumber(String number);
      ContractDTO getContractDTOByNumberOrNull(String number);
      List<ContractDTO> getContractDTOById(Long contractID);
-    boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing);
+     boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing);
 }

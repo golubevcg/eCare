@@ -57,25 +57,40 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public void save(Contract contract) {
-        contractDaoImpl.save(contract);
+        try {
+            contractDaoImpl.save(contract);
+            log.info("Contract with number=" + contract.getContractNumber() + " was successfully saved.");
+        }catch(Exception e){
+            log.info("There was an error, during the saving of contract with number="
+                    + contract.getContractNumber() + ".");
+            e.printStackTrace();
+        }
     }
 
     @Override
     @Transactional
     public void update(Contract contract) {
-        contractDaoImpl.update(contract);
-    }
-
-    @Override
-    @Transactional
-    public void updateConvertDTO(ContractDTO contractDTO) {
-        contractDaoImpl.update(contractMapper.toEntity(contractDTO));
+        try{
+            contractDaoImpl.update(contract);
+            log.info("Contract with number=" + contract.getContractNumber() + " was successfully updated.");
+        }catch(Exception e){
+            log.info("There was an error, during the updating of contract with number="
+                    + contract.getContractNumber() + ".");
+            e.printStackTrace();
+        }
     }
 
     @Override
     @Transactional
     public void delete(Contract contract) {
-        contractDaoImpl.delete(contract);
+        try{
+            contractDaoImpl.delete(contract);
+            log.info("Contract with number=" + contract.getContractNumber() + " was successfully deleted.");
+        }catch(Exception e){
+            log.info("There was an error, during the deleting of contract with number="
+                    + contract.getContractNumber() + ".");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -123,12 +138,21 @@ public class ContractServiceImpl implements ContractService {
             return null;
         }else{
             return contractMapper.toDTO(contractDTOList.get(0));
-        } }
+        }
+    }
 
     @Override
     @Transactional
     public void convertToEntityAndUpdate(ContractDTO contractDTO){
-        contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
+        try{
+            contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
+            log.info("Contract with number=" + contractDTO.getContractNumber()
+                    + " was successfully converted and updated.");
+        }catch(Exception e){
+            log.info("There was an error, during the converting and updating of contract with number="
+                    + contractDTO.getContractNumber() + ".");
+            e.printStackTrace();
+        }
     }
 
 
@@ -141,7 +165,15 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public void convertToEntityAndSave(ContractDTO contractDTO){
-        this.save(contractMapper.toEntity(contractDTO));
+        try{
+            this.save(contractMapper.toEntity(contractDTO));
+            log.info("Contract with number=" + contractDTO.getContractNumber()
+                    + " was successfully converted and saved.");
+        }catch(Exception e){
+            log.info("There was an error, during the converting and saving of contract with number="
+                    + contractDTO.getContractNumber() + ".");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -168,16 +200,17 @@ public class ContractServiceImpl implements ContractService {
                 contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
             }
         }
+
         contractDTO.setBlocked(isBlocked);
         try{
-
+            contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+            log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
+            return true;
         }catch (Exception e){
-
+            log.info(contractDTO.getContractNumber() + "there was problem with submitting this contract.");
+            return false;
         }
-        contractServiceImpl.convertToEntityAndUpdate(contractDTO);
 
-        log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
-        return true;
     }
 
 }

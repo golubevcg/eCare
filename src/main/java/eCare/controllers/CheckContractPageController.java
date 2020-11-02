@@ -159,6 +159,6 @@ public class CheckContractPageController {
             contractServiceImpl.convertToEntityAndUpdate(contractDTO);
             return "true";
         }
-
     }
+
 }
