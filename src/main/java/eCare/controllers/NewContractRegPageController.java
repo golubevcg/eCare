@@ -11,12 +11,10 @@ import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,17 +27,24 @@ public class NewContractRegPageController {
 
     static final Logger log = Logger.getLogger(EntrancePageController.class);
 
-    @Autowired
+    final
     UserService userServiceImpl;
 
-    @Autowired
+    final
     TariffService tariffServiceImpl;
 
-    @Autowired
+    final
     OptionService optionServiceImpl;
 
-    @Autowired
+    final
     ContractService contractServiceImpl;
+
+    public NewContractRegPageController(UserService userServiceImpl, TariffService tariffServiceImpl, OptionService optionServiceImpl, ContractService contractServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
+    }
 
     @GetMapping(value = "/newContract")
     public String getNewContract(Model model){
@@ -79,7 +84,7 @@ public class NewContractRegPageController {
     }
 
     @PostMapping(value = "/newContract")
-    public String saveUser(Model model, CsrfToken csrfToken,
+    public String saveContract(Model model, CsrfToken csrfToken,
                            @ModelAttribute ContractDTO contractDTO,
                            BindingResult bindingResult,
                            @RequestParam(required = false, name="contractNumber") String contractNumber,
@@ -87,26 +92,9 @@ public class NewContractRegPageController {
                            @RequestParam(required = false, name="selectedTariff") String selectedTariff,
                            @RequestParam(required = false, name="selectedOptions") String[] selectedOptions){
 
+        contractServiceImpl.validateContractNumberFromController(contractNumber, bindingResult, model);
 
-        if(contractNumber.isEmpty()){
-            bindingResult.addError(new ObjectError("phoneNumberEmptyError", "This field is required."));
-            model.addAttribute("phoneNumberEmptyError", "This field is required.");
-        }else{
-            if(!contractNumber.matches("[+]*([0-9]{11})")){
-                bindingResult.addError(new ObjectError("phoneNumberPatterError", "Phone number should look like this: +7XXXXXXXXXX."));
-                model.addAttribute("phoneNumberPatternError", "Phone number should look like this: +7XXXXXXXXXX.");
-            }
-        }
-
-        if(selectedLogin.isEmpty()){
-            bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
-            model.addAttribute("selectedUserError", "Please select existing user.");
-        }else{
-            if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
-                bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
-                model.addAttribute("selectedUserError", "Please select existing user.");
-            }
-        }
+        contractServiceImpl.validateLoginFromController(selectedLogin, bindingResult, model);
 
         if(bindingResult.hasErrors()){
             List<TariffDTO> listOfTariffs = tariffServiceImpl.getActiveTariffs();

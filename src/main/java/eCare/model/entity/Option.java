@@ -5,6 +5,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +24,8 @@ public class Option {
     private Long option_id;
 
     @Column
+    @NotNull
+    @Size(min=5, message = "Option name cannot be lesser than 5 symbols.")
     private String name;
 
     @Column

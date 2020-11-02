@@ -5,6 +5,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,12 +24,16 @@ public class Tariff {
     private Long tariff_id;
 
     @Column
+    @NotNull
+    @Size(min=5, message="Tariff name must no be lesser than 5 symbols.")
     private String name;
 
     @Column
+    @NotNull
     private Integer price;
 
     @Column(name= "shortdescription")
+    @NotNull
     private String shortDiscription;
 
     @OneToMany(targetEntity = Contract.class,

@@ -5,6 +5,7 @@ import eCare.model.dto.OptionDTO;
 import eCare.model.entity.Contract;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -31,4 +32,8 @@ public interface ContractService {
 
      void addContractDetailsToModelForPage(Model model, String contractID,
                                            HttpSession session);
+
+     void validateContractNumberFromController(String contractNumber, BindingResult bindingResult, Model model);
+
+     void validateLoginFromController(String selectedLogin, BindingResult bindingResult, Model model);
 }

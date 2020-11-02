@@ -25,6 +25,7 @@ public class Ad {
     private boolean isActive = true;
 
     @Column
+    @NotNull
     private String name;
 
     @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

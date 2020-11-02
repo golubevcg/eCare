@@ -16,6 +16,8 @@ import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -410,5 +412,32 @@ public class ContractServiceImpl implements ContractService {
 
         return currentContractForCartFromSession;
     }
+
+    @Override
+    public void validateContractNumberFromController(String contractNumber, BindingResult bindingResult, Model model){
+        if(contractNumber.isEmpty()){
+            bindingResult.addError(new ObjectError("phoneNumberEmptyError", "This field is required."));
+            model.addAttribute("phoneNumberEmptyError", "This field is required.");
+        }else{
+            if(!contractNumber.matches("[+]*([0-9]{11})")){
+                bindingResult.addError(new ObjectError("phoneNumberPatterError", "Phone number should look like this: +7XXXXXXXXXX."));
+                model.addAttribute("phoneNumberPatternError", "Phone number should look like this: +7XXXXXXXXXX.");
+            }
+        }
+    }
+
+    @Override
+    public void validateLoginFromController(String selectedLogin, BindingResult bindingResult, Model model){
+        if(selectedLogin.isEmpty()){
+            bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+            model.addAttribute("selectedUserError", "Please select existing user.");
+        }else{
+            if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
+                bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+                model.addAttribute("selectedUserError", "Please select existing user.");
+            }
+        }
+    }
+
 
 }

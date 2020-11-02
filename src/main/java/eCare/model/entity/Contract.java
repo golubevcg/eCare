@@ -5,6 +5,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +24,8 @@ public class Contract implements Comparable{
     private Long contract_id;
 
     @Column(name="contractnumber")
+    @NotNull
+    @Size(min=10, max=15, message="Phone number can be between 10 to 15 digits.")
     private String contractNumber;
 
     @Column(name="isblocked")

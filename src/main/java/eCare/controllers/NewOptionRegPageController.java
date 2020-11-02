@@ -39,11 +39,10 @@ public class NewOptionRegPageController {
     }
 
     @PostMapping(value = "/newOption")
-    public String getValue(Model model,
-                                        @ModelAttribute("optionDTO") OptionDTO optionDTO,
-                                        BindingResult optionDTOBindingResult,
-        @RequestParam(required=false, name= "selectedObligatoryOptions") String[] selectedObligatoryOptions,
-        @RequestParam(required=false, name= "selectedIncompatibleOptions") String[] selectedIncompatibleOptions){
+    public String submitNewOption(@ModelAttribute("optionDTO") OptionDTO optionDTO,
+                                  BindingResult optionDTOBindingResult,
+            @RequestParam(required=false, name= "selectedObligatoryOptions") String[] selectedObligatoryOptions,
+            @RequestParam(required=false, name= "selectedIncompatibleOptions") String[] selectedIncompatibleOptions){
 
         optionDTOValidator.validate(optionDTO, optionDTOBindingResult);
 

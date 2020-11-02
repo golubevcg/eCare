@@ -1,11 +1,12 @@
 package eCare.controllers;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 import eCare.model.dto.*;
 import eCare.model.entity.Option;
 import eCare.services.api.*;
 import eCare.validator.UserContractDTOValidator;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,25 +22,13 @@ public class NewUserRegPageController {
 
     private final UserService userServiceImpl;
 
-    private final TariffService tariffServiceImpl;
-
     private final UserContractDTOValidator userValidator;
 
-    private final OptionService optionServiceImpl;
+    private final TariffService tariffServiceImpl;
 
-    private final RoleService roleServiceImpl;
-
-    private final ContractService contractServiceImpl;
-
-    public NewUserRegPageController(RoleService roleServiceImpl,
-                                    ContractService contractServiceImpl,
-                                    OptionService optionServiceImpl,
-                                    UserContractDTOValidator userValidator,
+    public NewUserRegPageController(UserContractDTOValidator userValidator,
                                     TariffService tariffServiceImpl,
                                     UserService userServiceImpl) {
-        this.roleServiceImpl = roleServiceImpl;
-        this.contractServiceImpl = contractServiceImpl;
-        this.optionServiceImpl = optionServiceImpl;
         this.userValidator = userValidator;
         this.tariffServiceImpl = tariffServiceImpl;
         this.userServiceImpl = userServiceImpl;
@@ -68,47 +57,7 @@ public class NewUserRegPageController {
             return "newUserRegPage";
         }
 
-
-        UserDTO userDTO = userForm.getUserDTO();
-        RoleDTO roleDTO = new RoleDTO();
-
-        ContractDTO contractDTO = null;
-
-        if( roleCheckbox!=null){
-            roleDTO = roleServiceImpl.getRoleDTOByRolename("ADMIN");
-        }else{
-            roleDTO = roleServiceImpl.getRoleDTOByRolename("USER");
-            contractDTO = userForm.getContractDTO();
-
-            if(selectedOptionsArray!=null) {
-                for (int i = 0; i < (selectedOptionsArray.length); i++) {
-                    contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(selectedOptionsArray[i]));
-                }
-            }
-
-            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
-            if (tariffDTO != null) {
-                contractDTO.setTariff(tariffDTO);
-            }
-
-            contractDTO.setUser(userDTO);
-
-        }
-
-        HashSet<RoleDTO> roleDTOHashSet = new HashSet<>();
-        roleDTOHashSet.add(roleDTO);
-        roleDTO.addUser(userDTO);
-
-        userDTO.addContractDTO(contractDTO);
-        userDTO.setRoles(roleDTOHashSet);
-        userServiceImpl.convertToEntityAndSave(userDTO);
-
-        if( roleCheckbox==null) {
-            contractDTO.setUser(userServiceImpl.getUserDTOByLoginOrNull(userDTO.getLogin()));
-            contractServiceImpl.convertToEntityAndSave(contractDTO);
-        }
-
-        log.info("User with login: " + userDTO.getLogin() + " was registered successfully.");
+        userServiceImpl.submitUserOnControllerData(userForm, roleCheckbox, selectedTariff, selectedOptionsArray);
 
         return "workerOfficePage";
     }

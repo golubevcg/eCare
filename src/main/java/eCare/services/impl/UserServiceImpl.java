@@ -1,16 +1,17 @@
 package eCare.services.impl;
 
 import eCare.controllers.EntrancePageController;
-import eCare.dao.api.RoleDao;
 import eCare.dao.api.UserDao;
 import eCare.model.converters.UserMapper;
-import eCare.model.dto.UserDTO;
+import eCare.model.dto.*;
 import eCare.model.entity.User;
-import eCare.services.api.UserService;
+import eCare.services.api.*;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    public UserServiceImpl(UserDao userDaoImpl, UserMapper userMapper) {
+    private final TariffService tariffServiceImpl;
+
+    private final OptionService optionServiceImpl;
+
+    private final RoleService roleServiceImpl;
+
+    private final ContractService contractServiceImpl;
+
+    public UserServiceImpl(UserDao userDaoImpl, UserMapper userMapper,
+                           TariffService tariffServiceImpl, OptionService optionServiceImpl,
+                           RoleService roleServiceImpl, @Lazy ContractService contractServiceImpl) {
         this.userDaoImpl = userDaoImpl;
         this.userMapper = userMapper;
+        this.tariffServiceImpl = tariffServiceImpl;
+        this.optionServiceImpl = optionServiceImpl;
+        this.roleServiceImpl = roleServiceImpl;
+        this.contractServiceImpl = contractServiceImpl;
     }
 
     @Override
@@ -129,6 +144,50 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void convertToEntityAndSave(UserDTO userDTO){
         this.save(userMapper.toEntity(userDTO));
+    }
+
+    @Override
+    public void submitUserOnControllerData(UserContractDTO userForm, String roleCheckbox,
+                                           String selectedTariff, String[] selectedOptionsArray){
+
+        UserDTO userDTO = userForm.getUserDTO();
+        RoleDTO roleDTO = new RoleDTO();
+
+        ContractDTO contractDTO = null;
+
+        if( roleCheckbox!=null){
+            roleDTO = roleServiceImpl.getRoleDTOByRolename("ADMIN");
+        }else{
+            roleDTO = roleServiceImpl.getRoleDTOByRolename("USER");
+            contractDTO = userForm.getContractDTO();
+
+            if(selectedOptionsArray!=null) {
+                for (int i = 0; i < (selectedOptionsArray.length); i++) {
+                    contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(selectedOptionsArray[i]));
+                }
+            }
+
+            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
+            if (tariffDTO != null) {
+                contractDTO.setTariff(tariffDTO);
+            }
+            contractDTO.setUser(userDTO);
+        }
+
+        HashSet<RoleDTO> roleDTOHashSet = new HashSet<>();
+        roleDTOHashSet.add(roleDTO);
+        roleDTO.addUser(userDTO);
+
+        userDTO.addContractDTO(contractDTO);
+        userDTO.setRoles(roleDTOHashSet);
+        this.convertToEntityAndSave(userDTO);
+
+        if( roleCheckbox==null) {
+            contractDTO.setUser(this.getUserDTOByLoginOrNull(userDTO.getLogin()));
+            contractServiceImpl.convertToEntityAndSave(contractDTO);
+        }
+
+        log.info("User with login: " + userDTO.getLogin() + " was registered successfully.");
     }
 
 }

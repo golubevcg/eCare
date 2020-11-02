@@ -116,7 +116,7 @@
                 <spring:bind path="dateOfBirth">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <input path="dateOfBirth" class="form-control defaultForm" type="date" dataformatas="yyyy-MM-dd" name="dateOfBirth"
-                               style="width:25%;" placeholder="Date of birth"></input>
+                               style="width:25%;" placeholder="Date of birth" min="1920-01-01" max="2070-01-01">
                         <form:errors path="dateOfBirth" id="errorsLabel" class="label"></form:errors>
                     </div>
                 </spring:bind>

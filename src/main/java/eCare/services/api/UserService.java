@@ -1,5 +1,6 @@
 package eCare.services.api;
 
+import eCare.model.dto.UserContractDTO;
 import eCare.model.dto.UserDTO;
 import eCare.model.entity.User;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService {
     List<User> getUserByEmail(String email);
     List<UserDTO> getUserDTOByEmail(String email);
 
+    void submitUserOnControllerData(UserContractDTO userForm, String roleCheckbox,
+                                    String selectedTariff, String[] selectedOptionsArray);
 }

@@ -3,6 +3,7 @@ package eCare.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -19,6 +20,7 @@ public class Role {
     private Long role_id;
 
     @Column
+    @NotNull
     private String rolename;
 
     @ManyToMany(targetEntity = User.class,

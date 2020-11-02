@@ -6,7 +6,6 @@ import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import eCare.validator.TariffDTOValidator;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,14 +23,17 @@ public class NewTariffRegPageController {
 
     static final Logger log = Logger.getLogger(NewUserRegPageController.class);
 
-    @Autowired
-    private OptionService optionService;
+    private final OptionService optionService;
 
-    @Autowired
-    private TariffService tariffService;
+    private final TariffService tariffService;
 
-    @Autowired
-    private TariffDTOValidator tariffDTOValidator;
+    private final TariffDTOValidator tariffDTOValidator;
+
+    public NewTariffRegPageController(OptionService optionService, TariffService tariffService, TariffDTOValidator tariffDTOValidator) {
+        this.optionService = optionService;
+        this.tariffService = tariffService;
+        this.tariffDTOValidator = tariffDTOValidator;
+    }
 
     @GetMapping(value = "/newTariff")
     public String getUserRegistration(Model model){
