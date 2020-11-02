@@ -46,13 +46,15 @@ public class TariffDaoImpl implements TariffDao {
 
     @Override
     public List<Tariff> getTariffByTariffName(String tariffName) {
+
         Session session = sessionFactory.getCurrentSession();
-        List<Tariff> listOfTarifs = session.createQuery(
+        List<Tariff> listOfTariffs = session.createQuery(
                 "select t " +
                         "from Tariff t " +
                         "where t.name = :name", Tariff.class)
                 .setParameter("name", tariffName).list();
-        return listOfTarifs;
+
+        return listOfTariffs;
     }
 
     @Override

@@ -98,6 +98,7 @@ public class CheckUserPageController {
     public @ResponseBody
     String submitValues(Model model, CsrfToken token, Principal principal,
                         @RequestBody String exportArray) {
+
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
         String firstName = jsonObject.get("firstName").getAsString();

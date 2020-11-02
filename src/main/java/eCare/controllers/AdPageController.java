@@ -49,22 +49,24 @@ public class AdPageController {
     @PostMapping(value = "/adPage/submit", produces = "application/json")
     public @ResponseBody
     String submitAdChanges(@RequestBody String adText){
+
         JsonArray jsonArray = new Gson().fromJson(adText, JsonArray.class);
-
         AdDTO adDTO = adServiceIml.getAdDTOByNameOrNull("main");
+        if (adDTO != null) {
+            Set<TariffDTO> tariffDTOSet = new HashSet<>();
+            for (int i = 0; i < jsonArray.size(); i++) {
+                TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(jsonArray.get(i).getAsString());
+                tariffDTOSet.add(tariffDTO);
+            }
+            adDTO.setSetOfTariffs(tariffDTOSet);
+            adServiceIml.convertToEntityAndUpdate(adDTO);
 
-        Set<TariffDTO> tariffDTOSet = new HashSet<>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(jsonArray.get(i).getAsString());
-            tariffDTOSet.add(tariffDTO);
+            messageSender.sendMessage("update");
+            return "true";
+        }else{
+            return "false";
         }
 
-        adDTO.setSetOfTariffs(tariffDTOSet);
-
-        adServiceIml.convertToEntityAndUpdate(adDTO);
-
-        messageSender.sendMessage("update");
-        return "true";
     }
 
     @ResponseBody

@@ -65,6 +65,4 @@ public class WorkerOfficePageController {
         return gson.toJson(searchResult);
     }
 
-
-
 }

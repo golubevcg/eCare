@@ -1,8 +1,5 @@
 package eCare.mq;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import eCare.model.dto.TariffDTO;
 import org.springframework.stereotype.Component;
 
 import javax.jms.*;
@@ -10,7 +7,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Properties;
-import java.util.Set;
 
 @Component
 public class MessageSender {
@@ -43,7 +39,6 @@ public class MessageSender {
 
             session.close();
             connection.close();
-            System.out.println("message sended to mq");
         } catch (NamingException | JMSException e) {
             e.printStackTrace();
         }
