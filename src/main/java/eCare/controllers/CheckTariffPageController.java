@@ -31,18 +31,14 @@ public class CheckTariffPageController {
 
     private final TariffService tariffService;
 
-    private final ContractService contractServiceImpl;
-
-    private final MessageSender messageSender;
 
     private String tariffNameBeforeEditing;
 
-    public CheckTariffPageController(OptionService optionServiceImpl, TariffService tariffService,
-                                     ContractService contractServiceImpl, MessageSender messageSender) {
+    Set<OptionDTO> availableOptions = new HashSet<>();
+
+    public CheckTariffPageController(OptionService optionServiceImpl, TariffService tariffService) {
         this.optionServiceImpl = optionServiceImpl;
         this.tariffService = tariffService;
-        this.contractServiceImpl = contractServiceImpl;
-        this.messageSender = messageSender;
     }
 
     @GetMapping(value = "/checkTariff/{tariffName}")
@@ -85,7 +81,6 @@ public class CheckTariffPageController {
         return gson.toJson(optionNamesSet);
     }
 
-    Set<OptionDTO> availableOptions = new HashSet<>();
 
     @PostMapping(value = "/checkTariff/submitArrayAvailableOption/", produces = "application/json")
     public @ResponseBody
@@ -107,29 +102,8 @@ public class CheckTariffPageController {
                                      @ModelAttribute TariffDTO tariffDTO,
                                      @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
-        TariffDTO tariffDTOtoUpdate = tariffService.getTariffDTOByTariffNameOrNull(tariffNameBeforeEditing);
-        tariffDTOtoUpdate.setName(tariffDTO.getName());
-        tariffDTOtoUpdate.setPrice(tariffDTO.getPrice());
-        tariffDTOtoUpdate.setShortDiscription(tariffDTO.getShortDiscription());
-
-        if(availableOptions!=null) {
-            tariffDTOtoUpdate.setSetOfOptions(availableOptions);
-        }
-
-        if( blockConnectedContracts!=null){
-            Set<ContractDTO> contractDTOS = tariffDTOtoUpdate.getSetOfContracts();
-            for (ContractDTO contractDTO: contractDTOS) {
-                contractDTO.setBlocked(true);
-                contractServiceImpl.convertToEntityAndUpdate(contractDTO);
-            }
-            tariffService.convertToEntityAndUpdate(tariffDTOtoUpdate);
-        }else {
-            tariffService.convertToEntityAndUpdate(tariffDTOtoUpdate);
-        }
-
-        messageSender.sendMessage("update");
-
-        log.info(tariffDTOtoUpdate + " was edited and updated in database.");
+        tariffService.submitValuesFromController(blockConnectedContracts, tariffDTO,
+                                                tariffNameBeforeEditing, availableOptions);
         return "workerOfficePage";
     }
 

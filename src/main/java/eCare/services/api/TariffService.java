@@ -1,8 +1,10 @@
 package eCare.services.api;
 
+import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.entity.Tariff;
 import java.util.List;
+import java.util.Set;
 
 public interface TariffService {
     void save(Tariff tarif);
@@ -16,4 +18,7 @@ public interface TariffService {
     List<TariffDTO> searchForTariffDTOByName(String name);
     void convertToEntityAndSave(TariffDTO tariffDTO);
     void convertToEntityAndUpdate(TariffDTO tariffDTO);
+
+    void submitValuesFromController(String blockConnectedContracts, TariffDTO tariffDTO,
+                                    String tariffNameBeforeEditing, Set<OptionDTO> availableOptions);
 }

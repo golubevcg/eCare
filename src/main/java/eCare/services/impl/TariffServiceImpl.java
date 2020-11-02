@@ -1,41 +1,75 @@
 package eCare.services.impl;
 
+import eCare.controllers.NewUserRegPageController;
 import eCare.dao.api.TariffDao;
 import eCare.model.converters.TariffMapper;
+import eCare.model.dto.ContractDTO;
+import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.model.entity.Tariff;
+import eCare.mq.MessageSender;
+import eCare.services.api.ContractService;
 import eCare.services.api.TariffService;
+import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class TariffServiceImpl implements TariffService {
 
+    static final Logger log = Logger.getLogger(NewUserRegPageController.class);
+
     private final TariffDao tariffDaoImpl;
     private final TariffMapper tariffMapper;
+    private final ContractService contractServiceImpl;
+    private final MessageSender messageSender;
 
-    public TariffServiceImpl(TariffDao tariffDaoImpl, TariffMapper tariffMapper) {
+    public TariffServiceImpl(TariffDao tariffDaoImpl, TariffMapper tariffMapper, @Lazy ContractService contractServiceImpl, MessageSender messageSender) {
         this.tariffDaoImpl = tariffDaoImpl;
         this.tariffMapper = tariffMapper;
+        this.contractServiceImpl = contractServiceImpl;
+        this.messageSender = messageSender;
     }
 
     @Override
     @Transactional
-    public void save(Tariff tariff) { tariffDaoImpl.save(tariff); }
+    public void save(Tariff tariff) {
+        try{
+            tariffDaoImpl.save(tariff);
+            log.info("Tariff with name=" + tariff.getName() + " was successfully saved!");
+        }catch(Exception e){
+            log.info("There was an error during saving tariff with name=" + tariff.getName());
+            e.printStackTrace();
+        }
+    }
 
     @Override
     @Transactional
     public void update(Tariff tariff) {
-        tariffDaoImpl.update(tariff);
+        try{
+            tariffDaoImpl.update(tariff);
+            log.info("Tariff with name=" + tariff.getName() + " was successfully updated!");
+        }catch(Exception e){
+            log.info("There was an error during updating tariff with name=" + tariff.getName());
+            e.printStackTrace();
+        }
     }
 
     @Override
     @Transactional
     public void delete(Tariff tariff) {
-        tariffDaoImpl.delete(tariff);
+        try{
+            tariffDaoImpl.delete(tariff);
+            log.info("Tariff with name=" + tariff.getName() + " was successfully deleted!");
+        }catch(Exception e){
+            log.info("There was an error during deleting tariff with name=" + tariff.getName());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,7 +102,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void convertToEntityAndUpdate(TariffDTO tariffDTO){
-        tariffDaoImpl.update( tariffMapper.toEntity(tariffDTO) );
+        this.update( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
@@ -80,7 +114,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void convertToEntityAndSave(TariffDTO tariffDTO){
-        tariffDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
+        this.save( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
@@ -97,6 +131,34 @@ public class TariffServiceImpl implements TariffService {
         return tariffDaoImpl.searchForTariffByName(name).stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void submitValuesFromController(String blockConnectedContracts, TariffDTO tariffDTO,
+                                           String tariffNameBeforeEditing, Set<OptionDTO> availableOptions){
+        TariffDTO tariffDTOtoUpdate = this.getTariffDTOByTariffNameOrNull(tariffNameBeforeEditing);
+        tariffDTOtoUpdate.setName(tariffDTO.getName());
+        tariffDTOtoUpdate.setPrice(tariffDTO.getPrice());
+        tariffDTOtoUpdate.setShortDiscription(tariffDTO.getShortDiscription());
+
+        if(availableOptions!=null) {
+            tariffDTOtoUpdate.setSetOfOptions(availableOptions);
+        }
+
+        if( blockConnectedContracts!=null){
+            Set<ContractDTO> contractDTOS = tariffDTOtoUpdate.getSetOfContracts();
+            for (ContractDTO contractDTO: contractDTOS) {
+                contractDTO.setBlocked(true);
+                contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+            }
+            this.convertToEntityAndUpdate(tariffDTOtoUpdate);
+        }else {
+            this.convertToEntityAndUpdate(tariffDTOtoUpdate);
+        }
+
+        messageSender.sendMessage("update");
+
+        log.info(tariffDTOtoUpdate + " was edited and updated in database.");
     }
 
 }

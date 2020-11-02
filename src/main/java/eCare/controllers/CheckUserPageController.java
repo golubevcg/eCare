@@ -6,7 +6,6 @@ import eCare.model.dto.ContractDTO;
 import eCare.model.dto.UserDTO;
 import eCare.services.api.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +26,16 @@ public class CheckUserPageController {
 
     static final Logger log = Logger.getLogger(EntrancePageController.class);
 
-    @Autowired
+    final
     UserService userServiceImpl;
 
     private String userLoginBeforeEditing;
     private String userPassportBeforeEditing;
     private String userEmailBeforeEditing;
+
+    public CheckUserPageController(UserService userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+    }
 
     @GetMapping(value = "/checkUser/{userLogin}", produces = "text/plain;charset=UTF-8")
     public String getUserRegistrationPage(Model model, @PathVariable(name = "userLogin") String userLogin) {
@@ -96,7 +99,7 @@ public class CheckUserPageController {
 
     @PostMapping(value = "/checkUser/submitChanges/", produces = "application/json")
     public @ResponseBody
-    String submitValues(Model model, CsrfToken token, Principal principal,
+    String submitValues(CsrfToken token,
                         @RequestBody String exportArray) {
 
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();

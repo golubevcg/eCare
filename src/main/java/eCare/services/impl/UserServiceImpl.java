@@ -1,11 +1,13 @@
 package eCare.services.impl;
 
+import eCare.controllers.EntrancePageController;
 import eCare.dao.api.RoleDao;
 import eCare.dao.api.UserDao;
 import eCare.model.converters.UserMapper;
 import eCare.model.dto.UserDTO;
 import eCare.model.entity.User;
 import eCare.services.api.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,44 +17,63 @@ import java.util.stream.Collectors;
 @Component
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDaoImpl;
+    static final Logger log = Logger.getLogger(EntrancePageController.class);
 
-    private final RoleDao roleDaoImpl;
+    private final UserDao userDaoImpl;
 
     private final UserMapper userMapper;
 
-    public UserServiceImpl(UserDao userDaoImpl, RoleDao roleDaoImpl, UserMapper userMapper) {
+    public UserServiceImpl(UserDao userDaoImpl, UserMapper userMapper) {
         this.userDaoImpl = userDaoImpl;
-        this.roleDaoImpl = roleDaoImpl;
         this.userMapper = userMapper;
     }
 
     @Override
     @Transactional
     public void save(User user){
-        userDaoImpl.save(user);
+        try{
+            userDaoImpl.save(user);
+            log.info("User with login=" + user.getLogin() + " was successfully saved!");
+        }catch(Exception e){
+            log.info("There was an error during saving user with login=" + user.getLogin());
+            e.printStackTrace();
+        }
     }
 
     @Override
     @Transactional
     public void update(User user){
-        userDaoImpl.update(user);
+        try{
+            userDaoImpl.update(user);
+            log.info("User with login=" + user.getLogin() + " was successfully updated!");
+        }catch(Exception e){
+            log.info("There was an error during updating user with login=" + user.getLogin());
+            e.printStackTrace();
+        }
     }
 
     @Override
     @Transactional
     public void convertToEntityAndUpdate(UserDTO userDTO){
-        userDaoImpl.update(userMapper.toEntity(userDTO));
+        this.update(userMapper.toEntity(userDTO));
     }
 
     @Override
     @Transactional
-    public void delete(User user) { userDaoImpl.delete(user); }
+    public void delete(User user) {
+        try{
+            userDaoImpl.delete(user);
+            log.info("User with login=" + user.getLogin() + " was successfully deleted!");
+        }catch(Exception e){
+            log.info("There was an error during deleting user with login=" + user.getLogin());
+            e.printStackTrace();
+        }
+    }
 
     @Override
     @Transactional
     public List<User> getUserByLogin(String login){
-            return userDaoImpl.getUserByLogin(login);
+        return userDaoImpl.getUserByLogin(login);
     }
 
     @Override
@@ -107,6 +128,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void convertToEntityAndSave(UserDTO userDTO){
-        userDaoImpl.save(userMapper.toEntity(userDTO));
+        this.save(userMapper.toEntity(userDTO));
     }
+
 }

@@ -193,7 +193,6 @@ function searchOptionByName(searchInput, currentPage) {
     if (searchInput == "0") {
         searchInput = $('#searchByOptionNameInputForm').val();
     }
-    console.log("searchInput:" + searchInput);
 
     var exportStr = "";
     if (searchInput != "") {
@@ -201,8 +200,6 @@ function searchOptionByName(searchInput, currentPage) {
             type: 'GET',
             url: '/workerOffice/searchInOptions/' + searchInput,
             success: function (result) {
-                console.log("enteredAjax");
-                console.log(result.length);
                 let maxItemsPerPage = 5;
                 let resultLength = result.length;
                 let pagesAmount = Math.ceil((resultLength + 1) / maxItemsPerPage);
