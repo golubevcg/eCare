@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
- * Controller for page, in which cart finalisation occur.
+ * Controller for the page where the shopping cart is being finalised.
  */
 
 @Controller
