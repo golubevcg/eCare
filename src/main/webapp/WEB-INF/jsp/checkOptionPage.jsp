@@ -82,7 +82,8 @@
                     <spring:bind path="connectionCost" >
                         <div class="form-group ${status.error ? 'has-error' : ''}">
                             <form:input path="connectionCost" class="form-control" type="number"
-                                        style="float:left; width:30%; margin-top:-10px;" id="inputFormConnCost" placeholder="Connection cost" disabled="true"  name="connectionCostForm"></form:input>
+                                        style="float:left; width:30%; margin-top:-10px;" id="inputFormConnCost"
+                                        placeholder="Connection cost" disabled="true"  name="connectionCostForm"></form:input>
                         </div>
                         <label style="color:red;" id="connectionFieldRequired" hidden>This field is required.</label>
                     </spring:bind>

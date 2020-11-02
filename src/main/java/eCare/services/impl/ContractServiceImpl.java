@@ -34,9 +34,6 @@ public class ContractServiceImpl implements ContractService {
     UserService userServiceImpl;
 
     final
-    ContractService contractServiceImpl;
-
-    final
     TariffService tariffServiceImpl;
 
     final
@@ -44,12 +41,11 @@ public class ContractServiceImpl implements ContractService {
 
 
     public ContractServiceImpl(ContractDao contractDaoImpl, ContractMapper contractMapper,
-                               UserService userServiceImpl, ContractService contractServiceImpl,
-                               TariffService tariffServiceImpl, OptionService optionServiceImpl) {
+                               UserService userServiceImpl, TariffService tariffServiceImpl,
+                               OptionService optionServiceImpl) {
         this.contractDaoImpl = contractDaoImpl;
         this.contractMapper = contractMapper;
         this.userServiceImpl = userServiceImpl;
-        this.contractServiceImpl = contractServiceImpl;
         this.tariffServiceImpl = tariffServiceImpl;
         this.optionServiceImpl = optionServiceImpl;
     }
@@ -68,7 +64,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public void update(Contract contract) {
         try{
             contractDaoImpl.update(contract);
@@ -81,7 +76,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public void delete(Contract contract) {
         try{
             contractDaoImpl.delete(contract);
@@ -94,26 +88,22 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public List<Contract> getContractByNumber(String number) {
         return contractDaoImpl.getContractByNumber(number);
     }
 
     @Override
-    @Transactional
     public List<Contract> getContractById(Long contractID) {
         return contractDaoImpl.getContractById(contractID);
     }
 
     @Override
-    @Transactional
     public List<ContractDTO> searchForContractByNumber(String searchInput) {
         return contractDaoImpl.searchForContractByNumber(searchInput)
                 .stream().map(c->contractMapper.toDTO(c)).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public List<ContractDTO> getContractDTOById(Long contractID) {
         return this.getContractById(contractID)
                 .stream()
@@ -122,7 +112,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public List<ContractDTO> getContractDTOByNumber(String number) {
         return this.getContractByNumber(number)
                 .stream()
@@ -131,7 +120,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public ContractDTO getContractDTOByNumberOrNull(String number) {
         List<Contract> contractDTOList = contractDaoImpl.getContractByNumber(number);
         if(contractDTOList==null){
@@ -142,7 +130,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    @Transactional
     public void convertToEntityAndUpdate(ContractDTO contractDTO){
         try{
             contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
@@ -157,13 +144,11 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    @Transactional
     public Contract convertDTOtoEntity(ContractDTO contractDTO){
         return contractMapper.toEntity(contractDTO);
     }
 
     @Override
-    @Transactional
     public void convertToEntityAndSave(ContractDTO contractDTO){
         try{
             this.save(contractMapper.toEntity(contractDTO));
@@ -180,7 +165,7 @@ public class ContractServiceImpl implements ContractService {
     public boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing){
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
-        ContractDTO contractDTO = contractServiceImpl.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
+        ContractDTO contractDTO = this.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
 
         String number = jsonObject.get("newNum").getAsString();
         String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
@@ -203,7 +188,7 @@ public class ContractServiceImpl implements ContractService {
 
         contractDTO.setBlocked(isBlocked);
         try{
-            contractServiceImpl.convertToEntityAndUpdate(contractDTO);
+            this.convertToEntityAndUpdate(contractDTO);
             log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
             return true;
         }catch (Exception e){

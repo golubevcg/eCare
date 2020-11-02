@@ -138,7 +138,7 @@ public class CartPageController {
         HashSet<ContractDTO> cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
 
         for (ContractDTO contractFromSession:cartContractsSetChangedFromCart) {
-            contractService.updateConvertDTO(contractFromSession);
+            contractService.convertToEntityAndUpdate(contractFromSession);
             log.info("Changes for contract with number = "
                     + contractFromSession.getContractNumber() + " were submitted");
         }

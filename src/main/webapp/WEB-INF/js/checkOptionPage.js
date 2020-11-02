@@ -7,7 +7,7 @@ function makePageEditable(){
     $('[name="name"]').attr("disabled", false);
     $('[name="connectionCost"]').attr("disabled", false);
     $('[name="price"]').attr("disabled", false);
-    $('[name="shortDiscription"]').attr("disabled", false);
+    $('[name="shortDescription"]').attr("disabled", false);
     $('[name="selectedObligatoryOptions"]').attr("disabled", false);
     $('[name="selectedIncompatibleOptions"]').attr("disabled", false);
 }
@@ -159,7 +159,6 @@ function deleteOption(){
             type: 'GET',
             url: '/checkOption/deleteOption/' + optionName,
             success: function(result){
-                console.log(result);
                 if(result==="true"){
                     location.href = '/workerOffice';
                 }else{

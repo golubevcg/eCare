@@ -7,13 +7,11 @@ import eCare.mq.MessageSender;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,8 +57,7 @@ public class CheckOptionPageController {
      */
     @PostMapping(value = "/checkOption/submitArraysValues", produces = "application/json")
     public @ResponseBody
-    void getDependingOptions(Model model, CsrfToken token,
-                               @RequestBody String arrayOfArrays) {
+    void setDependingOptions(CsrfToken token, @RequestBody String arrayOfArrays) {
         JsonArray jsonArray = JsonParser.parseString(arrayOfArrays).getAsJsonArray();
 
         JsonArray obligatoryOptionsJsonArray = jsonArray.get(0).getAsJsonArray();
@@ -79,43 +76,17 @@ public class CheckOptionPageController {
             }
         }
 
-
     }
 
 
     @PostMapping(value = "/checkOption/{optionName}")
-    public String submitEditedOption(Model model, @PathVariable(name="optionName") String optionName,
+    public String submitEditedOption(@PathVariable(name="optionName") String optionName,
                                      @ModelAttribute OptionDTO optionDTO,
-                                     BindingResult optionDTOBindingResult,
                                      @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
 
-        OptionDTO optionDTO1 = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
-        optionDTO1.setName( optionDTO.getName() );
-        optionDTO1.setPrice( optionDTO.getPrice() );
-        optionDTO1.setConnectionCost( optionDTO.getConnectionCost() );
-        optionDTO1.setShortDescription( optionDTO.getShortDescription() );
+        optionServiceImpl.submitValuesFromController(optionName,optionDTO,
+                obligatoryOptionsSet,incompatibleOptionsSet,blockConnectedContracts);
 
-        if(incompatibleOptionsSet !=null) {
-            optionDTO1.setIncompatibleOptionsSet(incompatibleOptionsSet);
-        }
-
-        if(obligatoryOptionsSet !=null) {
-            optionDTO1.setObligatoryOptionsSet(obligatoryOptionsSet);
-        }
-
-        if( blockConnectedContracts!=null){
-            Set<ContractDTO> contractDTOS = optionDTO1.getContractsOptions();
-            for (ContractDTO contractDTO: contractDTOS) {
-                contractDTO.setBlocked(true);
-                contractServiceImpl.convertToEntityAndUpdate(contractDTO);
-            }
-            optionServiceImpl.convertToEntityAndUpdate(optionDTO1);
-        }else {
-            optionServiceImpl.convertToEntityAndUpdate(optionDTO1);
-        }
-
-        messageSender.sendMessage("update");
-        log.info(optionDTO1.getName() + " was successfully edited and updated.");
         return "workerOfficePage";
     }
 
@@ -145,24 +116,6 @@ public class CheckOptionPageController {
     @ResponseBody
     @RequestMapping(value = "/checkOption/getIncompatibleAndObligatoryOptions/{oldName}", method = RequestMethod.GET)
     public String getDependedOptions(@PathVariable("oldName") String oldName) {
-        OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(oldName);
-        Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
-        Set<String> incompatibleOptionNamesSet = new HashSet<>();
-        for (OptionDTO option: incompatibleOptionsSet) {
-            incompatibleOptionNamesSet.add(option.getName());
-        }
-
-        Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
-        Set<String> obligatoryOptionNamesSet = new HashSet<>();
-        for (OptionDTO option: obligatoryOptionsSet) {
-            obligatoryOptionNamesSet.add(option.getName());
-        }
-
-        Set<String>[] array = new HashSet[2];
-        array[0]=incompatibleOptionNamesSet;
-        array[1]=obligatoryOptionNamesSet;
-
-        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        return gson.toJson(array);
+        return optionServiceImpl.getDependedOptionsJson(oldName);
     }
 }

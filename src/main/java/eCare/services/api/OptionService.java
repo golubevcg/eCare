@@ -5,6 +5,7 @@ import eCare.model.entity.Option;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 public interface OptionService {
     void save(Option option);
@@ -28,4 +29,10 @@ public interface OptionService {
 
     @Transactional
     void convertToEntityAndSave(OptionDTO optionDTO);
+
+    boolean submitValuesFromController(String optionName, OptionDTO optionDTO,
+                                       Set<OptionDTO> obligatoryOptionsSet, Set<OptionDTO> incompatibleOptionsSet,
+                                       String blockConnectedContracts);
+
+    String getDependedOptionsJson(String oldName);
 }
