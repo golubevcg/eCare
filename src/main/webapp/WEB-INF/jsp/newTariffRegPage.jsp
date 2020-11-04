@@ -10,7 +10,6 @@
 <head>
     <meta charset="UTF-8">
     <title>New Option</title>
-    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/css/registrationPagesCss.css">
@@ -109,11 +108,11 @@
             <div class="col"></div>
             <div class="col-5">
 
-                <p id="headlineLabel">Available options</p>
+                <p id="headlineLabel">Available options(obligatory options will be added automatically)</p>
                 <spring:bind path="shortDiscription" >
                 <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions" id="selectedOptions">
                     <c:forEach items="${listOfActiveOptions}" var="option" >
-                        <option>${option.name}</option>
+                        <option id="availcomp${option.option_id}" name="availOptionsElements">${option.name}</option>
                     </c:forEach>
                 </select>
                 </spring:bind>

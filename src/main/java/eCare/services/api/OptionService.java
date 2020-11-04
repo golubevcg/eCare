@@ -40,4 +40,6 @@ public interface OptionService {
     String checkIncOptionDependenciesToPreventRecursion(String expJson, boolean foundedErrorDependency);
 
     String checkOblOptionDependenciesToPreventRecursion(String expJson);
+
+    void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO);
 }

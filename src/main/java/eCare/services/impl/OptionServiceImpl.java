@@ -290,7 +290,8 @@ public class OptionServiceImpl implements OptionService {
         return "";
     }
 
-    private void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO){
+    @Override
+    public void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO){
         Set<OptionDTO> obligatoryOptionsOfCurrentOptionDTO = optionDTO.getObligatoryOptionsSet();
         if(obligatoryOptionsOfCurrentOptionDTO.size()>0){
             for (OptionDTO entity: obligatoryOptionsOfCurrentOptionDTO) {
@@ -300,7 +301,5 @@ public class OptionServiceImpl implements OptionService {
                 }
             }
         }
-
-
     }
 }

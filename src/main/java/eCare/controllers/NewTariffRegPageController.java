@@ -1,5 +1,8 @@
 package eCare.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
 import eCare.services.api.OptionService;
@@ -9,10 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -69,5 +69,19 @@ public class NewTariffRegPageController {
 
         return "workerOfficePage";
     }
+
+    @PostMapping(value = "/newOption/returnAllObligatoryOptions/")
+    public @ResponseBody
+    String checkIncOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
+
+        Set<OptionDTO> allOptionsSet = new HashSet<>();
+        JsonPrimitive jsonPrimitive = new Gson().fromJson(expJson, JsonPrimitive.class);
+        OptionDTO optionDTO = optionService.getOptionDTOByNameOrNull(jsonPrimitive.getAsString());
+        optionService.returnAllObligatoryOptions(allOptionsSet,optionDTO);
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        return gson.toJson(allOptionsSet);
+    }
+
 
 }

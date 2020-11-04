@@ -41,8 +41,11 @@ public class CheckOptionPageController {
     public String getCheckOptionPage(Model model, @PathVariable(name="optionName") String optionName) {
         optionNameBeforeEditing = optionName;
         OptionDTO optionDTOBeforeEditing = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
-        List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptionDTOs();
-        model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
+
+        Set<OptionDTO> setOfAllActiveOptions = new HashSet<>(optionServiceImpl.getActiveOptionDTOs());
+        setOfAllActiveOptions.remove(optionDTOBeforeEditing);
+
+        model.addAttribute("listOfActiveOptions", setOfAllActiveOptions);
         model.addAttribute("optionDTO", optionDTOBeforeEditing);
         return "checkOptionPage";
     }
