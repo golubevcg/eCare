@@ -116,7 +116,7 @@
                     <select class="mul-select" multiple="true" style="float:left; width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedOptions"
                             id="selectedOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                                    <option>${option.name}</option>
+                                    <option id="availcomp${option.option_id}" name="availOptionsElements">${option.name}</option>
                         </c:forEach>
                     </select>
                     <label style="color:red; float:left;" id="selectedOptionsField" hidden>At least 3 options must be selected.</label>
