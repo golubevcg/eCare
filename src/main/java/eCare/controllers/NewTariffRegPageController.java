@@ -37,7 +37,7 @@ public class NewTariffRegPageController {
 
     @GetMapping(value = "/newTariff")
     public String getUserRegistration(Model model){
-        List<OptionDTO> listOfAllActiveOptions = optionService.getActiveOptions();
+        List<OptionDTO> listOfAllActiveOptions = optionService.getActiveOptionDTOs();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("tariffDTO", new TariffDTO());
         return "newTariffRegPage";

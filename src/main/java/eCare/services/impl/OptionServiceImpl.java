@@ -94,7 +94,7 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     @Transactional
-    public List<OptionDTO> getActiveOptions() {
+    public List<OptionDTO> getActiveOptionDTOs() {
         return optionDaoImpl.getActiveOptions().stream().map(o->optionMapper.toDTO(o)).collect(Collectors.toList());
     }
 

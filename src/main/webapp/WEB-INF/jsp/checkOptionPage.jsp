@@ -131,7 +131,7 @@
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedObligatoryOptions" id="selectedObligatoryOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                                <option>${option.name}</option>
+                                <option id="oblig${option.option_id}" name="obligOptionsElements">${option.name}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -143,7 +143,7 @@
                             style="clear:both; width: 54%; margin-top:-10px; font-size: 20px;"
                             name="selectedIncompatibleOptions" id="selectedIncompatibleOptions" disabled="true">
                         <c:forEach items="${listOfActiveOptions}" var="option" >
-                                <option>${option.name}</option>
+                                <option id="incomp${option.option_id}" name="incompOptionsElements">${option.name}</option>
                         </c:forEach>
                     </select>
                 </div>

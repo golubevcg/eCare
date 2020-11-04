@@ -1,7 +1,6 @@
 package eCare.controllers;
 
 import com.google.gson.*;
-import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.mq.MessageSender;
 import eCare.services.api.ContractService;
@@ -10,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +41,7 @@ public class CheckOptionPageController {
     public String getCheckOptionPage(Model model, @PathVariable(name="optionName") String optionName) {
         optionNameBeforeEditing = optionName;
         OptionDTO optionDTOBeforeEditing = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
-        List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
+        List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptionDTOs();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("optionDTO", optionDTOBeforeEditing);
         return "checkOptionPage";

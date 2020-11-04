@@ -1,15 +1,11 @@
 package eCare.controllers;
 
 import com.google.gson.*;
-import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
 import eCare.model.dto.TariffDTO;
-import eCare.mq.MessageSender;
-import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
 import eCare.services.api.TariffService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +43,7 @@ public class CheckTariffPageController {
         tariffNameBeforeEditing = tariffName;
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(tariffName);
 
-        List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptions();
+        List<OptionDTO> listOfAllActiveOptions = optionServiceImpl.getActiveOptionDTOs();
         model.addAttribute("listOfActiveOptions", listOfAllActiveOptions);
         model.addAttribute("tariffDTO", tariffDTO);
         return "checkTariffPage";

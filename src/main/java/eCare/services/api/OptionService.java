@@ -13,7 +13,8 @@ public interface OptionService {
     void update(Option option);
     List<Option> getOptionByName(String optionName);
     List<OptionDTO> searchForOptionByName(String optionName);
-    List<OptionDTO> getActiveOptions();
+    List<OptionDTO> getActiveOptionDTOs();
+
     OptionDTO getOptionDTOByNameOrNull(String name);
 
     @Transactional

@@ -1,7 +1,6 @@
 package eCare.mq;
 
 import org.springframework.stereotype.Component;
-
 import javax.jms.*;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -18,6 +17,7 @@ public class MessageSender {
     private static final String JMS_PASSWORD = "quickstartPwd1!";
 
     public void sendMessage(String message){
+
         Properties props = new Properties();
         props.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
         props.put(Context.PROVIDER_URL, WILDFLY_REMOTING_URL);

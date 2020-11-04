@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Option</title>
-    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">
+<%--    <link type="text/css" rel="stylesheet" href="/resources/styles/privateOfficeWorker.css">--%>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/css/registrationPagesCss.css">
@@ -124,7 +124,7 @@
                 <p id="headlineLabel">Obligatory options</p>
                 <select class="mul-select" multiple="true" style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedObligatoryOptions" id="selectedObligatoryOptions">
                     <c:forEach items="${listOfActiveOptions}" var="option" >
-                        <option>${option.name}</option>
+                        <option id="oblig${option.option_id}" name="obligOptionsElements">${option.name}</option>
                     </c:forEach>
                 </select>
 
@@ -133,7 +133,7 @@
                     <select class="mul-select" multiple="true"
                             style="width: 54%; margin-top:-10px; font-size: 20px;"  name="selectedIncompatibleOptions" id="selectedIncompatibleOptions">
                         <c:forEach items="${listOfActiveOptions}" var="option">
-                            <option>${option.name}</option>
+                            <option id="incomp${option.option_id}" name="incompOptionsElements">${option.name}</option>
                         </c:forEach>
                     </select>
                 </div>
