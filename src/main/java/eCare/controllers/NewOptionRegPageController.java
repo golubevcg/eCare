@@ -78,96 +78,12 @@ public class NewOptionRegPageController {
     @PostMapping(value = "/newOption/checkIncOptionDependenciesToPreventRecursion/")
     public @ResponseBody
     String checkIncOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
-        JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
-
-        String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
-        OptionDTO lastSelectedOptionDTO = optionServiceImpl.getOptionDTOByNameOrNull(lastSelectedValue);
-
-        String errorOptionName = null;
-
-        foundedErrorDependency = false;
-        if (!jsonObject.get("selectedObligOptions").isJsonNull()) {
-
-            JsonArray obligJsonArray = jsonObject.get("selectedObligOptions").getAsJsonArray();
-            String[] selectedObligNames = new String[obligJsonArray.size()];
-
-            for (int i = 0; i < selectedObligNames.length; i++) {
-                String currentSelectedObligName = obligJsonArray.get(i).getAsString();
-                OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(currentSelectedObligName);
-
-                if (optionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
-                    errorOptionName = optionDTO.getName();
-                    return new Gson().toJson(errorOptionName);
-                } else {
-                    OptionDTO selectedObligOptionDTO = optionServiceImpl.getOptionDTOByNameOrNull(currentSelectedObligName);
-                    for (OptionDTO entity : optionDTO.getObligatoryOptionsSet()) {
-                        recursivlyCheckInObligDependecies(lastSelectedOptionDTO, selectedObligOptionDTO);
-                        if (foundedErrorDependency) {
-                            errorOptionName = entity.getName();
-                            return new Gson().toJson(errorOptionName);
-                        }
-                    }
-                }
-            }
-
-        }
-
-        return "";
+        return optionServiceImpl.checkIncOptionDependenciesToPreventRecursion(expJson,foundedErrorDependency);
     }
-
-    public boolean recursivlyCheckInObligDependecies(OptionDTO lastSelectedOptionDTO,
-                                                     OptionDTO selectedObligOptionDTO) {
-        if (selectedObligOptionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
-            foundedErrorDependency = true;
-            return false;
-        } else {
-            for (OptionDTO entity : selectedObligOptionDTO.getObligatoryOptionsSet()) {
-                recursivlyCheckInObligDependecies(lastSelectedOptionDTO, entity);
-            }
-        }
-        return true;
-    }
-
 
     @PostMapping(value = "/newOption/checkOblOptionDependenciesToPreventRecursion/")
     public @ResponseBody
     String checkOblOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
-        JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
-
-        String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
-        OptionDTO lastSelectedOptionDTO = optionServiceImpl.getOptionDTOByNameOrNull(lastSelectedValue);
-
-        if (!jsonObject.get("selectedIncOptions").isJsonNull()) {
-            JsonArray incJsonArray = jsonObject.get("selectedIncOptions").getAsJsonArray();
-
-            Set<OptionDTO> allObligatoryOptionsSet = lastSelectedOptionDTO.getObligatoryOptionsSet();
-
-            for (OptionDTO entity: allObligatoryOptionsSet) {
-                returnAllObligatoryOptions(allObligatoryOptionsSet, entity);
-            }
-
-            for (int i = 0; i < incJsonArray.size(); i++) {
-                OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull( incJsonArray.get(i).getAsString() );
-                if(allObligatoryOptionsSet.contains(optionDTO)){
-                    return new Gson().toJson(optionDTO.getName());
-                }
-            }
-
-        }
-        return "";
-    }
-
-    private void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO){
-        Set<OptionDTO> obligatoryOptionsOfCurrentOptionDTO = optionDTO.getObligatoryOptionsSet();
-        if(obligatoryOptionsOfCurrentOptionDTO.size()>0){
-            for (OptionDTO entity: obligatoryOptionsOfCurrentOptionDTO) {
-                if(!allObligatoryOptionsSet.contains(entity)){
-                    allObligatoryOptionsSet.add(entity);
-                    returnAllObligatoryOptions(allObligatoryOptionsSet, entity);
-                }
-            }
-        }
-
-
+        return optionServiceImpl.checkOblOptionDependenciesToPreventRecursion(expJson);
     }
 }

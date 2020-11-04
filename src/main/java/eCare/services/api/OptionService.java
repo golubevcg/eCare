@@ -36,4 +36,8 @@ public interface OptionService {
                                        String blockConnectedContracts);
 
     String getDependedOptionsJson(String oldName);
+
+    String checkIncOptionDependenciesToPreventRecursion(String expJson, boolean foundedErrorDependency);
+
+    String checkOblOptionDependenciesToPreventRecursion(String expJson);
 }
