@@ -42,10 +42,9 @@ $(document).ready(function(){
 
                 if(optionsArray.length>0){
                     for (let i = 0; i < optionsArray.length; i++) {
-                        let option = $('#availcomp' + optionsArray[i].option_id);
                         let multiSelectList = $('#selectedOptions');
                         let currentDataArray = multiSelectList.val();
-                        currentDataArray.push(option.val())
+                        currentDataArray.push(optionsArray[i].name)
                         multiSelectList.val(currentDataArray);
                         multiSelectList.trigger('change');
                     }
