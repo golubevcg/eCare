@@ -119,4 +119,16 @@ public class CheckOptionPageController {
     public String getDependedOptions(@PathVariable("oldName") String oldName) {
         return optionServiceImpl.getDependedOptionsJson(oldName);
     }
+
+    @PostMapping(value = "/checkOption/checkIncOptionDependenciesToPreventRecursion/")
+    public @ResponseBody
+    String checkIncOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
+        return optionServiceImpl.checkIncOptionDependenciesToPreventRecursion(expJson);
+    }
+
+    @PostMapping(value = "/checkOption/checkOblOptionDependenciesToPreventRecursion/")
+    public @ResponseBody
+    String checkOblOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
+        return optionServiceImpl.checkOblOptionDependenciesToPreventRecursion(expJson);
+    }
 }

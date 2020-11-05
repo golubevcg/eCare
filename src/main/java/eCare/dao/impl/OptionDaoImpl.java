@@ -1,6 +1,7 @@
 package eCare.dao.impl;
 
 import eCare.dao.api.OptionDao;
+import eCare.model.dto.OptionDTO;
 import eCare.model.entity.Option;
 import eCare.mq.MessageSender;
 import org.hibernate.Session;
@@ -9,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional
@@ -86,5 +90,37 @@ public class OptionDaoImpl implements OptionDao {
         return listOfTariffs;
     }
 
+    @Override
+    public Set<Option> getParentObligatoryOptions(Long optionDTOid){
+        Session session = sessionFactory.getCurrentSession();
+        String sqlString = "SELECT option_id FROM obligatory_options oo WHERE  oo.obligatoryoption_id=" + optionDTOid;
+        Set<BigInteger> setOfOptionIds = new HashSet<>(session.createSQLQuery(sqlString).list());
+
+        Set<Option> setOfOptions = new HashSet<>();
+        for (BigInteger id: setOfOptionIds) {
+            setOfOptions.add(getOptionById( id.longValue() ).get(0));
+        }
+
+        return setOfOptions;
+    }
+
+    @Override
+    public Set<Option> getParentIncompatibleOptions(Long optionDTOid){
+        Session session = sessionFactory.getCurrentSession();
+        String sqlString = "SELECT option_id FROM incompatible_options io WHERE  io.incompatibleoption_id=" + optionDTOid;
+        Set<BigInteger> setOfOptionIds = new HashSet<>(session.createSQLQuery(sqlString).list());
+        Set<Option> setOfOptions = new HashSet<>();
+        for (BigInteger id: setOfOptionIds) {
+            setOfOptions.add(getOptionById( id.longValue() ).get(0));
+        }
+        return setOfOptions;
+    }
+
+    @Override
+    public Set<Option> getAllParentDependencies(Long optionDTOid){
+        Set<Option> setOfOptions = new HashSet<>(getParentObligatoryOptions(optionDTOid));
+        setOfOptions.addAll(getParentIncompatibleOptions(optionDTOid));
+        return setOfOptions;
+    }
 
 }

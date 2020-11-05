@@ -25,6 +25,17 @@ $(document).ready(function(){
             $('#selectedIncompatibleOptions').val(incompatibleOptionNamesSet).change();
             $('#selectedObligatoryOptions').val(obligatoryOptionNamesSet).change();
 
+            let toDisableInObligatoryList = $('#selectedIncompatibleOptions').find(':selected');
+            for (let i = 0; i < toDisableInObligatoryList.length; i++) {
+                $("#" + toDisableInObligatoryList[i].id.replaceAll("incomp", "oblig") ).attr('disabled', true);
+                $('#selectedObligatoryOptions').select2();
+            }
+
+            let toDisableInIncompList = $('#selectedObligatoryOptions').find(':selected');
+            for (let i = 0; i < toDisableInIncompList.length; i++) {
+                $("#" + toDisableInIncompList[i].id.replaceAll("oblig", "incomp") ).attr('disabled', true);
+                $('#selectedIncompatibleOptions').select2();
+            }
         }
     });
 
@@ -161,6 +172,7 @@ $(document).ready(function() {
         $('#selectedIncompatibleOptions').select2();
     });
 
+    //method to prevent impossible dependency in incOptionSet
     $('#selectedIncompatibleOptions').on('select2:select', function(evt) {
         let lsts = evt.params.data.text;
         let expJson = { lastSelectedVal : lsts,
@@ -168,10 +180,9 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             contentType: "application/json",
-            url: '/newOption/checkIncOptionDependenciesToPreventRecursion/',
+            url: '/newOption/checkIncOptionDependenciesToPreventImpossibleDependency/',
             data: JSON.stringify(expJson),
             success: function (result) {
-                console.log("incResult="+result)
                 if(result===""){
                 }else{
                     alert("Option '" + lsts + "' cannot be added to incompatible options list, because obligatory option " +
@@ -192,21 +203,19 @@ $(document).ready(function() {
                 }
             }
         });
-
     });
 
+    //method to prevent impossible dependency in obligOptSet
     $('#selectedObligatoryOptions').on('select2:select', function(evt) {
         let lsts = evt.params.data.text;
         let expJson = { lastSelectedVal : lsts,
             selectedIncOptions : $('#selectedIncompatibleOptions').val() };
-        console.log(expJson);
         $.ajax({
             type: 'POST',
             contentType: "application/json",
-            url: '/newOption/checkOblOptionDependenciesToPreventRecursion/',
+            url: '/newOption/checkOblOptionDependenciesToPreventImpossibleDependency/',
             data: JSON.stringify(expJson),
             success: function (result) {
-                console.log("result="+result);
                 if(result===""){
                 }else{
                     alert("Option '" + lsts + "' cannot be added to obligatory options list, because incompatible option " +
@@ -227,7 +236,69 @@ $(document).ready(function() {
                 }
             }
         });
+    });
 
+    //method to prevent recursion
+    $('#selectedIncompatibleOptions').on('select2:select', function(evt) {
+        let lsts = evt.params.data.text;
+        let currentlyCheckedOptionId = $("#toPullOptionIdForAjax").attr('name');
+        let expJson = { currentlyCheckedOptionId : currentlyCheckedOptionId,
+            selectedIncOptions : $('#selectedIncompatibleOptions').val() };
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            url: '/checkOption/checkIncOptionDependenciesToPreventRecursion/',
+            data: JSON.stringify(expJson),
+            success: function (result) {
+                if(result===""){
+                }else{
+                    alert( "To add this option you need to remove " +  $("#inputFormName").val() +
+                        " from incompatible options inside " + JSON.parse(result));
+                    let selectedIncompOptions = $('#selectedIncompatibleOptions').val();
+
+                    for (let i = 0; i < selectedIncompOptions.length; i++) {
+                        if(selectedIncompOptions[i] === lsts ){
+                            selectedIncompOptions.splice(i);
+                            let lastSelectedOptionId = evt.params.data.element.id.replaceAll('incomp', '');
+                            $('#oblig'+lastSelectedOptionId).attr('disabled', false);
+                            $('#selectedObligatoryOptions').select2();
+                        }
+                    }
+                    $('#selectedIncompatibleOptions').val(selectedIncompOptions).trigger('change.select2');
+                }
+            }
+        });
+    });
+
+
+    $('#selectedObligatoryOptions').on('select2:select', function(evt) {
+        let lsts = evt.params.data.text;
+        let currentlyCheckedOptionId = $("#toPullOptionIdForAjax").attr('name');
+        let expJson = { currentlyCheckedOptionId : currentlyCheckedOptionId,
+            selectedOblOptions : $('#selectedObligatoryOptions').val() };
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json",
+            url: '/checkOption/checkOblOptionDependenciesToPreventRecursion/',
+            data: JSON.stringify(expJson),
+            success: function (result) {
+                if(result===""){
+                }else{
+                    alert( "To add this option you need to remove " +  $("#inputFormName").val() +
+                        " from obligatory options inside " + JSON.parse(result));
+                    let selectedObligOptions = $('#selectedObligatoryOptions').val();
+                    for (let i = 0; i < selectedObligOptions.length; i++) {
+                        if(selectedObligOptions[i] === lsts ){
+                            selectedObligOptions.splice(i);
+                            let lastSelectedOptionId = evt.params.data.element.id.replaceAll('oblig', '');
+                            $('#incomp'+lastSelectedOptionId).attr('disabled', false);
+                            $('#selectedObligatoryOptions').select2();
+                        }
+                    }
+                    $('#selectedObligatoryOptions').val(selectedObligOptions).trigger('change.select2');
+                }
+            }
+        });
     });
 
 });

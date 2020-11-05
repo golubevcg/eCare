@@ -37,9 +37,19 @@ public interface OptionService {
 
     String getDependedOptionsJson(String oldName);
 
-    String checkIncOptionDependenciesToPreventRecursion(String expJson, boolean foundedErrorDependency);
+    String checkIncOptionDependenciesToPreventImpossibleDependency(String expJson, boolean foundedErrorDependency);
+
+    String checkOblOptionDependenciesToPreventImpossibleDependency(String expJson);
+
+    void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO);
+
+    String checkIncOptionDependenciesToPreventRecursion(String expJson);
+
+    Set<OptionDTO> getParentObligatoryOptionDTOs(Long optionDTOid);
 
     String checkOblOptionDependenciesToPreventRecursion(String expJson);
 
-    void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO);
+    Set<OptionDTO> getParentIncompatibleOptionDTOs(Long optionDTOid);
+
+    Set<OptionDTO> getAllParentDependencies(Long optionDTOid);
 }

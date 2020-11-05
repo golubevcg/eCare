@@ -1,10 +1,6 @@
 package eCare.controllers;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import eCare.model.dto.OptionDTO;
-import eCare.model.entity.Option;
 import eCare.services.api.OptionService;
 import eCare.validator.OptionDTOValidator;
 import org.apache.log4j.Logger;
@@ -75,15 +71,18 @@ public class NewOptionRegPageController {
 
     boolean foundedErrorDependency = false;
 
-    @PostMapping(value = "/newOption/checkIncOptionDependenciesToPreventRecursion/")
+    @PostMapping(value = "/newOption/checkIncOptionDependenciesToPreventImpossibleDependency/")
     public @ResponseBody
-    String checkIncOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
-        return optionServiceImpl.checkIncOptionDependenciesToPreventRecursion(expJson,foundedErrorDependency);
+    String checkIncOptionDependenciesToPreventImpossibleDependency(@RequestBody String expJson) {
+        return optionServiceImpl.checkIncOptionDependenciesToPreventImpossibleDependency(expJson,foundedErrorDependency);
     }
 
-    @PostMapping(value = "/newOption/checkOblOptionDependenciesToPreventRecursion/")
+    @PostMapping(value = "/newOption/checkOblOptionDependenciesToPreventImpossibleDependency/")
     public @ResponseBody
-    String checkOblOptionDependenciesToPreventRecursion(@RequestBody String expJson) {
-        return optionServiceImpl.checkOblOptionDependenciesToPreventRecursion(expJson);
+    String checkOblOptionDependenciesToImpossibleDependency(@RequestBody String expJson) {
+        return optionServiceImpl.checkOblOptionDependenciesToPreventImpossibleDependency(expJson);
     }
+
+
+
 }

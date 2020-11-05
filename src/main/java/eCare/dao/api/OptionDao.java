@@ -1,8 +1,10 @@
 package eCare.dao.api;
 
+import eCare.model.dto.OptionDTO;
 import eCare.model.entity.Option;
 
 import java.util.List;
+import java.util.Set;
 
 public interface OptionDao {
     void save(Option option);
@@ -12,4 +14,10 @@ public interface OptionDao {
     List<Option> getOptionById(Long optionId);
     List<Option> searchForOptionByName(String name);
     List<Option> getActiveOptions();
+
+    Set<Option> getParentObligatoryOptions(Long optionDTOid);
+
+    Set<Option> getParentIncompatibleOptions(Long optionDTOid);
+
+    Set<Option> getAllParentDependencies(Long optionDTOid);
 }

@@ -38,7 +38,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             contentType: "application/json",
-            url: '/newOption/checkIncOptionDependenciesToPreventRecursion/',
+            url: '/newOption/checkIncOptionDependenciesToPreventImpossibleDependency/',
             data: JSON.stringify(expJson),
             success: function (result) {
                 console.log("incResult="+result)
@@ -73,7 +73,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
             contentType: "application/json",
-            url: '/newOption/checkOblOptionDependenciesToPreventRecursion/',
+            url: '/newOption/checkOblOptionDependenciesToPreventImpossibleDependency/',
             data: JSON.stringify(expJson),
             success: function (result) {
                 console.log("result="+result);

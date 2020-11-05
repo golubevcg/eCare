@@ -70,6 +70,8 @@
             <div class="col"></div>
         </div>
 
+        <label style="color:red;" id="toPullOptionIdForAjax" name="${optionDTO.option_id}"hidden></label>
+
 
         <div class="row" style="margin-top: 10px">
             <div class="col"></div>
@@ -134,6 +136,8 @@
                                 <option id="oblig${option.option_id}" name="obligOptionsElements">${option.name}</option>
                         </c:forEach>
                     </select>
+                    <p class="headlineLabel">*All new obligatory dependencies
+                        will be automatically added as available in all tariffs related to this option.</p>
                 </div>
 
             <div style="margin-top:15px; clear:both;">

@@ -8,17 +8,17 @@ import eCare.controllers.NewUserRegPageController;
 import eCare.dao.api.OptionDao;
 import eCare.model.dto.ContractDTO;
 import eCare.model.dto.OptionDTO;
+import eCare.model.dto.TariffDTO;
 import eCare.model.entity.Option;
 import eCare.model.converters.OptionMapper;
 import eCare.mq.MessageSender;
 import eCare.services.api.ContractService;
 import eCare.services.api.OptionService;
+import eCare.services.api.TariffService;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,12 +37,15 @@ public class OptionServiceImpl implements OptionService {
 
     private final ContractService contractServiceImpl;
 
+    private final TariffService tariffServiceImpl;
+
     public OptionServiceImpl(OptionDao optionDaoImpl, OptionMapper optionMapper, MessageSender messageSender,
-                             @Lazy ContractService contractServiceImpl) {
+                             @Lazy ContractService contractServiceImpl, TariffService tariffServiceImpl) {
         this.optionDaoImpl = optionDaoImpl;
         this.optionMapper = optionMapper;
         this.messageSender = messageSender;
         this.contractServiceImpl = contractServiceImpl;
+        this.tariffServiceImpl = tariffServiceImpl;
     }
 
     @Override
@@ -177,6 +180,7 @@ public class OptionServiceImpl implements OptionService {
 
             messageSender.sendMessage("update");
             log.info("Option with name= " + optionDTO1.getName() + " was successfully edited and updated.");
+            updateTariffsConnectedToThisOptions(optionDTO1);
             return true;
 
         } catch (Exception e) {
@@ -211,7 +215,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public String checkIncOptionDependenciesToPreventRecursion(String expJson, boolean foundedErrorDependency) {
+    public String checkIncOptionDependenciesToPreventImpossibleDependency(String expJson, boolean foundedErrorDependency) {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
 
         String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
@@ -249,22 +253,8 @@ public class OptionServiceImpl implements OptionService {
         return "";
     }
 
-    public boolean recursivlyCheckInObligDependecies(OptionDTO lastSelectedOptionDTO,
-                                                     OptionDTO selectedObligOptionDTO,
-                                                     boolean foundedErrorDependency) {
-        if (selectedObligOptionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
-            foundedErrorDependency = true;
-            return false;
-        } else {
-            for (OptionDTO entity : selectedObligOptionDTO.getObligatoryOptionsSet()) {
-                recursivlyCheckInObligDependecies(lastSelectedOptionDTO, entity, foundedErrorDependency);
-            }
-        }
-        return true;
-    }
-
     @Override
-    public String checkOblOptionDependenciesToPreventRecursion(String expJson) {
+    public String checkOblOptionDependenciesToPreventImpossibleDependency(String expJson) {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
 
         String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
@@ -301,5 +291,123 @@ public class OptionServiceImpl implements OptionService {
                 }
             }
         }
+    }
+
+    @Transactional
+    void updateTariffsConnectedToThisOptions(OptionDTO optionDTO){
+        Set<TariffDTO> tariffDTOSet = optionDTO.getTariffsOptions();
+        Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();
+
+        for (TariffDTO tariffEntity: tariffDTOSet) {
+            for (OptionDTO optionEntity: obligatoryOptionsSet) {
+                tariffEntity.addOptionDTO(optionEntity);
+            }
+            tariffServiceImpl.convertToEntityAndUpdate(tariffEntity);
+        }
+        log.info("Tariffs with option name= " + optionDTO.getName() + " were successfully updated.");
+
+    }
+
+    public boolean recursivlyCheckInObligDependecies(OptionDTO lastSelectedOptionDTO,
+                                                     OptionDTO selectedObligOptionDTO,
+                                                     boolean foundedErrorDependency) {
+        if (selectedObligOptionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
+            foundedErrorDependency = true;
+            return false;
+        } else {
+            for (OptionDTO entity : selectedObligOptionDTO.getObligatoryOptionsSet()) {
+                recursivlyCheckInObligDependecies(lastSelectedOptionDTO, entity, foundedErrorDependency);
+            }
+        }
+        return true;
+    }
+
+    public boolean recursivlyCheckInIncDependecies(OptionDTO lastSelectedOptionDTO,
+                                                   OptionDTO selectedIncompOptionDTO,
+                                                   boolean foundedErrorDependency) {
+        if (selectedIncompOptionDTO.getIncompatibleOptionsSet().contains(lastSelectedOptionDTO)) {
+            foundedErrorDependency = true;
+            return false;
+        } else {
+            for (OptionDTO entity : selectedIncompOptionDTO.getIncompatibleOptionsSet()) {
+                recursivlyCheckInObligDependecies(lastSelectedOptionDTO, entity, foundedErrorDependency);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public String checkIncOptionDependenciesToPreventRecursion(String expJson) {
+        JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
+
+        String currentlyCheckedOptionId = jsonObject.get("currentlyCheckedOptionId").getAsString();
+        OptionDTO lastSelectedOptionDTO = this.getOptionDTOById(Long.parseLong(currentlyCheckedOptionId));
+        if (!jsonObject.get("selectedIncOptions").isJsonNull()) {
+            JsonArray incJsonArray = jsonObject.get("selectedIncOptions").getAsJsonArray();
+
+            Set<OptionDTO> parentObligatoryOptionDTOs = getAllParentDependencies(lastSelectedOptionDTO.getOption_id());
+
+            for (int i = 0; i < incJsonArray.size(); i++) {
+                OptionDTO optionDTO = this.getOptionDTOByNameOrNull( incJsonArray.get(i).getAsString() );
+
+                if(parentObligatoryOptionDTOs.contains(optionDTO)) {
+                    return new Gson().toJson(optionDTO.getName());
+                }
+            }
+
+        }
+
+        return "";
+        }
+
+    @Override
+    public Set<OptionDTO> getParentObligatoryOptionDTOs(Long optionDTOid){
+        return new HashSet<>(optionDaoImpl
+                .getParentObligatoryOptions(optionDTOid)
+                .stream()
+                .map(optionMapper::toDTO)
+                .collect(Collectors.toList()));
+
+    }
+
+    @Override
+    public String checkOblOptionDependenciesToPreventRecursion(String expJson) {
+        JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
+
+        String currentlyCheckedOptionId = jsonObject.get("currentlyCheckedOptionId").getAsString();
+        OptionDTO lastSelectedOptionDTO = this.getOptionDTOById(Long.parseLong(currentlyCheckedOptionId));
+        if (!jsonObject.get("selectedOblOptions").isJsonNull()) {
+            JsonArray incJsonArray = jsonObject.get("selectedOblOptions").getAsJsonArray();
+            Set<OptionDTO> parentIncOptionDTOs = getAllParentDependencies(lastSelectedOptionDTO.getOption_id());
+
+            for (int i = 0; i < incJsonArray.size(); i++) {
+                OptionDTO optionDTO = this.getOptionDTOByNameOrNull( incJsonArray.get(i).getAsString() );
+
+                if(parentIncOptionDTOs.contains(optionDTO)) {
+                    return new Gson().toJson(optionDTO.getName());
+                }
+            }
+
+        }
+        return "";
+    }
+
+    @Override
+    public Set<OptionDTO> getParentIncompatibleOptionDTOs(Long optionDTOid){
+        return new HashSet<>(optionDaoImpl
+                .getParentIncompatibleOptions(optionDTOid)
+                .stream()
+                .map(optionMapper::toDTO)
+                .collect(Collectors.toList()));
+
+    }
+
+    @Override
+    public Set<OptionDTO> getAllParentDependencies(Long optionDTOid){
+      return new HashSet<>(optionDaoImpl
+          .getAllParentDependencies(optionDTOid)
+            .stream()
+                .map(optionMapper::toDTO)
+                .collect(Collectors.toList()));
     }
 }
