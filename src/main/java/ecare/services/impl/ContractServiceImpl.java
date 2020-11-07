@@ -207,6 +207,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     public String getDependingOptions(HttpSession session, String selectedOptionId, String[] stringsArrayInfoFromFront){
+
         OptionDTO changedOptionDTO = optionServiceImpl.getOptionDTOById( Long.valueOf(selectedOptionId) );
         TariffDTO selectedTariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(stringsArrayInfoFromFront[0]);
         Boolean isChecked = Boolean.valueOf(stringsArrayInfoFromFront[1]);
@@ -240,7 +241,8 @@ public class ContractServiceImpl implements ContractService {
         String incompatibleErrorMessage = "";
         for (String incompOptId: incompatibleOptionIds) {
             if(checkedOptionIdsSet.contains(incompOptId) && blockedOptionIdsSet.contains(incompOptId)){
-                incompatibleErrorMessage = incompatibleErrorMessage + optionServiceImpl.getOptionDTOById(Long.valueOf(incompOptId)).getName() + " ";
+                incompatibleErrorMessage = incompatibleErrorMessage
+                        + optionServiceImpl.getOptionDTOById(Long.valueOf(incompOptId)).getName() + " ";
             }
         }
         Set<String> errorMessageSet = new HashSet<>();
@@ -251,7 +253,8 @@ public class ContractServiceImpl implements ContractService {
         if(finalErrorMessage.length()==0){
 
             ContractDTO currentContractForCartFromSession = null;
-            HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+            HashSet<ContractDTO> cartContractsSetChangedForCart
+                    = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
             for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
                 if(contractDTO.getContractNumber().equals(contractNumber)){
                     currentContractForCartFromSession = contractDTO;

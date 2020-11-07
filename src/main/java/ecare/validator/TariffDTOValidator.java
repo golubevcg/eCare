@@ -12,8 +12,12 @@ import org.springframework.validation.Validator;
 @Component
 public class TariffDTOValidator implements Validator {
 
-    @Autowired
+    final
     TariffService tariffServiceImpl;
+
+    public TariffDTOValidator(TariffService tariffServiceImpl) {
+        this.tariffServiceImpl = tariffServiceImpl;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

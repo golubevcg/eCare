@@ -12,8 +12,12 @@ import org.springframework.validation.Validator;
 @Component
 public class OptionDTOValidator implements Validator {
 
-    @Autowired
+    final
     OptionService optionServiceImpl;
+
+    public OptionDTOValidator(OptionService optionServiceImpl) {
+        this.optionServiceImpl = optionServiceImpl;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

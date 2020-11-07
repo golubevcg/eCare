@@ -68,7 +68,7 @@ public class UserContractDTOValidator implements Validator {
         }
 
 
-        if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>1){
+        if( userServiceImpl.getUserDTOByPassportInfo(user.getPassportInfo()).size()>0){
             errors.rejectValue("passportInfo", "Duplicate.userForm.passportInfo");
         }
 

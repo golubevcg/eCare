@@ -37,7 +37,5 @@ public class ContractDTOValidator implements Validator {
         if(contractServiceImpl.getContractByNumber(contract.getContractNumber()).size()>0){
             errors.rejectValue("contractNumber", "Duplicate.contractDTO.contractNumber");
         }
-
-
     }
 }
