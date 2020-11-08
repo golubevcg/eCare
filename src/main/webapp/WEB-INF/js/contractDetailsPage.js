@@ -139,6 +139,8 @@ function checkSwitchesAndChangeIfNeeded(selectedOption){
     arrayOfArrays.push(checkedOptionIds);
     arrayOfArrays.push(contractNumber);
 
+    console.log("selectedOptionId=" + selectedOptionId)
+    console.log(JSON.stringify(arrayOfArrays))
     $.ajax({
         contentType: "application/json",
         type: 'POST',

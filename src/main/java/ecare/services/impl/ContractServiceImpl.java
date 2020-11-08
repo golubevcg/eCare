@@ -188,7 +188,7 @@ public class ContractServiceImpl implements ContractService {
 
         contractDTO.setBlocked(isBlocked);
         try{
-            this.convertToEntityAndUpdate(contractDTO);
+            contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
             log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
             return true;
         }catch (Exception e){
@@ -245,7 +245,6 @@ public class ContractServiceImpl implements ContractService {
         array[2]= errorMessageSet;
 
         if(finalErrorMessage.length()==0){
-
             ContractDTO currentContractForCartFromSession = null;
             HashSet<ContractDTO> cartContractsSetChangedForCart
                     = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
@@ -253,8 +252,6 @@ public class ContractServiceImpl implements ContractService {
             checkContractsAndIfNeededAddThemToSessionAttributes(session, selectedOptionId,
                     isChecked, contractNumber, incompatibleOptionIds,
                     obligatoryOptionIds, cartContractsSetChangedForCart);
-
-
         }
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -413,7 +410,8 @@ public class ContractServiceImpl implements ContractService {
         UserDTO userBeforeEditing = currentContractForCartFromSession.getUser();
 
         model.addAttribute("contractNumber", currentContractForCartFromSession.getContractNumber());
-        model.addAttribute("firstAndSecondNames", userBeforeEditing.getFirstname() + " " + userBeforeEditing.getSecondname());
+        model.addAttribute("firstAndSecondNames",
+                userBeforeEditing.getFirstname() + " " + userBeforeEditing.getSecondname());
 
         TariffDTO tariffDTO = currentContractForCartFromSession.getTariff();
         model.addAttribute("selectedTariff", tariffDTO.getName());
@@ -469,11 +467,13 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void validateContractNumberFromController(String contractNumber, BindingResult bindingResult, Model model){
         if(contractNumber.isEmpty()){
-            bindingResult.addError(new ObjectError("phoneNumberEmptyError", "This field is required."));
+            bindingResult.addError(new ObjectError("phoneNumberEmptyError",
+                    "This field is required."));
             model.addAttribute("phoneNumberEmptyError", "This field is required.");
         }else{
             if(!contractNumber.matches("[+]*([0-9]{11})")){
-                bindingResult.addError(new ObjectError("phoneNumberPatterError", "Phone number should look like this: +7XXXXXXXXXX."));
+                bindingResult.addError(new ObjectError("phoneNumberPatterError",
+                        "Phone number should look like this: +7XXXXXXXXXX."));
                 model.addAttribute("phoneNumberPatternError", "Phone number should look like this: +7XXXXXXXXXX.");
             }
         }
@@ -482,11 +482,13 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void validateLoginFromController(String selectedLogin, BindingResult bindingResult, Model model){
         if(selectedLogin.isEmpty()){
-            bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+            bindingResult.addError(new ObjectError("userList",
+                    "Please select existing user from drop-down list"));
             model.addAttribute("selectedUserError", "Please select existing user.");
         }else{
             if(userServiceImpl.getUserByLogin(selectedLogin).size()==0){
-                bindingResult.addError(new ObjectError("userList", "Please select existing user from drop-down list"));
+                bindingResult.addError(new ObjectError("userList",
+                        "Please select existing user from drop-down list"));
                 model.addAttribute("selectedUserError", "Please select existing user.");
             }
         }

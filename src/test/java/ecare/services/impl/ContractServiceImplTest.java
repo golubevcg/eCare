@@ -7,7 +7,7 @@ import ecare.model.dto.OptionDTO;
 import ecare.model.dto.TariffDTO;
 import ecare.model.dto.UserDTO;
 import ecare.model.entity.Contract;
-import ecare.model.entity.Tariff;
+import ecare.model.entity.User;
 import ecare.services.api.OptionService;
 import ecare.services.api.TariffService;
 import ecare.services.api.UserService;
@@ -17,18 +17,21 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContractServiceImplTest {
-
-
 
     @Mock
     private ContractDao contractDaoImpl;
@@ -240,11 +243,263 @@ public class ContractServiceImplTest {
         when(tariffServiceImpl.getTariffDTOByTariffNameOrNull(any())).thenReturn(tariffDTO);
         when(optionServiceImpl.getOptionDTOByNameOrNull("Unlimited messages")).thenReturn(optionDTO);
         when(optionServiceImpl.getOptionDTOByNameOrNull("Unlimited internet")).thenReturn(optionDTO1);
+        when(contractMapper.toEntity(contractDTO)).thenReturn(any());
 
         contractService.submitValuesFromController(exportArray, contractNumberBeforeEditing);
 
+        verify(optionServiceImpl, atLeastOnce()).getOptionDTOByNameOrNull(any());
+        verify(contractMapper,atLeastOnce()).toEntity(contractDTO);
+        verify(contractDaoImpl, atLeastOnce()).update(any());
     }
 
+    @Test
+    public void getDependingOptionsTest(){
+        HttpSession httpSession = mock(HttpSession.class);
+        String selectedOptionId = "15";
+        String[] stringArrayInfoFromFront = new String[]{"WorldWide","true"," "," " +
+                                                                 "","5","9","13","14","15","17","20","79115462345"};
+
+        long id = Long.parseLong(selectedOptionId);
+        OptionDTO optionDTO = new OptionDTO();
+        optionDTO.setOption_id(id);
+        when(optionServiceImpl.getOptionDTOById(any())).thenReturn(new OptionDTO());
+
+        TariffDTO tariffDTO = new TariffDTO();
+        tariffDTO.setName("WorldWide");
+        when(tariffServiceImpl.getTariffDTOByTariffNameOrNull(stringArrayInfoFromFront[0])).thenReturn(tariffDTO);
+
+        ContractDTO contractDTO = new ContractDTO();
+        contractDTO.setContractNumber("11111");
+        ContractDTO contractDTO1 = new ContractDTO();
+        contractDTO1.setContractNumber("11111");
+        Set<ContractDTO> contractDTOsSet = new HashSet<>();
+        contractDTOsSet.add(contractDTO);
+        contractDTOsSet.add(contractDTO1);
+
+        when(httpSession.getAttribute(("cartContractsSetChangedForCart"))).thenReturn(contractDTOsSet);
+
+        contractService.getDependingOptions(httpSession, selectedOptionId, stringArrayInfoFromFront);
+    }
+
+    @Test
+    public void cascadeCheckOptionDependencies(){
+        OptionDTO currentOption = new OptionDTO();
+        Set<String> incompatibleOptionIds = new HashSet<>();
+        Set<String> obligatoryOptionIds = new HashSet<>();
+        Set<OptionDTO> notSelectedOptionIds = new HashSet<>();
+        Boolean isChecked = true;
+
+        OptionDTO optionDTO = new OptionDTO();
+        optionDTO.setName("name");
+
+        OptionDTO optionDTO1 = new OptionDTO();
+        optionDTO1.setName("name1");
+        OptionDTO optionDTO2 = new OptionDTO();
+        optionDTO2.setName("name2");
+
+        OptionDTO optionDTO3 = new OptionDTO();
+        optionDTO3.setName("name3");
+        OptionDTO optionDTO4 = new OptionDTO();
+        optionDTO4.setName("name4");
+
+        Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
+        incompatibleOptionsSet.add(optionDTO1);
+        incompatibleOptionsSet.add(optionDTO2);
+
+        Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
+        incompatibleOptionsSet.add(optionDTO3);
+        incompatibleOptionsSet.add(optionDTO4);
+
+        optionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
+        optionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
+
+        contractService.cascadeCheckOptionDependencies(currentOption, incompatibleOptionIds, obligatoryOptionIds,
+                                                       notSelectedOptionIds, isChecked);
+
+        boolean isCheckedF = false;
+        contractService.cascadeCheckOptionDependencies(currentOption, incompatibleOptionIds, obligatoryOptionIds,
+                notSelectedOptionIds, isCheckedF);
+    }
+
+    @Test
+    public void getSortedListOfOptions(){
+        String contractNumber = "11111";
+        String selectedTariffName = "Unlimited calls";
+        HttpSession session = mock(HttpSession.class);
+
+        HashSet<ContractDTO> cartContractsSetChangedForCart = new HashSet<>();
+        ContractDTO contractDTO = new ContractDTO();
+        contractDTO.setContractNumber(contractNumber);
+
+        ContractDTO contractDTO1 = new ContractDTO();
+        contractDTO1.setContractNumber("22222");
+
+        cartContractsSetChangedForCart.add(contractDTO);
+        cartContractsSetChangedForCart.add(contractDTO1);
+        when(session.getAttribute(any())).thenReturn(cartContractsSetChangedForCart);
+
+        OptionDTO optionDTO1 = new OptionDTO();
+        optionDTO1.setName("name1");
+        optionDTO1.setOption_id(1l);
+        OptionDTO optionDTO2 = new OptionDTO();
+        optionDTO2.setName("name2");
+        optionDTO2.setOption_id(2l);
+
+        OptionDTO optionDTO3 = new OptionDTO();
+        optionDTO3.setName("name3");
+        optionDTO3.setOption_id(3l);
+        OptionDTO optionDTO4 = new OptionDTO();
+        optionDTO4.setName("name4");
+        optionDTO4.setOption_id(4l);
+
+        Set<OptionDTO> setOfOptions = new HashSet<>();
+        setOfOptions.add(optionDTO1);
+        setOfOptions.add(optionDTO2);
+        setOfOptions.add(optionDTO3);
+        setOfOptions.add(optionDTO4);
+
+        TariffDTO tariffDTO = new TariffDTO();
+        tariffDTO.setName(selectedTariffName);
+        tariffDTO.setSetOfOptions(setOfOptions);
+        when(tariffServiceImpl.getTariffDTOByTariffNameOrNull(any())).thenReturn(tariffDTO);
+
+        String str = contractService.getSortedListOfOptions(contractNumber, selectedTariffName, session);
+        assertNotNull(str);
+
+        when(tariffServiceImpl.getTariffDTOByTariffNameOrNull(any())).thenReturn(null);
+        String str1 = contractService.getSortedListOfOptions(contractNumber, selectedTariffName, session);
+        assertEquals("[]", str1);
+    }
+
+
+    @Test
+    public void addContractDetailsToModelForPage(){
+        Model model = mock(Model.class);
+        String contractID = "1";
+        HttpSession session = mock(HttpSession.class);
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setFirstname("fN");
+        userDTO.setSecondname("sN");
+
+        UserDTO userDTO1 = new UserDTO();
+        userDTO.setFirstname("fN1");
+        userDTO.setSecondname("sN1");
+
+        HashSet<ContractDTO> cartContractsSetChangedForCart = new HashSet<>();
+        ContractDTO contractDTO = new ContractDTO();
+        contractDTO.setContractNumber("11111");
+        contractDTO.setContract_id(1l);
+        contractDTO.setUser(userDTO);
+
+        TariffDTO tariffDTO = new TariffDTO();
+        tariffDTO.setName("name");
+        tariffDTO.setPrice(11);
+        tariffDTO.setShortDiscription("shd");
+
+        OptionDTO optionDTO1 = new OptionDTO();
+        optionDTO1.setName("name1");
+        optionDTO1.setOption_id(1l);
+        OptionDTO optionDTO2 = new OptionDTO();
+        optionDTO2.setName("name2");
+        optionDTO2.setOption_id(2l);
+
+        OptionDTO optionDTO3 = new OptionDTO();
+        optionDTO3.setName("name3");
+        optionDTO3.setOption_id(3l);
+        OptionDTO optionDTO4 = new OptionDTO();
+        optionDTO4.setName("name4");
+        optionDTO4.setOption_id(4l);
+
+        Set<OptionDTO> setOfOptions = new HashSet<>();
+        setOfOptions.add(optionDTO1);
+        setOfOptions.add(optionDTO2);
+        setOfOptions.add(optionDTO3);
+        setOfOptions.add(optionDTO4);
+        tariffDTO.setSetOfOptions(setOfOptions);
+        contractDTO.setTariff(tariffDTO);
+
+        ContractDTO contractDTO1 = new ContractDTO();
+        contractDTO1.setContractNumber("22222");
+        contractDTO1.setContract_id(2l);
+        contractDTO1.setUser(userDTO1);
+
+        cartContractsSetChangedForCart.add(contractDTO);
+        cartContractsSetChangedForCart.add(contractDTO1);
+        when(session.getAttribute(any())).thenReturn(cartContractsSetChangedForCart);
+
+        when(tariffServiceImpl.getActiveTariffs()).thenReturn(new ArrayList<TariffDTO>());
+        contractService.addContractDetailsToModelForPage(model,contractID,session);
+    }
+
+    @Test
+    public void getCurrentContractFromSessionByContractId(){
+        HttpSession session = mock(HttpSession.class);
+        String contractID = "1";
+        ContractDTO contractDTO = new ContractDTO();
+        contractDTO.setContractNumber("11111");
+        contractDTO.setContract_id(1l);
+
+        ContractDTO contractDTO1 = new ContractDTO();
+        contractDTO1.setContractNumber("22222");
+        contractDTO1.setContract_id(2l);
+
+        HashSet<ContractDTO> cartContractsSetChangedForCart = new HashSet<>();
+        cartContractsSetChangedForCart.add(contractDTO);
+        cartContractsSetChangedForCart.add(contractDTO1);
+        when(session.getAttribute(any())).thenReturn(cartContractsSetChangedForCart);
+
+        ContractDTO contractDTO2 = contractService.getCurrentContractFromSessionByContractId(session, contractID);
+        assertEquals("11111", contractDTO2.getContractNumber());
+    }
+
+    @Test
+    public void validateContractNumberFromController(){
+        String contractNumber = "11111";
+        BindingResult bindingResult = mock(BindingResult.class);
+        Model model = mock(Model.class);
+
+        contractService.validateContractNumberFromController("", bindingResult, model);
+        verify(bindingResult, atLeastOnce())
+                .addError(new ObjectError("phoneNumberEmptyError", "This field is required."));
+
+        BindingResult bindingResult1 = mock(BindingResult.class);
+        contractService.validateContractNumberFromController(contractNumber, bindingResult1, model);
+        verify(bindingResult1, atLeastOnce()).addError(new ObjectError("phoneNumberPatterError",
+                "Phone number should look like this: +7XXXXXXXXXX."));
+
+        BindingResult bindingResult2 = mock(BindingResult.class);
+        contractService.validateContractNumberFromController("+79119998811", bindingResult2, model);
+        verify(bindingResult2, never()).addError(any());
+    }
+
+    @Test
+    public void validateLoginFromController(){
+        String selectedLogin = "selectedLogin";
+        BindingResult bindingResult = mock(BindingResult.class);
+        Model model = mock(Model.class);
+
+        User user = new User();
+        ArrayList<User> usersArrayList = new ArrayList<>();
+        usersArrayList.add(user);
+
+        when(userServiceImpl.getUserByLogin(any())).thenReturn(usersArrayList);
+        contractService.validateLoginFromController(selectedLogin,bindingResult, model);
+        verify(bindingResult, never()).addError(any());
+
+        BindingResult bindingResult1 = mock(BindingResult.class);
+        when(userServiceImpl.getUserByLogin(any())).thenReturn(new ArrayList<User>());
+        contractService.validateLoginFromController(selectedLogin,bindingResult1, model);
+        verify(bindingResult1, atLeastOnce())
+                .addError(new ObjectError("userList",
+                        "Please select existing user from drop-down list"));
+
+        BindingResult bindingResult2 = mock(BindingResult.class);
+        contractService.validateLoginFromController("",bindingResult2, model);
+        verify(bindingResult1, atLeastOnce())
+                .addError(new ObjectError("userList",
+                        "Please select existing user from drop-down list"));
+    }
 
 
 }
