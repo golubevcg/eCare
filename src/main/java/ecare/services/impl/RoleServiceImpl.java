@@ -53,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public RoleDTO getRoleDTOByRolename(String rolename){
-        Role role = this.getRoleByRoleName(rolename).get(0);
+        Role role = roleDaoImpl.getRoleByRoleName(rolename).get(0);
         return roleMapper.toDTO(role);
     }
 

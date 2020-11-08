@@ -336,7 +336,9 @@ public class OptionServiceImpl implements OptionService {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
 
         String currentlyCheckedOptionId = jsonObject.get("currentlyCheckedOptionId").getAsString();
-        OptionDTO lastSelectedOptionDTO = this.getOptionDTOById(Long.parseLong(currentlyCheckedOptionId));
+
+        OptionDTO lastSelectedOptionDTO = optionMapper.toDTO(optionDaoImpl
+                .getOptionById(Long.parseLong(currentlyCheckedOptionId)).get(0));
         if (!jsonObject.get("selectedIncOptions").isJsonNull()) {
             JsonArray incJsonArray = jsonObject.get("selectedIncOptions").getAsJsonArray();
 
@@ -370,7 +372,8 @@ public class OptionServiceImpl implements OptionService {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
 
         String currentlyCheckedOptionId = jsonObject.get("currentlyCheckedOptionId").getAsString();
-        OptionDTO lastSelectedOptionDTO = this.getOptionDTOById(Long.parseLong(currentlyCheckedOptionId));
+        OptionDTO lastSelectedOptionDTO = optionMapper.toDTO(optionDaoImpl
+                .getOptionById(Long.parseLong(currentlyCheckedOptionId)).get(0));
         if (!jsonObject.get("selectedOblOptions").isJsonNull()) {
             JsonArray incJsonArray = jsonObject.get("selectedOblOptions").getAsJsonArray();
             Set<OptionDTO> parentIncOptionDTOs = getAllParentDependencies(lastSelectedOptionDTO.getOption_id());

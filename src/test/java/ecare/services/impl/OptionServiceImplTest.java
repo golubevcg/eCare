@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -212,8 +213,6 @@ public class OptionServiceImplTest {
         optionDTO.setShortDescription("shd");
         ArrayList<Option> optionsArrayList = new ArrayList<>();
         optionsArrayList.add(new Option());
-        when(optionMapper.toDTO(any())).thenReturn(optionDTO);
-        when(optionDaoImpl.getOptionByName(oldName)).thenReturn(optionsArrayList);
 
         OptionDTO optionDTO1 = new OptionDTO();
         optionDTO1.setName("name1");
@@ -229,16 +228,176 @@ public class OptionServiceImplTest {
 
         optionDTO.setIncompatibleOptionsSet(optionsSet);
         optionDTO.setObligatoryOptionsSet(optionsSet);
+        when(optionMapper.toDTO(any())).thenReturn(optionDTO);
+        when(optionDaoImpl.getOptionByName(oldName)).thenReturn(optionsArrayList);
 
         String str = optionService.getDependedOptionsJson(oldName);
         assertEquals("[[\"name2\",\"name1\"],[\"name2\",\"name1\"]]", str);
     }
 
-//    @Test
-//    public void checkIncOptionDependenciesToPreventImpossibleDependencyTest(){
-//        String json = "";
-//        boolean foundedErrorDependency = true;
-//    }
+    @Test
+    public void checkIncOptionDependenciesToPreventImpossibleDependencyTest(){
+        String expJson = "{\"lastSelectedVal\":\"Unlimited calls\"," +
+                "\"selectedObligOptions\":[\"Unlimited calls worldwide!\"]}";
+        AtomicBoolean foundedErrorDependency = new AtomicBoolean(true);
+
+        OptionDTO optionDTO = new OptionDTO();
+        optionDTO.setName("name");
+        optionDTO.setShortDescription("shd");
+        ArrayList<Option> optionsArrayList = new ArrayList<>();
+        optionsArrayList.add(new Option());
+
+        OptionDTO optionDTO1 = new OptionDTO();
+        optionDTO1.setName("name1");
+        optionDTO1.setShortDescription("shd1");
+
+        OptionDTO optionDTO2 = new OptionDTO();
+        optionDTO2.setName("name2");
+        optionDTO2.setShortDescription("shd2");
+
+        Set<OptionDTO> optionsSet = new HashSet<>();
+        optionsSet.add(optionDTO1);
+        optionsSet.add(optionDTO2);
+
+        optionDTO.setIncompatibleOptionsSet(optionsSet);
+        optionDTO.setObligatoryOptionsSet(optionsSet);
+        when(optionMapper.toDTO(any())).thenReturn(optionDTO);
+        when(optionDaoImpl.getOptionByName(any())).thenReturn(optionsArrayList);
+
+        String str = optionService
+                .checkIncOptionDependenciesToPreventImpossibleDependency(expJson, foundedErrorDependency);
+        assertEquals("", str);
+
+        String expJson1 = "{\"lastSelectedVal\":\"Unlimited calls\"," +
+                "\"selectedObligOptions\":[]}";
+        String str1 = optionService
+                .checkIncOptionDependenciesToPreventImpossibleDependency(expJson, foundedErrorDependency);
+        assertEquals("", str1);
+    }
+
+    @Test
+    public void returnAllObligatoryOptionsTest(){
+        Set<OptionDTO> allObligatoryOptionsSet = new HashSet<>();
+        OptionDTO optionDTO = new OptionDTO();
+
+        optionService.returnAllObligatoryOptions(allObligatoryOptionsSet, optionDTO);
+    }
+
+    @Test
+    public void updateTariffsConnectedToThisOptionsTest(){
+        OptionDTO optionDTO = new OptionDTO();
+
+        optionService.updateTariffsConnectedToThisOptions(optionDTO);
+    }
+
+    @Test
+    public void recursivlyCheckInObligDependeciesTest(){
+        OptionDTO lastSelectedOptionDTO = new OptionDTO();
+        lastSelectedOptionDTO.setName("lastSelectedName");
+
+        OptionDTO selectedObligOptionDTO = new OptionDTO();
+        selectedObligOptionDTO.setName("selectedObligName");
+        Set<OptionDTO> obligatoryOptionsSet = new HashSet<>();
+        obligatoryOptionsSet.add(lastSelectedOptionDTO);
+        selectedObligOptionDTO.setObligatoryOptionsSet(obligatoryOptionsSet);
+        AtomicBoolean foundedErrorDependency = new AtomicBoolean();
+
+        assertFalse(optionService.recursivlyCheckInObligDependecies
+                (lastSelectedOptionDTO, selectedObligOptionDTO, foundedErrorDependency));
+        assertTrue(foundedErrorDependency.get());
+
+        Set<OptionDTO> obligatoryOptionsSet1 = new HashSet<>();
+        OptionDTO newObligOptionDTO = new OptionDTO();
+        newObligOptionDTO.setName("newObligOptionDTO");
+        obligatoryOptionsSet1.add(newObligOptionDTO);
+        selectedObligOptionDTO.setObligatoryOptionsSet(obligatoryOptionsSet1);
+        assertTrue(optionService.recursivlyCheckInObligDependecies
+                (lastSelectedOptionDTO,selectedObligOptionDTO,foundedErrorDependency));
+    }
+
+    @Test
+    public void recursivlyCheckInIncDependeciesTest(){
+        OptionDTO lastSelectedOptionDTO = new OptionDTO();
+        lastSelectedOptionDTO.setName("lastSelectedName");
+
+        OptionDTO selectedObligOptionDTO = new OptionDTO();
+        selectedObligOptionDTO.setName("selectedObligName");
+        Set<OptionDTO> incompatibleOptionsSet = new HashSet<>();
+        incompatibleOptionsSet.add(lastSelectedOptionDTO);
+        selectedObligOptionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet);
+        AtomicBoolean foundedErrorDependency = new AtomicBoolean();
+
+        assertFalse(optionService.recursivlyCheckInIncDependecies
+                (lastSelectedOptionDTO, selectedObligOptionDTO, foundedErrorDependency));
+        assertTrue(foundedErrorDependency.get());
+
+        Set<OptionDTO> incompatibleOptionsSet1 = new HashSet<>();
+        OptionDTO newObligOptionDTO = new OptionDTO();
+        newObligOptionDTO.setName("newObligOptionDTO");
+        incompatibleOptionsSet1.add(newObligOptionDTO);
+        selectedObligOptionDTO.setIncompatibleOptionsSet(incompatibleOptionsSet1);
+        assertTrue(optionService.recursivlyCheckInIncDependecies
+                (lastSelectedOptionDTO,selectedObligOptionDTO,foundedErrorDependency));
+    }
+
+    @Test
+    public void checkIncOptionDependenciesToPreventRecursionTest(){
+        String expJson = "{\"currentlyCheckedOptionId\":\"9\"," +
+                "\"selectedIncOptions\":[\"200 min\",\"100 Min\",\"300 Min\",\"100 messages\"]}";
+
+        Option option = new Option();
+        List<Option> options = new ArrayList<>();
+        options.add(option);
+        when(optionDaoImpl.getOptionById(any())).thenReturn(options);
+
+        OptionDTO optionDTO = new OptionDTO();
+        when(optionMapper.toDTO(option)).thenReturn(optionDTO);
+        assertEquals("", optionService.checkIncOptionDependenciesToPreventRecursion(expJson));
+
+        String expJson1 = "{\"currentlyCheckedOptionId\":\"9\"," +
+                "\"selectedIncOptions\":[]}";
+        assertEquals("", optionService.checkIncOptionDependenciesToPreventRecursion(expJson1));
+    }
+
+    @Test
+    public void getParentObligatoryOptionDTOsTest(){
+        Long optionId = 1l;
+        optionService.getParentObligatoryOptionDTOs(optionId);
+        verify(optionDaoImpl, atLeastOnce()).getParentObligatoryOptions(any());
+    }
+
+    @Test
+    public void checkOblOptionDependenciesToPreventRecursion(){
+        String expJson = "{\"currentlyCheckedOptionId\":\"9\"," +
+                "\"selectedOblOptions\":[\"200 min\",\"100 Min\",\"300 Min\",\"100 messages\"]}";
+
+        Option option = new Option();
+        List<Option> options = new ArrayList<>();
+        options.add(option);
+        when(optionDaoImpl.getOptionById(any())).thenReturn(options);
+
+        OptionDTO optionDTO = new OptionDTO();
+        when(optionMapper.toDTO(option)).thenReturn(optionDTO);
+        assertEquals("", optionService.checkOblOptionDependenciesToPreventRecursion(expJson));
+
+        String expJson1 = "{\"currentlyCheckedOptionId\":\"9\"," +
+                "\"selectedOblOptions\":[]}";
+        assertEquals("", optionService.checkOblOptionDependenciesToPreventRecursion(expJson1));
+    }
+
+    @Test
+    public void getParentIncompatibleOptionDTOs(){
+        Long optionId = 1l;
+        optionService.getParentIncompatibleOptionDTOs(optionId);
+        verify(optionDaoImpl, atLeastOnce()).getParentIncompatibleOptions(any());
+    }
+
+    @Test
+    public void getAllParentDependencies(){
+        Long optionId = 1l;
+        optionService.getAllParentDependencies(optionId);
+        verify(optionDaoImpl, atLeastOnce()).getAllParentDependencies(any());
+    }
 
 
 }
