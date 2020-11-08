@@ -62,7 +62,7 @@ public class NewUserRegPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/userRegistration/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
+    @GetMapping(value = "/userRegistration/loadOptionByTariff/{selectedTariff}")
     public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
 
         Set<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getSetOfOptions();

@@ -40,6 +40,8 @@ public class ContractServiceImpl implements ContractService {
     final
     OptionService optionServiceImpl;
 
+    String contractWithNumber = "Contract with number=";
+
 
     public ContractServiceImpl(ContractDao contractDaoImpl, ContractMapper contractMapper,
                                UserService userServiceImpl, TariffService tariffServiceImpl,
@@ -56,11 +58,10 @@ public class ContractServiceImpl implements ContractService {
     public void save(Contract contract) {
         try {
             contractDaoImpl.save(contract);
-            log.info("Contract with number=" + contract.getContractNumber() + " was successfully saved.");
+            log.info(contractWithNumber + contract.getContractNumber() + " was successfully saved.");
         }catch(Exception e){
             log.info("There was an error, during the saving of contract with number="
                     + contract.getContractNumber() + ".");
-            e.printStackTrace();
         }
     }
 
@@ -68,11 +69,10 @@ public class ContractServiceImpl implements ContractService {
     public void update(Contract contract) {
         try{
             contractDaoImpl.update(contract);
-            log.info("Contract with number=" + contract.getContractNumber() + " was successfully updated.");
+            log.info(contractWithNumber + contract.getContractNumber() + " was successfully updated.");
         }catch(Exception e){
             log.info("There was an error, during the updating of contract with number="
                     + contract.getContractNumber() + ".");
-            e.printStackTrace();
         }
     }
 
@@ -80,11 +80,10 @@ public class ContractServiceImpl implements ContractService {
     public void delete(Contract contract) {
         try{
             contractDaoImpl.delete(contract);
-            log.info("Contract with number=" + contract.getContractNumber() + " was successfully deleted.");
+            log.info(contractWithNumber + contract.getContractNumber() + " was successfully deleted.");
         }catch(Exception e){
             log.info("There was an error, during the deleting of contract with number="
                     + contract.getContractNumber() + ".");
-            e.printStackTrace();
         }
     }
 
@@ -101,14 +100,14 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public List<ContractDTO> searchForContractByNumber(String searchInput) {
         return contractDaoImpl.searchForContractByNumber(searchInput)
-                .stream().map(c->contractMapper.toDTO(c)).collect(Collectors.toList());
+                .stream().map(contractMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<ContractDTO> getContractDTOById(Long contractID) {
         return this.getContractById(contractID)
                 .stream()
-                .map(contract-> contractMapper.toDTO(contract))
+                .map(contractMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -116,17 +115,17 @@ public class ContractServiceImpl implements ContractService {
     public List<ContractDTO> getContractDTOByNumber(String number) {
         return this.getContractByNumber(number)
                 .stream()
-                .map(c->contractMapper.toDTO(c))
+                .map(contractMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ContractDTO getContractDTOByNumberOrNull(String number) {
-        List<Contract> contractDTOList = contractDaoImpl.getContractByNumber(number);
-        if(contractDTOList==null){
+        List<Contract> contractsList = contractDaoImpl.getContractByNumber(number);
+        if(contractsList.isEmpty()){
             return null;
         }else{
-            return contractMapper.toDTO(contractDTOList.get(0));
+            return contractMapper.toDTO(contractsList.get(0));
         }
     }
 
@@ -134,12 +133,11 @@ public class ContractServiceImpl implements ContractService {
     public void convertToEntityAndUpdate(ContractDTO contractDTO){
         try{
             contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
-            log.info("Contract with number=" + contractDTO.getContractNumber()
+            log.info(contractWithNumber + contractDTO.getContractNumber()
                     + " was successfully converted and updated.");
         }catch(Exception e){
             log.info("There was an error, during the converting and updating of contract with number="
                     + contractDTO.getContractNumber() + ".");
-            e.printStackTrace();
         }
     }
 
@@ -153,12 +151,11 @@ public class ContractServiceImpl implements ContractService {
     public void convertToEntityAndSave(ContractDTO contractDTO){
         try{
             this.save(contractMapper.toEntity(contractDTO));
-            log.info("Contract with number=" + contractDTO.getContractNumber()
+            log.info(contractWithNumber + contractDTO.getContractNumber()
                     + " was successfully converted and saved.");
         }catch(Exception e){
             log.info("There was an error, during the converting and saving of contract with number="
                     + contractDTO.getContractNumber() + ".");
-            e.printStackTrace();
         }
     }
 
@@ -166,12 +163,14 @@ public class ContractServiceImpl implements ContractService {
     public boolean submitValuesFromController(String exportArray, String contractNumberBeforeEditing){
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
-        ContractDTO contractDTO = this.getContractDTOByNumber(contractNumberBeforeEditing).get(0);
+        List<Contract> contractsList = contractDaoImpl.getContractByNumber(contractNumberBeforeEditing);
+
+        ContractDTO contractDTO = contractMapper.toDTO( contractsList.get(0) );
 
         String number = jsonObject.get("newNum").getAsString();
-        String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();;
+        String selectedUserLogin = jsonObject.get("selectedUserLogin").getAsString();
         String tariff = jsonObject.get("selectedTariff").getAsString();
-        Boolean isBlocked = jsonObject.get("isContractBlocked").getAsBoolean();
+        boolean isBlocked = jsonObject.get("isContractBlocked").getAsBoolean();
 
         JsonArray jsonArrayTest = jsonObject.get("selectedOptions").getAsJsonArray();
 
@@ -202,7 +201,7 @@ public class ContractServiceImpl implements ContractService {
     /**
      *
      This method used for returning two arrays as json - first with arrays of id's for incompatible options,
-     second for obligatory, they will be parced in front end for enabling/disabling dependent options.
+     second for obligatory, they will be parsed in front end for enabling/disabling dependent options.
      And with error message if child options blocked for enabling/disabling.
      */
     @Override
@@ -231,22 +230,17 @@ public class ContractServiceImpl implements ContractService {
         array[0]=incompatibleOptionIds;
         array[1]=obligatoryOptionIds;
 
-        String obligatoryErrorMessage = "";
-        for (String obligOptId: obligatoryOptionIds) {
-            if(!checkedOptionIdsSet.contains(obligOptId) && blockedOptionIdsSet.contains(obligOptId)){
-                obligatoryErrorMessage = obligatoryErrorMessage + optionServiceImpl.getOptionDTOById(Long.valueOf(obligOptId)).getName() + " ";
-            }
-        }
+        StringBuilder obligatoryErrorMessage = new StringBuilder();
+        fillObligatoryOptionsMessageWithNamesBasedOnOptionId(blockedOptionIdsSet,
+                                                checkedOptionIdsSet, obligatoryOptionIds, obligatoryErrorMessage);
 
-        String incompatibleErrorMessage = "";
-        for (String incompOptId: incompatibleOptionIds) {
-            if(checkedOptionIdsSet.contains(incompOptId) && blockedOptionIdsSet.contains(incompOptId)){
-                incompatibleErrorMessage = incompatibleErrorMessage
-                        + optionServiceImpl.getOptionDTOById(Long.valueOf(incompOptId)).getName() + " ";
-            }
-        }
+        StringBuilder incompatibleErrorMessage = new StringBuilder();
+
+        fillIncompatibleOptionsMessageWithNamesBasedOnOptionId(blockedOptionIdsSet,
+                                                checkedOptionIdsSet, incompatibleOptionIds, incompatibleErrorMessage);
+
         Set<String> errorMessageSet = new HashSet<>();
-        String finalErrorMessage = obligatoryErrorMessage + incompatibleErrorMessage;
+        String finalErrorMessage = obligatoryErrorMessage.toString() + incompatibleErrorMessage.toString();
         errorMessageSet.add(finalErrorMessage);
         array[2]= errorMessageSet;
 
@@ -255,33 +249,10 @@ public class ContractServiceImpl implements ContractService {
             ContractDTO currentContractForCartFromSession = null;
             HashSet<ContractDTO> cartContractsSetChangedForCart
                     = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
-            for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
-                if(contractDTO.getContractNumber().equals(contractNumber)){
-                    currentContractForCartFromSession = contractDTO;
 
-                    OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
-
-                    if(isChecked){
-                        currentContractForCartFromSession.addOption(optionDTO);
-                    }else{
-                        currentContractForCartFromSession.removeOption(optionDTO);
-                    }
-
-                    for (String optionIdi: incompatibleOptionIds) {
-                        OptionDTO optionDTOInc = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdi));
-                        currentContractForCartFromSession.removeOption(optionDTOInc);
-                    }
-
-                    for (String optionIdo: obligatoryOptionIds) {
-                        OptionDTO optionDTOObl = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdo));
-                        currentContractForCartFromSession.addOption(optionDTOObl);
-                    }
-
-                    cartContractsSetChangedForCart.add(currentContractForCartFromSession);
-                    session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
-                }
-            }
-
+            checkContractsAndIfNeededAddThemToSessionAttributes(session, selectedOptionId,
+                    isChecked, contractNumber, incompatibleOptionIds,
+                    obligatoryOptionIds, cartContractsSetChangedForCart);
 
 
         }
@@ -289,6 +260,81 @@ public class ContractServiceImpl implements ContractService {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(array);
 }
+
+    private void checkContractsAndIfNeededAddThemToSessionAttributes(HttpSession session,
+                                                                     String selectedOptionId,
+                                                                     Boolean isChecked,
+                                                                     String contractNumber,
+                                                                     Set<String> incompatibleOptionIds,
+                                                                     Set<String> obligatoryOptionIds,
+                                                                     HashSet<ContractDTO>
+                                                                             cartContractsSetChangedForCart) {
+        ContractDTO currentContractForCartFromSession;
+        for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
+            if(contractDTO.getContractNumber().equals(contractNumber)){
+                currentContractForCartFromSession = contractDTO;
+
+                OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
+
+                ifCheckedAddOptionToContractOrRemove(isChecked, currentContractForCartFromSession, optionDTO);
+
+                addIncompatibleOptionToCurrentContractFromSessionBasedOnId(incompatibleOptionIds,
+                        currentContractForCartFromSession);
+
+                addObligatoryOptionToCurrentContractFromSessionBasedOnId(obligatoryOptionIds,
+                        currentContractForCartFromSession);
+
+                cartContractsSetChangedForCart.add(currentContractForCartFromSession);
+                session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+            }
+        }
+    }
+
+    private void fillObligatoryOptionsMessageWithNamesBasedOnOptionId(Set<String> blockedOptionIdsSet,
+                                                                        Set<String> checkedOptionIdsSet,
+                                                                        Set<String> obligatoryOptionIds,
+                                                                        StringBuilder obligatoryErrorMessage) {
+        for (String obligOptId: obligatoryOptionIds) {
+            if(!checkedOptionIdsSet.contains(obligOptId) && blockedOptionIdsSet.contains(obligOptId)){
+                obligatoryErrorMessage
+                        .append(optionServiceImpl.getOptionDTOById(Long.valueOf(obligOptId)).getName() + " ");
+            }
+        }
+    }
+
+    private void fillIncompatibleOptionsMessageWithNamesBasedOnOptionId(Set<String> blockedOptionIdsSet,
+                                                                          Set<String> checkedOptionIdsSet,
+                                                                          Set<String> incompatibleOptionIds,
+                                                                          StringBuilder incompatibleErrorMessage) {
+        for (String incompOptId: incompatibleOptionIds) {
+            if(checkedOptionIdsSet.contains(incompOptId) && blockedOptionIdsSet.contains(incompOptId)){
+                incompatibleErrorMessage
+                        .append(optionServiceImpl.getOptionDTOById(Long.valueOf(incompOptId)).getName() + " ");
+            }
+        }
+    }
+
+    private void ifCheckedAddOptionToContractOrRemove(Boolean isChecked, ContractDTO currentContractForCartFromSession, OptionDTO optionDTO) {
+        if(isChecked){
+            currentContractForCartFromSession.addOption(optionDTO);
+        }else{
+            currentContractForCartFromSession.removeOption(optionDTO);
+        }
+    }
+
+    private void addIncompatibleOptionToCurrentContractFromSessionBasedOnId(Set<String> incompatibleOptionIds, ContractDTO currentContractForCartFromSession) {
+        for (String optionIdi: incompatibleOptionIds) {
+            OptionDTO optionDTOInc = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdi));
+            currentContractForCartFromSession.removeOption(optionDTOInc);
+        }
+    }
+
+    private void addObligatoryOptionToCurrentContractFromSessionBasedOnId(Set<String> obligatoryOptionIds, ContractDTO currentContractForCartFromSession) {
+        for (String optionIdo: obligatoryOptionIds) {
+            OptionDTO optionDTOObl = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdo));
+            currentContractForCartFromSession.addOption(optionDTOObl);
+        }
+    }
 
     /**
      * This function for checking depending options in child options (recursively)

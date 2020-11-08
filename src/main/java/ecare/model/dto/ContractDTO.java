@@ -46,8 +46,7 @@ public class ContractDTO implements Comparable<ContractDTO>, Serializable {
     @Override
     public int compareTo(ContractDTO o) {
         if (this == o) return 0;
-        ContractDTO that = (ContractDTO) o;
-        if(this.getContract_id()>that.getContract_id()){
+        if(this.getContract_id()> o.getContract_id()){
             return 1;
         }else{
             return -1;

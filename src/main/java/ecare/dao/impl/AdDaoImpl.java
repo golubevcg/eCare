@@ -50,6 +50,10 @@ public class AdDaoImpl implements AdDao {
         List<Ad> adsList = session.createQuery("SELECT a FROM Ad a WHERE a.name = :nam", Ad.class)
                 .setParameter("nam", name).list();
 
+        return returnAdIfAdListEmpty( adsList);
+    }
+
+    private Ad returnAdIfAdListEmpty( List<Ad> adsList){
         if(adsList.isEmpty()){
             return null;
         }{

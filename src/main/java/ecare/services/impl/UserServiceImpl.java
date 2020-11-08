@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
             log.info("User with login=" + user.getLogin() + " was successfully saved!");
         }catch(Exception e){
             log.info("There was an error during saving user with login=" + user.getLogin());
-            e.printStackTrace();
         }
     }
 
@@ -62,7 +61,6 @@ public class UserServiceImpl implements UserService {
             log.info("User with login=" + user.getLogin() + " was successfully updated!");
         }catch(Exception e){
             log.info("There was an error during updating user with login=" + user.getLogin());
-            e.printStackTrace();
         }
     }
 
@@ -80,7 +78,6 @@ public class UserServiceImpl implements UserService {
             log.info("User with login=" + user.getLogin() + " was successfully deleted!");
         }catch(Exception e){
             log.info("There was an error during deleting user with login=" + user.getLogin());
-            e.printStackTrace();
         }
     }
 

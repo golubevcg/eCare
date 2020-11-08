@@ -57,11 +57,7 @@ public class CheckUserPageController {
         }
 
         List<UserDTO> listOfUsers = userServiceImpl.getUserDTOByPassportInfo(newPassport);
-        if (listOfUsers != null) {
-            return false;
-        } else {
-            return true;
-        }
+        return listOfUsers != null;
     }
 
     @ResponseBody
@@ -110,7 +106,7 @@ public class CheckUserPageController {
         try {
             userDTO.setDateOfBirth(new SimpleDateFormat("yyyy-dd-mm").parse(dateOfBirth));
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.info("There was an Error during date parsing.");
         }
         userDTO.setPassportInfo(passportInfo);
         userDTO.setAddress(address);

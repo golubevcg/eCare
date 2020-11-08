@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
     }
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String login){
         User user = userServiceImpl.getUserByLogin(login).get(0);
         if(user!=null){
             log.info("User for authorisation successfully loaded. ");

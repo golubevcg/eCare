@@ -30,14 +30,16 @@ public class ContractsListPageController {
     @GetMapping("/contracts")
     public String getContractsListPage(Model model, CsrfToken token, Principal principal, HttpSession session) {
 
+        String cartContractsSetChangedForCartName = "cartContractsSetChangedForCart";
+
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(principal.getName());
 
         Set<ContractDTO> contractsSet = userDTO.getListOfActiveContracts();
-        if(session.getAttribute("cartContractsSetChangedForCart")==null){
+        if(session.getAttribute(cartContractsSetChangedForCartName)==null){
             session.setAttribute("cartContractsSetDefaultFromDB", contractsSet);
-            session.setAttribute("cartContractsSetChangedForCart", contractsSet);
+            session.setAttribute(cartContractsSetChangedForCartName, contractsSet);
         }else{
-            contractsSet = (Set<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+            contractsSet = (Set<ContractDTO>) session.getAttribute(cartContractsSetChangedForCartName);
         }
 
         ArrayList<ContractDTO> sortedListOfContracts = new ArrayList<>();

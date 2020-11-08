@@ -43,7 +43,6 @@ public class TariffServiceImpl implements TariffService {
             log.info("Tariff with name=" + tariff.getName() + " was successfully saved!");
         }catch(Exception e){
             log.info("There was an error during saving tariff with name=" + tariff.getName());
-            e.printStackTrace();
         }
     }
 
@@ -55,7 +54,6 @@ public class TariffServiceImpl implements TariffService {
             log.info("Tariff with name=" + tariff.getName() + " was successfully updated!");
         }catch(Exception e){
             log.info("There was an error during updating tariff with name=" + tariff.getName());
-            e.printStackTrace();
         }
     }
 
@@ -67,7 +65,6 @@ public class TariffServiceImpl implements TariffService {
             log.info("Tariff with name=" + tariff.getName() + " was successfully deleted!");
         }catch(Exception e){
             log.info("There was an error during deleting tariff with name=" + tariff.getName());
-            e.printStackTrace();
         }
     }
 

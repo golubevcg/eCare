@@ -1,5 +1,7 @@
 package ecare.mq;
 
+import ecare.controllers.CheckUserPageController;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import javax.jms.*;
 import javax.naming.Context;
@@ -9,6 +11,8 @@ import java.util.Properties;
 
 @Component
 public class MessageSender {
+
+    static final Logger log = Logger.getLogger(CheckUserPageController.class);
 
     private static final String JMS_CONNECTION_FACTORY_JNDI = "jms/RemoteConnectionFactory";
     private static final String JMS_QUEUE_JNDI = "jms/quene/test";
@@ -40,7 +44,7 @@ public class MessageSender {
             session.close();
             connection.close();
         } catch (NamingException | JMSException e) {
-            e.printStackTrace();
+            log.info("There was an error during message sending to mq.");
         }
     }
 

@@ -33,11 +33,12 @@ public class CartServiceImpl implements CartService {
                 .getContractDTOByNumberOrNull(contractDTOFromCart.getContractNumber());
         ContractDTO editedContractDTO = new ContractDTO();
         editedContractDTO.setContractNumber(contractDTOFromDB.getContractNumber());
-        boolean isChanged = false;
+        AtomicBoolean isChanged = new AtomicBoolean();
+        isChanged.set(false);
 
         if (!contractDTOFromCart.getTariff().equals(contractDTOFromDB.getTariff())) {
             editedContractDTO.setTariff(contractDTOFromCart.getTariff());
-            isChanged = true;
+            isChanged.set(true);
         }
 
         Map<String, String> optionMapEnabledDisabled = new HashMap<>();
@@ -57,11 +58,11 @@ public class CartServiceImpl implements CartService {
 
         if (contractDTOFromCart.isBlocked() != contractDTOFromDB.isBlocked()) {
             editedContractDTO.setBlocked(contractDTOFromCart.isBlocked());
-            isChanged = true;
+            isChanged.set(true);
             showBlockedOnPage.set(true);
         }
 
-        if (isChanged) {
+        if (isChanged.get()) {
             onlyContractsChanges.add(editedContractDTO);
         }
 
@@ -69,13 +70,13 @@ public class CartServiceImpl implements CartService {
 
     private void checkNewOptionsInEditedContract(Set<OptionDTO> optionDTOSetFromCart,
                                                  Set<OptionDTO> optionDTOSetFromDB,
-                                                 Boolean isChanged,
+                                                 AtomicBoolean isChanged,
                                                  Map<String, String> optionMapEnabledDisabled){
 
         for (OptionDTO optionDTOFromSession : optionDTOSetFromCart) {
             if (!optionDTOSetFromDB.contains(optionDTOFromSession)) {
                 optionMapEnabledDisabled.put(optionDTOFromSession.getName(), "enabled");
-                isChanged = true;
+                isChanged.set(true);
             }
         }
 
@@ -84,12 +85,12 @@ public class CartServiceImpl implements CartService {
 
     private void checkRemovedOptionsInEditedContract(Set<OptionDTO> optionDTOSetFromCart,
                                                      Set<OptionDTO> optionDTOSetFromDB,
-                                                     Boolean isChanged,
+                                                     AtomicBoolean isChanged,
                                                      Map<String, String> optionMapEnabledDisabled){
         for (OptionDTO optionDTOFromDb : optionDTOSetFromDB) {
             if (!optionDTOSetFromCart.contains(optionDTOFromDb)) {
                 optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
-                isChanged = true;
+                isChanged.set(true);
             }
         }
     }

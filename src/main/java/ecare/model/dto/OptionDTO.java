@@ -34,8 +34,7 @@ public class OptionDTO implements Comparable<OptionDTO>, Serializable {
     @Override
     public int compareTo(OptionDTO o) {
         if (this == o) return 0;
-        OptionDTO that = (OptionDTO) o;
-        if(this.getOption_id()>that.getOption_id()){
+        if(this.getOption_id()> o.getOption_id()){
             return 1;
         }else{
             return -1;

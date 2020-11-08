@@ -2,14 +2,9 @@ package ecare.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ecare.model.dto.ContractDTO;
-import ecare.model.dto.TariffDTO;
-import ecare.model.dto.UserDTO;
+import ecare.model.dto.*;
 import ecare.model.entity.Option;
-import ecare.services.api.ContractService;
-import ecare.services.api.OptionService;
-import ecare.services.api.TariffService;
-import ecare.services.api.UserService;
+import ecare.services.api.*;
 import org.apache.log4j.Logger;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -58,7 +53,7 @@ public class NewContractRegPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/newContract/loadOptionByTariff/{selectedTariff}", method = RequestMethod.GET)
+    @GetMapping(value = "/newContract/loadOptionByTariff/{selectedTariff}")
     public String loadOptionByTariff(@PathVariable("selectedTariff") String selectedTariff) {
 
         Set<Option> optionList = tariffServiceImpl.getTariffByTariffName(selectedTariff).get(0).getSetOfOptions();

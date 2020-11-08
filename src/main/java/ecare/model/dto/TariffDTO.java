@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"name"})
-public class TariffDTO implements Comparable, Serializable {
+public class TariffDTO implements Comparable<TariffDTO>, Serializable {
 
     private Long tariff_id;
 
@@ -38,10 +38,9 @@ public class TariffDTO implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(TariffDTO o) {
         if (this == o) return 0;
-        TariffDTO that = (TariffDTO) o;
-        if(this.getTariff_id()>that.getTariff_id()){
+        if(this.getTariff_id()> o.getTariff_id()){
             return 1;
         }else{
             return -1;

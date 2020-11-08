@@ -47,41 +47,36 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> getTariffByTariffName(String tariffName) {
 
         Session session = sessionFactory.getCurrentSession();
-        List<Tariff> listOfTariffs = session.createQuery(
+        return session.createQuery(
                 "select t " +
                         "from Tariff t " +
                         "where t.name = :name", Tariff.class)
                 .setParameter("name", tariffName).list();
-
-        return listOfTariffs;
     }
 
     @Override
     public List<Tariff> getAllTariffs() {
         Session session = sessionFactory.getCurrentSession();
-        List<Tariff> listOfTarifs = session.createQuery(
+        return  session.createQuery(
                 "select t from Tariff t", Tariff.class).list();
-        return listOfTarifs;
     }
 
     @Override
     public List<Tariff> getActiveTariffs() {
         Session session = sessionFactory.getCurrentSession();
-        List<Tariff> listOfTariffs = session.createQuery(
+        return session.createQuery(
                 "select t from Tariff t where t.isActive=true", Tariff.class).list();
-        return listOfTariffs;
     }
 
     @Override
     public List<Tariff> searchForTariffByName(String name){
         Session session = sessionFactory.getCurrentSession();
-        List<Tariff> contractsList = session.createQuery(
+        return session.createQuery(
                 "select t " +
                         "from Tariff t " +
                         "where t.name like:string", Tariff.class)
                 .setParameter("string", "%" + name + "%")
                 .list();
-        return contractsList;
     }
 
 }

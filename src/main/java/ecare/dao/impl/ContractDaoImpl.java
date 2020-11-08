@@ -41,34 +41,25 @@ public class ContractDaoImpl implements ContractDao {
     @Override
     public List<Contract> searchForContractByNumber(String number){
         Session session = sessionFactory.getCurrentSession();
-        List<Contract> contractsList = session.createQuery(
-                "select c " +
-                        "from Contract c " +
-                        "where c.contractNumber like:string", Contract.class)
+        return session.createQuery("select c from Contract c " +
+                "where c.contractNumber like:string", Contract.class)
                 .setParameter("string", "%" + number + "%")
                 .list();
-        return contractsList;
     }
 
     @Override
     public List<Contract> getContractByNumber(String number) {
         Session session = sessionFactory.getCurrentSession();
-        List<Contract> contractsList = session.createQuery(
-                "select c " +
-                        "from Contract c " +
-                        "where c.contractNumber = :num", Contract.class)
+        return session.createQuery("select c from Contract c " +
+                "where c.contractNumber = :num", Contract.class)
                 .setParameter("num", number).list();
-        return contractsList;
     }
 
     @Override
     public List<Contract> getContractById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        List<Contract> contractsList = session.createQuery(
-                "select c " +
-                        "from Contract c " +
-                        "where c.contract_id = :id", Contract.class)
+        return session.createQuery("select c from Contract c " +
+                "where c.contract_id = :id", Contract.class)
                 .setParameter("id", id).list();
-        return contractsList;
     }
 }

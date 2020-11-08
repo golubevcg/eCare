@@ -55,7 +55,6 @@ public class OptionServiceImpl implements OptionService {
             log.info("Option with name=" + option.getName() + " was successfully saved!");
         } catch (Exception e) {
             log.info("There was an error during saving option with name=" + option.getName());
-            e.printStackTrace();
         }
     }
 
@@ -67,7 +66,6 @@ public class OptionServiceImpl implements OptionService {
             log.info("Option with name=" + option.getName() + " was successfully deleted!");
         } catch (Exception e) {
             log.info("There was an error during deleting option with name=" + option.getName());
-            e.printStackTrace();
         }
     }
 
@@ -80,7 +78,6 @@ public class OptionServiceImpl implements OptionService {
             log.info("Option with name=" + option.getName() + " was successfully updated!");
         } catch (Exception e) {
             log.info("There was an error during updating option with name=" + option.getName());
-            e.printStackTrace();
         }
     }
 
@@ -106,7 +103,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional
     public OptionDTO getOptionDTOByNameOrNull(String optionName) {
-        List<Option> listOfOptions = this.getOptionByName(optionName);
+        List<Option> listOfOptions = optionDaoImpl.getOptionByName(optionName);
         if (listOfOptions.isEmpty()) {
             return null;
         } else {
@@ -117,7 +114,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional
     public OptionDTO getOptionDTOById(Long optionId) {
-        Option option = this.getOptionById(optionId).get(0);
+        Option option = optionDaoImpl.getOptionById(optionId).get(0);
         return optionMapper.toDTO(option);
     }
 
@@ -128,7 +125,7 @@ public class OptionServiceImpl implements OptionService {
     }
 
     public void convertToEntityAndUpdate(OptionDTO optionDTO) {
-        this.update(optionMapper.toEntity(optionDTO));
+        optionDaoImpl.update(optionMapper.toEntity(optionDTO));
     }
 
     @Override
@@ -140,7 +137,7 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional
     public void convertToEntityAndSave(OptionDTO optionDTO) {
-        this.save(optionMapper.toEntity(optionDTO));
+        optionDaoImpl.save(optionMapper.toEntity(optionDTO));
     }
 
     @Override
@@ -148,7 +145,8 @@ public class OptionServiceImpl implements OptionService {
                                               Set<OptionDTO> obligatoryOptionsSet, Set<OptionDTO> incompatibleOptionsSet,
                                               String blockConnectedContracts) {
 
-        OptionDTO optionDTO1 = this.getOptionDTOByNameOrNull(optionName);
+
+        OptionDTO optionDTO1 = optionMapper.toDTO( optionDaoImpl.getOptionByName(optionName).get(0) );
         optionDTO1.setName(optionDTO.getName());
         optionDTO1.setPrice(optionDTO.getPrice());
         optionDTO1.setConnectionCost(optionDTO.getConnectionCost());
@@ -172,9 +170,9 @@ public class OptionServiceImpl implements OptionService {
                     contractServiceImpl.convertToEntityAndUpdate(contractDTO);
                 }
 
-                this.convertToEntityAndUpdate(optionDTO1);
+                optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
             } else {
-                this.convertToEntityAndUpdate(optionDTO1);
+                optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
             }
 
             messageSender.sendMessage("update");

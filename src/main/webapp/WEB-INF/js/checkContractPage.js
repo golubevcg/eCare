@@ -142,6 +142,7 @@ function validateAndSubmitIfTrue() {
         let selectedOptions = $('#optionsList').val();
         let isContractBlocked = $('#exampleCheck1').prop('checked');
         let exportArray = { newNum, selectedUserLogin, selectedTariff, selectedOptions, isContractBlocked};
+        console.log(JSON.stringify(exportArray));
         $.ajax({
             contentType: "application/json",
             type: 'POST',

@@ -19,19 +19,19 @@ import static org.mockito.Mockito.*;
 public class ContractDTOValidatorTest {
 
     @Mock
-    private ContractDTO contractDTO = mock(ContractDTO.class);
+    private ContractDTO contractDTO;
 
     @Mock
-    private Contract contract = mock(Contract.class);
+    private Contract contract;
 
     @Mock
-    private ContractService contractService = mock(ContractService.class);
+    private ContractService contractService;
 
     @Mock
-    private UserService userService = mock(UserService.class);
+    private UserService userService;
 
     @Mock
-    private Errors errors = mock(Errors.class);
+    private Errors errors;
 
     @InjectMocks
     ContractDTOValidator contractDTOValidator;

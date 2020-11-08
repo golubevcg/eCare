@@ -18,7 +18,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"contractNumber"})
 @Entity
 @Table(name="contracts")
-public class Contract implements Comparable, Serializable {
+public class Contract implements Comparable<Contract>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,10 +74,9 @@ public class Contract implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Contract o) {
         if (this == o) return 0;
-        Contract that = (Contract) o;
-        if(this.getContract_id()>that.getContract_id()){
+        if(this.getContract_id()> o.getContract_id()){
             return 1;
         }else{
             return -1;

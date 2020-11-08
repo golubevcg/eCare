@@ -49,43 +49,38 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        List<Option> optionsList = session.createQuery(
+        return session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name = :nam", Option.class)
                 .setParameter("nam", name).list();
-        return optionsList;
     }
 
     @Override
     public List<Option> getOptionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        List<Option> optionsList = session.createQuery(
-                "select o " +
+        return session.createQuery("select o " +
                         "from Option o " +
                         "where o.option_id = :id", Option.class)
                 .setParameter("id", id).list();
-        return optionsList;
     }
 
     @Override
     public List<Option> searchForOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        List<Option> contractsList = session.createQuery(
+        return session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name like:string", Option.class)
                 .setParameter("string", "%" + name + "%")
                 .list();
-        return contractsList;
     }
 
     @Override
     public List<Option> getActiveOptions() {
         Session session = sessionFactory.getCurrentSession();
-        List<Option> listOfTariffs = session.createQuery(
+        return session.createQuery(
                 "select o from Option o where o.isActive=true", Option.class).list();
-        return listOfTariffs;
     }
 
     @Override
