@@ -48,7 +48,7 @@ public class AdPageController {
 
     @PostMapping(value = "/adPage/submit", produces = "application/json")
     public @ResponseBody
-    String submitAdChanges(@RequestBody String adText){
+    boolean submitAdChanges(@RequestBody String adText){
 
         JsonArray jsonArray = new Gson().fromJson(adText, JsonArray.class);
         AdDTO adDTO = adServiceIml.getAdDTOByNameOrNull("main");
@@ -62,15 +62,15 @@ public class AdPageController {
             adServiceIml.convertToEntityAndUpdate(adDTO);
 
             messageSender.sendMessage("update");
-            return "true";
+            return true;
         }else{
-            return "false";
+            return false;
         }
 
     }
 
     @ResponseBody
-    @RequestMapping(value = "/adPage/getTariffInfo/{selectedTariff}", method = RequestMethod.GET)
+    @GetMapping(value = "/adPage/getTariffInfo/{selectedTariff}")
     public String getTariffInfo(@PathVariable("selectedTariff") String selectedTariff) {
         TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
         String[] exportArray = new String[2];

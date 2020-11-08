@@ -49,56 +49,48 @@ public class CheckUserPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkUser/checkPassportInfo/{newPassport}", method = RequestMethod.GET)
-    public String checkPassport(@PathVariable("newPassport") String newPassport) {
+    @GetMapping(value = "/checkUser/checkPassportInfo/{newPassport}")
+    public boolean checkPassport(@PathVariable("newPassport") String newPassport) {
 
-        if (userPassportBeforeEditing.equals(Long.valueOf(newPassport))) {
-            return "true";
+        if (userPassportBeforeEditing.equals(newPassport)) {
+            return true;
         }
 
         List<UserDTO> listOfUsers = userServiceImpl.getUserDTOByPassportInfo(newPassport);
         if (listOfUsers != null) {
-            return "false";
+            return false;
         } else {
-            return "true";
+            return true;
         }
     }
 
     @ResponseBody
     @GetMapping(value = "/checkUser/checkEmail/{newEmail}")
-    public String checkEmail(@PathVariable("newEmail") String newEmail) {
+    public boolean checkEmail(@PathVariable("newEmail") String newEmail) {
 
         if (userEmailBeforeEditing.equals(newEmail)) {
-            return "true";
+            return true;
         }
 
         List<UserDTO> listOfUsers = userServiceImpl.getUserDTOByEmail(newEmail);
-        if (listOfUsers != null) {
-            return "false";
-        } else {
-            return "true";
-        }
+        return listOfUsers != null;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkUser/checkLogin/{newLogin}", method = RequestMethod.GET)
-    public String checkLogin(@PathVariable("newLogin") String newLogin) {
+    @GetMapping(value = "/checkUser/checkLogin/{newLogin}")
+    public boolean checkLogin(@PathVariable("newLogin") String newLogin) {
 
         if (userLoginBeforeEditing.equals(newLogin)) {
-            return "true";
+            return true;
         }
 
         UserDTO user = userServiceImpl.getUserDTOByLoginOrNull(newLogin);
-        if (user != null) {
-            return "false";
-        } else {
-            return "true";
-        }
+        return user != null;
     }
 
     @PostMapping(value = "/checkUser/submitChanges/", produces = "application/json")
     public @ResponseBody
-    String submitValues(CsrfToken token,
+    boolean submitValues(CsrfToken token,
                         @RequestBody String exportArray) {
 
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
@@ -116,7 +108,7 @@ public class CheckUserPageController {
         userDTO.setFirstname(firstName);
         userDTO.setSecondname(secondName);
         try {
-            userDTO.setDateOfBirth(new SimpleDateFormat("yyyy/dd/mm").parse(dateOfBirth));
+            userDTO.setDateOfBirth(new SimpleDateFormat("yyyy-dd-mm").parse(dateOfBirth));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -129,19 +121,19 @@ public class CheckUserPageController {
 
         log.info("User " + login + "successfully was updated");
 
-        return "true";
+        return true;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkUser/deleteUser/{login}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable("login") String login) {
+    @GetMapping(value = "/checkUser/deleteUser/{login}")
+    public boolean deleteUser(@PathVariable("login") String login) {
         UserDTO userDTO = userServiceImpl.getUserDTOByLoginOrNull(login);
         if(userDTO==null){
-            return "false";
+            return false;
         }else{
             userDTO.setActive(false);
             userServiceImpl.convertToEntityAndUpdate(userDTO);
-            return "true";
+            return true;
         }
 
     }

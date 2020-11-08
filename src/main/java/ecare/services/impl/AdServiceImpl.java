@@ -70,6 +70,4 @@ public class AdServiceImpl implements AdService {
         return adMapper.toDTO( adDaoImpl.getAdByNameOrNull(name) );
     }
 
-
-
 }

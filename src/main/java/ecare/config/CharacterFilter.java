@@ -8,10 +8,13 @@ import java.io.IOException;
  */
 
 public class CharacterFilter implements Filter {
+
+    //init method of charFilter
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
+    //destroy method of charFilter
     @Override
     public void destroy() {
 

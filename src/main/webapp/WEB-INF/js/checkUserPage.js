@@ -46,10 +46,10 @@ function validateAndSubmitIfTrue(){
             type: 'GET',
             url: '/checkUser/checkPassportInfo/' + newPassport,
             success: function (result) {
-                if (result.toString() === "false") {
+                if (result === false) {
                     $('#passportInfoFieldRequired').text("Passport with this number already exists.");
                     $('#passportInfoFieldRequired').removeAttr('hidden');
-                    validation = "false";
+                    validation = false;
                 }
             }
         });
@@ -69,10 +69,10 @@ function validateAndSubmitIfTrue(){
             type: 'GET',
             url: '/checkUser/checkEmail/' + newEmail,
             success: function (result) {
-                if (result.toString() === "false") {
+                if (result === false) {
                     $('#emailInfoFieldRequired').text("User with such email already registered.");
                     $('#emailInfoFieldRequired').removeAttr('hidden');
-                    validation = "false";
+                    validation = false;
                 }
             }
         });
@@ -87,10 +87,10 @@ function validateAndSubmitIfTrue(){
             type: 'GET',
             url: '/checkUser/checkLogin/' + newLogin,
             success: function (result) {
-                if (result.toString() === "false") {
+                if (result === false) {
                     $('#loginInfoFieldRequired').text("User with such login already registered.");
                     $('#loginInfoFieldRequired').removeAttr('hidden');
-                    validation = "false";
+                    validation = false;
                 }
             }
         });
@@ -115,7 +115,7 @@ function validateAndSubmitIfTrue(){
             url: '/checkUser/submitChanges/',
             data: JSON.stringify(exportArray),
             success: function(result) {
-                if(result.toString()==="true"){
+                if(result===true){
                     location.href = '/workerOffice';
                 }else{
                     alert("Error, user was not updated");
@@ -134,7 +134,7 @@ function deleteUser(){
             type: 'GET',
             url: '/checkUser/deleteUser/' + login,
             success: function(result){
-                if(result.toString()==="true"){
+                if(result===true){
                     location.href = '/workerOffice';
                 }else{
                     alert("User with this login was not found.")

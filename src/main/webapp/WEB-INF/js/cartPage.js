@@ -47,7 +47,7 @@ function submitChanges(){
         processData:false,
         success(result){
             console.log(result);
-            if(result.toString()==="true"){
+            if(result===true){
                 location.href = '/contracts';
             }else{
                 alert("Error, contract was not updated");

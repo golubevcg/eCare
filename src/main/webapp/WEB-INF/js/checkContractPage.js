@@ -83,7 +83,7 @@ $(document).ready(function(){
 
 
 function validateAndSubmitIfTrue() {
-    let validation = "true";
+    let validation = true;
 
     let newNum = $('#numberLabel').val();
     let numberValidationField = $('#phoneNumberFieldRequired');
@@ -92,22 +92,22 @@ function validateAndSubmitIfTrue() {
     if (newNum === "") {
         numberValidationField.text("This field is required.");
         numberValidationField.removeAttr('hidden');
-        validation = "false";
+        validation = false;
     } else {
         let re = new RegExp("[+]*([0-9]{11})");
         if (!re.test(newNum)) {
             numberValidationField.text("Phone number should look like this: +7XXXXXXXXXX.");
             numberValidationField.removeAttr('hidden');
-            validation = "false";
+            validation = false;
         } else {
             $.ajax({
                 type: 'GET',
                 url: '/checkContract/checkNewNumber/' + newNum,
                 success: function (result) {
-                    if (result === "true") {
+                    if (result === true) {
                         numberValidationField.text("Contract with this phone number already exists.");
                         numberValidationField.removeAttr('hidden');
-                        validation = "false";
+                        validation = false;
                     }
                 }
             });
@@ -119,38 +119,37 @@ function validateAndSubmitIfTrue() {
     if(selectedUser === ""){
         userValidationField.text("This field is required.");
         userValidationField.removeAttr('hidden');
-        validation = "false";
+        validation = false;
     }else{
-
         let selectedUser = $('#usersList').val();
         $.ajax({
             type: 'GET',
             url: '/checkContract/checkUser/' + selectedUser,
             success: function (result) {
-                if (result === "false") {
+                if (result === false) {
                     userValidationField.text("Please select user from dropdown suggestions.");
                     userValidationField.removeAttr('hidden');
-                    validation = "false";
+                    validation = false;
                 }
             }
         });
     }
 
-    if(validation==="true"){
+    if(validation===true){
         let newNum = $('#numberLabel').val();
         let selectedUserLogin = $('#usersList').val();
         let selectedTariff = $('#tariffsList').val();
         let selectedOptions = $('#optionsList').val();
         let isContractBlocked = $('#exampleCheck1').prop('checked');
         let exportArray = { newNum, selectedUserLogin, selectedTariff, selectedOptions, isContractBlocked};
-
         $.ajax({
             contentType: "application/json",
             type: 'POST',
             url: '/checkContract/submitChanges/',
             data: JSON.stringify(exportArray),
             success: function(result) {
-                if(result.toString()==="true"){
+                if(result===true){
+                    alert("Contract was successfully updated!");
                     location.href = '/workerOffice';
                 }else{
                     alert("Error, contract was not updated");
@@ -167,7 +166,7 @@ function deleteContract(){
             type: 'GET',
             url: '/checkContract/deleteContract/' + contractNumber,
             success: function(result){
-                if(result.toString()==="true"){
+                if(result===true){
                     location.href = '/workerOffice';
                 }else{
                     alert("Contract with this number was not found.")

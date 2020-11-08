@@ -41,6 +41,7 @@ public class CartPageController {
     }
 
     Set<ContractDTO> cartContractsSetChangedFromCart = new HashSet<>();
+    String cartContractsSetChangedForCart = "cartContractsSetChangedForCart";
 
     @GetMapping(value = "/cartPage")
     public String getCartPage(Model model, HttpSession session){
@@ -73,7 +74,7 @@ public class CartPageController {
                 contractDTO -> contractDTO.getContractNumber().equals(contractNumber.trim()) );
         ContractDTO contractDTOFromDB = contractService.getContractDTOByNumberOrNull(contractNumber.trim());
         cartContractsSetChangedFromCart.add(contractDTOFromDB);
-        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedFromCart);
+        session.setAttribute(cartContractsSetChangedForCart, cartContractsSetChangedFromCart);
     }
 
     @GetMapping(value = "/cartPage/removeTariffChangingFromSession/{contractNumber}", produces = "application/json")
@@ -88,7 +89,7 @@ public class CartPageController {
         contractDTO.setSetOfOptions(contractDTOFromDB.getSetOfOptions());
 
         cartContractsSetChangedFromCart.add(contractDTO);
-        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedFromCart);
+        session.setAttribute(cartContractsSetChangedForCart, cartContractsSetChangedFromCart);
     }
 
     @GetMapping(value = "/cartPage/removeIsBlockedInContractFromSession/{contractNumber}",
@@ -104,7 +105,7 @@ public class CartPageController {
         contractDTO.setBlocked(contractDTOFromDB.isBlocked());
 
         cartContractsSetChangedFromCart.add(contractDTO);
-        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedFromCart);
+        session.setAttribute(cartContractsSetChangedForCart, cartContractsSetChangedFromCart);
 
     }
 
@@ -128,23 +129,23 @@ public class CartPageController {
         }
 
         cartContractsSetChangedFromCart.add(contractDTO);
-        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedFromCart);
+        session.setAttribute(cartContractsSetChangedForCart, cartContractsSetChangedFromCart);
 
     }
 
     @GetMapping(value = "/cartPage/submitChanges")
     public @ResponseBody
-    String submitChanges(HttpSession session) {
-        Set<ContractDTO> cartContractsSetChangedFromCart = getChangedContractsSetFromSession(session);
+    boolean submitChanges(HttpSession session) {
+        Set<ContractDTO> cartContractsSetChangedFromCartSession = getChangedContractsSetFromSession(session);
 
-        for (ContractDTO contractFromSession:cartContractsSetChangedFromCart) {
+        for (ContractDTO contractFromSession:cartContractsSetChangedFromCartSession) {
             contractService.convertToEntityAndUpdate(contractFromSession);
             log.info("Changes for contract with number = "
                     + contractFromSession.getContractNumber() + " were submitted");
         }
-        session.removeAttribute("cartContractsSetChangedForCart");
+        session.removeAttribute(cartContractsSetChangedForCart);
 
-        return "true";
+        return true;
     }
 
     public Set<ContractDTO> getChangedContractsSetFromSession(HttpSession session){

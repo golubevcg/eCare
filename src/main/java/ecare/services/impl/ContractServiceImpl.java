@@ -258,29 +258,31 @@ public class ContractServiceImpl implements ContractService {
             for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
                 if(contractDTO.getContractNumber().equals(contractNumber)){
                     currentContractForCartFromSession = contractDTO;
+
+                    OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
+
+                    if(isChecked){
+                        currentContractForCartFromSession.addOption(optionDTO);
+                    }else{
+                        currentContractForCartFromSession.removeOption(optionDTO);
+                    }
+
+                    for (String optionIdi: incompatibleOptionIds) {
+                        OptionDTO optionDTOInc = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdi));
+                        currentContractForCartFromSession.removeOption(optionDTOInc);
+                    }
+
+                    for (String optionIdo: obligatoryOptionIds) {
+                        OptionDTO optionDTOObl = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdo));
+                        currentContractForCartFromSession.addOption(optionDTOObl);
+                    }
+
+                    cartContractsSetChangedForCart.add(currentContractForCartFromSession);
+                    session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
                 }
             }
 
-            OptionDTO optionDTO = optionServiceImpl.getOptionDTOById(Long.valueOf(selectedOptionId));
 
-            if(isChecked){
-                currentContractForCartFromSession.addOption(optionDTO);
-            }else{
-                currentContractForCartFromSession.removeOption(optionDTO);
-            }
-
-            for (String optionIdi: incompatibleOptionIds) {
-                OptionDTO optionDTOInc = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdi));
-                currentContractForCartFromSession.removeOption(optionDTOInc);
-            }
-
-            for (String optionIdo: obligatoryOptionIds) {
-                OptionDTO optionDTOObl = optionServiceImpl.getOptionDTOById(Long.valueOf(optionIdo));
-                currentContractForCartFromSession.addOption(optionDTOObl);
-            }
-
-            cartContractsSetChangedForCart.add(currentContractForCartFromSession);
-            session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
 
         }
 
@@ -325,7 +327,8 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public String getSortedListOfOptions(String contractNumber, String selectedTariffName, HttpSession session){
         ContractDTO currentContractForCartFromSession = null;
-        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        HashSet<ContractDTO> cartContractsSetChangedForCart
+                = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
         for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
             if(contractDTO.getContractNumber().equals(contractNumber)){
                 currentContractForCartFromSession = contractDTO;
@@ -345,8 +348,10 @@ public class ContractServiceImpl implements ContractService {
         sortedListOfOptions.addAll(setOfOptions);
         Collections.sort(sortedListOfOptions);
 
-        currentContractForCartFromSession.setTariff(tariffDTO);
-        currentContractForCartFromSession.setSetOfOptions(new HashSet<>());
+        if(currentContractForCartFromSession!=null){
+            currentContractForCartFromSession.setTariff(tariffDTO);
+            currentContractForCartFromSession.setSetOfOptions(new HashSet<>());
+        }
         cartContractsSetChangedForCart.add(currentContractForCartFromSession);
         session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
 
@@ -387,7 +392,7 @@ public class ContractServiceImpl implements ContractService {
             boolean isOptionInContract = false;
 
             for (OptionDTO connectedOption : sortedListOfConnectedOptions) {
-                if (availableOption.getOption_id() == (connectedOption.getOption_id()))
+                if (availableOption.getOption_id().equals(connectedOption.getOption_id()))
                     isOptionInContract = true;
             }
 

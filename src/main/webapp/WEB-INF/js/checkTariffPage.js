@@ -65,21 +65,21 @@ function validateAndSubmitIfTrue(){
     if(newName===""){
         $('#phoneNumberFieldRequired').text("This field is required.");
         $('#phoneNumberFieldRequired').removeAttr('hidden');
-        validation="false";
+        validation=false;
     }else{
         if(newName.length<4){
             $('#nameFieldRequired').text("Name must be more than 4 characters.");
             $('#nameFieldRequired').removeAttr('hidden');
-            validation="false";
+            validation=false;
         }else{
             $.ajax({
                 type: 'GET',
                 url: '/checkTariff/checkNewName/' + newName,
                 success: function(result){
-                    if(result==="true"){
+                    if(result===true){
                         $('#nameFieldRequired').text("Option with this name already exists.");
                         $('#nameFieldRequired').removeAttr('hidden');
-                        validation="false";
+                        validation=false;
                     }
                 }
             });
@@ -89,23 +89,23 @@ function validateAndSubmitIfTrue(){
 
     if($('#inputFormPrice').val()===""){
         $('#priceFieldRequired').removeAttr('hidden');
-        validation="false";
+        validation=false;
     }
 
     let inputFormShortDisc = $('#inputFormShortDisc').val();
     if(inputFormShortDisc===""){
         $('#shortDiscriptionFieldRequired').text("This field is required.");
         $('#shortDiscriptionFieldRequired').removeAttr('hidden');
-        validation="false";
+        validation=false;
     }else{
         if(inputFormShortDisc.length<8){
             $('#shortDiscriptionFieldRequired').text("Name must be more than 8 characters.");
             $('#shortDiscriptionFieldRequired').removeAttr('hidden');
-            validation="false";
+            validation=false;
         }
     }
 
-    if(validation.toString()==="true"){
+    if(validation===true){
         let selectedAvailableOptions = $('#selectedOptions').select2('data');
 
         $.ajax({
@@ -128,7 +128,7 @@ function deleteOption(){
             type: 'GET',
             url: '/checkTariff/deleteTariff/' + tariffName,
             success: function(result){
-                if(result.toString()==="true"){
+                if(result===true){
                     location.href = '/workerOffice';
                 }else{
                     alert("Tariff with this name was not found.")

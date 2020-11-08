@@ -5,7 +5,6 @@ import ecare.model.dto.OptionDTO;
 import ecare.model.dto.TariffDTO;
 import ecare.services.api.OptionService;
 import ecare.services.api.TariffService;
-import org.apache.log4j.Logger;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +20,9 @@ import java.util.Set;
 @Controller
 public class CheckTariffPageController {
 
-    static final Logger log = Logger.getLogger(CheckTariffPageController.class);
-
     private final OptionService optionServiceImpl;
 
     private final TariffService tariffService;
-
 
     private String tariffNameBeforeEditing;
 
@@ -50,22 +46,19 @@ public class CheckTariffPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkTariff/checkNewName/{newName}", method = RequestMethod.GET)
-    public String checkNewName(@PathVariable("newName") String newName) {
+    @GetMapping(value = "/checkTariff/checkNewName/{newName}")
+    public boolean checkNewName(@PathVariable("newName") String newName) {
         if(tariffNameBeforeEditing.equals(newName)){
-            return "false";
+            return false;
         }
 
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(newName);
-        if(tariffDTO!=null){
-            return "true";
-        }else{
-            return "false";
-        }
+
+        return tariffDTO!=null;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkTariff/getAvailableOptions/{oldName}", method = RequestMethod.GET)
+    @GetMapping(value = "/checkTariff/getAvailableOptions/{oldName}")
     public String getAvailableOptions(@PathVariable("oldName") String oldName) {
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(oldName);
         Set<OptionDTO> optionsSet = tariffDTO.getSetOfOptions();
@@ -104,12 +97,12 @@ public class CheckTariffPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkTariff/deleteTariff/{tariffName}", method = RequestMethod.GET)
-    public String deleteOption(@PathVariable("tariffName") String tariffName) {
+    @GetMapping(value = "/checkTariff/deleteTariff/{tariffName}")
+    public boolean deleteOption(@PathVariable("tariffName") String tariffName) {
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(tariffName);
         tariffDTO.setActive(false);
         tariffService.convertToEntityAndUpdate(tariffDTO);
-        return "true";
+        return true;
     }
 
 

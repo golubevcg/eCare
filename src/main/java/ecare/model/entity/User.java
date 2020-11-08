@@ -33,7 +33,6 @@ public class User implements Serializable {
     @Column
     @NotNull(message="Firstname cannot be null!")
     @Size(min = 2, max = 20, message="firstname must be between 2 and 20 characters")
-
     private String firstname;
 
     @Column
@@ -48,12 +47,10 @@ public class User implements Serializable {
 
     @Column(name="passportinfo")
     @NotNull(message="passportInfo cannot be null!")
-    @Size(min = 10, max = 10, message="passportInfo must be 10 characters")
     private String passportInfo;
 
     @Column
     @NotNull(message="address cannot be null!")
-    @Size(min = 5, message="adress cannot be lesser than 5 symbols")
     private String address;
 
     @Column
@@ -63,7 +60,6 @@ public class User implements Serializable {
 
     @Column
     @NotNull(message="password cannot be null!")
-    @Size(min = 6, max = 30, message="password must be between 6 and 30 characters")
     private String password;
 
     @Transient

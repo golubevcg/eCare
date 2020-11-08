@@ -1,15 +1,15 @@
 package ecare.controllers;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import ecare.model.dto.OptionDTO;
-import ecare.mq.MessageSender;
-import ecare.services.api.ContractService;
 import ecare.services.api.OptionService;
-import org.apache.log4j.Logger;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,20 +20,13 @@ import java.util.Set;
 @Controller
 public class CheckOptionPageController {
 
-    static final Logger log = Logger.getLogger(CheckOptionPageController.class);
-
     private final OptionService optionServiceImpl;
 
-    private final ContractService contractServiceImpl;
-
-    private final MessageSender messageSender;
 
     private String optionNameBeforeEditing;
 
-    public CheckOptionPageController(OptionService optionServiceImpl, ContractService contractServiceImpl, MessageSender messageSender) {
+    public CheckOptionPageController(OptionService optionServiceImpl) {
         this.optionServiceImpl = optionServiceImpl;
-        this.contractServiceImpl = contractServiceImpl;
-        this.messageSender = messageSender;
     }
 
     @GetMapping(value = "/checkOption/{optionName}")
@@ -91,30 +84,27 @@ public class CheckOptionPageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkOption/checkNewName/{newName}", method = RequestMethod.GET)
-    public String newNameValidationCheckInDB(@PathVariable("newName") String newName) {
+    @GetMapping(value = "/checkOption/checkNewName/{newName}")
+    public boolean newNameValidationCheckInDB(@PathVariable("newName") String newName) {
         if(optionNameBeforeEditing.equals(newName)){
-            return "false";
+            return false;
         }
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(newName);
-        if(optionDTO!=null){
-            return "true";
-        }else{
-            return "false";
-        }
+
+        return optionDTO!=null;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkOption/deleteOption/{optionName}", method = RequestMethod.GET)
-    public String deleteOption(@PathVariable("optionName") String optionName) {
+    @GetMapping(value = "/checkOption/deleteOption/{optionName}")
+    public boolean deleteOption(@PathVariable("optionName") String optionName) {
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(optionName);
         optionDTO.setActive(false);
         optionServiceImpl.convertToEntityAndUpdate(optionDTO);
-        return "true";
+        return true;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/checkOption/getIncompatibleAndObligatoryOptions/{oldName}", method = RequestMethod.GET)
+    @GetMapping(value = "/checkOption/getIncompatibleAndObligatoryOptions/{oldName}")
     public String getDependedOptions(@PathVariable("oldName") String oldName) {
         return optionServiceImpl.getDependedOptionsJson(oldName);
     }

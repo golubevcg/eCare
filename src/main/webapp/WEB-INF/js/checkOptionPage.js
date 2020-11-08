@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 function validateAndSubmitIfTrue(){
 
-    let validation = "true";
+    let validation = true;
 
     let newName = $('#inputFormName').val();
 
@@ -59,21 +59,21 @@ function validateAndSubmitIfTrue(){
     if(newName===""){
         newNameField.text("This field is required.");
         newNameField.removeAttr('hidden');
-        validation="false";
+        validation=false;
     }else{
         if(newName.length<4){
             newNameField.text("Name must be more than 4 characters.");
             newNameField.removeAttr('hidden');
-            validation="false";
+            validation=false;
         }else{
             $.ajax({
                 type: 'GET',
                 url: '/checkOption/checkNewName/' + newName,
                 success: function(result){
-                    if(result==="true"){
+                    if(result===true){
                         newNameField.text("Option with this name already exists.");
                         newNameField.removeAttr('hidden');
-                        validation="false";
+                        validation=false;
                     }
                 }
             });
@@ -83,12 +83,12 @@ function validateAndSubmitIfTrue(){
 
     if($('#inputFormConnCost').val()===""){
         $('#connectionFieldRequired').removeAttr('hidden');
-        validation="false";
+        validation=false;
     }
 
     if($('#inputFormPrice').val()===""){
         $('#priceFieldRequired').removeAttr('hidden');
-        validation="false";
+        validation=false;
     }
 
     let shortDescriptionFieldRequired = $('#shortDescriptionFieldRequired');
@@ -96,16 +96,16 @@ function validateAndSubmitIfTrue(){
     if(inputFormShortDisc===""){
         shortDescriptionFieldRequired.text("This field is required.");
         shortDescriptionFieldRequired.removeAttr('hidden');
-        validation="false";
+        validation=false;
     }else{
         if(inputFormShortDisc.length<8){
             shortDescriptionFieldRequired.text("Name must be more than 8 characters.");
             shortDescriptionFieldRequired.removeAttr('hidden');
-            validation="false";
+            validation=false;
         }
     }
 
-    if(validation==="true") {
+    if(validation===true) {
         let selectedObligatoryOptions = $('#selectedObligatoryOptions').select2('data');
         let selectedIncompatibleOptions = $('#selectedIncompatibleOptions').select2('data');
 
@@ -134,7 +134,7 @@ function deleteOption(){
             type: 'GET',
             url: '/checkOption/deleteOption/' + optionName,
             success: function(result){
-                if(result==="true"){
+                if(result===true){
                     location.href = '/workerOffice';
                 }else{
                     alert("Option with this name was not found.")

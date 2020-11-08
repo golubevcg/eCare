@@ -85,7 +85,7 @@ public class CartServiceImpl implements CartService {
                                                      Map<String, String> optionMapEnabledDisabled){
         for (OptionDTO optionDTOFromDb : optionDTOSetFromDB) {
             if (!optionDTOSetFromCart.contains(optionDTOFromDb)
-                    && optionDTOSetFromCart.contains( optionDTOSetFromDB )) {
+                    && optionDTOSetFromCart.contains( optionDTOFromDb )) {
 
                 optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
                 isChanged = true;
