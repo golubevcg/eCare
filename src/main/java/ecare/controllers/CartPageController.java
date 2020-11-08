@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Controller for the page where the shopping cart is being finalised.
@@ -49,7 +50,7 @@ public class CartPageController {
 
         if(cartContractsSetChangedFromCart!=null) {
             List<ContractDTO> onlyContractsChanges = new ArrayList<>();
-            Boolean showBlockedOnPage = false;
+            AtomicBoolean showBlockedOnPage = new AtomicBoolean(false);
             Map<String, Map<String, String>> mapOfOptionsEnabledDisabled = new HashMap<>();
 
             for (ContractDTO contractDTOFromCart : cartContractsSetChangedFromCart) {

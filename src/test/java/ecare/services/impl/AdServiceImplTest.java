@@ -83,4 +83,6 @@ public class AdServiceImplTest {
         verify(adDao).getAdByNameOrNull(any());
         verify(adMapper).toDTO(any());
     }
+
+
 }

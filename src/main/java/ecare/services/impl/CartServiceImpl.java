@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Component
@@ -26,7 +27,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void compareContractInDBWithContractInSession(ContractDTO contractDTOFromCart,
                                                          List<ContractDTO> onlyContractsChanges,
-                                                         Boolean showBlockedOnPage,
+                                                         AtomicBoolean showBlockedOnPage,
                                                          Map<String, Map<String, String>> mapOfOptionsEnabledDisabled){
         ContractDTO contractDTOFromDB =  contractService
                 .getContractDTOByNumberOrNull(contractDTOFromCart.getContractNumber());
@@ -57,25 +58,27 @@ public class CartServiceImpl implements CartService {
         if (contractDTOFromCart.isBlocked() != contractDTOFromDB.isBlocked()) {
             editedContractDTO.setBlocked(contractDTOFromCart.isBlocked());
             isChanged = true;
-            showBlockedOnPage = true;
+            showBlockedOnPage.set(true);
         }
 
         if (isChanged) {
             onlyContractsChanges.add(editedContractDTO);
         }
+
     }
 
     private void checkNewOptionsInEditedContract(Set<OptionDTO> optionDTOSetFromCart,
                                                  Set<OptionDTO> optionDTOSetFromDB,
                                                  Boolean isChanged,
                                                  Map<String, String> optionMapEnabledDisabled){
+
         for (OptionDTO optionDTOFromSession : optionDTOSetFromCart) {
-            if (!optionDTOSetFromDB.contains(optionDTOFromSession)
-                    && optionDTOSetFromCart.contains(optionDTOFromSession)) {
+            if (!optionDTOSetFromDB.contains(optionDTOFromSession)) {
                 optionMapEnabledDisabled.put(optionDTOFromSession.getName(), "enabled");
                 isChanged = true;
             }
         }
+
     }
 
 
@@ -84,9 +87,7 @@ public class CartServiceImpl implements CartService {
                                                      Boolean isChanged,
                                                      Map<String, String> optionMapEnabledDisabled){
         for (OptionDTO optionDTOFromDb : optionDTOSetFromDB) {
-            if (!optionDTOSetFromCart.contains(optionDTOFromDb)
-                    && optionDTOSetFromCart.contains( optionDTOFromDb )) {
-
+            if (!optionDTOSetFromCart.contains(optionDTOFromDb)) {
                 optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
                 isChanged = true;
             }

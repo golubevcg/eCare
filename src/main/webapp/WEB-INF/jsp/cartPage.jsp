@@ -146,7 +146,7 @@
                                 </c:otherwise>
                                 </c:choose>
                                 <c:choose>
-                                    <c:when test="${showBlockedOnPage eq true}">
+                                    <c:when test="${showBlockedOnPage.get() eq true}">
                                         <div id="isBlocked${entry.contractNumber}" >
                                             <hr class="rounded" style="width: 65%; clear:both; padding:2px; margin-top:10px; margin-bottom: 10px; clear:both; float:right;">
                                             <div class="row" style="clear:both;">
