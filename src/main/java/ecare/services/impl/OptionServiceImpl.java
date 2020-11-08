@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Component
@@ -184,7 +185,8 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public String getDependedOptionsJson(String oldName) {
-        OptionDTO optionDTO = this.getOptionDTOByNameOrNull(oldName);
+
+        OptionDTO optionDTO = optionMapper.toDTO( optionDaoImpl.getOptionByName(oldName).get(0));
         Set<OptionDTO> incompatibleOptionsSet = optionDTO.getIncompatibleOptionsSet();
         Set<String> incompatibleOptionNamesSet = new HashSet<>();
 
@@ -207,15 +209,15 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public String checkIncOptionDependenciesToPreventImpossibleDependency(String expJson, boolean foundedErrorDependency) {
+    public String checkIncOptionDependenciesToPreventImpossibleDependency(String expJson, AtomicBoolean foundedErrorDependency) {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
 
         String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
-        OptionDTO lastSelectedOptionDTO = this.getOptionDTOByNameOrNull(lastSelectedValue);
+        OptionDTO lastSelectedOptionDTO = optionMapper.toDTO( optionDaoImpl.getOptionByName(lastSelectedValue).get(0));
 
         String errorOptionName = null;
 
-        foundedErrorDependency = false;
+        foundedErrorDependency.set(false);
         if (!jsonObject.get("selectedObligOptions").isJsonNull()) {
 
             JsonArray obligJsonArray = jsonObject.get("selectedObligOptions").getAsJsonArray();
@@ -223,7 +225,8 @@ public class OptionServiceImpl implements OptionService {
 
             for (int i = 0; i < selectedObligNames.length; i++) {
                 String currentSelectedObligName = obligJsonArray.get(i).getAsString();
-                OptionDTO optionDTO = this.getOptionDTOByNameOrNull(currentSelectedObligName);
+                OptionDTO optionDTO = optionMapper.toDTO(
+                        optionDaoImpl.getOptionByName(currentSelectedObligName).get(0));
 
                 if (optionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
                     errorOptionName = optionDTO.getName();
@@ -233,7 +236,7 @@ public class OptionServiceImpl implements OptionService {
                     for (OptionDTO entity : optionDTO.getObligatoryOptionsSet()) {
                         recursivlyCheckInObligDependecies(lastSelectedOptionDTO,
                                                         selectedObligOptionDTO, foundedErrorDependency);
-                        if (foundedErrorDependency) {
+                        if (foundedErrorDependency.get()) {
                             errorOptionName = entity.getName();
                             return new Gson().toJson(errorOptionName);
                         }
@@ -302,9 +305,9 @@ public class OptionServiceImpl implements OptionService {
 
     public boolean recursivlyCheckInObligDependecies(OptionDTO lastSelectedOptionDTO,
                                                      OptionDTO selectedObligOptionDTO,
-                                                     boolean foundedErrorDependency) {
+                                                     AtomicBoolean foundedErrorDependency) {
         if (selectedObligOptionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
-            foundedErrorDependency = true;
+            foundedErrorDependency.set(true);
             return false;
         } else {
             for (OptionDTO entity : selectedObligOptionDTO.getObligatoryOptionsSet()) {
@@ -316,9 +319,9 @@ public class OptionServiceImpl implements OptionService {
 
     public boolean recursivlyCheckInIncDependecies(OptionDTO lastSelectedOptionDTO,
                                                    OptionDTO selectedIncompOptionDTO,
-                                                   boolean foundedErrorDependency) {
+                                                   AtomicBoolean foundedErrorDependency) {
         if (selectedIncompOptionDTO.getIncompatibleOptionsSet().contains(lastSelectedOptionDTO)) {
-            foundedErrorDependency = true;
+            foundedErrorDependency.set(true);
             return false;
         } else {
             for (OptionDTO entity : selectedIncompOptionDTO.getIncompatibleOptionsSet()) {

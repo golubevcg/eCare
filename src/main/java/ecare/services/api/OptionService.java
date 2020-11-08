@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public interface OptionService {
     void save(Option option);
@@ -14,42 +15,23 @@ public interface OptionService {
     List<Option> getOptionByName(String optionName);
     List<OptionDTO> searchForOptionByName(String optionName);
     List<OptionDTO> getActiveOptionDTOs();
-
     OptionDTO getOptionDTOByNameOrNull(String name);
-
-    @Transactional
     OptionDTO getOptionDTOById(Long optionId);
-
-    @Transactional
     List<Option> getOptionById(Long optionId);
-
     void convertToEntityAndUpdate(OptionDTO optionDTO);
-
-    @Transactional
     Option convertDTOtoEntity(OptionDTO optionDTO);
-
-    @Transactional
     void convertToEntityAndSave(OptionDTO optionDTO);
-
     boolean submitValuesFromController(String optionName, OptionDTO optionDTO,
                                        Set<OptionDTO> obligatoryOptionsSet, Set<OptionDTO> incompatibleOptionsSet,
                                        String blockConnectedContracts);
-
     String getDependedOptionsJson(String oldName);
-
-    String checkIncOptionDependenciesToPreventImpossibleDependency(String expJson, boolean foundedErrorDependency);
-
+    String checkIncOptionDependenciesToPreventImpossibleDependency
+            (String expJson, AtomicBoolean foundedErrorDependency);
     String checkOblOptionDependenciesToPreventImpossibleDependency(String expJson);
-
     void returnAllObligatoryOptions(Set<OptionDTO> allObligatoryOptionsSet, OptionDTO optionDTO);
-
     String checkIncOptionDependenciesToPreventRecursion(String expJson);
-
     Set<OptionDTO> getParentObligatoryOptionDTOs(Long optionDTOid);
-
     String checkOblOptionDependenciesToPreventRecursion(String expJson);
-
     Set<OptionDTO> getParentIncompatibleOptionDTOs(Long optionDTOid);
-
     Set<OptionDTO> getAllParentDependencies(Long optionDTOid);
 }

@@ -27,8 +27,7 @@ public interface ContractService {
 
      String getSortedListOfOptions(String contractNumber, String selectedTariffName, HttpSession session);
 
-     void addContractDetailsToModelForPage(Model model, String contractID,
-                                           HttpSession session);
+     void addContractDetailsToModelForPage(Model model, String contractID, HttpSession session);
 
      void validateContractNumberFromController(String contractNumber, BindingResult bindingResult, Model model);
 

@@ -202,11 +202,42 @@ public class OptionServiceImplTest {
 
     }
 
+    @Test
+    public void getDependingOptionsJsonTest(){
+        String oldName = "Unlimited calls";
+
+        String optionName = "TestOption1";
+        OptionDTO optionDTO = new OptionDTO();
+        optionDTO.setName("name");
+        optionDTO.setShortDescription("shd");
+        ArrayList<Option> optionsArrayList = new ArrayList<>();
+        optionsArrayList.add(new Option());
+        when(optionMapper.toDTO(any())).thenReturn(optionDTO);
+        when(optionDaoImpl.getOptionByName(oldName)).thenReturn(optionsArrayList);
+
+        OptionDTO optionDTO1 = new OptionDTO();
+        optionDTO1.setName("name1");
+        optionDTO1.setShortDescription("shd1");
+
+        OptionDTO optionDTO2 = new OptionDTO();
+        optionDTO2.setName("name2");
+        optionDTO2.setShortDescription("shd2");
+
+        Set<OptionDTO> optionsSet = new HashSet<>();
+        optionsSet.add(optionDTO1);
+        optionsSet.add(optionDTO2);
+
+        optionDTO.setIncompatibleOptionsSet(optionsSet);
+        optionDTO.setObligatoryOptionsSet(optionsSet);
+
+        String str = optionService.getDependedOptionsJson(oldName);
+        assertEquals("[[\"name2\",\"name1\"],[\"name2\",\"name1\"]]", str);
+    }
+
 //    @Test
-//    public void getDependingOptionsJsonTest(){
-//        String oldName = "Unlimited calls";
-//
-//        String str = optionService.getDependedOptionsJson(oldName);
+//    public void checkIncOptionDependenciesToPreventImpossibleDependencyTest(){
+//        String json = "";
+//        boolean foundedErrorDependency = true;
 //    }
 
 

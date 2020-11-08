@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
 public class NewOptionRegPageController {
@@ -69,7 +70,7 @@ public class NewOptionRegPageController {
         return "workerOfficePage";
     }
 
-    boolean foundedErrorDependency = false;
+    AtomicBoolean foundedErrorDependency = new AtomicBoolean(false);
 
     @PostMapping(value = "/newOption/checkIncOptionDependenciesToPreventImpossibleDependency/")
     public @ResponseBody
