@@ -105,7 +105,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public List<ContractDTO> getContractDTOById(Long contractID) {
-        return this.getContractById(contractID)
+        return contractDaoImpl.getContractById(contractID)
                 .stream()
                 .map(contractMapper::toDTO)
                 .collect(Collectors.toList());
@@ -113,7 +113,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public List<ContractDTO> getContractDTOByNumber(String number) {
-        return this.getContractByNumber(number)
+        return contractDaoImpl.getContractByNumber(number)
                 .stream()
                 .map(contractMapper::toDTO)
                 .collect(Collectors.toList());
@@ -150,7 +150,7 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void convertToEntityAndSave(ContractDTO contractDTO){
         try{
-            this.save(contractMapper.toEntity(contractDTO));
+            contractDaoImpl.save(contractMapper.toEntity(contractDTO));
             log.info(contractWithNumber + contractDTO.getContractNumber()
                     + " was successfully converted and saved.");
         }catch(Exception e){

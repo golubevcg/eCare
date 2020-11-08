@@ -74,7 +74,6 @@ public class OptionServiceImpl implements OptionService {
     public void update(Option option) {
         try {
             optionDaoImpl.update(option);
-
             log.info("Option with name=" + option.getName() + " was successfully updated!");
         } catch (Exception e) {
             log.info("There was an error during updating option with name=" + option.getName());
@@ -91,13 +90,13 @@ public class OptionServiceImpl implements OptionService {
     @Transactional
     public List<OptionDTO> searchForOptionByName(String optionName) {
         return optionDaoImpl.searchForOptionByName(optionName).stream()
-                .map(o -> optionMapper.toDTO(o)).collect(Collectors.toList());
+                .map(optionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public List<OptionDTO> getActiveOptionDTOs() {
-        return optionDaoImpl.getActiveOptions().stream().map(o -> optionMapper.toDTO(o)).collect(Collectors.toList());
+        return optionDaoImpl.getActiveOptions().stream().map(optionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -162,18 +161,14 @@ public class OptionServiceImpl implements OptionService {
 
         try {
 
-            if (blockConnectedContracts != null) {
-
+            if(blockConnectedContracts != null) {
                 Set<ContractDTO> contractDTOS = optionDTO1.getContractsOptions();
                 for (ContractDTO contractDTO : contractDTOS) {
                     contractDTO.setBlocked(true);
                     contractServiceImpl.convertToEntityAndUpdate(contractDTO);
                 }
-
-                optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
-            } else {
-                optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
             }
+            optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
 
             messageSender.sendMessage("update");
             log.info("Option with name= " + optionDTO1.getName() + " was successfully edited and updated.");

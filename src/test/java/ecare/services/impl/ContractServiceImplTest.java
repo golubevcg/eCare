@@ -106,7 +106,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void searchForContractByNumberId(){
+    public void searchForContractByNumberIdTest(){
         Contract nContract = new Contract();
         nContract.setContract_id(1L);
         List<Contract> contractsList = new ArrayList<>();
@@ -176,7 +176,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void convertToEntityAndUpdate(){
+    public void convertToEntityAndUpdateTest(){
         String number = "111111";
 
         ContractDTO contractDTO = new ContractDTO();
@@ -190,14 +190,14 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void convertDTOtoEntity(){
+    public void convertDTOtoEntityTest(){
         ContractDTO contractDTO = new ContractDTO();
         contractService.convertDTOtoEntity(contractDTO);
         verify(contractMapper, atLeastOnce()).toEntity(any());
     }
 
     @Test
-    public void convertToEntityAndSave(){
+    public void convertToEntityAndSaveTest(){
         String number = "111111";
 
         ContractDTO contractDTO = new ContractDTO();
@@ -211,7 +211,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void submitValuesFromController(){
+    public void submitValuesFromControllerTest(){
         String contractNumberBeforeEditing = "72836423413";
         String exportArray = "{\"newNum\":\"72836423413\",\"selectedUserLogin\":\"agolubev\"," +
                 "\"selectedTariff\":\"Business\",\"selectedOptions\":[\"Unlimited messages\"," +
@@ -282,7 +282,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void cascadeCheckOptionDependencies(){
+    public void cascadeCheckOptionDependenciesTest(){
         OptionDTO currentOption = new OptionDTO();
         Set<String> incompatibleOptionIds = new HashSet<>();
         Set<String> obligatoryOptionIds = new HashSet<>();
@@ -322,7 +322,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void getSortedListOfOptions(){
+    public void getSortedListOfOptionsTest(){
         String contractNumber = "11111";
         String selectedTariffName = "Unlimited calls";
         HttpSession session = mock(HttpSession.class);
@@ -373,7 +373,7 @@ public class ContractServiceImplTest {
 
 
     @Test
-    public void addContractDetailsToModelForPage(){
+    public void addContractDetailsToModelForPageTest(){
         Model model = mock(Model.class);
         String contractID = "1";
         HttpSession session = mock(HttpSession.class);
@@ -433,7 +433,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void getCurrentContractFromSessionByContractId(){
+    public void getCurrentContractFromSessionByContractIdTest(){
         HttpSession session = mock(HttpSession.class);
         String contractID = "1";
         ContractDTO contractDTO = new ContractDTO();
@@ -454,7 +454,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void validateContractNumberFromController(){
+    public void validateContractNumberFromControllerTest(){
         String contractNumber = "11111";
         BindingResult bindingResult = mock(BindingResult.class);
         Model model = mock(Model.class);
@@ -474,7 +474,7 @@ public class ContractServiceImplTest {
     }
 
     @Test
-    public void validateLoginFromController(){
+    public void validateLoginFromControllerTest(){
         String selectedLogin = "selectedLogin";
         BindingResult bindingResult = mock(BindingResult.class);
         Model model = mock(Model.class);
