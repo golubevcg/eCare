@@ -86,7 +86,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public TariffDTO getTariffDTOByTariffNameOrNull(String name){
-        List<Tariff> listOfTariffs = this.getTariffByTariffName(name);
+        List<Tariff> listOfTariffs = tariffDaoImpl.getTariffByTariffName(name);
         if(listOfTariffs.isEmpty()){
             return null;
         }else {
@@ -110,7 +110,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void convertToEntityAndSave(TariffDTO tariffDTO){
-        this.save( tariffMapper.toEntity(tariffDTO) );
+        tariffDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
@@ -132,7 +132,8 @@ public class TariffServiceImpl implements TariffService {
     @Override
     public void submitValuesFromController(String blockConnectedContracts, TariffDTO tariffDTO,
                                            String tariffNameBeforeEditing, Set<OptionDTO> availableOptions){
-        TariffDTO tariffDTOtoUpdate = this.getTariffDTOByTariffNameOrNull(tariffNameBeforeEditing);
+        TariffDTO tariffDTOtoUpdate = tariffMapper.toDTO(tariffDaoImpl
+                .getTariffByTariffName(tariffNameBeforeEditing).get(0));
         tariffDTOtoUpdate.setName(tariffDTO.getName());
         tariffDTOtoUpdate.setPrice(tariffDTO.getPrice());
         tariffDTOtoUpdate.setShortDiscription(tariffDTO.getShortDiscription());
@@ -147,10 +148,8 @@ public class TariffServiceImpl implements TariffService {
                 contractDTO.setBlocked(true);
                 contractServiceImpl.convertToEntityAndUpdate(contractDTO);
             }
-            this.convertToEntityAndUpdate(tariffDTOtoUpdate);
-        }else {
-            this.convertToEntityAndUpdate(tariffDTOtoUpdate);
         }
+        tariffDaoImpl.update(tariffMapper.toEntity(tariffDTOtoUpdate));
 
         messageSender.sendMessage("update");
 
