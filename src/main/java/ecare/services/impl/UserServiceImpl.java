@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void convertToEntityAndUpdate(UserDTO userDTO){
-        this.update(userMapper.toEntity(userDTO));
+        userDaoImpl.update(userMapper.toEntity(userDTO));
     }
 
     @Override
@@ -90,11 +90,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO getUserDTOByLoginOrNull(String login){
-        List<User> listUsers = this.getUserByLogin(login);
-        if(!listUsers.isEmpty() && listUsers!=null){
+        List<User> listUsers = userDaoImpl.getUserByLogin(login);
+        if(!listUsers.isEmpty()){
             User user = listUsers.get(0);
             return  userMapper.toDTO(user);
-        }else{ return null;}
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -139,7 +141,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void convertToEntityAndSave(UserDTO userDTO){
-        this.save(userMapper.toEntity(userDTO));
+        userDaoImpl.save(userMapper.toEntity(userDTO));
+        log.info("User with login=" + userDTO.getLogin() + " was successfully converted and saved!");
+
     }
 
     @Override
@@ -176,10 +180,10 @@ public class UserServiceImpl implements UserService {
 
         userDTO.addContractDTO(contractDTO);
         userDTO.setRoles(roleDTOHashSet);
-        this.convertToEntityAndSave(userDTO);
+        userDaoImpl.save( userMapper.toEntity(userDTO) );
 
         if( roleCheckbox==null) {
-            contractDTO.setUser(this.getUserDTOByLoginOrNull(userDTO.getLogin()));
+            contractDTO.setUser( userMapper.toDTO(userDaoImpl.getUserByLogin(userDTO.getLogin()).get(0)) );
             contractServiceImpl.convertToEntityAndSave(contractDTO);
         }
 
