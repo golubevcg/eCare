@@ -188,6 +188,7 @@ public class ContractServiceImpl implements ContractService {
         }
 
         contractDTO.setBlocked(isBlocked);
+        System.out.println(contractDTO.toString());
         try{
             contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
             log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
