@@ -87,12 +87,12 @@ public class CartServiceImpl implements CartService {
                                                      Set<OptionDTO> optionDTOSetFromDB,
                                                      AtomicBoolean isChanged,
                                                      Map<String, String> optionMapEnabledDisabled){
-        for (OptionDTO optionDTOFromDb : optionDTOSetFromDB) {
-            if (!optionDTOSetFromCart.contains(optionDTOFromDb)
-                    && optionDTOSetFromCart.contains( optionDTOSetFromDB )) {
-                optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
-                isChanged.set(true);
-            }
-        }
+//        for (OptionDTO optionDTOFromDb : optionDTOSetFromDB) {
+//            if (!optionDTOSetFromCart.contains(optionDTOFromDb)
+//                    && optionDTOSetFromCart.contains( optionDTOSetFromDB )) {
+//                optionMapEnabledDisabled.put(optionDTOFromDb.getName(), "disabled");
+//                isChanged.set(true);
+//            }
+//        }
     }
 }
