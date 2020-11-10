@@ -165,7 +165,6 @@ public class ContractServiceImpl implements ContractService {
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
         List<Contract> contractsList = contractDaoImpl.getContractByNumber(contractNumberBeforeEditing);
-
         ContractDTO contractDTO = contractMapper.toDTO( contractsList.get(0) );
 
         String number = jsonObject.get("newNum").getAsString();
@@ -180,15 +179,15 @@ public class ContractServiceImpl implements ContractService {
         contractDTO.setUser(userDTO);
         TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(tariff);
         contractDTO.setTariff(tariffDTO);
-
+        Set<OptionDTO> optionDTOSet = new HashSet<>();
         if(jsonArrayTest.size()!=0) {
             for (int i = 0; i < jsonArrayTest.size(); i++) {
-                contractDTO.addOption(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
+                optionDTOSet.add(optionServiceImpl.getOptionDTOByNameOrNull(jsonArrayTest.get(i).getAsString()));
             }
         }
+        contractDTO.setSetOfOptions(optionDTOSet);
 
         contractDTO.setBlocked(isBlocked);
-        System.out.println(contractDTO.toString());
         try{
             contractDaoImpl.update( contractMapper.toEntity(contractDTO) );
             log.info(contractDTO.getContractNumber() + "was successfully edited and updated.");
