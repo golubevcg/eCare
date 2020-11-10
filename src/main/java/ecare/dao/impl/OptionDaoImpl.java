@@ -5,6 +5,7 @@ import ecare.model.entity.Option;
 import ecare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,45 +50,49 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select o " +
                         "from Option o " +
-                        "where o.name = :nam", Option.class)
-                .setParameter("nam", name).list();
+                        "where o.name = :nam", Option.class);
+        query.setParameter("nam", name);
+        return query.list();
     }
 
     @Override
     public List<Option> getOptionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select o " +
-                        "from Option o " +
-                        "where o.option_id = :id", Option.class)
-                .setParameter("id", id).list();
+        Query query = session.createQuery("select o " +
+                "from Option o " +
+                "where o.option_id = :id", Option.class);
+        query.setParameter("id", id);
+        return query.list();
     }
 
     @Override
     public List<Option> searchForOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select o " +
                         "from Option o " +
-                        "where o.name like:string", Option.class)
-                .setParameter("string", "%" + name + "%")
-                .list();
+                        "where o.name like:string", Option.class);
+        query.setParameter("string", "%" + name + "%");
+        return query.list();
     }
 
     @Override
     public List<Option> getActiveOptions() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
-                "select o from Option o where o.isActive=true", Option.class).list();
+        Query query = session.createQuery(
+                "select o from Option o where o.isActive=true", Option.class);
+        return query.list();
     }
 
     @Override
     public Set<Option> getParentObligatoryOptions(Long optionDTOid){
         Session session = sessionFactory.getCurrentSession();
         String sqlString = "SELECT option_id FROM obligatory_options oo WHERE  oo.obligatoryoption_id=" + optionDTOid;
-        Set<BigInteger> setOfOptionIds = new HashSet<>(session.createSQLQuery(sqlString).list());
+        Query query = session.createSQLQuery(sqlString);
+        Set<BigInteger> setOfOptionIds = new HashSet<>(query.list());
 
         Set<Option> setOfOptions = new HashSet<>();
         for (BigInteger id: setOfOptionIds) {

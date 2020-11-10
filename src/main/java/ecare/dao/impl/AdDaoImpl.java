@@ -5,6 +5,7 @@ import ecare.model.entity.Ad;
 import ecare.mq.MessageSender;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,8 +48,10 @@ public class AdDaoImpl implements AdDao {
     public Ad getAdByNameOrNull(String name){
         Session session = sessionFactory.getCurrentSession();
 
-        List<Ad> adsList = session.createQuery("SELECT a FROM Ad a WHERE a.name = :nam", Ad.class)
-                .setParameter("nam", name).list();
+        Query query = session
+                .createQuery("SELECT a FROM Ad a WHERE a.name = :nam", Ad.class);
+        query.setParameter("nam", name);
+        List<Ad> adsList = query.list();
 
         return returnAdIfAdListEmpty( adsList);
     }

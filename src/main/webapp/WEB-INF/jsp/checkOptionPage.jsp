@@ -115,7 +115,7 @@
                 <spring:bind path="shortDescription">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <form:input path="shortDescription" class="form-control defaultForm" id="inputFormShortDisc" type="text" disabled="true" placeholder="Short description"
-                                    style="margin-top:-10px; width: 100%;  text-align: justify;" name="shortDiscriptionForm"></form:input>
+                                    style="margin-top:-10px; width: 54%;  text-align: justify;" name="shortDiscriptionForm"></form:input>
                     </div>
                     <label style="color:red; float:left;" id="shortDescriptionFieldRequired" hidden>This field is required.</label>
                 </spring:bind>

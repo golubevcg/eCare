@@ -2,7 +2,6 @@ package ecare.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ecare.model.dto.ContractDTO;
 import ecare.model.dto.*;
 import ecare.model.entity.Option;
 import ecare.services.api.*;
@@ -101,7 +100,7 @@ public class CheckContractPageController {
     @ResponseBody
     @GetMapping(value = "/checkContract/checkNewNumber/{newNum}")
     public boolean checkNewName(@PathVariable("newNum") String newNum) {
-        if(contractNumberBeforeEditing.equals(newNum)){
+        if(newNum.equals(contractNumberBeforeEditing)){
             return false;
         }
         List<ContractDTO> contractDTOList = contractServiceImpl.getContractDTOByNumber(newNum);
@@ -113,7 +112,7 @@ public class CheckContractPageController {
     @GetMapping(value = "/checkContract/checkUser/{selectedUser}")
     public boolean checkUser(@PathVariable("selectedUser") String selectedUser) {
 
-        if(userNameOfContractOwnerBeforeEditing.equals(selectedUser)){
+        if(selectedUser.equals(userNameOfContractOwnerBeforeEditing)){
             return true;
         }
 
@@ -124,8 +123,7 @@ public class CheckContractPageController {
 
     @PostMapping(value = "/checkContract/submitChanges/", produces = "application/json")
     public @ResponseBody
-    boolean submitValues(CsrfToken token, @RequestBody String exportArray) {
-
+    boolean submitValues(@RequestBody String exportArray) {
         return contractServiceImpl
                 .submitValuesFromController(exportArray, contractNumberBeforeEditing);
     }

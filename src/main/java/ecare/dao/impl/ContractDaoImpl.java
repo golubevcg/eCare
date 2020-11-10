@@ -4,6 +4,7 @@ import ecare.dao.api.ContractDao;
 import ecare.model.entity.Contract;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,25 +42,27 @@ public class ContractDaoImpl implements ContractDao {
     @Override
     public List<Contract> searchForContractByNumber(String number){
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select c from Contract c " +
-                "where c.contractNumber like:string", Contract.class)
-                .setParameter("string", "%" + number + "%")
-                .list();
+        Query query = session.createQuery("select c from Contract c " +
+                "where c.contractNumber like:string", Contract.class);
+        query.setParameter("string", "%" + number + "%");
+        return query.list();
     }
 
     @Override
     public List<Contract> getContractByNumber(String number) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select c from Contract c " +
-                "where c.contractNumber = :num", Contract.class)
-                .setParameter("num", number).list();
+        Query query = session.createQuery("select c from Contract c " +
+                "where c.contractNumber = :num", Contract.class);
+        query.setParameter("num", number);
+        return query.list();
     }
 
     @Override
     public List<Contract> getContractById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select c from Contract c " +
-                "where c.contract_id = :id", Contract.class)
-                .setParameter("id", id).list();
+        Query query = session.createQuery("select c from Contract c " +
+                "where c.contract_id = :id", Contract.class);
+        query.setParameter("id", id);
+        return query.list();
     }
 }

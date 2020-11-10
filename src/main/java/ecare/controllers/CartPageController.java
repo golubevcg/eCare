@@ -154,7 +154,7 @@ public class CartPageController {
     }
 
     public ContractDTO getContractByNumberFromSession(String contractNumber){
-        ContractDTO contractDTO = null;
+        ContractDTO contractDTO = new ContractDTO();
         for (ContractDTO contractFromSession:cartContractsSetChangedFromCart) {
             if(contractFromSession.getContractNumber().equals(contractNumber.trim()) ){
                 contractDTO = contractFromSession;

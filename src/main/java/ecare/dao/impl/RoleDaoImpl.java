@@ -4,6 +4,7 @@ import ecare.dao.api.RoleDao;
 import ecare.model.entity.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,14 +25,16 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public void save(Role role) {
         Session session = sessionFactory.getCurrentSession();
-        Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
-                .getResultList());
+        Query query = session.createQuery("select r from Role r", Role.class);
+        Set<Role> allRolesSet = new HashSet<>(query.getResultList());
 
         if (allRolesSet.isEmpty()) {
             session.persist(role);
         }else {
-            List<Role> found = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
-                    .setParameter("roleName", role.getRolename()).getResultList();
+            Query query1 = session.createQuery("select r from Role r " +
+                    "where r.rolename = :roleName", Role.class);
+            query1.setParameter("roleName", role.getRolename());
+            List<Role> found = query1.getResultList();
             if (found.isEmpty()) {
                 session.persist(role);
             }
@@ -54,11 +57,12 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public List<Role> getRoleByRoleName(String roleName) {
         Session session = sessionFactory.getCurrentSession();
-        List<Role> listOfRoles = session.createQuery(
+        Query query = session.createQuery(
                 "select r " +
                         "from Role r " +
-                        "where r.rolename = :name", Role.class)
-                .setParameter("name", roleName).list();
+                        "where r.rolename = :name", Role.class);
+        query.setParameter("name", roleName);
+        List<Role> listOfRoles = query.list();
 
         if(listOfRoles.isEmpty()){
             listOfRoles.add(new Role(roleName));

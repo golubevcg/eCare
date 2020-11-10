@@ -12,12 +12,13 @@ public class CharacterFilter implements Filter {
     //init method of charFilter
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        //do nothing
     }
 
     //destroy method of charFilter
     @Override
     public void destroy() {
-
+        //do nothing
     }
 
     public void doFilter(

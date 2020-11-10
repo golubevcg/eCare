@@ -5,6 +5,7 @@ import ecare.model.entity.Role;
 import ecare.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -54,57 +55,58 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUserByLogin(String login){
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select u " +
                         "from User u " +
-                        "where u.login = :login", User.class)
-                .setParameter( "login", login )
-                .list();
+                        "where u.login = :login", User.class);
+        query.setParameter( "login", login );
+        return query.list();
     }
 
     @Override
     public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select u " +
                         "from User u " +
-                        "where u.passportInfo = :passportInfo", User.class)
-                .setParameter( "passportInfo", passportInfo )
-                .list();
+                        "where u.passportInfo = :passportInfo", User.class);
+        query.setParameter( "passportInfo", passportInfo );
+        return query.list();
     }
 
     @Override
     public List<User> searchForUserByLogin(String searchInput) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select u " +
                         "from User u " +
-                        "where u.login like:string", User.class)
-                .setParameter("string", "%" + searchInput + "%")
-                .list();
+                        "where u.login like:string", User.class);
+        query.setParameter("string", "%" + searchInput + "%");
+        return query.list();
     }
 
     @Override
     public List<User> getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery(
+        Query query = session.createQuery(
                 "select u " +
                         "from User u " +
-                        "where u.email = :email", User.class)
-                .setParameter( "email", email )
-                .list();
+                        "where u.email = :email", User.class);
+        query.setParameter( "email", email );
+        return query.list();
     }
 
     @Override
     public void checkUserRoles(User user, Session session){
-        Set<Role> allRolesSet = new HashSet<>(session.createQuery("select r from Role r", Role.class)
-                .getResultList());
+        Query query = session.createQuery("select r from Role r", Role.class);
+        Set<Role> allRolesSet = new HashSet<>(query.getResultList());
         Set<Role> userRolesCheckedSet = new HashSet<>();
 
         if(!allRolesSet.isEmpty()){
             for (Role role: user.getRoles()) {
-                Role foundedRole = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class)
-                        .setParameter("roleName", role.getRolename()).getSingleResult();
+                Query query1 = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class);
+                query1.setParameter("roleName", role.getRolename());
+                Role foundedRole = (Role)query1.getSingleResult();
                 ifFoundedRoleNullThenAssignRoleElseFoundedRole(foundedRole, userRolesCheckedSet, role);
             }
             user.setRoles(userRolesCheckedSet);

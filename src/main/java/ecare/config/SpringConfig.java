@@ -78,6 +78,9 @@ public class SpringConfig implements WebMvcConfigurer {
         org.springframework.web.filter.CharacterEncodingFilter characterEncodingFilter = new org.springframework.web.filter.CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
+
+        applicationContext.getApplicationName();
+        
         return characterEncodingFilter;
     }
 

@@ -49,7 +49,6 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public void save(Option option) {
         try {
             optionDaoImpl.save(option);
@@ -60,7 +59,6 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public void delete(Option option) {
         try {
             optionDaoImpl.delete(option);
@@ -71,7 +69,6 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public void update(Option option) {
         try {
             optionDaoImpl.update(option);
@@ -82,26 +79,22 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public List<Option> getOptionByName(String optionName) {
         return optionDaoImpl.getOptionByName(optionName);
     }
 
     @Override
-    @Transactional
     public List<OptionDTO> searchForOptionByName(String optionName) {
         return optionDaoImpl.searchForOptionByName(optionName).stream()
                 .map(optionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public List<OptionDTO> getActiveOptionDTOs() {
         return optionDaoImpl.getActiveOptions().stream().map(optionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public OptionDTO getOptionDTOByNameOrNull(String optionName) {
         List<Option> listOfOptions = optionDaoImpl.getOptionByName(optionName);
         if (listOfOptions.isEmpty()) {
@@ -112,14 +105,12 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public OptionDTO getOptionDTOById(Long optionId) {
         Option option = optionDaoImpl.getOptionById(optionId).get(0);
         return optionMapper.toDTO(option);
     }
 
     @Override
-    @Transactional
     public List<Option> getOptionById(Long optionId) {
         return optionDaoImpl.getOptionById(optionId);
     }
@@ -129,13 +120,11 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    @Transactional
     public Option convertDTOtoEntity(OptionDTO optionDTO) {
         return optionMapper.toEntity(optionDTO);
     }
 
     @Override
-    @Transactional
     public void convertToEntityAndSave(OptionDTO optionDTO) {
         optionDaoImpl.save(optionMapper.toEntity(optionDTO));
     }
@@ -288,7 +277,6 @@ public class OptionServiceImpl implements OptionService {
         }
     }
 
-    @Transactional
     void updateTariffsConnectedToThisOptions(OptionDTO optionDTO){
         Set<TariffDTO> tariffDTOSet = optionDTO.getTariffsOptions();
         Set<OptionDTO> obligatoryOptionsSet = optionDTO.getObligatoryOptionsSet();

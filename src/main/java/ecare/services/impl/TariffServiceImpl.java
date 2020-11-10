@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@Transactional
 public class TariffServiceImpl implements TariffService {
 
     static final Logger log = Logger.getLogger(TariffServiceImpl.class);
@@ -36,7 +37,6 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public void save(Tariff tariff) {
         try{
             tariffDaoImpl.save(tariff);
@@ -47,7 +47,6 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public void update(Tariff tariff) {
         try{
             tariffDaoImpl.update(tariff);
@@ -58,7 +57,6 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public void delete(Tariff tariff) {
         try{
             tariffDaoImpl.delete(tariff);
@@ -69,13 +67,11 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public List<Tariff> getTariffByTariffName(String tariffName){
         return tariffDaoImpl.getTariffByTariffName(tariffName);
     }
 
     @Override
-    @Transactional
     public List<TariffDTO> getAllTariffs() {
         return tariffDaoImpl.getAllTariffs()
                 .stream()
@@ -84,7 +80,6 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public TariffDTO getTariffDTOByTariffNameOrNull(String name){
         List<Tariff> listOfTariffs = tariffDaoImpl.getTariffByTariffName(name);
         if(listOfTariffs.isEmpty()){
@@ -96,25 +91,21 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public void convertToEntityAndUpdate(TariffDTO tariffDTO){
         this.update( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
-    @Transactional
     public Tariff convertDtoToEntity(TariffDTO tariffDto){
         return tariffMapper.toEntity(tariffDto);
     }
 
     @Override
-    @Transactional
     public void convertToEntityAndSave(TariffDTO tariffDTO){
         tariffDaoImpl.save( tariffMapper.toEntity(tariffDTO) );
     }
 
     @Override
-    @Transactional
     public List<TariffDTO> getActiveTariffs() {
         return tariffDaoImpl.getActiveTariffs().stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))
@@ -122,7 +113,6 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    @Transactional
     public List<TariffDTO> searchForTariffDTOByName(String name) {
         return tariffDaoImpl.searchForTariffByName(name).stream()
                 .map(tariff-> tariffMapper.toDTO(tariff))

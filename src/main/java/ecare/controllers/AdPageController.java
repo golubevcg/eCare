@@ -49,7 +49,6 @@ public class AdPageController {
     @PostMapping(value = "/adPage/submit", produces = "application/json")
     public @ResponseBody
     boolean submitAdChanges(@RequestBody String adText){
-
         JsonArray jsonArray = new Gson().fromJson(adText, JsonArray.class);
         AdDTO adDTO = adServiceIml.getAdDTOByNameOrNull("main");
         if (adDTO != null) {
@@ -63,9 +62,9 @@ public class AdPageController {
 
             messageSender.sendMessage("update");
             return true;
-        }else{
-            return false;
         }
+
+        return false;
 
     }
 
