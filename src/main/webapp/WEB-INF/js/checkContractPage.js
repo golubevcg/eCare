@@ -25,7 +25,12 @@ $(document).ready(function(){
                 for(var i = 0; i < result.length; i++){
                     s+='<option value="' + result[i] + '">' + result[i] + '</option>';
                 }
+
+                $('#optionsList').val("");
+                $('#optionsList').trigger('change');
+
                 $('#optionsList').html(s);
+
             }
         });
     });
