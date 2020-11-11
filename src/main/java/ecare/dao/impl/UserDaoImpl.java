@@ -25,6 +25,8 @@ public class UserDaoImpl implements UserDao {
 
     private final SessionFactory sessionFactory;
 
+    private final String userWithLogin = "User with login=";
+
     public UserDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -41,7 +43,7 @@ public class UserDaoImpl implements UserDao {
         user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
         try{
             session.persist(user);
-            log.info("User with login=" + user.getLogin() + " was successfully saved!");
+            log.info(userWithLogin + user.getLogin() + " was successfully saved!");
         }catch(Exception e){
             log.info("There was an error during saving user with login=" + user.getLogin());
         }
@@ -53,7 +55,7 @@ public class UserDaoImpl implements UserDao {
 
         try{
             session.update(user);
-            log.info("User with login=" + user.getLogin() + " was successfully updated!");
+            log.info(userWithLogin + user.getLogin() + " was successfully updated!");
         }catch(Exception e){
             log.info("There was an error during updating user with login=" + user.getLogin());
         }
@@ -66,19 +68,20 @@ public class UserDaoImpl implements UserDao {
             Session session = sessionFactory.getCurrentSession();
             user.setActive(false);
             session.update(user);
-            log.info("User with login=" + user.getLogin() + " was successfully deleted!");
+            log.info(userWithLogin + user.getLogin() + " was successfully deleted!");
         }catch(Exception e){
             log.info("There was an error during deleting user with login=" + user.getLogin());
         }
     }
+
+    private final String selectUfromUserU= "select u from User u ";
 
 
     @Override
     public List<User> getUserByLogin(String login){
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                "select u " +
-                        "from User u " +
+                selectUfromUserU +
                         "where u.login = :login", User.class);
         query.setParameter( "login", login );
         return query.list();
@@ -88,8 +91,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                "select u " +
-                        "from User u " +
+                selectUfromUserU +
                         "where u.passportInfo = :passportInfo", User.class);
         query.setParameter( "passportInfo", passportInfo );
         return query.list();
@@ -99,8 +101,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> searchForUserByLogin(String searchInput) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                "select u " +
-                        "from User u " +
+                selectUfromUserU +
                         "where u.login like:string", User.class);
         query.setParameter("string", "%" + searchInput + "%");
         return query.list();
@@ -110,22 +111,23 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                "select u " +
-                        "from User u " +
+                selectUfromUserU +
                         "where u.email = :email", User.class);
         query.setParameter( "email", email );
         return query.list();
     }
 
+    private final String selectRfromRoleR = "select r from Role r";
+
     @Override
     public void checkUserRoles(User user, Session session){
-        Query<Role> query = session.createQuery("select r from Role r", Role.class);
+        Query<Role> query = session.createQuery(selectRfromRoleR, Role.class);
         Set<Role> allRolesSet = new HashSet<>(query.getResultList());
         Set<Role> userRolesCheckedSet = new HashSet<>();
 
         if(!allRolesSet.isEmpty()){
             for (Role role: user.getRoles()) {
-                Query<Role> query1 = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class);
+                Query<Role> query1 = session.createQuery(selectRfromRoleR + " where r.rolename = :roleName", Role.class);
                 query1.setParameter("roleName", role.getRolename());
                 Role foundedRole = (Role)query1.getSingleResult();
                 ifFoundedRoleNullThenAssignRoleElseFoundedRole(foundedRole, userRolesCheckedSet, role);

@@ -73,6 +73,9 @@ public class AdPageController {
     public String getTariffInfo(@PathVariable("selectedTariff") String selectedTariff) {
         TariffDTO tariffDTO = tariffServiceImpl.getTariffDTOByTariffNameOrNull(selectedTariff);
         String[] exportArray = new String[2];
+        if(tariffDTO!=null){
+
+        }
         exportArray[0] = tariffDTO.getShortDiscription();
         exportArray[1] = tariffDTO.getPrice().toString();
         return new Gson().toJson(exportArray);

@@ -21,6 +21,8 @@ public class TariffDaoImpl implements TariffDao {
 
     private final SessionFactory sessionFactory;
 
+    private String tariffWithName = "Tariff with name=";
+
     final
     MessageSender messageSender;
 
@@ -34,7 +36,7 @@ public class TariffDaoImpl implements TariffDao {
     try{
         Session session = sessionFactory.getCurrentSession();
         session.persist(tariff);
-        log.info("Tariff with name=" + tariff.getName() + " was successfully saved!");
+        log.info(tariffWithName + tariff.getName() + " was successfully saved!");
     }catch(Exception e){
         log.info("There was an error during saving tariff with name=" + tariff.getName());
     }
@@ -46,7 +48,7 @@ public class TariffDaoImpl implements TariffDao {
         try{
             Session session = sessionFactory.getCurrentSession();
             session.update(tariff);
-            log.info("Tariff with name=" + tariff.getName() + " was successfully updated!");
+            log.info(tariffWithName + tariff.getName() + " was successfully updated!");
         }catch(Exception e){
             log.info("There was an error during updating tariff with name=" + tariff.getName());
         }
@@ -58,16 +60,18 @@ public class TariffDaoImpl implements TariffDao {
             Session session = sessionFactory.getCurrentSession();
             tariff.setActive(false);
             session.update(tariff);
-            log.info("Tariff with name=" + tariff.getName() + " was successfully deleted!");
+            log.info(tariffWithName + tariff.getName() + " was successfully deleted!");
         }catch(Exception e){
             log.info("There was an error during deleting tariff with name=" + tariff.getName());
         }
     }
 
+    private final String selectTFromTariffT = "select t from Tariff t ";
+
     @Override
     public List<Tariff> getTariffByTariffName(String tariffName) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Tariff> query = session.createQuery("select t from Tariff t where t.name = :name", Tariff.class);
+        Query<Tariff> query = session.createQuery(selectTFromTariffT + "where t.name = :name", Tariff.class);
         query.setParameter("name", tariffName);
         return query.list();
     }
@@ -76,7 +80,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> getAllTariffs() {
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                "select t from Tariff t", Tariff.class);
+                selectTFromTariffT, Tariff.class);
         return query.list();
     }
 
@@ -84,7 +88,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> getActiveTariffs() {
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                "select t from Tariff t where t.isActive=true", Tariff.class);
+                selectTFromTariffT + "where t.isActive=true", Tariff.class);
         return query.list();
     }
 
@@ -92,8 +96,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> searchForTariffByName(String name){
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                "select t " +
-                        "from Tariff t " +
+                selectTFromTariffT +
                         "where t.name like:string", Tariff.class);
         query.setParameter("string", "%" + name + "%");
         return query.list();

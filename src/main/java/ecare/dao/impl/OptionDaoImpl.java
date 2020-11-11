@@ -47,12 +47,13 @@ public class OptionDaoImpl implements OptionDao {
         session.update(option);
     }
 
+    private final String selectOfromOptionO = "select o from Option o ";
+
     @Override
     public List<Option> getOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         Query<Option> query = session.createQuery(
-                "select o " +
-                        "from Option o " +
+                selectOfromOptionO +
                         "where o.name = :nam", Option.class);
         query.setParameter("nam", name);
         return query.list();
@@ -61,8 +62,7 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getOptionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Option> query = session.createQuery("select o " +
-                "from Option o " +
+        Query<Option> query = session.createQuery(selectOfromOptionO +
                 "where o.option_id = :id", Option.class);
         query.setParameter("id", id);
         return query.list();
@@ -72,8 +72,7 @@ public class OptionDaoImpl implements OptionDao {
     public List<Option> searchForOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         Query<Option> query = session.createQuery(
-                "select o " +
-                        "from Option o " +
+                selectOfromOptionO +
                         "where o.name like:string", Option.class);
         query.setParameter("string", "%" + name + "%");
         return query.list();
@@ -83,7 +82,7 @@ public class OptionDaoImpl implements OptionDao {
     public List<Option> getActiveOptions() {
         Session session = sessionFactory.getCurrentSession();
         Query<Option> query = session.createQuery(
-                "select o from Option o where o.isActive=true", Option.class);
+                selectOfromOptionO + "where o.isActive=true", Option.class);
         return query.list();
     }
 

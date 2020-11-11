@@ -22,17 +22,19 @@ public class RoleDaoImpl implements RoleDao {
         this.sessionFactory = sessionFactory;
     }
 
+    private final String selectRFromRoleR = "select r from Role r";
+
     @Override
     public void save(Role role) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Role> query = session.createQuery("select r from Role r", Role.class);
+        Query<Role> query = session.createQuery(selectRFromRoleR, Role.class);
         Set<Role> allRolesSet = new HashSet<>(query.getResultList());
 
         if (allRolesSet.isEmpty()) {
             session.persist(role);
         }else {
-            Query<Role> query1 = session.createQuery("select r from Role r " +
-                    "where r.rolename = :roleName", Role.class);
+            Query<Role> query1 = session.createQuery(selectRFromRoleR +
+                    " where r.rolename = :roleName", Role.class);
             query1.setParameter("roleName", role.getRolename());
             List<Role> found = query1.getResultList();
             if (found.isEmpty()) {
@@ -58,9 +60,8 @@ public class RoleDaoImpl implements RoleDao {
     public List<Role> getRoleByRoleName(String roleName) {
         Session session = sessionFactory.getCurrentSession();
         Query<Role> query = session.createQuery(
-                "select r " +
-                        "from Role r " +
-                        "where r.rolename = :name", Role.class);
+                selectRFromRoleR +
+                        " where r.rolename = :name", Role.class);
         query.setParameter("name", roleName);
         List<Role> listOfRoles = query.list();
 
