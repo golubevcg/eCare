@@ -48,8 +48,7 @@ public class AdDaoImpl implements AdDao {
     public Ad getAdByNameOrNull(String name){
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session
-                .createQuery("SELECT a FROM Ad a WHERE a.name = :nam", Ad.class);
+        Query<Ad> query = session.createQuery("SELECT a FROM Ad a WHERE a.name = :nam", Ad.class);
         query.setParameter("nam", name);
         List<Ad> adsList = query.list();
 
@@ -57,9 +56,8 @@ public class AdDaoImpl implements AdDao {
     }
 
     private Ad returnAdIfAdListEmpty( List<Ad> adsList){
-        if(adsList.isEmpty()){
-            return null;
-        }{
+        if(adsList.isEmpty()) return null;
+        {
             return adsList.get(0);
         }
     }
