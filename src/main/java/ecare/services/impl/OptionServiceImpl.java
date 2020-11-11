@@ -56,6 +56,7 @@ public class OptionServiceImpl implements OptionService {
         } catch (Exception e) {
             log.info("There was an error during saving option with name=" + option.getName());
         }
+
     }
 
     @Override
@@ -70,8 +71,9 @@ public class OptionServiceImpl implements OptionService {
 
     @Override
     public void update(Option option) {
+        optionDaoImpl.update(option);
+
         try {
-            optionDaoImpl.update(option);
             log.info("Option with name=" + option.getName() + " was successfully updated!");
         } catch (Exception e) {
             log.info("There was an error during updating option with name=" + option.getName());

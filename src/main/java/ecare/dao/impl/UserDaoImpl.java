@@ -3,6 +3,8 @@ package ecare.dao.impl;
 import ecare.dao.api.UserDao;
 import ecare.model.entity.Role;
 import ecare.model.entity.User;
+import ecare.services.impl.UserServiceImpl;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -18,6 +20,8 @@ import java.util.Set;
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
+
+    static final Logger log = Logger.getLogger(UserServiceImpl.class);
 
     private final SessionFactory sessionFactory;
 
@@ -35,20 +39,37 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         this.checkUserRoles(user, session);
         user.setPassword(bCryptPasswordEncoder().encode(user.getPassword()));
-        session.persist(user);
+        try{
+            session.persist(user);
+            log.info("User with login=" + user.getLogin() + " was successfully saved!");
+        }catch(Exception e){
+            log.info("There was an error during saving user with login=" + user.getLogin());
+        }
     }
 
     @Override
     public void update(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(user);
+
+        try{
+            session.update(user);
+            log.info("User with login=" + user.getLogin() + " was successfully updated!");
+        }catch(Exception e){
+            log.info("There was an error during updating user with login=" + user.getLogin());
+        }
+
     }
 
     @Override
     public void delete(User user){
-        Session session = sessionFactory.getCurrentSession();
-        user.setActive(false);
-        session.update(user);
+        try{
+            Session session = sessionFactory.getCurrentSession();
+            user.setActive(false);
+            session.update(user);
+            log.info("User with login=" + user.getLogin() + " was successfully deleted!");
+        }catch(Exception e){
+            log.info("There was an error during deleting user with login=" + user.getLogin());
+        }
     }
 
 

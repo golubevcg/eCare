@@ -45,23 +45,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(User user){
-        try{
-            userDaoImpl.save(user);
-            log.info("User with login=" + user.getLogin() + " was successfully saved!");
-        }catch(Exception e){
-            log.info("There was an error during saving user with login=" + user.getLogin());
-        }
+        userDaoImpl.save(user);
+
+
     }
 
     @Override
     @Transactional
     public void update(User user){
-        try{
-            userDaoImpl.update(user);
-            log.info("User with login=" + user.getLogin() + " was successfully updated!");
-        }catch(Exception e){
-            log.info("There was an error during updating user with login=" + user.getLogin());
-        }
+        userDaoImpl.update(user);
     }
 
     @Override
@@ -73,12 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(User user) {
-        try{
-            userDaoImpl.delete(user);
-            log.info("User with login=" + user.getLogin() + " was successfully deleted!");
-        }catch(Exception e){
-            log.info("There was an error during deleting user with login=" + user.getLogin());
-        }
+        userDaoImpl.delete(user);
     }
 
     @Override
