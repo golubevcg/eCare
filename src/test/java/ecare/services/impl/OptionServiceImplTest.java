@@ -279,15 +279,17 @@ public class OptionServiceImplTest {
     public void returnAllObligatoryOptionsTest(){
         Set<OptionDTO> allObligatoryOptionsSet = new HashSet<>();
         OptionDTO optionDTO = new OptionDTO();
-
+        optionDTO.setActive(true);
         optionService.returnAllObligatoryOptions(allObligatoryOptionsSet, optionDTO);
+        assertTrue(optionDTO.isActive());
     }
 
     @Test
     public void updateTariffsConnectedToThisOptionsTest(){
         OptionDTO optionDTO = new OptionDTO();
-
+        optionDTO.setActive(true);
         optionService.updateTariffsConnectedToThisOptions(optionDTO);
+        assertTrue(optionDTO.isActive());
     }
 
     @Test

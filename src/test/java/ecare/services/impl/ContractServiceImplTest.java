@@ -278,7 +278,8 @@ public class ContractServiceImplTest {
 
         when(httpSession.getAttribute(("cartContractsSetChangedForCart"))).thenReturn(contractDTOsSet);
 
-        contractService.getDependingOptions(httpSession, selectedOptionId, stringArrayInfoFromFront);
+        assertEquals(12, contractService
+                .getDependingOptions(httpSession, selectedOptionId, stringArrayInfoFromFront).length());
     }
 
     @Test
@@ -319,6 +320,7 @@ public class ContractServiceImplTest {
         boolean isCheckedF = false;
         contractService.cascadeCheckOptionDependencies(currentOption, incompatibleOptionIds, obligatoryOptionIds,
                 notSelectedOptionIds, isCheckedF);
+        assertTrue(isChecked);
     }
 
     @Test
@@ -391,6 +393,7 @@ public class ContractServiceImplTest {
         contractDTO.setContractNumber("11111");
         contractDTO.setContract_id(1l);
         contractDTO.setUser(userDTO);
+        contractDTO.setActive(true);
 
         TariffDTO tariffDTO = new TariffDTO();
         tariffDTO.setName("name");
@@ -430,6 +433,7 @@ public class ContractServiceImplTest {
 
         when(tariffServiceImpl.getActiveTariffs()).thenReturn(new ArrayList<TariffDTO>());
         contractService.addContractDetailsToModelForPage(model,contractID,session);
+        assertTrue(contractDTO.isActive());
     }
 
     @Test

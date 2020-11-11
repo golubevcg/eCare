@@ -48,11 +48,13 @@ public class OptionServiceImpl implements OptionService {
         this.tariffServiceImpl = tariffServiceImpl;
     }
 
+    private final String optionWithName = "Option with name=";
+
     @Override
     public void save(Option option) {
         try {
             optionDaoImpl.save(option);
-            log.info("Option with name=" + option.getName() + " was successfully saved!");
+            log.info(optionWithName + option.getName() + " was successfully saved!");
         } catch (Exception e) {
             log.info("There was an error during saving option with name=" + option.getName());
         }
@@ -63,7 +65,7 @@ public class OptionServiceImpl implements OptionService {
     public void delete(Option option) {
         try {
             optionDaoImpl.delete(option);
-            log.info("Option with name=" + option.getName() + " was successfully deleted!");
+            log.info(optionWithName + option.getName() + " was successfully deleted!");
         } catch (Exception e) {
             log.info("There was an error during deleting option with name=" + option.getName());
         }
@@ -74,7 +76,7 @@ public class OptionServiceImpl implements OptionService {
         optionDaoImpl.update(option);
 
         try {
-            log.info("Option with name=" + option.getName() + " was successfully updated!");
+            log.info(optionWithName + option.getName() + " was successfully updated!");
         } catch (Exception e) {
             log.info("There was an error during updating option with name=" + option.getName());
         }
@@ -163,7 +165,7 @@ public class OptionServiceImpl implements OptionService {
             optionDaoImpl.update(optionMapper.toEntity(optionDTO1));
 
             messageSender.sendMessage("update");
-            log.info("Option with name= " + optionDTO1.getName() + " was successfully edited and updated.");
+            log.info(optionWithName + optionDTO1.getName() + " was successfully edited and updated.");
             updateTariffsConnectedToThisOptions(optionDTO1);
             return true;
 
@@ -239,6 +241,8 @@ public class OptionServiceImpl implements OptionService {
         return "";
     }
 
+    private final String selectedIncOptionsString = "selectedIncOptions";
+
     @Override
     public String checkOblOptionDependenciesToPreventImpossibleDependency(String expJson) {
         JsonObject jsonObject = new Gson().fromJson(expJson, JsonObject.class);
@@ -246,8 +250,8 @@ public class OptionServiceImpl implements OptionService {
         String lastSelectedValue = jsonObject.get("lastSelectedVal").getAsString();
         OptionDTO lastSelectedOptionDTO = this.getOptionDTOByNameOrNull(lastSelectedValue);
 
-        if (!jsonObject.get("selectedIncOptions").isJsonNull()) {
-            JsonArray incJsonArray = jsonObject.get("selectedIncOptions").getAsJsonArray();
+        if (!jsonObject.get(selectedIncOptionsString).isJsonNull()) {
+            JsonArray incJsonArray = jsonObject.get(selectedIncOptionsString).getAsJsonArray();
 
             Set<OptionDTO> allObligatoryOptionsSet = lastSelectedOptionDTO.getObligatoryOptionsSet();
 
@@ -329,8 +333,8 @@ public class OptionServiceImpl implements OptionService {
 
         OptionDTO lastSelectedOptionDTO = optionMapper.toDTO(optionDaoImpl
                 .getOptionById(Long.parseLong(currentlyCheckedOptionId)).get(0));
-        if (!jsonObject.get("selectedIncOptions").isJsonNull()) {
-            JsonArray incJsonArray = jsonObject.get("selectedIncOptions").getAsJsonArray();
+        if (!jsonObject.get(selectedIncOptionsString).isJsonNull()) {
+            JsonArray incJsonArray = jsonObject.get(selectedIncOptionsString).getAsJsonArray();
 
             Set<OptionDTO> parentObligatoryOptionDTOs = getAllParentDependencies(lastSelectedOptionDTO.getOption_id());
 

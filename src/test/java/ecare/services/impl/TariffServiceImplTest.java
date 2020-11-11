@@ -20,8 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -125,7 +124,6 @@ public class TariffServiceImplTest {
         String tariffNameBeforeEditing = "Unlimited calls";
         Set<OptionDTO> availableOptions = new HashSet<>();
 
-
         List<Tariff> tariffList = new ArrayList<>();
         Tariff tariff = new Tariff();
         tariff.setName("name");
@@ -147,6 +145,7 @@ public class TariffServiceImplTest {
         when(tariffMapper.toDTO(tariff)).thenReturn(tariffDTO1);
         tariffService.submitValuesFromController(blockConnectedContracts,tariffDTO,
                                                     tariffNameBeforeEditing,availableOptions);
+        assertNull(tariffDTO1.getName());
     }
 
 

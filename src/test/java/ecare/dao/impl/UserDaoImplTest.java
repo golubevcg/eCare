@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,7 +62,7 @@ public class UserDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        userDaoImpl.getUserByLogin("1111");
+        assertTrue(userDaoImpl.getUserByLogin("1111").isEmpty());
     }
 
     @Test
@@ -68,7 +70,8 @@ public class UserDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        userDaoImpl.getUserDTOByPassportInfo("1111");
+        assertTrue(userDaoImpl.getUserDTOByPassportInfo("1111").isEmpty());
+
     }
 
     @Test
@@ -76,7 +79,7 @@ public class UserDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        userDaoImpl.searchForUserByLogin("1111");
+        assertTrue(userDaoImpl.searchForUserByLogin("1111").isEmpty());
     }
 
     @Test
@@ -84,7 +87,7 @@ public class UserDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        userDaoImpl.getUserByEmail("1111");
+        assertTrue(userDaoImpl.getUserByEmail("1111").isEmpty());
     }
 
     @Test

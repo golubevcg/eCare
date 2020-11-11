@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -60,7 +60,7 @@ public class OptionDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        optionDaoImpl.getOptionByName("name");
+        assertTrue(optionDaoImpl.getOptionByName("name").isEmpty());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class OptionDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        optionDaoImpl.getOptionById(1l);
+        assertTrue(optionDaoImpl.getOptionById(1l).isEmpty());
     }
 
 
@@ -77,7 +77,8 @@ public class OptionDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        optionDaoImpl.searchForOptionByName("name");
+        assertTrue(optionDaoImpl.searchForOptionByName("name").isEmpty());
+
     }
 
     @Test
@@ -85,7 +86,8 @@ public class OptionDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        optionDaoImpl.getActiveOptions();
+        assertTrue(optionDaoImpl.getActiveOptions().isEmpty());
+
     }
 
     @Test
@@ -95,7 +97,8 @@ public class OptionDaoImplTest {
         ArrayList<BigInteger> arList = new ArrayList<>();
         BigInteger bigInteger = BigInteger.valueOf(123);
         arList.add(bigInteger);
-        optionDaoImpl.getParentObligatoryOptions(1l);
+        assertTrue(optionDaoImpl.getParentObligatoryOptions(1l).isEmpty());
+
     }
 
     @Test
@@ -105,14 +108,15 @@ public class OptionDaoImplTest {
         ArrayList<BigInteger> arList = new ArrayList<>();
         BigInteger bigInteger = BigInteger.valueOf(123);
         arList.add(bigInteger);
-        optionDaoImpl.getParentIncompatibleOptions(1l);
+        assertTrue(optionDaoImpl.getParentIncompatibleOptions(1l).isEmpty());
+
     }
 
     @Test
     public void getAllParentDependencies(){
         NativeQuery nativeQuery = mock(NativeQuery.class);
         when(session.createSQLQuery(any())).thenReturn(nativeQuery);
-        optionDaoImpl.getAllParentDependencies(1l);
+        assertTrue(optionDaoImpl.getAllParentDependencies(1l).isEmpty());
     }
 
 

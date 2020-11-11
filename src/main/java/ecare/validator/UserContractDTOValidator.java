@@ -30,39 +30,43 @@ public class UserContractDTOValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-
+        //unused default validate with such constructor
     }
+
+    private String requiredString = "Required";
+    private String loginString = "login";
+
 
     public void validate(Object o, Errors errors, Boolean roleCheckbox) {
 
         UserContractDTO user = (UserContractDTO) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "secondname", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstname", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "secondname", requiredString);
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, loginString, requiredString);
         if( 6 > user.getLogin().length()){
-            errors.rejectValue("login", "Size.userForm.login");
+            errors.rejectValue(loginString, "Size.userForm.login");
         }
 
         if(userServiceImpl.getUserByLogin(user.getLogin()).size()>0){
-            errors.rejectValue("login", "Duplicate.userForm.login");
+            errors.rejectValue(loginString, "Duplicate.userForm.login");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", requiredString);
         if( 6 > user.getPassword().length() ){
             errors.rejectValue("password", "Size.userForm.password");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", requiredString);
         if( !user.getConfirmPassword().equals(user.getPassword())){
             errors.rejectValue("confirmPassword", "Different.userForm.password");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateOfBirth", requiredString);
 
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", requiredString);
         if( !userServiceImpl.getUserByEmail(user.getEmail()).isEmpty()){
             errors.rejectValue("email", "Duplicate.userForm.email");
         }
@@ -76,7 +80,7 @@ public class UserContractDTOValidator implements Validator {
             errors.rejectValue("passportInfo", "Size.userForm.passportInfo");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", requiredString);
         if( 8 > user.getAddress().length()){
             errors.rejectValue("address", "Size.userForm.address");
         }
@@ -87,7 +91,7 @@ public class UserContractDTOValidator implements Validator {
 
         if( roleCheckbox==null) {
             if(contractServiceImpl.getContractDTOByNumber(user.getContractNumber()).size()>0){
-                errors.rejectValue("login", "Duplicate.contractDTO.contractNumber");
+                errors.rejectValue("contractNumber", "Duplicate.contractDTO.contractNumber");
             }
         }
 

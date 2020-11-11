@@ -156,7 +156,7 @@ public class UserContractDTOValidatorTest {
         contractsList.add(new ContractDTO());
         when( contractService.getContractDTOByNumber(any()) ).thenReturn(contractsList);
         userContractDTOValidator.validate(userContractDTO, errors, rolecheck);
-        verify(errors, atLeastOnce()).rejectValue("login", "Duplicate.contractDTO.contractNumber");
+        verify(errors, atLeastOnce()).rejectValue("contractNumber", "Duplicate.contractDTO.contractNumber");
     }
 
 }

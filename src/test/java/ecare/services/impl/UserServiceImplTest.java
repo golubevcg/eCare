@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -155,6 +156,7 @@ public class UserServiceImplTest {
         when(tariffServiceImpl.getTariffDTOByTariffNameOrNull(any())).thenReturn(new TariffDTO());
         when(userDaoImpl.getUserByLogin(any())).thenReturn(userSet1);
         userService.submitUserOnControllerData(userForm,null,selectedTariff,selectedOptionsArray);
+        assertTrue(!userSet1.isEmpty());
     }
 
 

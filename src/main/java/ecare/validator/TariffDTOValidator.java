@@ -24,13 +24,15 @@ public class TariffDTOValidator implements Validator {
         return User.class.equals(aClass);
     }
 
+    private String requiredString = "Required";
+
     @Override
     public void validate(Object o, Errors errors) {
         TariffDTO tariffDTO = (TariffDTO) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDiscription", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDiscription", requiredString);
 
         if(tariffServiceImpl.getTariffDTOByTariffNameOrNull( tariffDTO.getName() )!=null){
             errors.rejectValue("name", "Duplicate.tariffDTO.name");

@@ -40,7 +40,8 @@ public class ContractDTOValidatorTest {
     @Test
     public void validateEmptyNumberTest(){
         contractDTOValidator.validate(contractDTO, errors);
-        verify(errors, atLeastOnce()).rejectValue("contractNumber","Required",null,null);
+        verify(errors, atLeastOnce())
+                .rejectValue("contractNumber","Required",null,null);
     }
 
     @Test
@@ -50,7 +51,8 @@ public class ContractDTOValidatorTest {
         when(contractService.getContractByNumber(any())).thenReturn(alist);
 
         contractDTOValidator.validate(contractDTO, errors);
-        verify(errors, atLeastOnce()).rejectValue("contractNumber","Duplicate.contractDTO.contractNumber");
+        verify(errors, atLeastOnce())
+                .rejectValue("contractNumber","Duplicate.contractDTO.contractNumber");
     }
 
 }

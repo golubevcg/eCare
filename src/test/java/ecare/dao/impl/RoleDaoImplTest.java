@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -66,6 +67,7 @@ public class RoleDaoImplTest {
         rolesList.add(role);
         when(query.list()).thenReturn(rolesList);
         List<Role> roleList = roleDaoImpl.getRoleByRoleName("name");
+        assertEquals(1, roleList.size());
     }
 
 

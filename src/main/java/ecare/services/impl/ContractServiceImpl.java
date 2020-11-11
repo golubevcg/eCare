@@ -199,6 +199,8 @@ public class ContractServiceImpl implements ContractService {
 
     }
 
+    private final String cartContractsSetChangedForCartString = "cartContractsSetChangedForCart";
+
     /**
      *
      This method used for returning two arrays as json - first with arrays of id's for incompatible options,
@@ -248,7 +250,7 @@ public class ContractServiceImpl implements ContractService {
         if(finalErrorMessage.length()==0){
             ContractDTO currentContractForCartFromSession = null;
             HashSet<ContractDTO> cartContractsSetChangedForCart
-                    = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+                    = (HashSet<ContractDTO>) session.getAttribute(cartContractsSetChangedForCartString);
 
             checkContractsAndIfNeededAddThemToSessionAttributes(session, selectedOptionId,
                     isChecked, contractNumber, incompatibleOptionIds,
@@ -283,7 +285,7 @@ public class ContractServiceImpl implements ContractService {
                         currentContractForCartFromSession);
 
                 cartContractsSetChangedForCart.add(currentContractForCartFromSession);
-                session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+                session.setAttribute(cartContractsSetChangedForCartString, cartContractsSetChangedForCart);
             }
         }
     }
@@ -372,7 +374,7 @@ public class ContractServiceImpl implements ContractService {
     public String getSortedListOfOptions(String contractNumber, String selectedTariffName, HttpSession session){
         ContractDTO currentContractForCartFromSession = null;
         HashSet<ContractDTO> cartContractsSetChangedForCart
-                = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+                = (HashSet<ContractDTO>) session.getAttribute(cartContractsSetChangedForCartString);
         for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
             if(contractDTO.getContractNumber().equals(contractNumber)){
                 currentContractForCartFromSession = contractDTO;
@@ -397,7 +399,7 @@ public class ContractServiceImpl implements ContractService {
             currentContractForCartFromSession.setSetOfOptions(new HashSet<>());
         }
         cartContractsSetChangedForCart.add(currentContractForCartFromSession);
-        session.setAttribute("cartContractsSetChangedForCart", cartContractsSetChangedForCart);
+        session.setAttribute(cartContractsSetChangedForCartString, cartContractsSetChangedForCart);
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(sortedListOfOptions);
@@ -455,7 +457,7 @@ public class ContractServiceImpl implements ContractService {
     public ContractDTO getCurrentContractFromSessionByContractId(HttpSession session, String contractID){
         ContractDTO currentContractForCartFromSession = null;
         HashSet<ContractDTO> cartContractsSetChangedForCart
-                = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+                = (HashSet<ContractDTO>) session.getAttribute(cartContractsSetChangedForCartString);
         for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
             if(contractDTO.getContract_id().toString().equals(contractID)){
                 currentContractForCartFromSession = contractDTO;

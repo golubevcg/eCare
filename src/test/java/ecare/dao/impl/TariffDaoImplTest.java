@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.atLeastOnce;
 
@@ -64,7 +64,7 @@ public class TariffDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        tariffDaoImpl.getTariffByTariffName("name");
+        assertTrue(tariffDaoImpl.getTariffByTariffName("name").isEmpty());
     }
 
     @Test
@@ -72,7 +72,8 @@ public class TariffDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        tariffDaoImpl.getAllTariffs();
+        assertTrue(tariffDaoImpl.getAllTariffs().isEmpty());
+
     }
 
     @Test
@@ -80,7 +81,8 @@ public class TariffDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        tariffDaoImpl.getActiveTariffs();
+        assertTrue(tariffDaoImpl.getActiveTariffs().isEmpty());
+
     }
 
     @Test
@@ -88,7 +90,7 @@ public class TariffDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        tariffDaoImpl.searchForTariffByName("name");
+        assertTrue(tariffDaoImpl.searchForTariffByName("name").isEmpty());
     }
 
 }

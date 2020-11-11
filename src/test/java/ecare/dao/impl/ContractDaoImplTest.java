@@ -10,8 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import java.util.ArrayList;
-import static org.junit.Assert.assertFalse;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,7 +58,7 @@ public class ContractDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        contractDao.searchForContractByNumber("1111");
+        assertTrue(contractDao.searchForContractByNumber("1111").isEmpty());
     }
 
     @Test
@@ -64,7 +66,7 @@ public class ContractDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        contractDao.getContractByNumber("1111");
+        assertTrue(contractDao.getContractByNumber("1111").isEmpty());
     }
 
     @Test
@@ -72,7 +74,7 @@ public class ContractDaoImplTest {
         Query query = mock(Query.class);
         when(session.createQuery(any(), any())).thenReturn(query);
         when(query.list()).thenReturn(new ArrayList());
-        contractDao.getContractById(1l);
+        assertTrue(contractDao.getContractById(1l).isEmpty());
     }
 
 }

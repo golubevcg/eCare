@@ -24,14 +24,16 @@ public class OptionDTOValidator implements Validator {
         return User.class.equals(aClass);
     }
 
+    private String requiredString = "Required";
+
     @Override
     public void validate(Object o, Errors errors) {
         OptionDTO option = (OptionDTO) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "connectionCost", "Required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDescription", "Required");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "connectionCost", requiredString);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shortDescription", requiredString);
 
         if(optionServiceImpl.getOptionByName(option.getName()).size()>0){
             errors.rejectValue("name", "Duplicate.optionDTO.name");
