@@ -50,7 +50,7 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<Option> query = session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name = :nam", Option.class);
@@ -61,7 +61,7 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getOptionById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select o " +
+        Query<Option> query = session.createQuery("select o " +
                 "from Option o " +
                 "where o.option_id = :id", Option.class);
         query.setParameter("id", id);
@@ -71,7 +71,7 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> searchForOptionByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<Option> query = session.createQuery(
                 "select o " +
                         "from Option o " +
                         "where o.name like:string", Option.class);
@@ -82,7 +82,7 @@ public class OptionDaoImpl implements OptionDao {
     @Override
     public List<Option> getActiveOptions() {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<Option> query = session.createQuery(
                 "select o from Option o where o.isActive=true", Option.class);
         return query.list();
     }
@@ -91,7 +91,7 @@ public class OptionDaoImpl implements OptionDao {
     public Set<Option> getParentObligatoryOptions(Long optionDTOid){
         Session session = sessionFactory.getCurrentSession();
         String sqlString = "SELECT option_id FROM obligatory_options oo WHERE  oo.obligatoryoption_id=" + optionDTOid;
-        Query query = session.createSQLQuery(sqlString);
+        Query<BigInteger> query = session.createSQLQuery(sqlString);
         Set<BigInteger> setOfOptionIds = new HashSet<>(query.list());
 
         Set<Option> setOfOptions = new HashSet<>();

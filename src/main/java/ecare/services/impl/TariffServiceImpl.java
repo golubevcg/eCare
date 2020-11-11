@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@Transactional
 public class TariffServiceImpl implements TariffService {
 
     static final Logger log = Logger.getLogger(TariffServiceImpl.class);
@@ -38,32 +37,18 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public void save(Tariff tariff) {
-        try{
-            tariffDaoImpl.save(tariff);
-            log.info("Tariff with name=" + tariff.getName() + " was successfully saved!");
-        }catch(Exception e){
-            log.info("There was an error during saving tariff with name=" + tariff.getName());
-        }
+        tariffDaoImpl.save(tariff);
     }
 
     @Override
     public void update(Tariff tariff) {
-        try{
-            tariffDaoImpl.update(tariff);
-            log.info("Tariff with name=" + tariff.getName() + " was successfully updated!");
-        }catch(Exception e){
-            log.info("There was an error during updating tariff with name=" + tariff.getName());
-        }
+        tariffDaoImpl.update(tariff);
+
     }
 
     @Override
     public void delete(Tariff tariff) {
-        try{
-            tariffDaoImpl.delete(tariff);
-            log.info("Tariff with name=" + tariff.getName() + " was successfully deleted!");
-        }catch(Exception e){
-            log.info("There was an error during deleting tariff with name=" + tariff.getName());
-        }
+        tariffDaoImpl.delete(tariff);
     }
 
     @Override

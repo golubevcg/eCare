@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUserByLogin(String login){
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<User> query = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.login = :login", User.class);
@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<User> query = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.passportInfo = :passportInfo", User.class);
@@ -77,7 +77,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> searchForUserByLogin(String searchInput) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<User> query = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.login like:string", User.class);
@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery(
+        Query<User> query = session.createQuery(
                 "select u " +
                         "from User u " +
                         "where u.email = :email", User.class);
@@ -98,13 +98,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void checkUserRoles(User user, Session session){
-        Query query = session.createQuery("select r from Role r", Role.class);
+        Query<Role> query = session.createQuery("select r from Role r", Role.class);
         Set<Role> allRolesSet = new HashSet<>(query.getResultList());
         Set<Role> userRolesCheckedSet = new HashSet<>();
 
         if(!allRolesSet.isEmpty()){
             for (Role role: user.getRoles()) {
-                Query query1 = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class);
+                Query<Role> query1 = session.createQuery("select r from Role r where r.rolename = :roleName", Role.class);
                 query1.setParameter("roleName", role.getRolename());
                 Role foundedRole = (Role)query1.getSingleResult();
                 ifFoundedRoleNullThenAssignRoleElseFoundedRole(foundedRole, userRolesCheckedSet, role);
