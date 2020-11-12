@@ -2,19 +2,12 @@ package ecare.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ecare.model.dto.ContractDTO;
-import ecare.model.dto.OptionDTO;
-import ecare.model.dto.TariffDTO;
-import ecare.model.dto.UserDTO;
+import ecare.model.dto.*;
 import ecare.model.entity.Option;
-import ecare.services.api.ContractService;
-import ecare.services.api.OptionService;
-import ecare.services.api.TariffService;
-import ecare.services.api.UserService;
+import ecare.services.api.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

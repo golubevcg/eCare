@@ -66,12 +66,11 @@ public class TariffDaoImpl implements TariffDao {
         }
     }
 
-    private final String selectTFromTariffT = "select t from Tariff t ";
-
     @Override
     public List<Tariff> getTariffByTariffName(String tariffName) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Tariff> query = session.createQuery(selectTFromTariffT + "where t.name = :name", Tariff.class);
+        Query<Tariff> query = session
+                .createQuery("select t from Tariff t where t.name = :name", Tariff.class);
         query.setParameter("name", tariffName);
         return query.list();
     }
@@ -80,7 +79,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> getAllTariffs() {
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                selectTFromTariffT, Tariff.class);
+                "select t from Tariff t", Tariff.class);
         return query.list();
     }
 
@@ -88,7 +87,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> getActiveTariffs() {
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                selectTFromTariffT + "where t.isActive=true", Tariff.class);
+                "select t from Tariff t where t.isActive=true", Tariff.class);
         return query.list();
     }
 
@@ -96,8 +95,7 @@ public class TariffDaoImpl implements TariffDao {
     public List<Tariff> searchForTariffByName(String name){
         Session session = sessionFactory.getCurrentSession();
         Query<Tariff> query = session.createQuery(
-                selectTFromTariffT +
-                        "where t.name like:string", Tariff.class);
+                "select t from Tariff t where t.name like:string", Tariff.class);
         query.setParameter("string", "%" + name + "%");
         return query.list();
     }

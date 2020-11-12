@@ -11,14 +11,12 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Repository
-@Transactional
 public class UserDaoImpl implements UserDao {
 
     static final Logger log = Logger.getLogger(UserServiceImpl.class);
@@ -74,15 +72,11 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    private final String selectUfromUserU= "select u from User u ";
-
-
     @Override
     public List<User> getUserByLogin(String login){
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                selectUfromUserU +
-                        "where u.login = :login", User.class);
+                "select u from User u where u.login = :login", User.class);
         query.setParameter( "login", login );
         return query.list();
     }
@@ -91,8 +85,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUserDTOByPassportInfo(String passportInfo) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                selectUfromUserU +
-                        "where u.passportInfo = :passportInfo", User.class);
+                "select u from User u where u.passportInfo = :passportInfo", User.class);
         query.setParameter( "passportInfo", passportInfo );
         return query.list();
     }
@@ -101,8 +94,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> searchForUserByLogin(String searchInput) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                selectUfromUserU +
-                        "where u.login like:string", User.class);
+                "select u from User u where u.login like:string", User.class);
         query.setParameter("string", "%" + searchInput + "%");
         return query.list();
     }
@@ -111,23 +103,21 @@ public class UserDaoImpl implements UserDao {
     public List<User> getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createQuery(
-                selectUfromUserU +
-                        "where u.email = :email", User.class);
+                "select u from User u where u.email = :email", User.class);
         query.setParameter( "email", email );
         return query.list();
     }
 
-    private final String selectRfromRoleR = "select r from Role r";
-
     @Override
     public void checkUserRoles(User user, Session session){
-        Query<Role> query = session.createQuery(selectRfromRoleR, Role.class);
+        Query<Role> query = session.createQuery("select r from Role r", Role.class);
         Set<Role> allRolesSet = new HashSet<>(query.getResultList());
         Set<Role> userRolesCheckedSet = new HashSet<>();
 
         if(!allRolesSet.isEmpty()){
             for (Role role: user.getRoles()) {
-                Query<Role> query1 = session.createQuery(selectRfromRoleR + " where r.rolename = :roleName", Role.class);
+                Query<Role> query1 = session
+                        .createQuery("select r from Role r where r.rolename = :roleName", Role.class);
                 query1.setParameter("roleName", role.getRolename());
                 Role foundedRole = (Role)query1.getSingleResult();
                 ifFoundedRoleNullThenAssignRoleElseFoundedRole(foundedRole, userRolesCheckedSet, role);

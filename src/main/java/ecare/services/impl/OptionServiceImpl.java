@@ -17,7 +17,6 @@ import ecare.services.api.TariffService;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -216,30 +215,38 @@ public class OptionServiceImpl implements OptionService {
             JsonArray obligJsonArray = jsonObject.get("selectedObligOptions").getAsJsonArray();
             String[] selectedObligNames = new String[obligJsonArray.size()];
 
-            for (int i = 0; i < selectedObligNames.length; i++) {
-                String currentSelectedObligName = obligJsonArray.get(i).getAsString();
-                OptionDTO optionDTO = optionMapper.toDTO(
-                        optionDaoImpl.getOptionByName(currentSelectedObligName).get(0));
-
-                if (optionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
-                    errorOptionName = optionDTO.getName();
-                    return new Gson().toJson(errorOptionName);
-                } else {
-                    OptionDTO selectedObligOptionDTO = this.getOptionDTOByNameOrNull(currentSelectedObligName);
-                    for (OptionDTO entity : optionDTO.getObligatoryOptionsSet()) {
-                        recursivlyCheckInObligDependecies(lastSelectedOptionDTO,
-                                                        selectedObligOptionDTO, foundedErrorDependency);
-                        if (foundedErrorDependency.get()) {
-                            errorOptionName = entity.getName();
-                            return new Gson().toJson(errorOptionName);
-                        }
-                    }
-                }
-            }
+            if (checkNamesIfFoundedReturnJsonWithErrorOptionName(foundedErrorDependency, lastSelectedOptionDTO, obligJsonArray, selectedObligNames))
+                return new Gson().toJson(errorOptionName);
 
         }
         return "";
     }
+
+    private boolean checkNamesIfFoundedReturnJsonWithErrorOptionName(AtomicBoolean foundedErrorDependency, OptionDTO lastSelectedOptionDTO, JsonArray obligJsonArray, String[] selectedObligNames) {
+        String errorOptionName;
+        for (int i = 0; i < selectedObligNames.length; i++) {
+            String currentSelectedObligName = obligJsonArray.get(i).getAsString();
+            OptionDTO optionDTO = optionMapper.toDTO(
+                    optionDaoImpl.getOptionByName(currentSelectedObligName).get(0));
+
+            if (optionDTO.getObligatoryOptionsSet().contains(lastSelectedOptionDTO)) {
+                errorOptionName = optionDTO.getName();
+                return true;
+            } else {
+                OptionDTO selectedObligOptionDTO = this.getOptionDTOByNameOrNull(currentSelectedObligName);
+                for (OptionDTO entity : optionDTO.getObligatoryOptionsSet()) {
+                    recursivlyCheckInObligDependecies(lastSelectedOptionDTO,
+                                                    selectedObligOptionDTO, foundedErrorDependency);
+                    if (foundedErrorDependency.get()) {
+                        errorOptionName = entity.getName();
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
     private final String selectedIncOptionsString = "selectedIncOptions";
 

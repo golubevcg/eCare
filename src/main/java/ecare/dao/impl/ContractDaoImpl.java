@@ -39,13 +39,11 @@ public class ContractDaoImpl implements ContractDao {
         session.update(contract);
     }
 
-    private final String selectCfromContractC = "select c from Contract c ";
-
     @Override
     public List<Contract> searchForContractByNumber(String number){
         Session session = sessionFactory.getCurrentSession();
-        Query<Contract> query = session.createQuery(selectCfromContractC +
-                "where c.contractNumber like:string", Contract.class);
+        Query<Contract> query = session.
+                createQuery("select c from Contract c where c.contractNumber like:string", Contract.class);
         query.setParameter("string", "%" + number + "%");
         return query.list();
     }
@@ -53,8 +51,8 @@ public class ContractDaoImpl implements ContractDao {
     @Override
     public List<Contract> getContractByNumber(String number) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Contract> query = session.createQuery(selectCfromContractC +
-                "where c.contractNumber = :num", Contract.class);
+        Query<Contract> query = session
+                .createQuery("select c from Contract c where c.contractNumber = :num", Contract.class);
         query.setParameter("num", number);
         return query.list();
     }
@@ -62,8 +60,8 @@ public class ContractDaoImpl implements ContractDao {
     @Override
     public List<Contract> getContractById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Contract> query = session.createQuery(selectCfromContractC +
-                "where c.contract_id = :id", Contract.class);
+        Query<Contract> query = session
+                .createQuery("select c from Contract c where c.contract_id = :id", Contract.class);
         query.setParameter("id", id);
         return query.list();
     }

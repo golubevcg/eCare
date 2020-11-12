@@ -48,12 +48,10 @@ public class CheckTariffPageController {
     @ResponseBody
     @GetMapping(value = "/checkTariff/checkNewName/{newName}")
     public boolean checkNewName(@PathVariable("newName") String newName) {
-        if(tariffNameBeforeEditing.equals(newName)){
+        if(tariffNameBeforeEditing!=null && tariffNameBeforeEditing.equals(newName)){
             return false;
         }
-
         TariffDTO tariffDTO = tariffService.getTariffDTOByTariffNameOrNull(newName);
-
         return tariffDTO!=null;
     }
 

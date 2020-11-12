@@ -33,7 +33,7 @@ public class ContractDetailsPageController {
     }
 
     @GetMapping("/contractDetails/{contractID}")
-    public String getContractDetailsPage(Model model, CsrfToken token,
+    public String getContractDetailsPage(Model model,
                                          @PathVariable(value = "contractID") String contractID,
                                          HttpSession session) {
         contractServiceImpl.addContractDetailsToModelForPage(model, contractID, session);

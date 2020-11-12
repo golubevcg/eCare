@@ -50,7 +50,7 @@ public class CheckOptionPageController {
      */
     @PostMapping(value = "/checkOption/submitArraysValues", produces = "application/json")
     public @ResponseBody
-    void setDependingOptions(CsrfToken token, @RequestBody String arrayOfArrays) {
+    void setDependingOptions(@RequestBody String arrayOfArrays) {
         JsonArray jsonArray = JsonParser.parseString(arrayOfArrays).getAsJsonArray();
 
         JsonArray obligatoryOptionsJsonArray = jsonArray.get(0).getAsJsonArray();
@@ -65,7 +65,8 @@ public class CheckOptionPageController {
         if(incompatibleOptionsJsonArray.size()!=0){
             for (int i = 0; i <incompatibleOptionsJsonArray.size() ; i++) {
                 JsonObject jsonObject = incompatibleOptionsJsonArray.get(i).getAsJsonObject();
-                incompatibleOptionsSet.add( optionServiceImpl.getOptionDTOByNameOrNull( jsonObject.get("id").getAsString()) );
+                incompatibleOptionsSet.add( optionServiceImpl
+                        .getOptionDTOByNameOrNull( jsonObject.get("id").getAsString()) );
             }
         }
 
@@ -75,7 +76,8 @@ public class CheckOptionPageController {
     @PostMapping(value = "/checkOption/{optionName}")
     public String submitEditedOption(@PathVariable(name="optionName") String optionName,
                                      @ModelAttribute OptionDTO optionDTO,
-                                     @RequestParam(required=false , name = "blockConnectedContracts") String blockConnectedContracts){
+                                     @RequestParam(required=false , name = "blockConnectedContracts")
+                                                 String blockConnectedContracts){
 
         optionServiceImpl.submitValuesFromController(optionName,optionDTO,
                 obligatoryOptionsSet,incompatibleOptionsSet,blockConnectedContracts);
@@ -86,7 +88,7 @@ public class CheckOptionPageController {
     @ResponseBody
     @GetMapping(value = "/checkOption/checkNewName/{newName}")
     public boolean newNameValidationCheckInDB(@PathVariable("newName") String newName) {
-        if(optionNameBeforeEditing.equals(newName)){
+        if(optionNameBeforeEditing!=null && optionNameBeforeEditing.equals(newName)){
             return false;
         }
         OptionDTO optionDTO = optionServiceImpl.getOptionDTOByNameOrNull(newName);

@@ -52,7 +52,7 @@ public class CheckUserPageController {
     @GetMapping(value = "/checkUser/checkPassportInfo/{newPassport}")
     public boolean checkPassport(@PathVariable("newPassport") String newPassport) {
 
-        if (userPassportBeforeEditing.equals(newPassport)) {
+        if (userPassportBeforeEditing!=null && userPassportBeforeEditing.equals(newPassport)) {
             return true;
         }
 
@@ -64,7 +64,7 @@ public class CheckUserPageController {
     @GetMapping(value = "/checkUser/checkEmail/{newEmail}")
     public boolean checkEmail(@PathVariable("newEmail") String newEmail) {
 
-        if (userEmailBeforeEditing.equals(newEmail)) {
+        if (userPassportBeforeEditing!=null && userEmailBeforeEditing.equals(newEmail)) {
             return true;
         }
 
@@ -76,7 +76,7 @@ public class CheckUserPageController {
     @GetMapping(value = "/checkUser/checkLogin/{newLogin}")
     public boolean checkLogin(@PathVariable("newLogin") String newLogin) {
 
-        if (userLoginBeforeEditing.equals(newLogin)) {
+        if (userPassportBeforeEditing!=null && userLoginBeforeEditing.equals(newLogin)) {
             return true;
         }
 
@@ -86,9 +86,7 @@ public class CheckUserPageController {
 
     @PostMapping(value = "/checkUser/submitChanges/", produces = "application/json")
     public @ResponseBody
-    boolean submitValues(CsrfToken token,
-                        @RequestBody String exportArray) {
-
+    boolean submitValues(@RequestBody String exportArray) {
         JsonObject jsonObject = JsonParser.parseString(exportArray).getAsJsonObject();
 
         String firstName = jsonObject.get("firstName").getAsString();
