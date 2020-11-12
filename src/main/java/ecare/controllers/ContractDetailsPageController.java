@@ -62,7 +62,8 @@ public class ContractDetailsPageController {
     String updateBlockedInSession(@PathVariable(value = "contractNumber") String contractNumber,
                                @RequestBody String checked, HttpSession session) {
         ContractDTO contract = new ContractDTO();
-        HashSet<ContractDTO> cartContractsSetChangedForCart = (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
+        HashSet<ContractDTO> cartContractsSetChangedForCart =
+                (HashSet<ContractDTO>) session.getAttribute("cartContractsSetChangedForCart");
         for (ContractDTO contractDTO: cartContractsSetChangedForCart) {
             if(contractDTO.getContractNumber().equals(contractNumber)){
                 contract = contractDTO;
