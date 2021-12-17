@@ -262,7 +262,7 @@ Queue is always listened by Message Driven Bean with listener method. As a Messa
 build in WildFly Artemis MQ, which works great. Messages in queue used only to say that first
 application have some changes, please check to render page in this part we use Java Server Faces
 technology and, for a real time update, without using Javascript AJAX request manually – it’s great
-tool to work with.
+tool to work with. Github page with source code of second application is [here](https://github.com/golubevcg/eCareAdStand).
 
 
 ## 8. Code quality and testing. Logs and javadoc
