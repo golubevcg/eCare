@@ -35,7 +35,7 @@ Java School, Deutsche Telekom IT Solutions
 
 ## 1. Introduction
 
-ECare it is a web application for telecommunication company, which is focused on
+ECare it is a web application for fictional telecommunication company, which is focused on
 improving relationships between mobile operator and client. Application have ability to quickly
 manage all contracts, tariffs and options with deep dependencies for business needs for clients and
 company employees both. It improve the way we interact with mobile operator by providing strict
